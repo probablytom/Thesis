@@ -1,22 +1,88 @@
+\documentclass[12pt]{article}
+
+\title{A review of systems literature}  %% what type of literature specifically?
+\date{}
+\author{Tom Wallis}
+
+\begin{document}
+\maketitle
+
+
 \section{Papers Reviewed}  %% More of a dumping ground for notes which can be
                            %% incorporated later than a lit review section, for
                            %% now at least!
 
 \subsection{System composition}
 
-What's been written so far on system composition?
+System composition is a fundamental component of systems of systems research,
+and an increasingly important research area --- particularly in areas such as
+military systems.\par
+
+There are a few different approaches to system composition.
 
 \subsubsection{Holons}\label{review:blair2015holons}
 
-Notes on \cite{blair2015holons}\ldots
+%% Notes on \cite{blair2015holons}\ldots
+
+Blair et al.\cite{blair2015holons} have an interesting take on system
+composition, where they define [sematically] a format for reasoning about
+systems-of-systems and their composition. Particularly, what they're interested
+in is the concept of a \emph{holon}. Their approach is focused toward systems
+engineering in software and IT --- defining the requirements of a system in
+order to function correctly, as well as defining what resources or properties it
+provides other systems for the purpose of successful composition. The authors
+assert that sharing of resources and properties allows for successful
+composition, and that in defining what systems require and provide, engineers
+can treat the holons --- the composed parts --- as black boxes.\par
+
+Holons compose to create new holons, meaning that systems can be composed in a
+nested fashion, which is quite nice. I can see this being useful for software
+engineering, as we're already in the practice of defining requirements for our
+packages through systems like Maven or PIP, but for fuzzier-defined systems this
+kind of well-defined structure (such as a sociotechnical system) seems hard to
+achieve.\par
+
+I wonder whether we could use Obashi diagrams to define what the requirements of
+a sub-system's dataflows are --- for example, a subgraph of an Obashi model will
+have open links which need to be connected to things which are well-defined by
+the full model. We could construct sub-graphs with well-defined requirements
+instead, and then try to compose them.\par
 
 \subsubsection{Bigraphs}\label{review:milner2009space}
 
-Obviously, discuss \cite{milner2009space}!
+%% Obviously, discuss \cite{milner2009space}!
+
+The seminal work on Bigraph modelling is \cite{milner2009space}, which defines
+bigraphs, shows how they can be used, and demonstrates how different
+communication calculi can be represented in a bigraphical notation.\par
+
+Bigraphs are effectively the combination of two graphs: a \emph{place} graph,
+which is a forest showing how a system is structured, and a \emph{link} graph, a
+graph showing how nodes in the place graph communicate. Milner defines bigraphs
+graphically but also categorically, which is really nice for the purposes of
+formal analysis.\par
+
 
 \subsubsection{Optimising modularity}
 
-Some work's been done on finding the optimal degree of modularity in a system in \cite{frenken2012optimal}\ldots
+Some work is presented in \cite{frenken2012optimal} to find the optimal degree
+of modularity/decomposition in a system, using an NK model. Their approach is
+interesting and the paper is actually quite a neat read! 
+
+However, I also feel that there are some problems in their approach.
+Particularly, I think that their evaluation metric is a little off: they judge
+optimal modularity bsed on search time within their model, rather than the
+fitness of the point found. Surely ``optimal modularity'' is when the system
+performs as well as it possibly can, rather than reducing search time (which I
+imagine would be the convergence point of the system as it changes and
+evolves)\ldots\par 
+
+I'm going to put some more time into this paper, as I've not read it in as much
+detail as I feel it merits. Labelled as ``to read in-depth''.
+
+%%%%%%%%%%
+%% Not filled in properly below here
+%%%%%%%%%%
 
 \subsubsection{General Systems theory}
 
@@ -35,8 +101,17 @@ This has already been discussed in \ref{review:milner2009space}, but it's worth
 linking back to here as bigraphs are ultimately a relatively successful
 formalisation attempt for systems.
 
+\subsubsection{Bigraphs with Sharing}
+
+Work by Muffy and Michele Sevegnani on introducting sharing to bigraphs, kind of
+like Obashi's element persistence. \cite{sevegnani2015bigraphs} This particular
+paper is pretty intense, but really interesting and well-written!\par
+
+I think there might be a way of encoding sharing in bigraphs using only Milner's
+definitions, but I haven't seen how this is done yet. 
+
 \subsubsection{Holons}  %% Not sure this really counts as a formalism attempt,
-                        %% but there's definition to be made here for sure!
+%% but there's definition to be made here for sure!
 I suppose technically this counts as a formalism! It's discussed above at \ref{review:blair2015holons}.
 
 \subsubsection{UML \& SysML}  %% I suppose technically this counts
@@ -57,3 +132,9 @@ bipartite graph with pobjects and processes is fascinating)
 Not very useful for actual system modelling, but
 an interesting focus on process instead of
 structures...
+
+%% Worth mentioning condition-event nets here, which are a special transition
+%% diagram based on petri nets from Milner's bigraph work in \cite{milner2009space}
+
+
+\end{document}
