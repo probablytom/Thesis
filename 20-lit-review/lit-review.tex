@@ -1,6 +1,6 @@
 \chapter{Lit review}
 
-% --------------------------------------------------------------------------------
+% ================================================================================
 % A brief outline of what this chapter is trying to get across.
 \section{Overview}
 
@@ -8,15 +8,20 @@ Systems-of-systems (SoS) modelling is a deeply interdisciplinary study. This is 
 \par
 
 
+% ================================================================================
+\section{Extant systems}
+What systems are actually out there right now?
+
+
 % --------------------------------------------------------------------------------
-\section{Formal methods}\label{sec:review-formal-methods}
+\subsection{Formal methods}\label{sec:review-formal-methods}
 
 Approaches like model checking, and touch on Bigraphical notations
 \comment{constraint models?}
 \par
 
 % --------------------------------------------------------------------------------
-\section{Engineering approaches}
+\subsection{Engineering approaches}
 
 In engineering --- in any flavour, not just in computing science --- we have to have a rigorous understanding of the systems we build. 
 These systems often approach very large scales, however, and grow over time.
@@ -28,7 +33,7 @@ New challenges also arise. Formal methods approaches rarely need to contend with
 
 
 % --------------------------------------------------------------------------------
-\section{Informal modelling}
+\subsection{Informal modelling}
 Some modelling approaches are particularly informal; this is useful in scenarios where what is being modelled has to be understood, but is either not required to be captured in a great degree of detail or does not readily offer detail to be modelled at all.
 The prime example of this is organisational and modelling, where capturing and representing information is complicated to do with any formal approach.
 Detailled approaches fail to contend with the ill-defined, ``fuzzy'' nature of business organisation.
@@ -45,7 +50,50 @@ A slightly more rigorous approach, though more limited in scope, can be found in
 \par
 
 
+% ================================================================================
+\section{Themes in Modelling Paradigms}
+Certain themes emerge when we're looking at \emph{what} these formalisms contain.
+
+
 % --------------------------------------------------------------------------------
+\subsection{Composition in SoS}
+
+
+% --------------------------------------------------------------------------------
+\subsection{Systems as Metric Spaces}
+Metric spaces in systems like Obashi and object-oriented models. Activity diagrams etc?
+\par
+
+Metric spaces are \emph{really} useful for high-level analysis, rather than SPIN-esque verification.
+\par
+
+Unfortunately not all models easily adapt to a metric space. Consider bigraphs.
+\comment{though this shouldn't be too complex to change, and Michele has played with the idea during his own PhD}
+\par
+
+% --------------------------------------------------------------------------------
+\subsection{Processes}
+Processes quickly complicate a model.
+
+
+% --------------------------------------------------------------------------------
+\subsection{System Entropy}
+Processes are the only method we have for \emph{reducing} the entropy of a system.
+When we constrain or control a system's change over time by imposing processes on it, we often do so with an eye to limiting how it changes and keeping it locked in a certain state or range of states.
+\maybe{consider a garden that one tries to maintain as an example of a system fighting not to stay in a given state, and us constraining its change via the process of gardening.}
+How do different systems represent change in entropy? How easily is this analysed?
+Entropy change seems like a very useful metric of emergent complexity in a system, so the ability to represent this in SoS is pretty vital.
+Also, even a little growth in entropy can quickly cause problems for modelling particuarly large systems of systems, because it can cause state explosion which is intractable to represent with the methods shown above. \comment{consider state explosion in formal methods, for example, where a small increase in entropy causes their state space to increase exponentially, which is what makes verification in something like PRISM NP-hard. Entropy really does matter!} 
+\par
+
+Entropy is important for engineering reasons, too. Consider software entropy.
+discuss the link between software entropy and badly separated concerns / poor modularisation.
+High entropy -> difficulties in maintaining and architectural debt.
+How is this represented in software engineering? Business engineering? Elsewhere?
+\par
+
+
+% ================================================================================
 \section{Comparisons}
 
 Some methods fail to properly represent a high-level, human-understandable overview of a system and its architecture --- essential for SoS modelling.
