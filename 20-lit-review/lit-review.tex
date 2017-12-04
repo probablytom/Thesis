@@ -1,0 +1,57 @@
+\chapter{Lit review}
+
+% --------------------------------------------------------------------------------
+% A brief outline of what this chapter is trying to get across.
+\section{Overview}
+
+Systems-of-systems (SoS) modelling is a deeply interdisciplinary study. This is a blessing and a curse.
+\par
+
+
+% --------------------------------------------------------------------------------
+\section{Formal methods}\label{sec:review-formal-methods}
+
+Approaches like model checking, and touch on Bigraphical notations
+\comment{constraint models?}
+\par
+
+% --------------------------------------------------------------------------------
+\section{Engineering approaches}
+
+In engineering --- in any flavour, not just in computing science --- we have to have a rigorous understanding of the systems we build. 
+These systems often approach very large scales, however, and grow over time.
+This increases the degree of detail requires disproportionately to the decrease in rigour required in comparison to formal approaches as in \ref{sec:review-formal-methods}.
+\par
+
+New challenges also arise. Formal methods approaches rarely need to contend with added complexities such requirements engineering, but in a field such as software development this is a vital component of the engineering process, and \emph{must} be included in any useful model of the craft.
+\par
+
+
+% --------------------------------------------------------------------------------
+\section{Informal modelling}
+Some modelling approaches are particularly informal; this is useful in scenarios where what is being modelled has to be understood, but is either not required to be captured in a great degree of detail or does not readily offer detail to be modelled at all.
+The prime example of this is organisational and modelling, where capturing and representing information is complicated to do with any formal approach.
+Detailled approaches fail to contend with the ill-defined, ``fuzzy'' nature of business organisation.
+\par
+
+One such ``fuzzy'' method lacking detail might be a holon-based approach\maybe{, similar to dependency injection,} which defines the ``properties'' required for a system to operate and otherwise treats systems as blackboxes. 
+\comment{This is the approach implicitly taken in managing TV production. Jena, Blair's girlfriend, discussed with me 03/12/2017 their method for managing scheduling and resourcing, where they defined all of the things they were in charge of, their constraints, and their requirements. They write everything on postits, stick them to a whiteboard, and rearrange to try to get overviews of the various things that need sorted and people's responsibilities in the management of the production. Interestingly, they also do SoS modelling implicitly: sometimes there's a 3rd party that they give responsiiblities to, and this 3rd party is a blackbox which effectively represents a part of *their* system's environment/peers in a SoS or FoS. Their own company is who people like the BBC outsource to, so there's hierarchy (as well as inter-relationships --- a combination of SoS and FoS?...). It would be fascinating to study how they organise their own very ill defined process modelling, and compare to business models, engineering models, and formal models.}
+\par
+
+That said, more and more detailled approaches are appearing. One such example would be the growing effort to represent business processes via graphical modelling languages such as OPM, SysML and BPMN.
+\par
+
+A slightly more rigorous approach, though more limited in scope, can be found in Obashi's dataflow modelling.
+\par
+
+
+% --------------------------------------------------------------------------------
+\section{Comparisons}
+
+Some methods fail to properly represent a high-level, human-understandable overview of a system and its architecture --- essential for SoS modelling.
+This is necessary for both the process of building the model as a human engineer, and understanding it as a layman or somebody who needs to understand the \emph{implications} of the model.
+\par
+
+Other methods fail to properly represent sufficient detail to analyse their model, or to verify properties --- essential for predicting behaviour with certainty.
+This is particularly vital for understanding whether a system will or won't have certain properties; making sure that there's a low chance of failure over a certain length of time, for example, or resilience to certain threats.
+\par
