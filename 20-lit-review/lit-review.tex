@@ -10,18 +10,132 @@ Systems-of-systems (SoS) modelling is a deeply interdisciplinary study. This is 
 
 % ================================================================================
 \section{Extant systems}
-What systems are actually out there right now?
+These are the systems that exist.
 
 
-% --------------------------------------------------------------------------------
-\subsection{Formal methods}\label{sec:review-formal-methods}
+\subsection{Bigraphs}
+
+
+\subsection{Obashi}
+
+
+\subsection{Responsibility modelling}
+
+
+\subsection{Specification modelling}
+% Particularly in Z
+
+
+\subsection{Model checkers}
+% Prism, Spin, Uppaal
+
+
+\subsection{Soft Systems Methodology}
+
+
+\subsection{Modaf \& Dodaf}
+
+
+\subsection{Object-oriented models}
+% Model ontology represented as objects
+
+
+\subsection{Functional programming simulations}
+% Model ontology represented as data structures and transforms on them
+% Maybe mention the possibie directions with session types and HoTT?
+
+
+\subsection{Actor oriented models}
+% Mention that processes can be actors. CCS, π-calc and CSP are all relevant and important here.
+%     Particularly, channels in Go/Spin/Erlang vs async&await in Python/Javascript
+% Note that workflow modelling is its own section.
+
+% Notes from bearapp:
+% * Software engineering
+% 	* Object orientation
+% 	* Functional programming
+% 		* Models & ontologies as data structures
+% 	* Processes as actors
+% 		* Robin Milner
+% 			* π-calc
+% 			* CCS
+% 		* Tony Hoare
+% 			* CSP
+% 		* Channel-based communications
+% 			* SPIN
+% 			* Golang
+% 			* Erlang & BEAM
+% 		* Await/Async
+% 			* Python
+% 			* Javascript
+
+
+\subsection{Graphical Workflow Modelling}
+% Lots of models of workflows specifically that are worth mentioning
+
+% Notes from bearapp:
+% * Workflow modelling
+% 	* YAWL
+% 	* Theatre & PyDySoFu & FuzziMoss
+% 	* Petri Nets
+% 	* Graphical progress languages
+% 		* SysML
+% 		* Activity diagrams
+% 		* OPM
+% 		* BPMN
+% 			* BPEL
+
+
+\subsection{Automata}
+% For agent-based modelling, even if it's usually relatively simplistic
+% Cellular automata. What else?
+
+
+\subsection{Holons and Property Based Approaches}
+
+
+
+\subsection{Systems Theory}
+% Notes from bearapp:
+% * Systems theory
+% 	* Applied systems theory
+% 		* & related approaches?
+% 		* Relate to property-based / API-based composition a-la holons
+% 	* Systems of Systems
+% 		* Family of Systems
+% 	* Specific writers
+% 		* Edward Deming
+% 		* Michael Polanyi
+% 		* Karl Ludwig von Bertenlaffy
+% 		* Eric Trist & Fred Emery
+
+
+\subsection{Safety Critical Systems}
+% detail-oriented but essential for actual engineering. These have similar
+% requirements to us!
+% What can we learn from them?
+
+% Notes from bearapp: 
+% * Safety-critical systems
+% 	* Fault trees
+% 	* IEC 61508
+% 	* FMECA
+% 	* HAZOPs
+% * OSGI
+% 	* Different layers represent a semiotic separation, which is useful in separating different degrees of technical and social/human elements of information, making processing and encoding vastly easier at scale
+% 	* A good argument for separating the formal model and its visualisation/editing!
+
+\subsection{Summary of Techniques}
+Recap by describing what we've seen in terms of extremely detail-oriented, extremely high-level, and in-between this tradeoff.
+  
+\subsubsection{Formal methods}\label{sec:review-formal-methods}
 
 Approaches like model checking, and touch on Bigraphical notations
 \comment{constraint models?}
 \par
 
 % --------------------------------------------------------------------------------
-\subsection{Engineering approaches}
+\subsubsection{Engineering approaches}
 
 In engineering --- in any flavour, not just in computing science --- we have to have a rigorous understanding of the systems we build. 
 These systems often approach very large scales, however, and grow over time.
@@ -33,7 +147,7 @@ New challenges also arise. Formal methods approaches rarely need to contend with
 
 
 % --------------------------------------------------------------------------------
-\subsection{Informal modelling}
+\subsubsection{Informal modelling}
 Some modelling approaches are particularly informal; this is useful in scenarios where what is being modelled has to be understood, but is either not required to be captured in a great degree of detail or does not readily offer detail to be modelled at all.
 The prime example of this is organisational and modelling, where capturing and representing information is complicated to do with any formal approach.
 Detailled approaches fail to contend with the ill-defined, ``fuzzy'' nature of business organisation.
@@ -92,6 +206,11 @@ High entropy -> difficulties in maintaining and architectural debt.
 How is this represented in software engineering? Business engineering? Elsewhere?
 \par
 
+\maybe{discuss ``occam's architectural razor''? System components should be
+  exactly as simple as they can be without sacrificing functionality to prevent
+  unncessessary increase in system entropy}
+
+  
 
 % ================================================================================
 \section{Comparisons}
