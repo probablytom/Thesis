@@ -9,16 +9,134 @@ Systems-of-systems (SoS) modelling is a deeply interdisciplinary study. This is 
 
 
 % ================================================================================
-\section{Extant Systems}
+\section{Extant Modelling Frameworks}
 These are the systems that exist.
 
 
 \subsection{Bigraphs}
 
+The seminal work on Bigraph modelling is \cite{milner2009space}, which defines
+bigraphs, shows how they can be used, and demonstrates how different
+communication calculi can be represented in a bigraphical notation. The book
+defines, among other things, bigraphs' category theoretic underpinning, and an
+algebra used to translate between this detailled mathematical foundation and the
+graphical representation. It has also been used to define some programming
+languages and
+logics~\cite{Perrone:2012:MCB:2245276.2231985,sevegnani2015bigraphs}.
+\par
+
+Bigraphs are effectively the combination of two graphs: a \emph{place} graph,
+which is a forest showing how a system is structured, and a \emph{link} graph, a
+graph showing how nodes in the place graph communicate. Bigraphs' triplicate
+definition in category theory, graphical notation and algebra make them
+unusually adept at expressing high-level concepts as well as low-level detail.
+\todo{mention signatures etc as a way of translating high-level details}
+\par
+
+Bigraphs represent the ``motion'' of a system as a series of ``reaction rules'',
+which, together with a standard bigraph, define a \emph{bigraphical reactive
+  system} (BRS). A BRS can be used for the purposes of model
+checking~\cite{sevegnani2015bigraphs,perrone2012model}. A BRS defines a host of
+changes which a system can undergo, and identifies whether a change can take
+place by matching a pattern to a subgraph of the bigraph. This allows for the
+automatic generation of model checking code, meaning that a fourth
+representation of systems, formal models, can be added to the algebraic,
+graphical and mathematical representations discussed. BRSes have been studied in
+the context of games~\cite{benford2016lions}, protocol
+modelling~\cite{calder2014modelling}, and algebras such as mobile
+ambients and the \picalculus{}~\cite{milner2001bigraphical}.
+\par
+
+Unfortunately, standard bigraphical notation has some limitations. These include
+a lack of ability to represent node sharing, where ``ownership'' of a node on
+the place graph can be represented in multiple logically-defined places, and a
+lack of ability to natively encode a metric space, important for system analysis.
+\par
+
+\subsubsection{Bigraphs with Sharing}
+
+Some model components do not cleanly decompose into a tree of nested places.
+This is because, while trees neatly encode physical place, they do not encode a
+``logical'' entity which can exist in multiple places at once (on account of it
+being incorporeal) cleanly. Node sharing was introduced to the standard
+bigraphical notation for simpler and more elegant representation of a
+non-physical entity being represented in a bigraph. 
+\par
+
+Two examples of their use are in Calder and Stevegnani's work on modelling parts
+of the 802.11 protocol~\cite{calder2014modelling} and
+games~\cite{benford2016lions}. 
+
+\subsubsection{Directed Bigraphs}
+\label{sec:review-directed-bigraphs}
+
+There's a formalism for directed bigraphs. \todo{write this}
+
+\subsubsection{Bigraphs as Metric Spaces}
+
+No published work has appeared which expressly uses a bigraph for the purposes
+of modelling a metric space. One reason for this might be that there is no
+obvious way to combine arbitrary metrics into a useful calculation, as bigraphs
+do not encode space in a regular, euclidean way.
+\par
+
+This concern is well warranted but does not excuse the lack of literature in the
+area. A metric-space bigraph could be used, for example, to represent the time
+taken to communicate between different nodes on a network where a network
+topology was represented bigraphically, or perhaps to represent the financial
+cost of travelling between destinations where the edges of the bigraph were
+weighted by the minimum cost of transport from one place to another.
+\par
+
+Metric spaces are important to system analysis. For example, impact analysis or
+risk assessment require quantitative analysis of a system. Ideally, one should
+be able to take an ``aspect'' of a system (to borrow jargon from Applied Systems
+Theory~\ref{sec:review-applied-systems-theory}) and assess the system's
+operations according to that particular aspect, drawing numerical calculations
+about the analysis performed. This is difficult to do without encoding a metric
+space into a bigraph.
+\par
+
+One supposes that the metric space would take little more than edge labelling
+with some dictionary of properties, and supplying a function with the link graph
+to define how to combine metrics. This may become slightly more complicated in
+the case of a Directed Bigraph~\ref{sec:review-directed-bigraphs}.
+\par
 
 \subsection{Obashi}
 
+Obashi is a dataflow modelling methodology which specifically targets modelling
+business and IT systems (B\&IT systems). It has seen success as a method for
+representing how components are interconnected and has a strong emphasis on the
+representation of a B\&IT system as a metric space, which they encourage analysis
+on.
+\par
 
+System visualisation is a fundamental component of the Obashi methodology, where communication about a system's composition and operation is
+one of the key takeaways of their model's use. This means that Obashi-certified
+systems engineers can model a system, bring Obashi diagrams to their
+non-certified coworkers, and have their models be understood. To this end,
+Obashi permits system \emph{decomposition} via the specification of subsystems
+or specific formats of subsystems they refer to as ``dataflows''.
+\par
+
+Obashi sees particular success in supplying tooling for its systems
+modelling methodology, which can be unusual in business-oriented modelling
+frameworks.
+\par
+
+Interestingly, Obashi's B\&IT systems are socio-technical systems. To represent
+a sociotechnical system within their framework, they separate the social and
+technical components, and link these via business processes. Their contention
+that different types of system component can be categorised and can communicate
+only with specific others gives them their six categories: Organisation, for the
+social components, Business Processes for the communication between social and
+technical components, and Applications which Business Processes communicate
+with. Applications then communicate with Systems, which communicate with
+Hardware, leading to the final category, Infrastructure. These six ``layers''
+are responsible for Obashi's name, an acronym of the six in the order they
+communicate in.
+\par
 
 \subsection{PRINCE2 \& ITIL}
 
@@ -38,7 +156,10 @@ These are the systems that exist.
 \subsection{Soft Systems Methodology}
 
 
-\subsection{MoDaF \& DoDaF}
+\maybe{\subsection{Viable Systems Modelling}}
+
+
+\subsection{MoDaF, DoDaF and NaF}
 
 
 \subsection{Object Oriented Models}
@@ -97,10 +218,33 @@ These are the systems that exist.
 
 
 \subsection{Holons and Property Based Approaches}
+The Holon-oriented philosophy toward system composition is neatly summarised
+in~\cite{blair2015holons}. The philosophy's name is a reference to the holistic
+approach of General Systems Theory, which supposes that the entirety of a system
+cannot be simply represented by its more fundamental components.
+\par
 
+A holonic approach to system composition proposes that interfaces between
+components (holons) making a system define ``properties'' they require from, and
+can offer to, their peers at composition time (``rprops'' and ``pprops''
+respectively). The combination of holons creates a system which has its own
+properties defined, thereby constructing a higher-level holon which can be used
+to construct systems-of-systems of indefinite size.
+\par
 
+This approach has some relations in software engineering, where component-based
+architectures are not uncommon. Software is often developed via the use of
+libraries, for example. Different software systems interact via APIs with
+published ``endpoints'' --- these are very similar to the holon philosophy's
+pprops. Architectural patterns such as Dependancy Injection can abstract
+different components that a piece of software might rely on, and ensure that the
+abstracted dependancies provide all necessary properties via techniques such as
+Java's interfaces.\todo{get citations for dependancy injection}
+\par
 
 \subsection{Systems Theory}
+
+\subsubsection{Applied Systems Theory}\label{sec:review-applied-systems-theory}
 % Notes from bearapp:
 % * Systems theory
 % 	* Applied systems theory
