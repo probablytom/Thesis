@@ -1,0 +1,165 @@
+\documentclass[draft,12pt]{article}
+
+\input{preamble}
+
+% Bibliography management
+\usepackage{natbib}
+\bibliographystyle{plain}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  What am I trying to show?
+  
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+Modeling is the process of observing the world, selecting detail from it,
+and using that detail to build a replica. In a way, the method we use to build
+these models doesn't really matter: whether it's programming code, a
+mathematical equation written on paper, a model train set, or a lego house built
+by a child.
+
+What separates modern system modeling from children playing with lego is our
+ability to \emph{infer} useful information from our models of the world. this
+requirement is surprisingly difficult to fulfill, and many different
+philosophies regarding system modeling have surfaced in an attempt to satisfy it.
+
+
+\section{Relevant Literature}
+% Things I can mention here, ordered from high-level to low-level:
+% BPMN
+% Obashi
+% UML
+% Viable Systems Model
+% Soft Systems Methodology
+% Applied Systems Theory
+% BPEL
+% Workflow Modeling
+% Agent-Based Models   - (these can sort of go anywhere in this list!)
+% Software models
+% Description logics etc
+% Bigraphs
+% Process calculi
+
+% Agent-based models can fit in lots of places here!
+
+As a result of the various different philosophies toward system modeling in the
+field, it is important not only to have a deep understanding of the literature,
+but an appreciation of its breadth; each approach to modeling has its strengths
+and weaknesses, and often a weakness of one approach is made evident by the
+strength of another.\par
+
+An example: UML\citep{rumbaugh2017unified}, the de-facto standard for modeling
+software systems --- at least object-oriented systems --- takes a graphical
+approach which models the structure of a software system, and attempts to help
+people to reason about architecture in a number of ways. (The UML standard
+supports a variety of model types, such as activities, class structures, and
+state machines.) This is in contrast to, for example, a formal model used when
+modeling something like a Complex Adaptive
+System\citep{groscomplex,petri1962kommunikation}, in which the graphical
+representation of a system's structure is less important than a communication of
+what, precisely, is contained within the model.
+
+\subsection{A Brief Taxonomy of Modeling Paradigms}
+% Talk a little about the need for capture, analysis, exposition like we have
+% input, process, output, and discuss the fact that different philosophies exist
+% to target different parts of this process specifically; doing all three is
+% surprisingly elusive, as we'll see in the following review of some approaches
+% from the literature.
+Reading the literature, it seems that the focuses of different models can
+actually be broken into three different stages, which I will refer to as
+\emph{capture}, \emph{analysis} and \emph{exposition}.\par
+
+First, system models have to model \emph{something}; information about the
+subject of a model is therefore stored in the model as part of its construction.
+Sometimes, this information storage is implicit: partial differential equations
+can be a useful modeling tool, but aside from some insights into the
+relationships between different aspects of system behaviour, it can be difficult
+to infer a wealth of information about a model's subject from the equations.
+This is in contrast to modeling via something like Obashi, where the intent of the
+model is to make as clear as possible what has been captured in the model, so
+the model's architect can begin to draw insights regarding what this structure
+might mean.
+This is \emph{capture}.\par
+
+Second, simply capturing information about a system can only tell us so much
+about it, and often model architects build their models not just for clarity
+about the world, but so as to \emph{analyze} the captured information. This can
+help the model architect to draw insights that aren't immediately obvious from a
+visual analysis of the structure of a system, which tools such as Obashi or UML
+typically provide. Models built from agent-based
+modeling~\citep{tisue2004netlogo} or from cellular
+automata~\citep{wolfram1984cellular} can be a useful way to investigate the
+behaviour that a system exhibits, by observing how traits change over time. This
+is one way to spot emergence in a system\citep{miller2006modeling}. Emergent
+properties of systems can be difficult to spot, but their discovery can be an
+essential aim when constructing a model. Understanding in what way emergence
+arises from simple phenomena remains an important problem in system modeling,
+particularly in complex adaptive system modeling~\citep{gell1994complex}.
+The capacity of a model to be assessed, whether algorithmically, by human
+effort, or by some mix of the two where a computer aids human assessment, is a
+model's capacity for \emph{analysis}.\par
+
+Third, there is little use in analyzing a model if results of this analysis
+cannot be communicated effectively to an end-user. While clearly fundamental,
+there is a wealth of different approaches to communicating the results of
+analysis to a model's architect. NetLogo\citep{tisue2004netlogo}, for example,
+employs a friendly graphical approach, where the results of analysis can be
+exposed from the model itself --- all models are agent-based, and activity is
+represented graphically during the model's execution --- or from graphs which
+can be produced if written as part of the model. Solutions such as
+OBASHI\citep{obashimethodology} employ a similar approach, where specific
+classes of diagrams can be constructed to explain the outcome of a piece of
+analysis. Interestingly, OBASHI constructs these models so that the results of
+analysis can be understood not only be a technically adept model architect, but
+also by non-technical stake-holders in insights drawn from the model. In
+industry, a model architect is rarely the sole stake-holder of their model.
+While this detail feels self-evident, many modeling platforms are ill-suited to
+industry use because results drawn from model analysis must then be communicated
+by the model architect to other stake-holders in the model, meaning that the
+architect of the model must be adept in both modeling and communication. Other
+modeling platforms, such as UML\citep{rumbaugh2017unified} or
+bigraphs\citep{milner2009space} also represent models in specific ways to aid
+non-technical understanding.
+Methods for expressing the outcome of an analysis
+--- to a model architect and, on occasion, to non-technical users of the model
+--- are the modeling paradigm's solutions to \emph{exposition}.\par
+
+
+\section{Working toward alternative models}
+
+\subsection{Behavioral Variance via Process Fuzzing}
+
+\subsection{A detour: genetic programming?}
+
+\subsection{Back on track: security policies}
+
+
+
+\section{The Road Ahead}  % Where do we go from here?
+
+\subsection{Thesis Statement}
+
+\subsection{Tooling}
+
+\subsection{Experiment 1}
+
+\subsection{Experiment 2}
+
+
+
+\section{Risks Involved}
+
+\subsection{Validating and Verifying Models}
+
+\subsection{Breadth}
+% The potential impact is kind of broad!
+
+
+\newpage  % TODO: consider deleting
+\bibliography{lib}
+
+\end{document}

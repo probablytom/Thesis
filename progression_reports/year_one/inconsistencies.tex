@@ -1,0 +1,18 @@
+System - a mental model of some aspect of the world.  All systems have a scope/boundary and an environment.  Because it is a mental model, it is inherently subjective and personal. My understanding of the key features of an aircraft carrier will be different to your's.
+Model - a concrete representation (an expression) of a system
+Language - a 'system' (urgh it's recusrive!) for describing a model of a system.  A language could be informal, like natural language, graphical like UML, or based on maths like bigraphs, or OCL.
+
+We've hit on the idea of linking between different models.  These models may be of different mental models (if developed by different people, for example) or originally for different purposes, or represented in different languages.  We claim that sometimes it might be nice to 'reverse engineer' the links between them.
+
+Example need: different parts of a very large software system are designed by different sub-teams.  Even though they use the same notation, they have different mental models of the overall system and so may produce inconsistent designs for their part of the puzzle.
+
+This means we may have different types of inconsistency:
+
+
+Language inconsistency - the models are developed in different languages that aren't compatible.
+Model inconsistency - the mental models of the modellers are different.
+System inconsistency - the models are actually of different (or only overlapping) systems problems.
+
+A way forward would be to address one of these three aspects, developing techniques to identify inconsistencies when model merges occur.  In some cases, the problem is undecidable, e.g. it is impossible to know for sure that two models have a consistent domain representation, but there may be heuristics we can identify to gain assurance that two models do not contain particular kinds of inconsistency.
+
+Another approach would be to choose what we decide are particularly useful languages, e.g. Obashi and Bigraphs and develop mechanisms for translating between them. Doing this would then mean we would need a series of case studies to show that the translation/unification mechanism gives us information that independent models in the distinct languages can't.  The title for a thesis in this area might be something like "Towards the Unification of Systems Modelling Languages" ?
