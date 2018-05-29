@@ -1,0 +1,414 @@
+\documentclass[draft]{report}
+
+\include{preamble}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  What am I trying to show?\todo{Actually write an abstract.}
+\end{abstract}
+
+% ==============================================================================
+\section{Introduction}
+\label{sec:introduction}
+Systems\todo{should I be acknowledging OBASHI in this report?} modelling is a
+complicated field, largely born of its highly interdisciplinary nature. This is
+both a blessing and a curse.\par
+
+
+On one hand, the breadth of the field gives a range of diverse problems to work
+on, and many interesting opportunities spring forth as a result. At the same
+time, this scope breeds a host of different philosophies regarding systems
+modelling, often muddying the waters with regards the field's literature. this
+can make identifying small-scale, incremental improvements on the existing
+literature hard to identify. Also --- as will be discussed --- systems science
+is notoriously difficult to verify with quantitative data.\footnote{As this
+  point is pertinent to the research at hand, it will be discussed in
+  \emph{SECTION}}\todo{identify section!}.\par
+
+Fortunately, the Cambrian Explosion that is modern systems ressearch providees
+an opportunity to do reearch which can make tangible, genione improvements to
+everyday life. The potential here easily justifies the friction involved in
+performing rigorous research in the field!\par
+
+This work bgan in a somewhat aimless fashion, and arrived at exciting research
+opportunities toward the end of this meandering. The structure of that journey
+of discovery is reflected in the structure of this report: beginning without a
+clear end in sight; splintering in different directions, as possibilities are
+felt out; finally, converting on a well-founded conclusion by the end. This
+end-result would be hard to achieve without the wandering involved, so this
+report should be read with the patient optimism that things \emph{do} converge
+by the end.\par
+
+\todo{Write a summary of the chapters, once they're actually written.}
+
+
+
+
+
+% ==============================================================================
+\section{Related Systems Modelling Literature}
+\label{sec:literature}
+The diversity of system modelling requirements results in a variety of
+philosophies regarding what models should look like. A useful distinction
+between these philosophies is their take on the traditional input, process,
+output contept; different modelling paradigms \emph{capture} information in
+different ways, allow varying degrees of anaysis to be performed on this
+captured information, and lend themselves to different methods for the
+\emph{exposition} of the results of this analysis.\par
+
+The distinction matters. A person undertaking a modelling task must capture all
+pertinent data --- many systems exhibit chaotic behaviour, so minute details
+within captured information in the model can make a significant difference to
+the modelling effort's end result --- persumably, the task is being carried out
+so the modeller can learn something about the system in question! --- the kinds
+of analysis that are possible are therefore of great importance, as available
+analysis methods will have an impact on what can be inferred from the model ---
+moreover, though, the modelling effort would be for nought if the recipient of
+the outcome of the analysis found it illegible, meaning that the methods for
+displaying the \emph{output} of that analysis is just as important as the other
+factors!\par
+
+While this may seem like a trivial observation, modelling paradigms in the wild
+rarely succeed on all three counts, and many different approaches to these three
+factors exist. UML, for example, is much more concerned with understanding the
+structure of a model than performing a detailled analysis of that structure and
+coming to quantitative, verifiable results. It's graphical nature belies the
+fact that often, seeing the \emph{structure} of captured information is the most
+valuable output of the modelling process in the paradigm. Even in mostly
+graphical approaches, though, differences in philosophy can arise. To contrast:
+these same systems are sometimes modelled using process calculi such as
+\picalculus. Here, a satisfying visual representation is hard to find, but the
+intent of the modelling effort is a detailled formal analysis. Difficulty in
+capturing information, or in the legibility of the results, is a friction
+sometimes justified by the detail of analysis a model permits. \par
+
+
+With this in mind, comparing modelling approaches can help to explore both the
+philosophies modellers enter into the practice of model construction with, and
+the state of the art in actually constructing those models.\todo{Revisit this
+  when writing about pdsf! We're targeting modellers who enter into the
+  practice with a certain perspective, too. It's a nice callback to the related
+  lit, and it limits our own scope in useful ways and gives us an ``out'', so
+  we can justify some of pdsf's limitations.}\par
+
+
+\subsection{Informal Modelling Paradigms}
+\label{subsec:informal_model_lit}
+Many informal modelling methods have appeared in an effort to fulfil
+requirements in a few areas:
+
+\begin{itemize}
+\item Modelling hard-to-define systems\\
+  Many systems are difficult to achieve low-resultion understandings of, because
+  --- usually --- they are socio-technical in nature. The can sometimes have
+  aspects\footnote{See Applied Systems Theory, in section \emph{FIND SECTION
+      HERE}.}\todo{cref the applied systems theory section here.} of their
+  systems captured, but the details required to produce a complete more are
+  effectively infinite in scale.
+\item Modelling black boxes\\
+  It can be difficult-to-impossible to infer low-level detail from a system
+  which is either obfuscated or intractable to break apart. Here, ``black
+  boxes'' are characterised by their inputs and outputs where possible.
+\item System scope\\
+  Often, modelling is undertaken at a large scale. It is intractable to gather
+  finely grained information in these situations for most modellers, leading to
+  high-level modelling paradigms.
+\end{itemize}
+
+Systems with these properties are often assessed from a high level, and due to
+their nature, are often either heterogeneous or partly human in nature (such as
+business or military systems).\par
+
+One approach to modelling these sorts of systems is the diagrammatic approach
+taken by UML\cite{uml_citations}, which is the de-facto modelling framework for
+software architectures. UML has been refined gradually over \~20 years of use,
+and has grown to model a variety of systems. The variety of UML's diagramming
+capabilities is well-summarised in a class diagram from its own
+specifications:\par
+
+\todo{include class diagram of UML diagram types, example from early spec found
+  on wikipedia}
+
+UML's origins are in mapping the structure of software, but it can now be used
+to model a variety of activities via SysML\cite{sysml_citations}. A comparison
+between this and its early competitor, OPM\cite{opm_citations}, which also
+models a variety of systems, can be enlightening.\par
+
+Where UML's expressiveness comes from an array of diagram types and extensions
+to its ordinary diagrams --- such as SysML --- OPM uses a more curated set of
+building blocks to build models from, gaining expressiveness with a simpler
+modelling system. These building blocks are structured objects of information,
+and processes that the information is transformed by --- concepts which prove to
+be rather universal, as sen in OPM's cross-disciplinary
+appeal\cite{opm_rna_research}. OPM's native focus on processes and simple
+fundamental units delivers the useful feature that OPM models are generally
+\emph{executable} for analysis, allowing deeper insights into the subject of
+the model.\par
+
+This simplicity is often cited as a benefit of
+OPM: there is less for a modeller to learn, and the core concepts building the
+framework are powerful. However, while both are recognised standards (UML is a
+standard supported by the Object Management Group, where OPM is supported by
+ISO), UML seems to see much wider industrial use. I\todo{can I use ``I'', or is
+  that bad form in a progression report?} posit that this is actually
+\emph{because} of the additional diagram classes in UML: each diagram class
+becomes slightly simpler than an OPM diagram, and the result is that each
+diagram comes with its own visual identity. This imparts lots of context about
+what the model is displaying to a viewer at a glance, and reduces the amount of
+friction involved in the modelling process.\par
+
+The amount of context available at a glance turns out to be especially important
+for UML, because UML can rarely be processed for analysis. Instead, results of
+the UML modelling process are typically done by a visual analysis of a diagram.
+Some tools exist for analysing he contents of a model\cite{eclipse_papyrus},
+but these are typically limited in scope and too clunky to use --- often, this
+friction in use overwhelms the potential gains from the tool.\par
+
+UML is capable of dealing with a variety of socio-technical, hard-to-define
+systems via its different diagram types and can work at a variety of resolutions
+of detail, making it adept at handling ``black boxes''. However, as scale
+increases, so does the number of diagrams --- UML therefore relies on the
+quality of tooling available to cope with the difficulties of visual analysis at
+scale.\par
+
+% ===== OBASHI
+A modelling platform which takes pains to fix this problem of visual analysis at
+scale is OBASHI\cite{obashi_methodology}. OBASHI sees wide industrial use for
+the specific task of modelling dataflow in socio-technical systems. Like UML,
+OBASHI's modelling paradigm is entirely graphical. Models have simple
+fundamental components --- ``elements'' and six kinds of ``relationships'' ---
+which are composed together according to a series of rules. Elements are
+separated into ``layers'', and an ordering is imposed which groups social and
+technical kinds of elements separately, mediating dataflow between them via
+business processes.\par
+
+The modelling system is proprietary, and a sophisticated tool is available from
+the company developing the methodology. OBASHI's limited scope, focusing on
+dataflow, means that this tool can perform some automated analysis on an
+otherwise graphical system model, such as impact analysis of element failure or
+the generation of different diagrams representing different potential pathways
+for dataflow between elements.\par
+
+OBASHI takes an interesting perspective on the difficulties of modelling
+hard-to-define systems, as the design of its diagrams is specifically
+constructed to cater to non-technical recipients of diagrams. As the outputs of
+analysis are often more diagrams, the diagrams that are produced are laid out in
+such a way that stakeholders in a diagram who are unfamiliar with the nuances of
+their subject can still understand the implications of an analysis. This is done
+by utilising some of OBASHI's rules (specifically, element and relationship
+persistence) to safely construct subgraphs which represent meaningful analyses.
+OBASHI's ability to safely construct subgraphs eliminates the diagram scale
+issues that OPM and UML/SysML have. OBASHI also caters to black-box scenarios
+and socio-technical, hard-to-define systems by use of its rules. this is
+possible, however, because OBASHI is capable of modelling only systems which
+permit the flow of information or data --- this lmitation in scope allows OBASHI
+to successfully address many of the difficulties of informal modelling, at the
+cost of flexibility.\par
+
+% ===== BPMN
+A popular alternative for business modelling is the informal modelling solutions
+found in BPMN\cite{bpmn_sources}, which has seen success in modelling business
+processes. BPMN is generally a graphical modelling framework, with a language to
+support executable process definitions via its companion language,
+BPEL\cite{BPEL_SOURCES}. Not unlike OBASHI, BPMN aims to demonstrate concepts
+graphically in a simple enough format that non-technical recipients of diagrams
+can understand their meaning, while supporting more complex analyses where
+necessary. BPMN can be considered the business equivalent of UML, and is also
+supported by the Object Management Group\cite{source_for_this_maybe}.\par
+
+BPMN has had unusual academic interest, in that some low-level concepts have
+been applied to this otherwise very high-level notation. For example, BPMN
+models can be transformed to DEVS models\cite{bazoun2014business}, a timing
+model for agent-based systems built on an extension of Moore machines, a kind of
+finite-state machine\cite{DEVS}.\todo{Write a little more on BPMN and how it
+  relates to other modelling approaches, as well as what we can do with it.}\par
+
+
+% ===== Applied Systems Theory
+
+
+\todo{Anything else worth mentioning here? SSM? VSM?}
+
+
+
+
+
+\subsection{Formal Modelling Paradigms}
+\label{subsec:formal_model_lit}
+
+% ===== Bigraphs
+\label{subsubsec:bigraphs}
+A convenient segue from informal modelling techniques to formal ones is
+Bigraphs, in that, to a degree, Bigraphs support both formal \emph{and} informal
+paradigms. This is because Bigraphs are defined in three ways:
+
+\begin{enumerate}
+\item As a graphical notation
+\item As an algebra
+\item As a category
+\end{enumerate}
+
+As a result of a carefully constructed mathematical definition, Bigraphs have
+the capacity to cope with often complicated features, such as safely composing
+systems together, or the formal manipulation of a system's structure. This
+mathematical foundation can make bigraphs complex to use for a non-technical
+modeller. Fortunately, the graphical notation for birgaphs is both simple and
+expressive.\par
+
+Bigraphs are often discussed as having both \emph{space} and
+\emph{motion}\cite{milner2009space}. The \emph{space} of a system is defined by
+Milner (the original designer of the bigraph formalism) as the placements of
+elements relative to each other --- this is represented, mathematically, as a
+forest of nodes, where parental relationships in a tree in the forest represents
+containment of one node inside another.\footnote{This definition is purely
+  mathematical, and what that containment represents in the real world is the
+  choice of the modeller.}\par
+
+The \emph{motion} of a model is defined as how the model changes over time.
+Milner represents system behaviour as change according to ``reaction rules'':
+patterns which match on a subgraph of a complete bigraph, and dictate how the
+matching subgraph looks in a future iteration of the bigraph. Reaction rules
+turn out to be rather powerful, and can represent any system within a category
+of systems called a \emph{bigraphical reactive
+  system}\cite{milner_early_brs_definition} (BRSes). BRSes can represent a
+number of calculi, including \picalculus and the ambient
+calculus\cite{bigraphs_and_transitions_milner_jensen}.\par
+
+While literature on the
+subject is elusive, I\todo{Can I use ``I'' in a report?} infer that BRSes might
+be represented as a temporal hypergraph, where a regular bigraph is represented
+by a hypergraph, and the application of reaction rules modifies the hypergraph
+as an atomic change at each unit of time.\todo{Consider deleting.}\par
+
+Bigraphs seem to see little industrial success, but have inspired a number of
+variants\cite{bigraphs_with_sharing,directed_bigraphs} and plenty of academic
+interest\cite{impalas_stevegnani,bigraph_model_checking,bigraph_languages}.
+Emergence has been studied in the context of Bigraphical Reactive Systems\cite{bigraph_emergence}, but
+this is not one of the field's main active research areas at present.
+
+
+% ===== Petri Nets
+\label{subsubsec:petrinets}
+As an alternative to bigraphs, system modelling can be done formally via methods
+such as Petri Nets\cite{petri_net_seminal}. A Petri Net is a directed graph of
+states and processes those states can undergo to reach future states. Petri Nets
+were born initially out of chemistry literature\cite{petri_net_seminal}, but
+have seen applications in areas as diverse as workflow
+modelling\cite{petri_net_workflow_modelling},
+concurrency\cite{petri_net_concurrency}, and molecular networks in systems
+biology\cite{petri_nets_for_biology}.\par
+
+Petri nets have similarities with OPM, as they are both fundamentally concerned
+with state (arbitrary state in the case of Petri Nets, and a more specific state
+of structured data in the case of OPM) and processes that their states go
+through. Unsurprisingly, some literature exists on the combination of petri nets
+and OPM, which could eventually lead to a high-level modelling system with a
+powerful mathematical framework underlying it.\par
+
+\todo{Feels like I can write more here, but frankly, I'm not sure exactly what.
+  Petri nets always seemed a little boring to me...}
+
+
+
+% ===== CAS modelling via pdes, cellular automata...
+\todo{write up cas modelling via cellular automata, pdes, etc}
+
+
+
+% ===== Models in code: LogoNet, bespoke models like jagora
+\todo{Write up models in code, logonet being the big example but smaller ones
+  too like PyCX., Jagora is an example of a bespoke model of a problem domain,
+  which is worth covering because the practice of making those is pertinent to
+  what we're getting at later on.}
+
+
+
+
+
+% ==============================================================================
+\section{PyDySoFu}
+\label{sec:pydysofu}
+
+
+
+
+
+
+
+
+% ==============================================================================
+\section{Resilience and its Literature}
+\label{sec:resilience}
+\todo{read absolutely any literature on resilience other than the couple of
+  Hollnagel papers I've got}
+
+
+
+
+
+
+% ==============================================================================
+\section{Improvements to PyDySoFu}
+\label{sec:pdsf_improvements}
+
+
+
+
+
+
+
+
+% ==============================================================================
+\section{Thesis Statement}
+\label{sec:thsis_statement}
+
+
+
+
+
+
+
+% ==============================================================================
+\section{Future Plan}
+\label{sec:future_plan}
+
+
+
+
+
+
+
+
+% ==============================================================================
+\section{Risks and Mitigating Actions}
+\label{sec:risks}
+
+
+
+
+
+
+
+% ==============================================================================
+\section{Conclusion}
+\label{sec:concluion}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\bibliography{lib}
+
+\end{document}
