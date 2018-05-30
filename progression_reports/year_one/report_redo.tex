@@ -1,4 +1,4 @@
-\documentclass[draft]{report}
+\documentclass[draft]{article}
 
 \include{preamble}
 
@@ -47,9 +47,9 @@ by the end.\par
 
 
 
-
+\part{Model Transformations}
 % ==============================================================================
-\section{Related Systems Modelling Literature}
+\section{Systems Modelling Literature}
 \label{sec:literature}
 The diversity of system modelling requirements results in a variety of
 philosophies regarding what models should look like. A useful distinction
@@ -95,9 +95,9 @@ the state of the art in actually constructing those models.\todo{Revisit this
   we can justify some of pdsf's limitations.}\par
 
 
-\subsection{Informal Modelling Paradigms}
+\subsection{A Note on Informal Modelling Paradigms}
 \label{subsec:informal_model_lit}
-Many informal modelling methods have appeared in an effort to fulfil
+Many\todo{consider deleting} informal modelling methods have appeared in an effort to fulfil
 requirements in a few areas:
 
 \begin{itemize}
@@ -122,6 +122,7 @@ Systems with these properties are often assessed from a high level, and due to
 their nature, are often either heterogeneous or partly human in nature (such as
 business or military systems).\par
 
+\subsection{UML, SysML \& OPM}
 One approach to modelling these sorts of systems is the diagrammatic approach
 taken by UML\cite{uml_citations}, which is the de-facto modelling framework for
 software architectures. UML has been refined gradually over \~20 years of use,
@@ -175,6 +176,8 @@ quality of tooling available to cope with the difficulties of visual analysis at
 scale.\par
 
 % ===== OBASHI
+\subsection{OBASHI}
+\label{subsec:obashi}
 A modelling platform which takes pains to fix this problem of visual analysis at
 scale is OBASHI\cite{obashi_methodology}. OBASHI sees wide industrial use for
 the specific task of modelling dataflow in socio-technical systems. Like UML,
@@ -209,6 +212,8 @@ to successfully address many of the difficulties of informal modelling, at the
 cost of flexibility.\par
 
 % ===== BPMN
+\subsection{BPMN \& BPEL}
+\label{subsec:bpmn}
 A popular alternative for business modelling is the informal modelling solutions
 found in BPMN\cite{bpmn_sources}, which has seen success in modelling business
 processes. BPMN is generally a graphical modelling framework, with a language to
@@ -228,6 +233,8 @@ finite-state machine\cite{DEVS}.\todo{Write a little more on BPMN and how it
 
 
 % ===== Applied Systems Theory
+\subsection{Applied Systems Theory}
+
 
 
 \todo{Anything else worth mentioning here? SSM? VSM?}
@@ -236,10 +243,11 @@ finite-state machine\cite{DEVS}.\todo{Write a little more on BPMN and how it
 
 
 
-\subsection{Formal Modelling Paradigms}
-\label{subsec:formal_model_lit}
+% \subsection{Formal Modelling Paradigms}
+% \label{subsec:formal_model_lit}
 
 % ===== Bigraphs
+\subsection{Bigraphs}
 \label{subsubsec:bigraphs}
 A convenient segue from informal modelling techniques to formal ones is
 Bigraphs, in that, to a degree, Bigraphs support both formal \emph{and} informal
@@ -291,6 +299,7 @@ this is not one of the field's main active research areas at present.
 
 
 % ===== Petri Nets
+\subsection{Petri Nets}
 \label{subsubsec:petrinets}
 As an alternative to bigraphs, system modelling can be done formally via methods
 such as Petri Nets\cite{petri_net_seminal}. A Petri Net is a directed graph of
@@ -314,36 +323,34 @@ powerful mathematical framework underlying it.\par
 
 
 % ===== CAS modelling via pdes, cellular automata...
+\subsection{Complex Adaptive Systems Modelling}
 \todo{write up cas modelling via cellular automata, pdes, etc}
 
 
 
 % ===== Models in code: LogoNet, bespoke models like jagora
+\subsection{Code and Bespoke Models}
 \todo{Write up models in code, logonet being the big example but smaller ones
   too like PyCX., Jagora is an example of a bespoke model of a problem domain,
   which is worth covering because the practice of making those is pertinent to
   what we're getting at later on.}
 
 
+\subsection{PyDySoFu}
 
 
 
+
+\subsection{Findings after Evaluating the Literature}
+% Why we didn't do model transformation, in the end.
+% However, PydySoFu turns out to be \emmph{quite} promising!
+
+
+\part{Exploratory Development}
 % ==============================================================================
-\section{PyDySoFu}
+\section{PyDySoFu's initial state}
 \label{sec:pydysofu}
 
-
-
-
-
-
-
-
-% ==============================================================================
-\section{Resilience and its Literature}
-\label{sec:resilience}
-\todo{read absolutely any literature on resilience other than the couple of
-  Hollnagel papers I've got}
 
 
 
@@ -357,6 +364,29 @@ powerful mathematical framework underlying it.\par
 
 
 
+
+
+
+
+\section{Segue: Genetic Programming}
+% ReaLX submission stuff
+
+
+
+
+
+
+
+
+\part{Resilience}
+% ==============================================================================
+\section{Resilience and its Literature}
+\label{sec:resilience}
+\todo{read absolutely any literature on resilience other than the couple of
+  Hollnagel papers I've got}
+
+
+\section{PyDySoFu for Resilience Modelling}
 
 
 
