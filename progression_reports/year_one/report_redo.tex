@@ -337,7 +337,7 @@ powerful mathematical framework underlying it.\par
 
 
 \subsection{PyDySoFu}
-
+\todo{Write up our own tool}
 
 
 
@@ -350,44 +350,315 @@ powerful mathematical framework underlying it.\par
 % ==============================================================================
 \section{PyDySoFu's initial state}
 \label{sec:pydysofu}
+PyDySoFu's original version was an 80-line Python decorator for socio-technical
+modelling, called \emph{fuzzi moss}\cite{4th_year_dissertation}. Since this
+initial development, PyDySoFu had gone through a series of improvements,
+culminating in a separation of the core dynamic fuzzing capacities from the
+socio-technical components of the tool. Rather than a tool for dynamic fuzzing,
+Fuzzi Moss had become a suite of fuzzers for socio-technical simulations built
+on top of PyDySoFu.\par
+
+\todo{Write a little about the technical underpinnings, where we rewrite
+  \_\_getattribute\_\_.}
+
+Some types of socio-technical behaviour, however, were difficult if not
+impossible to implement via PyDySoFu's method for fuzzing. Specifically,
+\emph{habit formation} and \emph{complex conditional fuzzing} were difficult if
+not impossible to implement via PyDySoFu's approach, because:
+
+\begin{itemize}
+\item It wasn't possible to specify, via one of PyDySoFu's aspects, future
+  fuzzing based on the previous return value of a target.\\
+  This is important, because we often fuzz a workflow in real-life
+  socio-technical systems when we know what the outcome of a previous change is.
+  For example, after a workflow change leads to an unsafe situation in a safety
+  critical system such as a rail network, the agent concerned is likely to amend
+  their behaviour in future.
+\item It wasn't possible to develop fuzzers which had a native concept of
+  \emph{state} over time. That is: fuzzers could be considered as graph
+  transforms, which were completely unaware of previous variants developed.
+  Implementing this would make solving the issue above easier also. This was
+  important, because there are scenarios where adaptation in a socio-technical
+  system is unlikely to occur for a second time if it's already been tried, or
+  if the adaptation led to poor results in the past.
+\end{itemize}
+
+Both issues were resolved by separating PyDySoFu's fuzzing capabilities into a
+package of its own, and solving these problems on the level of \emph{aspect
+  orientation} itself. Rather than iterating on PydySoFu, PyDySoFu was built as
+a a collection of ``fuzzing aspects'' implemented in a framework which
+splintered from PyDySoFu's codebase, called ``ASP''.\par
 
 
+\section{ASP}
+ASP\cite{asp_repo} is an aspect orientation framework written in python,
+exploiting the technique which permitted PyDySoFu to operate in the first
+place.\par
 
+Where PyDySoFu injected functionality into an overridden
+\texttt{\_\_getattribute\_\_} definition, ASP does the same --- but where
+functionality was represented as a function which transformed an AST, ASP fuzzes
+using objects. Where objects have special methods defined, ASP injects
+functionality according to those methods. For example:
 
+\begin{description}
+
+\item[prelude(attribute, context, *args, **kwargs)] \hfill \\
+  A \texttt{prelude} method on an object passed in as a fuzzer will run
+  \emph{before} the target function is run. It has access to the target
+  attribute, and to the original object the target is tied to in a
+  \texttt{context}. It can also inspect the arguments the target function will
+  be given.
+
+\item[encore(attribute, context, result)]\hfill \\
+  An \texttt{encore} method on an object passed in as a fuzzer will run
+  \emph{after} the target function is run. It has access to the target
+  attribute, and to the original object the target is tied to in a
+  \texttt{context}, as well as the result of the target..
+
+\item[around(attribute, context, *args, **kwargs)]\hfill \\
+  An \texttt{around} method on an object passed in as a fuzzer wraps the target
+  attribute in functionality which comes before and after it is executed. This
+  can be used as an alternative to \texttt{encore} and/or
+  \texttt{prelude}.\\
+  An \texttt{around} method gets the same signature as the \texttt{prelude},
+  because it must have at least the same functionality as a \texttt{prelude}
+  method, but does not require the result of execution passed in as \emph{around
+    is expected to execute the target attribute, with the arguments provided.}\\
+  Worth noting is that if \texttt{around} exists at the same time as one or more
+  of \texttt{prelude} or \texttt{encore}, then \texttt{prelude} or
+  \texttt{encore} will be wrapped around the \texttt{around} method.
+
+\item[error\_handling(attribute, context, exception)]\hfill \\
+  An \texttt{error\_handling} method on an object passed in as a fuzzer will
+  catch exceptions raised by the target attribute and attempt to handle them
+  elegantly. This is a common piece of functionality in other aspect orientation
+  frameworks\cite{aspect_j}.
+
+\end{description}
+
+In implementing these pieces of functionality, the foundation for PyDySoFu
+became a fully-fledged aspect orientation library capable of capturing return
+values of fuzzed functions, and storing information pertinent to the fuzzing
+process --- results, variants, and anything else pertinent to the fuzzing case
+--- in the fuzzer's internal state, because fuzzers can now be objects
+satisfying the requirements for ASP to use them as aspects.\par
+
+The work remaining at this stage is to rewrite PyDySoFu's fuzzing procedure to
+be built on top of ASP.\par
 
 
 
 % ==============================================================================
 \section{Improvements to PyDySoFu}
 \label{sec:pdsf_improvements}
+As the above work satisfied the requirements for more complex fuzzing to be
+built using PyDySoFu, the stage had been set to rewrite the library's core
+functionality on top of ASP.\par
+
+The procedure for doing this turned out to be relatively painless, thanks to
+ASP's implementation being drawn from PyDySoFu's original mechanisms. Using
+features already existing from earlier releases of PyDySoFu, such as the
+application of a fuzzer to a target via a \texttt{fuzz\_function} function.
+Implementation of the previous functionality in PyDySoFu turned out to be the
+implementation of a single class:
 
 
+\begin{figure}
+  \begin{lstlisting}
+class FuzzingAspect(IdentityAspect):
+
+    def __init__(self, fuzzing_advice):
+        self.fuzzing_advice = fuzzing_advice
+
+    def prelude(self, attribute, context, *args, **kwargs):
+        self.apply_fuzzing(attribute, context)
+
+    def apply_fuzzing(self, attribute, context):
+        # Ensure that advice key is unbound method for instance methods.
+        if inspect.ismethod(attribute):
+            reference_function = attribute.im_func
+            advice_key = getattr(attribute.im_class, attribute.func_name)
+        else:
+            reference_function = attribute
+            advice_key = reference_function
+
+        fuzzer = self.fuzzing_advice.get(advice_key, identity)
+        fuzz_function(reference_function, fuzzer, context)
+  \end{lstlisting}
+  \label{fig:fuzzing_aspect_code}
+  \caption{The implementation of a basic fuzzing aspect}
+\end{figure}
 
 
+A benefit of ASP's object-oriented approach is that additional functionality can
+be implemented by simple subclassing of the original FuzzingAspect, where a call
+to \texttt{self.apply\_fuzzing} can apply actual fuzzing functionality, leaving
+the subclass concerned only with additional features.\par
 
+New fuzzers, implementing more complex behaviours, were then implemented and
+tested. Specifially, the \texttt{IncrementalImprover} fuzzer class generates
+\emph{multiple} variants of a target, and fuzzes in a manner similar to the
+above\footnote{As the code for \texttt{IncrementalImprover} is long and complex,
+  it has been omitted here, but can be found in the project
+  repository\cite{pydysofu}.}. However, \texttt{IncrementalImprover} makes use
+of ASP's introduction of catching return values to record the success of
+different variants, and to generate future variants by applying fuzzing to
+successful previous variants.\par
 
+This additional funtionality is especially important for more complex
+socio-technical simulations. For example: PyDySoFu's original functionality
+permitted the same function to be fuzzed again and again with random results
+each time, but fuzzing could not be stacked across multiple invocations of a
+workflow step, i.e. introducing variance once, and then introducing
+further variance where previous variance \emph{persisted through time}.\par
+
+The \texttt{IncrementalImprover} is therefore a proof-of-concept for more
+sophisticated simulations of socio-technical variance, and --- while the
+functionality has not yet been introduced into Fuzzi Moss, this functionality is
+intended to permit simulations specifically around instances of variance such as
+habit formation.\todo{Anything else to say here?}\par
 
 
 \section{Segue: Genetic Programming}
 % ReaLX submission stuff
+The implementation of incremental improvement rested on the ability to track
+previous variants, and to record which variants were more ``successful'' than
+others. It is clear to see that there is a similarity between the requirements
+of the \texttt{IncrementalImprover} and that of genetic programming, then, as
+genetic programming approaches to solving problems must construct many different
+representations of processes and compare them for ``fitness''.\par
 
+Genetic Programming approaches are often used to improve the state of an
+existing codebase\cite{genetic_metaprogramming}\footnote{No term for this
+  specific field was found. It will be referred to here as ``genetic
+  metaprogramming''.}. Interestingly, genetic metaprogramming has been performed
+similarly to how PyDySoFu operates already, by the modification of an
+AST\cite{locoGP}, but --- like much of genetic metaprogramming literature ---
+the technique is used to improve a codebase. An alternative approach presents
+itself as a variant of what the \texttt{IncrementalImprover} was originally
+intended to do: generate many variants of a single function, check its
+``fitness'' against some success metric, and continue to fuzz successful
+variants in future generations. This approach takes the typical AST-style
+genetic modification, and employs it to attempt to solve regular genetic
+programming problems.\par
 
+Symbolic regression, a canonical genetic programming problem, was attempted then
+using an alternative technique to traditional genetic programming angles, such
+as constructing a tree representing a solution to a
+problem\cite{koza_or_maybe_langdon}, or constructing more sophisticated directed
+graphs which can converge on solutions faster\cite{cartesian_gp}. These
+techniques inherently attempt to solve problems in a somewhat functional style.
+Dynamic fuzzing, however, allows an imperative-style solution to a problem to be
+engineered, where things like state can be manipulated by the solution via the
+AST. Some variants of genetic programming, such as stack-based genetic
+programming, also attempt this\cite{stack_based_gp} but ultimately rely on the
+same fundamental functional style of other approaches.\par
 
-
+To implement Genetic Programming in PyDySoFu, once the
+\texttt{IncrementalImprover} had been implemented, did not require a significant
+amount of change to the library. Changes in ASP and PyDySoFu to permit fuzzers
+which could record a history of their fuzzing were sufficient to implement
+a \texttt{GeneticImprover}, by subclassing the \texttt{IncrementalImprover}. As
+new rounds are generated in the \texttt{GeneticImprover}, successful previous
+variants are not just kept, but their ASTs \emph{spliced together} to mimic the
+recombination found when comparing tree solutions in ordinary
+genetic programming\cite{gp_seminal}. A symbolic regression was implemented
+using this to confirm that it worked as intended, the source of which can be
+found in the PyDySoFu repository\cite{pydysofu_repo}, and a paper outlining the
+work in more detail found at \cite{realx_paper}.
 
 
 
 
 \part{Resilience}
+
+\section{Direction Change}
+Evidently, PyDySoFu's core concept --- dynamic fuzzing --- is applicable to many
+different fields, and poses a variety of research opportunities:
+
+\begin{itemize}
+\item Use for introducing variance socio-technical simulations\cite{honours_thesis}
+\item Implementation of Genetic Programming
+\item Design of aspect orientation frameworks capable of modifying their targets
+  directly, rather than wrapping them, as is the case with traditional AOP
+  techniques\cite{aspectj}.
+\item Use for simulating changing behaviour in a complex adaptive system
+\end{itemize}
+
+A choice of direction therefore had to be made. As a library of socio-technical
+fuzzers already exists\cite{fuzzi_moss}, and some preliminary work had been done
+in simulating software development methodologies exposed to socio-technical
+stress, this seemed an appropriate path to continue along. This was influenced
+in part by the fact that, in the interim period between the initial work on
+PyDySoFu\cite{honours_thesis} and the beginning of this study, a more
+in-depth simulation of development methodologies under socio-technical stress
+had been developed. Earlier this year, a paper on the work was
+published\cite{caise_forum_18}.\par
+
+Feedback from the submission of that paper had outlined some core issues which
+had to be addressed. For one, validating the work against verifiable industry
+data was difficult: some process logs for industry exist in public, but they are
+uncommon. It can therefore be difficult to verify the problem domain's validity
+\emph{before} verification. This is discussed more in \cref{sec:risks}. In
+addition, the fuzzers used in \cite{caise_forum_18} were called into question,
+as they weren't validated as being representative of the behaviour being
+simulated.\par
+
+Further work building on these simulations did present itself, however.
+Particularly, more sophisticated variance introduced to the models which made
+use of the new technologies in PyDySoFu --- particularly the potential to model
+habit formation --- present themselves as future work building on the
+already-published material. To perform this research properly would require a
+degree of rigour and detail which was not present in the initial study of
+variance as a cross-cutting concern.\par
+
+Further work on the topic could be, then, to develop sophisticated models of
+socio-technical systems, and verify these simulations for use in later
+experimentation. These could be verified by experts in the domain. The same
+could be done for more advanced fuzzers, working with researchers in Psychology
+to ensure that the variance represented by the fuzzer was indicative of the
+variance seen in the real world. The result would be an accurate and validated
+model of socio-technical variance, which could prove otherwise elusive.\par
+
+This foundation then paves the way for more complex experimentation. Emergent
+phenomena could be spotted in socio-technical systems under stress that might not
+be spotted without accurate simulation of that stress. For example:
+safety-critical system literature makes reference to the degraded modes that
+systems enter when agents make simplifications to a procedure which, while
+innocuous on their own, interact to cause parts of a system to fail, often
+leading to unsafe systems. Degraded modes are a mechanism which can preserve
+vital system components until --- ideally --- failing components are put
+right. Once a verified model of a system under variance is developed, then,
+sophisticated assessments of the system's \emph{resilience} under
+socio-technical stress can be simulated.\par
+
+This technique could prove useful in a pragmatic sense, in industry: systems put
+in place in healthcare, public infrastructure, business systems such as supply
+chains, communication networks, and a host of similar real-world systems exhibit
+variance, but actively testing systems under different kinds of variance can be
+elusive as variance is difficult to model without treating it as a cross-cutting
+concern\cite{caise_forum_18}. Performing a monte-carlo simulation on a
+simulation under different kinds of stress, or the same stress under different
+initial conditions, or the same stress \emph{and} initial conditions with
+differing random seeds to represent real-world unpredictability, could allow a
+proposed system to be probed for flaws by assessing how well it holds up in
+real-world scenarios. Where socio-technical variance can be modelled as a
+cross-cutting concern separated from any given domain model, a library of
+variances can be composed, and then applied to a problem domain to probe its
+resilience under sociotechnical stress by plugging a problem domain into a suite
+of tests. While the motivation for the research \emph{could} have simply been
+the application of new technologies in PyDySoFu, then, it is instead motivated
+by this combined with a lack of these analyses in existing literature, and an
+opportunity to marry this research with industry requirements.\par
+
+
+
 % ==============================================================================
 \section{Resilience and its Literature}
 \label{sec:resilience}
 \todo{read absolutely any literature on resilience other than the couple of
   Hollnagel papers I've got}
-
-
-\section{PyDySoFu for Resilience Modelling}
-
 
 
 
@@ -417,9 +688,15 @@ powerful mathematical framework underlying it.\par
 \label{sec:risks}
 
 
+Even when process logs are found, socio-technical systems often exhibit chaotic
+behaviour, and a process log of one development system might not be
+representative of how another system behaves. It can therefore be difficult to
+verify the problem domain's validity \emph{before} verification.
 
-
-
+System science is hard and repeatable experimental design with software is still
+under active debate. We'll use unit tests where we can as hypotheses which pass
+or fail, and aspect orientation allows us to detail our experiments as a series
+of aspect calls representing a change to the expression of a problem domain. 
 
 
 % ==============================================================================
