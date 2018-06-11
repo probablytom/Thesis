@@ -1,4 +1,4 @@
-\documentclass[draft]{article}
+\documentclass{article}
 
 \include{preamble}
 
@@ -307,43 +307,41 @@ concerning \pdsf{}, some exploratory development of the tool was performed.\par
 % ==============================================================================
 \section{\pdsf{}'s initial state}
 \label{sec:pydysofu}
-\pdsf{}'s original version was an 80-line Python decorator for socio-technical
-modelling, called \emph{fuzzi moss}\cite{honours_thesis}. Since this
-initial development, \pdsf{} had gone through a series of improvements,
-culminating in a separation of the core dynamic fuzzing capacities from the
-socio-technical components of the tool. Rather than a tool for dynamic fuzzing,
-Fuzzi Moss had become a suite of fuzzers for socio-technical simulations built
-on top of \pdsf{}.\par
-
-\todo{Write a little about the technical underpinnings, where we rewrite
-  \_\_getattribute\_\_.}
+\pdsf{}'s original version was a small Python decorator for socio-technical
+modelling, called \emph{fuzzi moss}\cite{honours_thesis}. Since this initial
+development, \pdsf{} had gone through a series of improvements before this
+project began, culminating in a separation of the core dynamic fuzzing
+capacities from the socio-technical components of the tool. Rather than a tool
+for dynamic fuzzing, Fuzzi Moss had become a suite of fuzzers for
+socio-technical simulations built on top of \pdsf{}, which implemented dynamic
+fuzzing.\par
 
 Some types of socio-technical behaviour, however, were difficult if not
 impossible to implement via \pdsf{}'s method for fuzzing. Specifically,
-\emph{habit formation} and \emph{complex conditional fuzzing} were difficult if
+habit formation and complex conditional fuzzing were difficult if
 not impossible to implement via \pdsf{}'s approach, because:
 
 \begin{itemize}
 \item It wasn't possible to specify, via one of \pdsf{}'s aspects, future
   fuzzing based on the previous return value of a target.\\
-  This is important, because we often fuzz a workflow in real-life
-  socio-technical systems when we know what the outcome of a previous change is.
-  For example, after a workflow change leads to an unsafe situation in a safety
-  critical system such as a rail network, the agent concerned is likely to amend
-  their behaviour in future.
-\item It wasn't possible to develop fuzzers which had a native concept of
-  \emph{state} over time. That is: fuzzers could be considered as graph
-  transforms, which were completely unaware of previous variants developed.
-  Implementing this would make solving the issue above easier also. This was
-  important, because there are scenarios where adaptation in a socio-technical
-  system is unlikely to occur for a second time if it's already been tried, or
-  if the adaptation led to poor results in the past.
+  This is important, because we often alter a workflow in real-life systems when
+  we know what the outcome of a previous change is. For example, after a
+  workflow change leads to an unsafe situation in a safety critical system such
+  as a rail network, the agent concerned is likely to amend their behaviour in
+  future.
+\item It wasn't possible to develop fuzzers which had a native concept of state
+  over time. That is: fuzzers could be considered as graph transforms, which
+  were completely unaware of previous variants developed. Implementing this
+  would make solving the issue above easier also. This was important, because
+  there are scenarios where adaptation in a socio-technical system is unlikely
+  to occur for a second time if it's already been tried, or if the adaptation
+  led to poor results in the past.
 \end{itemize}
 
 Both issues were resolved by separating \pdsf{}'s fuzzing capabilities into a
-package of its own, and solving these problems on the level of \emph{aspect
-  orientation} itself. Rather than iterating on \pdsf{}, \pdsf{} was built as
-a a collection of ``fuzzing aspects'' implemented in a framework which
+package of its own, and solving these problems on the level of aspect
+  orientation. Rather than iterating on \pdsf{}, \pdsf{} was built as
+a collection of ``fuzzing aspects'' implemented in a framework which
 splintered from \pdsf{}'s codebase, called ``ASP''.\par
 
 
@@ -354,23 +352,21 @@ place.\par
 
 Where \pdsf{} injected functionality into an overridden
 \texttt{\_\_getattribute\_\_} definition, ASP does the same --- but where
-functionality was represented as a function which transformed an AST, ASP fuzzes
-using objects. Where objects have special methods defined, ASP injects
-functionality according to those methods. The special methods it picks up ---
-\texttt{prelude}, \texttt{encore}, \texttt{around}, and \texttt{error\_handling},
-are detailed in \cref{app:special_methods}.
+functionality was represented as a \emph{function} which transformed an AST, ASP
+fuzzes using \emph{objects}. If these objects have special methods defined, ASP
+injects functionality according to those methods. The special methods it picks
+up --- \texttt{prelude}, \texttt{encore}, \texttt{around}, and
+\texttt{error\_handling}, are detailed in appendix 1.
 
+In implementing these pieces of functionality, the foundation for \pdsf{} became
+an aspect orientation library capable of capturing return values of fuzzed
+functions, and storing information pertinent to the fuzzing process --- in
+particular, results and the variants that produced them --- in the fuzzer's
+internal state, because fuzzers can now be objects satisfying the requirements
+for ASP to use them as aspects.\par
 
-In implementing these pieces of functionality, the foundation for \pdsf{}
-became a fully-fledged aspect orientation library capable of capturing return
-values of fuzzed functions, and storing information pertinent to the fuzzing
-process --- results, variants, and anything else pertinent to the fuzzing case
---- in the fuzzer's internal state, because fuzzers can now be objects
-satisfying the requirements for ASP to use them as aspects.\par
-
-The work remaining at this stage is to rewrite \pdsf{}'s fuzzing procedure to
+The work remaining at this stage was to rewrite \pdsf{}'s fuzzing procedure to
 be built on top of ASP.\par
-
 
 
 % ==============================================================================
@@ -378,24 +374,17 @@ be built on top of ASP.\par
 \label{sec:pdsf_improvements}
 As the above work satisfied the requirements for more complex fuzzing to be
 built using \pdsf{}, the stage had been set to rewrite the library's core
-functionality on top of ASP.\par
-
-The procedure for doing this turned out to be relatively painless, thanks to
-ASP's implementation being drawn from \pdsf{}'s original mechanisms. Using
-features already existing from earlier releases of \pdsf{}, such as the
-application of a fuzzer to a target via a \texttt{fuzz\_function} function.
-Implementation of the previous functionality in \pdsf{} turned out to be the
-implementation of a single class, an example of which can be found in
-\cref{app:fuzzing_aspect}.\par
-
+functionality on top of ASP. Implementation of the previous functionality in
+\pdsf{} turned out to be the implementation of a single class, which could reuse
+existing \pdsf{} mechanisms, an example of which can be found in appendix 2.\par
 
 A benefit of ASP's object-oriented approach is that additional functionality can
-be implemented by simple subclassing of the original FuzzingAspect, where a call
-to \texttt{self.apply\_fuzzing} can apply actual fuzzing functionality, leaving
-the subclass concerned only with additional features.\par
+be implemented by simple subclassing of the original \texttt{FuzzingAspect},
+where a call to the \texttt{self.apply\_fuzzing} method can apply actual fuzzing
+functionality, leaving the subclass concerned only with additional features.\par
 
 New fuzzers, implementing more complex behaviours, were then implemented and
-tested. Specifially, the \texttt{IncrementalImprover} fuzzer class generates
+tested. Specifically, the \texttt{IncrementalImprover} fuzzer class generates
 \emph{multiple} variants of a target, and fuzzes in a manner similar to the
 above\footnote{As the code for \texttt{IncrementalImprover} is long and complex,
   it has been omitted here, but can be found in the project
@@ -404,18 +393,18 @@ of ASP's introduction of catching return values to record the success of
 different variants, and to generate future variants by applying fuzzing to
 successful previous variants.\par
 
-This additional funtionality is especially important for more complex
+This additional functionality is especially important for more complex
 socio-technical simulations. For example: \pdsf{}'s original functionality
 permitted the same function to be fuzzed again and again with random results
 each time, but fuzzing could not be stacked across multiple invocations of a
-workflow step, i.e. introducing variance once, and then introducing
-further variance where previous variance \emph{persisted through time}.\par
+workflow step, i.e. introducing variance once, and then introducing further
+variance where previous variance \emph{persisted}.\par
 
 The \texttt{IncrementalImprover} is therefore a proof-of-concept for more
-sophisticated simulations of socio-technical variance, and --- while the
-functionality has not yet been introduced into Fuzzi Moss, this functionality is
-intended to permit simulations specifically around instances of variance such as
-habit formation.\todo{Anything else to say here?}\par
+sophisticated simulations of socio-technical variance and --- while the
+functionality has not yet been introduced into Fuzzi Moss --- it is intended to
+permit simulations specifically around instances of variance such as habit
+formation.\par
 
 
 \section{Segue: Genetic Programming}
@@ -441,11 +430,11 @@ variants in future generations. This approach takes the typical AST-style
 genetic modification, and employs it to attempt to solve regular genetic
 programming problems.\par
 
-Symbolic regression, a canonical genetic programming problem, was attempted then
-using an alternative technique to traditional genetic programming angles, such
+Symbolic regression, a canonical genetic programming problem, was attempted
+using this alternative technique to traditional genetic programming angles (such
 as constructing a tree representing a solution to a
 problem\cite{koza1994genetic}, or constructing more sophisticated directed
-graphs which can converge on solutions faster\cite{cartesian_gp}. These
+graphs\cite{cartesian_gp}). These
 techniques inherently attempt to solve problems in a somewhat functional style.
 Dynamic fuzzing, however, allows an imperative-style solution to a problem to be
 engineered, where things like state can be manipulated by the solution via the
@@ -453,18 +442,19 @@ AST. Some variants of genetic programming, such as stack-based genetic
 programming, also attempt this\cite{stack_based_gp} but ultimately rely on the
 same fundamental functional style of other approaches.\par
 
-To implement Genetic Programming in \pdsf{}, once the
-\texttt{IncrementalImprover} had been implemented, did not require a significant
-amount of change to the library. Changes in ASP and \pdsf{} to permit fuzzers
-which could record a history of their fuzzing were sufficient to implement
-a \texttt{GeneticImprover}, by subclassing the \texttt{IncrementalImprover}. As
+Implementing genetic programming in \pdsf{} did not require a significant amount
+of change to the library once the \texttt{IncrementalImprover} had been
+implemented. Changes in ASP and \pdsf{} to permit fuzzers which could record a
+history of their fuzzing were sufficient to implement a
+\texttt{GeneticImprover}, by subclassing the \texttt{IncrementalImprover}. As
 new rounds are generated in the \texttt{GeneticImprover}, successful previous
-variants are not just kept, but their ASTs \emph{spliced together} to mimic the
-recombination found when comparing tree solutions in ordinary
-genetic programming\cite{koza1994genetic}. A symbolic regression was implemented
-using this to confirm that it worked as intended, the source of which can be
-found in the \pdsf{} repository\cite{pydysofu_repo}, and a paper outlining the
-work in more detail found at \cite{realx_paper}.
+variants are not just kept, but their ASTs spliced together to mimic the
+recombination performed when comparing tree solutions in ordinary genetic
+programming\cite{koza1994genetic}. A symbolic regression converging to typical
+test polynomials was implemented using this to confirm that it worked as
+intended, the source of which can be found in the \pdsf{}
+repository\cite{pydysofu_repo}, and a paper outlining the work in more detail
+found at \cite{realx_paper}.
 
 
 
@@ -472,11 +462,12 @@ work in more detail found at \cite{realx_paper}.
 \label{part:resilience}
 \section{Direction Change}
 Evidently, \pdsf{}'s core concept --- dynamic fuzzing --- is applicable to many
-different fields, and poses a variety of research opportunities:
+different fields, and poses a variety of research opportunities, including:
 
 \begin{itemize}
-\item Use for introducing variance socio-technical simulations\cite{honours_thesis}
-\item Implementation of Genetic Programming
+\item Use for introducing variance to socio-technical
+  simulations\cite{honours_thesis}
+\item Implementation of Genetic Programming\cite{realx_paper}
 \item Design of aspect orientation frameworks capable of modifying their targets
   directly, rather than wrapping them, as is the case with traditional AOP
   techniques\cite{aspectj}.
@@ -511,22 +502,22 @@ degree of rigour and detail which was not present in the initial study of
 variance as a cross-cutting concern.\par
 
 Further work on the topic could be, then, to develop sophisticated models of
-socio-technical systems, and verify these simulations for use in later
-experimentation. These could be verified by experts in the domain. The same
-could be done for more advanced fuzzers, working with researchers in Psychology
-to ensure that the variance represented by the fuzzer was indicative of the
-variance seen in the real world. The result would be an accurate and validated
-model of socio-technical variance, which could prove otherwise elusive.\par
+socio-technical systems for use in later experimentation. These could be
+verified by experts in the domain. The same could be done for more advanced
+fuzzers, working with researchers in Psychology to ensure that the variance
+represented by the fuzzer was indicative of the variance seen in the real world.
+The result would be an accurate and validated model of socio-technical variance,
+which could prove otherwise elusive.\par
 
 This foundation then paves the way for more complex experimentation. Emergent
-phenomena could be spotted in socio-technical systems under stress that might not
-be spotted without accurate simulation of that stress. For example:
-safety-critical system literature makes reference to the degraded modes that
-systems enter when agents make simplifications to a procedure which, while
-innocuous on their own, interact to cause parts of a system to fail, often
-leading to unsafe systems. Degraded modes are a mechanism which can preserve
-vital system components until --- ideally --- failing components are put
-right. Once a verified model of a system under variance is developed, then,
+phenomena could be spotted in socio-technical systems under stress that might
+not be spotted without accurate simulation of that stress. For example:
+safety-critical system literature makes reference to the states that systems
+enter when agents make simplifications to a procedure which, while innocuous on
+their own, interact to cause parts of a system to fail, often leading to unsafe
+systems\cite{johnson_shea_rail}. Degraded modes are a mechanism which can
+preserve vital system components until --- ideally --- failing components are
+put right. Once a verified model of a system under variance is developed, then,
 sophisticated assessments of the system's \emph{resilience} under
 socio-technical stress can be simulated.\par
 
@@ -543,11 +534,10 @@ proposed system to be probed for flaws by assessing how well it holds up in
 real-world scenarios. Where socio-technical variance can be modelled as a
 cross-cutting concern separated from any given domain model, a library of
 variances can be composed, and then applied to a problem domain to probe its
-resilience under socio-technical stress by plugging a problem domain into a suite
-of tests. While the motivation for the research \emph{could} have simply been
-the application of new technologies in \pdsf{}, then, it is instead motivated
-by this combined with a lack of these analyses in existing literature, and an
-opportunity to marry this research with industry requirements.\par
+resilience under socio-technical stress by plugging a problem domain into a
+suite of tests. the research is instead motivated by a seeming lack of these analyses in
+existing literature, and an opportunity to marry this research with industry
+requirements.\par
 
 
 
@@ -567,7 +557,7 @@ Grid\cite{hollnagel_RAG} --- its ability to ``respond, monitor, learn, and
 anticipate''\footnote{It is difficult not to see some parallels between these
   four traits and the improvements to \pdsf{} made possible by ASP.}. Indeed,
 finding literature on quantitative methods for resilience engineering proves
-fruitless, and qualitative perspectives are plentiful. This research direction
+fruitless, though qualitative perspectives are plentiful. This research direction
 was chosen fairly recently, however, and so more reading is required for a
 firmer grip on the current state of resilience in system science.\par
 
@@ -579,13 +569,13 @@ resilient ecosystems\cite{public_sediment}.\par
 
 What makes design so interesting as a repository of literature on system
 resilience is the field's increasingly deep connection to industry and practical
-work\footnote{though practical and pragmatic aren't necessarily the same thing
-  here}; design is increasingly focused around the implementation of solutions
+work\footnote{Though practical and pragmatic aren't necessarily the same
+  thing.}; design is increasingly focused around the implementation of solutions
 to problems identified in the world via the application of ``systems thinking''.
 Where many scientific articles on resilience, and system science generally, are
 retrospective analyses of relevant scenarios(such as \cite{johnson_shea_rail})
 or theoretical in nature(such as \cite{statistical_physics_self_replication}),
-design work often \emph{proposes implementable solutions}, using theory from
+design work often \emph{proposes implementable solutions}, using the theory from
 relevant fields such as systems theory and cybernetics, to fix problems raised
 by these retrospective analyses.\par
 
@@ -593,15 +583,13 @@ In many ways, design has evolved to become the hands by which system science and
 its related fields mould the world.\par
 
 This research project is squarely rooted in computing science, however, and a
-focus on design will serve to distract more than to inform. An awareness of the
-field helps to guide this research in helpful directions, though. Tools and
-techniques within design which natively support quantitative analysis, and an
-integration of quantitative analysis into less formal methods, would contribute
-to the front lines of system science in a practical sense, and might provide a
-second measurable benefit for this work by making a measurable impact to those
-working with resilience in the real world.\par
+focus on design will serve to distract more than to inform. Still: an awareness
+of the field helps to guide this research in helpful directions. Integrations
+with existing design methods, and an understanding of how modelling is often
+performed --- qualitatively \emph{and} quantitatively --- can help develop
+research with industrial relevance that can support future work.\par
 
-Importantly, these different fields take different approaches to what resilience
+Importantly, different fields take different approaches to what resilience
 \emph{means}. Within computing science, for
 example\cite{biology_software_same_coin}:
 
@@ -621,8 +609,8 @@ definition feels more appropriate\cite{hollnagel_RAG}:
 \end{displayquote}
 
 Being aware of what we mean when we talk about resilience is clearly essential
-for this research. Next steps for this project as it orients itself around
-resilience are:
+for this research. Some immediate next steps for this project as it orients
+itself around resilience are:
 
 \begin{enumerate}
 \item Process additional literature surrounding resilience
@@ -631,28 +619,6 @@ resilience are:
   make, keeping it within domain, while increasing how evaluable it is by
   considering how design makes system science pragmatic
 \end{enumerate}
-
-
-% ==============================================================================
-\section{Thesis Statement}
-\label{sec:thsis_statement}
-Resilience as an emergent property of a socio-technical system can be difficult
-to reason about quantitatively, as gathering information around a system's
-resilience to stress typically means either constructing complex models
-including variance and uncertainty in the problem domain, or exposure of a
-prototype system to real-world scenarios, both of which are impractical to build
-and intractable to validate.\par
-
-Dynamic fuzzing offers a solution. Introducing variance as a cross-cutting
-concern reduces the complexity of resulting system models, permitting simpler
-problem domains and implementations of variance. The simplicity of each
-component permits tractable model validation in turn. Validated models can then
-be experimented on, and the model's resilience to socio-technical stress
-quantified. Where variance is modelled in non-domain-specific ways, suites of
-tests can be built for socio-technical systems where verified domain models can
-be exposed to a simulation of real-world variance, and their response to that
-variance realistically measured or asserted.\par
-
 
 
 % ==============================================================================
@@ -701,52 +667,40 @@ already underway so as to avoid later delay.\todo{Gotta get me one of those good
 Gantt charts...}\par
 
 
-\subsection{Speculative Additional Work}
-% Work with system design in GSA for testing systems for resilience during
-% design phase
-Performing this work properly will take a significant amount of time, and is
-expected to last for the duration of the PhD. However, it is possible that ---
-even with careful rigour and patience --- time remains at the end for additional
-work. If this happens, plenty of additional research opportunities present
-themselves around the central conceit of this research. For example, testing
-systems \emph{during} their design phase could help to inform researchers about
-the resilience of systems before their deployment. Work with industry to explore
-the tool's practical use could yield interesting case studies, and Glasgow
-School of Art have relevant projects around system design where collaboration
-may be possible.\par
 
+% ==============================================================================
+\section{Thesis Statement}
+\label{sec:thsis_statement}
+Resilience as an emergent property of a socio-technical system can be difficult
+to reason about quantitatively, as gathering information around a system's
+resilience to stress typically means either constructing complex models
+including variance and uncertainty in the problem domain, or exposure of a
+prototype system to real-world scenarios, both of which are impractical to build
+and intractable to validate.\par
 
-% Growing more resilient domain models using GP
-Other directions make use of the genetic programming features of \pdsf{}.
-Informed by both literature on genetic metaprogramming, often used for the
-improvement of a codebase, and planned research using \pdsf{} to assess
-resilience, a potential research direction could be to use resilience of a
-system as its fitness function, and to have \pdsf{} produce variants of a
-system which are progressively more resilient to socio-technical stress. An
-appealing feature of this approach is that a log could be taken of the fuzzers
-used to create each successive variant used to arrive at a given generation; if
-each fuzzer represents an \emph{improvement}, rather than some socio-technical
-mistake, then the series of improvements taken to get from an initial domain
-model to one which is quantitatively more resilient could represent a series of
-small-scale changes which, when implemented in sequence, should yield a more
-resilient real-world system. System architects could use this to improve
-existing systems in nominally safe ways. However, performing this research to
-the required depth would likely take too long to include in these studies.\par
+Dynamic fuzzing offers a solution. Introducing variance as a cross-cutting
+concern reduces the complexity of resulting system models, permitting simpler
+problem domains and implementations of variance. The simplicity of each
+component permits tractable model validation in turn. Validated models can then
+be experimented on, and the model's resilience to socio-technical stress
+quantified. Where variance is modelled in non-domain-specific ways, suites of
+tests can be built for socio-technical systems where verified domain models can
+be exposed to a simulation of real-world variance, and their response to that
+variance realistically measured or asserted.\par
 
 
 % ==============================================================================
 \section{Risks and Mitigating Actions}
 \label{sec:research_risks}
-
-
 One significant risk to the project is that many enticing directions are
 available, as dynamic fuzzing appears to be a versatile and useful technique
-with many exciting applications. It will therefore be important to keep in
-perspective the balance between breadth and depth required of a PhD. In an
+with many exciting applications\footnote{Some potential future work deemed out
+  of scope can be found in appendix 3.}. It will therefore be important to keep
+in perspective the balance between breadth and depth required of a PhD. In an
 effort to stay focused, the project has been planned out with its constituent
 case studies, so as to maintain direction when other interesting research
-opportunities present themselves.\todo{my Gantt chart is too big...include in an
-  appendix? Can I supply a spare file at the end?}\par
+opportunities present themselves. A Gantt chart of this project plan can be
+found in appendix 4.\par
 
 Another risk is that verifying and validating systems science with empirical
 data is very difficult, and designing scientifically valid experiments around
@@ -771,9 +725,9 @@ making the model easier to validate with experts.\par
 
 The project has undergone a radical shift in direction in a relatively late
 stage. Ultimately, the back-and-forth of exploratory work yielded a paper
-submission\cite{realx_paper}, a number of research opportunities, and perspective on
-the systems modelling field and the research directions that might be both
-fruitful and suitable to PhD research.\par
+submission\cite{realx_paper}, a number of identified research directions, and
+perspective on the systems modelling field and the angles that
+might be both fruitful and suitable to PhD research.\par
 
 With this perspective, a new research angle has been devised. The new angle
 addresses opportunities both in literature and in industry, has a more
@@ -886,6 +840,43 @@ class FuzzingAspect(IdentityAspect):
   \caption{The implementation of a basic fuzzing aspect}
 \end{figure}
 
+
+\newpage
+\section*{Appendix 3: Speculative Additional Work}
+% Work with system design in GSA for testing systems for resilience during
+% design phase
+Performing this work properly will take a significant amount of time, and is
+expected to last for the duration of the PhD. However, it is possible that ---
+even with careful rigour and patience --- time remains at the end for additional
+work. If this happens, plenty of additional research opportunities present
+themselves around the central conceit of this research. For example, testing
+systems \emph{during} their design phase could help to inform researchers about
+the resilience of systems before their deployment. Work with industry to explore
+the tool's practical use could yield interesting case studies, and Glasgow
+School of Art have relevant projects around system design where collaboration
+may be possible.\par
+
+
+% Growing more resilient domain models using GP
+Other directions make use of the genetic programming features of \pdsf{}.
+Informed by both literature on genetic metaprogramming, often used for the
+improvement of a codebase, and planned research using \pdsf{} to assess
+resilience, a potential research direction could be to use resilience of a
+system as its fitness function, and to have \pdsf{} produce variants of a
+system which are progressively more resilient to socio-technical stress. An
+appealing feature of this approach is that a log could be taken of the fuzzers
+used to create each successive variant used to arrive at a given generation; if
+each fuzzer represents an \emph{improvement}, rather than some socio-technical
+mistake, then the series of improvements taken to get from an initial domain
+model to one which is quantitatively more resilient could represent a series of
+small-scale changes which, when implemented in sequence, should yield a more
+resilient real-world system. System architects could use this to improve
+existing systems in nominally safe ways. However, performing this research to
+the required depth would likely take too long to include in these studies.\par
+
+
+\newpage
+\includepdf[pagecommand=\section*{Appendix 4: Project Plan}]{gantt.pdf}
 
 
 \end{document}
