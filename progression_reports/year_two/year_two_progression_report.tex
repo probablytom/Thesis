@@ -1,0 +1,719 @@
+% Created 2019-06-22 Sat 23:19
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{grffile}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{todonotes}
+\usepackage{indentfirst}
+\usepackage{cleveref}
+\usepackage{float}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{listings}
+\newcommand{\ampersand}{\&}
+\author{Tom Wallis}
+\date{June 2019}
+\title{Year Two Progression Report}
+\hypersetup{
+ pdfauthor={Tom Wallis},
+ pdftitle={Year Two Progression Report},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 25.3.1 (Org mode 9.2.1)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\begin{abstract}
+\todo{Fix tildes showing after compilation when used as non-breaking spaces}
+\end{abstract}
+
+
+\section{Introduction}
+\label{sec:org59a97d5}
+
+The previously submitted progression report began,
+
+
+\begin{quote}
+Systems modelling is a fascinating field, largely as a result of its highly
+interdisciplinary nature. This nature is both a blessing and a curse.
+\end{quote}
+
+Reflecting on the last year, it is clear that what was seen as a complexity of
+the research imposed by its nature was actually a symptom of a lack of
+direction. In determining a clear direction, the following year has seen more
+focused and directed research.
+
+\todo{Rewrite this}
+This viva report will therefore be divided into three parts: a summary of the
+previous report and outcome of the previous viva in
+\cref{part:previous_viva_summary}, a discussion of the work the following year
+has contained in \cref{part:following_work}, and a discussion as to the work
+anticipated in the coming year in \cref{part:future_work}. The report will
+summarise with a conclusion.
+
+
+\part{Review of Previous Progression}
+\label{part:previous_viva_summary}
+
+The work proposed after the original thesis consisted of, in summary:  
+
+\begin{itemize}
+\item A proof-of-concept validated model of car production, built from a game
+produced by Rob Dekkers for his students at the Adam Smith Business School
+\item A second case study, building a model around extant process logs
+\item A larger, industrial-scale case study produced in collaboration with the
+PhD's industrial sponsors, in the third year
+\end{itemize}
+
+The first two projects, planned in the interim year of the PhD, were to have
+been completed by this point. In overview, the work for the year progressed as
+follows: \par
+
+\begin{center}
+\begin{tabular}{r p{9cm}}
+\bf{Summer} & Literature reading and response to viva corrections \\
+\bf{Autumn \& Winter} & Development of frameworks for building and running simulations \\
+\bf{Winter → Now} & Development of alternative libraries for agent-based simulation;
+development of model based on process mining challenge from 2012 with collaborator \\
+\end{tabular}
+\end{center}
+
+The rest of this part of the report is comprised of an account of these three
+phases of work, their strengths and weaknesses, and how they culminated into the
+current state of the project.
+
+\section{Reading \ampersand{} Viva Correction Responses}
+\label{sec:orgf31641c}
+
+The outcome of the previous viva were two corrections: a stronger thesis
+statement, and a focus on a particular direction. The work as described last
+year had ambitions of work in both high- and low-level domains, but this was not
+an appropriate project scope for a PhD. Instead, it was necessary to choose an
+element of the work and narrow down a more appropriate project within the chosen
+area.
+
+\todo{insert photo of Jeremy's diagram from 1st year viva here}
+
+In the choice between focusing on high-level modelling using program fuzzing,
+and low-level safety with regards the application of fuzzing, it was decided
+that high-level modelling was the better option. This was because the software
+used to apply process fuzzing in our models, PyDySoFu\cite{pydysofu_repo},
+operates not unlike macros in LISP. Neither myself, nor anybody involved in this
+project, was especially familiar with language design in this family, and the
+work already undertaken did not lend itself to pivoting in this direction. In
+addition, earlier work in the project \emph{did} lend itself to studying the
+application of process fuzzing to models.
+
+This stage of work required re-orientation around a new research landscape, so
+as to uncover well-scoped and relevant problems. Seeking communities who
+frequently model socio-technical systems with significant human components,
+\emph{process mining} literature was surveyed. As defined in
+\cite{process_mining_research_agenda},
+
+\begin{quote}
+We use the term process mining for the method of distilling a structured process
+description from a set of real executions.
+\end{quote}
+
+\todo{Rephrase the last part of this para?} Necessary to this work is access to
+extant process logs. However, it can be difficult to find large-scale process
+logs available to research teams: collecting the data requires access to
+large-scale systems, and companies are seem unwilling to provide logs from these
+systems publicly. In addition, collecting clean data appears to be a problem in
+the research community; some researchers have begun to focus on reducing noise
+in the data they collect\textasciitilde{}\cite{log_noise_removal}, while others focus on
+producing data with controllable
+characteristics\textasciitilde{}\cite{secsy,on_bp_variant_generation}. Data generation is an
+area which is garnering some attention in the community, and existing tools and
+notations are beginning to be altered in the pursuit of executable models which
+produce useful log traces\cite{aalst_generating_logs}. Process Mining has seen
+significant success industrially\cite{threegoodreasons}, but projects without
+significant industrial participation can be expected to struggle to find useful,
+readily available data sets. As a result, data taken from process mining
+challenges is used, such as in\textasciitilde{}\cite{mattia_sts}; this results in few data sets
+available to replicate findings in the literature, and risks the development of
+the field being founded on data sets lacking diversity.
+
+
+
+
+\todo{Finish the reading section}
+
+As a conclusion to this reading, three new research questions were formulated,
+and a stronger thesis statement constructed.
+
+\subsection{Improved Thesis Statement}
+\label{sec:orgd0793a5}
+\label{subsec:improved_thesis_statement}
+
+The improved thesis statement is as follows:
+
+\begin{quote}
+While much attention is paid to models of socio-technical systems,
+introduction of uncertainty into a model makes analysis of processes (and their
+outcomes) intractably complex at human or industrial scale. However, dynamic
+fuzzing may enable modellers to denote variance of process in such a way that it
+is tractable to build plausible models, that produce realistic data and traces
+about the behaviour of the model’s subject. We posit that models built using
+dynamic fuzzing can produce realistic data, and that the data is sufficiently
+similar to real-world data to supplement or complete existing process logs, even
+for systems whose behaviours exhibit adaptive properties.
+\end{quote}
+
+\subsection{New Research Questions}
+\label{sec:orgf81a65a}
+
+The updated research questions for the PhD are as follows:
+
+\begin{description}
+\item[RQ1] Can we generate plausible synthetic traces and/or emergent properties from a
+   socio-technical system simulation using non-adaptive dynamic fuzzing?
+\item[RQ2] Can we reconstruct plausible complete synthetic traces and/or emergent
+   properties from a socio-technical system simulation by using partial logs
+   from those systems.
+\item[RQ3] Can we generate plausible synthetic traces and/or emergent properties from a
+   socio-technical system simulation that incorporates adaptive behaviour using
+   adaptive dynamic fuzzing.
+\end{description}
+
+
+
+
+\todo\{Aspect-oriented modelling already exists --- what can I bring to the
+table?\}
+
+
+
+
+
+
+
+\part{Assessment of Current Work}
+\label{part:following_work}
+
+
+
+
+\section{Producing Modelling Frameworks}
+\label{sec:org4b04f48}
+
+Early in the year, it was anticipated that the initial experiment to answer RQ1
+might be found by simulating players of a game developed at the Adam Smith
+Business School. The game sees sets of players acting as different departments
+of a car production company, who gradually build cars to a given specification
+from LEGO pieces\cite{qpq_game}. Unfortunately, due to a number of factors
+including incomplete documentation and unclear details in the documented
+sections of the game, this experiment gave way to a second model described
+in\textasciitilde{}\cref{sec:mattia_model}. In attempting this experiment, however, tooling for
+producing fuzzed models was developed --- as this tooling has some influence on
+the anticipated future work (as discussed in\textasciitilde{}\cref{part:future_work}), it
+warrants some discussion.
+
+\subsection{Workflow Graphs}
+\label{sec:org841b5a7}
+\label{subsec:workflow_graphs}
+
+In reviewing previous models built with PyDySoFu\textasciitilde{}\cite{pdsf_paper}, as well as
+reflecting on advice from other academics (including from the previous viva), it
+became clear that manipulating a model using the techniques made available in
+PyDySoFu made constructing a large model which could be verified to represent
+what was intended after fuzzing rather difficult, due to it operating on a low
+level. Instead of this representation, an abstract, higher-level representation
+of a business process was sought. In determining what this abstraction had to
+represent, details of the systems being modelled needed to be identified. The
+requirements of the modelling tool were to model systems which:
+
+\begin{itemize}
+\item Operate on discrete, tick-based units of time
+\item Support workflow-style simulation
+\item Allow concurrent actors operating on the same or interacting workflows
+\item Were simpler to construct and manipulate than previously built PyDySoFu models
+\end{itemize}
+
+The solution decided upon was to build a graph, where every node on the graph
+represented a function\footnote{Referred to as "workflow graphs" from here on.}.
+Traversal of the graph was performed by visiting future nodes and running their
+associated function; functions were scoped so as to be able to affect the graph
+itself, therefore permitting dynamic change to the flow of the model
+\emph{separately} to changing the actions represented by each node on the graph.
+
+Where more than one future node could exist, a \texttt{decision} node is inserted
+before the fork, the associated function for which determines the future path to
+be taken. Decision nodes are eventually followed by \texttt{join} nodes. These allow
+paths to converge. The design here was intended to be structurally similar to a
+block-structured process, commonly held in a process structure
+tree\textasciitilde{}\cite{thesis_process_structure_trees}. Workflow Graphs were intended to
+mimic the design of process structure trees, leading to the internal
+representation of workflow graphs implemented as a list representation of a
+tree.
+
+Process structure trees are limited, in that they can represent only
+block-structured processes\textasciitilde{}\cite{thesis_process_structure_trees}. To overcome
+this limitation, \texttt{jump} nodes can be inserted into a workflow graph which break
+out of a given block in a process, and navigate to an arbitrary point on the
+graph. This requires that the destination of the jump have a known label; upon
+construction, nodes may have labels as arbitrary string values.
+
+The decision to design the workflow graphs in this way was made because the
+intention was to construct models in a notation similar to a Behaviour Driven
+Development (BDD) specification. Such specifications appear to have been adopted
+industrially, implying that defining unit tests in their English-like notation
+makes them easier to write than alternatives\footnote{Though it is important to
+observe that this is a \emph{hypothesis}, and not a statement of fact.}. An example
+of the notation for constructing workflow graphs, as implemented as a Python
+framework with a method chaining syntax to replicate a BDD
+spec\cite{wfgraphs_repo}, can be seen in \cref{fig:wfgraphs_example_code}.
+
+
+\begin{figure}
+\begin{center}
+\begin{lstlisting}[language=python]
+manager_receives_car\
+    .begin_with(do_nothing)\
+    .decide_on(car_made_correctly) \
+    .when(False).then(send_car_to_relevant_department)\
+    .when(True)\
+    .then(deliver_car_to_customer)\
+    .then(fill_out_order_form)\
+    .then(update_cars_delivered)\
+    .join()\
+    .then(End)
+\end{lstlisting}
+\end{center}
+\caption{Example workflow from the model of car production.}
+\label{fig:wfgraphs_example_code}
+\end{figure}
+
+\todo{Fix the cref on the code sample}
+
+Unfortunately, the design of this notation had an important flaw, which was that
+breaking the notation's generally block-structured properties required using a
+goto-style statement which was both difficult to reason about. In addition, the
+additional steps proved, in practice, to reduce the clarity of the notation
+enough that the design did not achieve its primary purpose of being clean to
+construct and assess models in.
+
+Though this project did not achieve its goals, work on this has led to further
+ideas on how dynamically changing models should be constructed. This is explored
+further in \cref{sec:future_notation}.
+
+\section{BPI Simulation Model \ampersand{} Collaboration}
+\label{sec:org9c70ad4}
+\label{sec:mattia_model}
+After attempting to produce this notation, focus was paid to a second
+small-scale model in answering Research Question 1. At a 2018 conference, a
+collaboration with the Polytechnic University of Milan was formed around the
+generation of realistic data.
+
+This project saw a model of the BPI 2012 challenge for process mining
+implemented in raw python, using a similar workflow modelling technique to that
+used in earlier work\cite{pdsf_paper}, as the previously developed modelling
+notation was deemed unsuitable. The model is based on a BPMN model
+produced via process mining on the challenge's dataset\cite{van3536bpi} for
+testing a socio-technical modelling tool. Synthetic log traces are consumed by
+the tool, which identifies security vulnerabilities the data according to a set
+of policies associated with the BPMN model. A model which produces this data,
+and can undergo simple fuzzing, is available\cite{bpi_model_repo}. 
+
+The stages of this project is as follows:
+
+\begin{enumerate}
+\item Develop a model and produce data conformant to the BPMN model of the 2012 BPI
+challenge, as provided
+\item Show that this model can undergo behaviour-representative fuzzing, such as
+workflow steps being missed out or repeated. This would produce an output
+similar to what can be achieved with other research in noisy event log
+generation\cite{secsy,on_bp_variant_generation}. Variation in behaviour may,
+in certain cases, be security-critical --- in this case security policies can
+be shown to be violated by the project's collaborators.
+\item Develop in-process fuzzing which is contingent on model state during
+execution so as to represent plausibly realistic change to behaviour. In
+doing so, it should be feasible to show that under change to prescribed
+behaviour (which can be expected from a fallible human actor), certain parts
+of a workflow may show high levels of security-critical deviation in a
+real-world environment.
+\end{enumerate}
+
+Steps 1 \ampersand{} 2 have been completed successfully, and have been tested with the
+project's collaborators to confirm that the data produced by the model conforms
+to their BPMN model, and produces detectable variance in behaviour against their
+security policies.
+
+Completion of step 3 is now underway; development of a model of knowledge gain
+over time in human actors in a socio-technical system, as developed by Hanakawa
+et. al\cite{hanakawa}. We anticipate modelling low-knowledge actors as repeating
+steps out of a lack of confidence (or forced to as a result of making mistakes),
+and high-knowledge actors skipping steps as a result of overconfidence and the
+use of time-saving techniques. In addition, high-knowledge actors may begin to
+perform actions usually outside of their permissions. In this way, the model
+should fall into a degraded mode\cite{degraded_modes}, which will be represented
+as (detectable) anomalies in the outputted event log.
+
+If the model can be constructed successfully, this should provide an answer to
+RQ1: models of real-world knowledge gain (and its impact on actor performance)
+would have been constructed using dynamic fuzzing\footnote{Definitions of these terms
+are provided in \cref{app:definitions}.}.
+
+
+
+
+
+\part{Plans for Completion of PhD Research}
+\label{part:future_work}
+
+\section{Possible directions}
+\label{sec:org34ca36a}
+
+By the time the next viva approaches, the research component of the PhD will
+hopefully be drawing to a close, and after the waning months that follow,
+preparation for writing up should be beginning. This is significant because it
+implies that the future work section of this document lays a blueprint for what
+might be the rest of the research portion of the PhD.
+
+Two options for progressing through the approaching year present themselves:
+
+\begin{enumerate}
+\item Pursue research similar to the original research questions laid out in the
+corrections of the previous progression viva
+\item Pursue amended research questions related to representing and constructing
+fuzzed models, as they have presented themselves in the following months
+\end{enumerate}
+
+The motivating case for the first option is the same as it has always been:
+fuzzed models such as these do not present themselves in the literature, and so
+exploring the possibility space of their application provides plenty of research
+opportunities. 
+
+The motivating case for the second example comes from the realisations which
+spawned the work described in \cref{subsec:workflow_graphs}. As a result of
+model fuzzing being absent from existing literature, building the models cannot
+be done with standard tools. Instead, our models have been
+programmed using lower-level techniques than would be typical of literature in
+the information systems community. In addition, a lack of tooling inhibits
+future work in the area that might be performed by other researchers. To this
+end, methods for building and/or representing models containing different kinds
+of fuzzing might be produced. Potential research questions towards this angle
+might be:
+
+\begin{enumerate}
+\item Can existing, well-adopted modelling formats be extended or adapted
+sufficiently to allow for the construction and/or representation of fuzzed
+models?
+\item Are these extensions commensurate with existing tooling? i.e. Can existing
+tooling be adapted to take advantage of an improved representation for simulation?
+\end{enumerate}
+
+As it is unclear what direction future research will take, the thesis statement
+as laid out in \cref{subsec:improved_thesis_statement} has not yet been updated.
+Thus, considering the earlier questions as alternatives to RQ3, the two possible
+paths forward are laid out in \cref{sec:old_questions} and \cref{sec:new_questions}.
+
+\section{Persisting with previous research questions}
+\label{sec:orgf4075be}
+\label{sec:old_questions}
+
+\subsection{Conclude BPI simulation}
+\label{sec:org9fdebc6}
+The first piece of work to be finished as part of this project involves
+concluding the BPI challenge simulation. It is possible that the final component
+of this work is to generate realistic log traces and to attempt a different
+model to answer RQ2.
+
+However, event logs for the real-world system which is the subject of the
+currently developed model are available\cite{van3536bpi}. Partial logs could be
+produced from these real-world logs artificially, and RQ2 attempted with this
+familiar system.
+
+\subsection{Software engineering teams}
+\label{sec:orgad6f288}
+
+Alternatively, standard models of software engineering teams under paradigms
+such as agile\cite{reference_agile_model} could be produced, and the model of
+knowledge\cite{hanakawa} developed during the current research question applied. The model is
+being developed as a cross-cutting concern, completely separated from the domain
+model using aspect orientation via the project's package for aspect
+orientation\cite{asp_repo}. This design is not a strict requirement for
+answering the first research question --- if it can be maintained, however, then
+it should be possible to migrate this knowledge model to other domain models.
+This is hoped to accelerate future projects. This might allow for a more
+detailed version of previous work\cite{pdsf_paper} to be undertaken, where
+this is enhanced with more plausibly realistic aspects than had previously been
+applied. As the project's industrial sponsors work under the agile paradigm, it
+may be possible to build a model of a real-world software team, and complete
+partial logs collected from this directly observable team.
+
+
+\subsection{Adaptive fuzzing models}
+\label{sec:orgaa7fd5c}
+
+RQ3 requires that adaptive fuzzing be integrated into a model of a system's
+behaviour change over time. Two possibilities present themselves.
+
+One opportunity would be a model of degraded modes conforming to existing
+literature in socio-technical security literature. While it is hoped to
+represent degraded modes in the output of the BPI model, a more nuanced degraded
+modes model might include show the degree of reliability in the system over
+time; eventually, systems entering degraded modes should reach an equilibrium
+state where most systems which are not immediately vital are circumvented (for
+example, paperwork designed to trace errors in case of emergencies in rail
+systems).
+
+The alternative project would be protocol tarpitting. This technique for
+security sees the behaviour of a server change, so as to appear to those
+attempting malicious connections that legitimate network errors were preventing
+communication with the server. Tarpitting is a network security technique which
+attempts to trick malicious connections into spending resources attempting
+connections, while using few of the server's resources to do so. Recent attempts
+at SSH tarpitting\cite{endlessh} have made note of the lack of projects
+tarpitting the SSH protocol itself, and no academic or enthusiast literature on
+the topic presents itself. This is a task adaptive fuzzing might be well suited
+to, as it makes changes to behaviour at runtime. A tarpit could be said to be a
+``plausibly realistic'' model of network failure if connecting agents interpret
+its behaviour as such; adaptive fuzzing would allow the tarpit to selectively
+target only attacks identified as malicious, which could be performed via
+techniques such as computational trust\cite{marsh_thesis}.
+
+
+\section{Attempting new research questions}
+\label{sec:org2b1b296}
+\label{sec:new_questions}
+Alternative research questions present themselves in producing tools for
+representing and simulating information systems using fuzzing. Indeed, two
+different kinds of model are missing from the literature:
+
+\begin{enumerate}
+\item Models where adaptive fuzzing presents a useful method for capturing changing
+or contingent behaviour within a system
+\item Models initially built for structural analysis purposes, of systems where
+detailed simulation might also be valuable
+\end{enumerate}
+
+In the first case, tools such as PyDySoFu\cite{pdsf_repo} provide a low-level
+method for representing adaptive fuzzing (and other fuzzing kinds). Detailed
+simulation of systems might include concepts such as state changes as a result
+of actions taken. For example, in a workflow with a section as shown in
+\cref{fig:workflow_state}, when performing a non-deterministic traversal of the
+workflow, states in the model are not considered, meaning that the model reaches
+states which --- in a realistic, deterministic simulation --- would never be
+reached. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.23]{example_flow}
+\caption{A section of an example workflow where the results of non-deterministic simulation are very different to a deterministic one.}
+\label{fig:workflow_state}
+\end{figure}
+
+In the information systems literature, various attempts have been made to
+produce modelling formats which support both formal static analysis and detailed
+simulation\cite{bazoun2014business,dori1995object}, but these attempts typically
+do not target already-adopted technologies in the information systems community.
+The technology with the most momentum for workflow modelling is
+petri-nets\cite{threegoodreasons}. However, petri nets do not contain model data
+of the type needed to perform detailed simulation. 
+
+\subsection{Extending PNML \ampersand{} Simulation}
+\label{sec:org5baa71b}
+\label{sec:future_notation} Petri nets are typically captured in
+PNML\cite{iso_pnml}, an ISO-standard markup language for denoting petri-nets.
+Because petri nets are used industrially and so can be expected to represent
+a diverse range of real-world systems, PNML provides an extensible foundation
+which solves the design flaws in this project's earlier work on formats for
+system modelling (as discussed in \cref{subsec:workflow_graphs}).
+
+An extension to PNML which, on each state or transition node of the graph,
+embedded executable code scoped to both a common heap and the graph itself,
+would be able to:
+
+\begin{enumerate}
+\item Record arbitrary information about what \emph{happens} at each step of a workflow
+represented by a petri net, without concerning itself with program flow (as
+this is already represented by the graph)
+\item Manipulate both data pertaining to the simulation and the petri net itself,
+allowing for the representation of fuzzing as it pertains to:
+\begin{itemize}
+\item The flow of the petri net, by manipulating the graph
+\item Actions taken in different parts of the petri net, by manipulating code
+associated with different nodes on the graph
+\item Data recorded by the simulation
+\end{itemize}
+\end{enumerate}
+
+Different modelling languages would be able to compile to this common format,
+allowing for BDD-style modelling as explored in \cref{subsec:workflow_graphs},
+and more traditional notations for building petri nets, such as XL/1\cite{xl1},
+depending on what properties would be most suitable for the model at hand.
+
+
+\subsection{Integrate with STS-Tool}
+\label{sec:orgbaaa2ff}
+As a widely-used format for petri net construction, the proposed extension to
+PNML should be able to work alongside existing tooling in the community.
+
+As the collaborators for the current project maintain their own security policy
+analysis tool where models are held internally in PNML, and which supports
+plugins, it should be possible to integrate the additional functionality of the
+PNML extension with their ``STS-tool''\cite{mattia_sts}. Replicating the work
+done in pursuit of previous research questions --- which had to be undertaken in
+Python due to a lack of alternative tool support --- will show that the format
+fills the current gap in the community.
+
+\subsection{Possible additional work: constructing other petri net extensions}
+\label{sec:orgb1ca444}
+If successful, this extension to PNML (and the accompanying replication study of
+the project's previous work) would answer both proposed new research questions.
+However, as the extension should allow for arbitrary code execution, it should
+be feasible to use this to embed existing petri net extensions in the programs
+the extended petri nets provide. A weakness of this approach is that elevating
+petri net extensions to embedded executable code would make formal analysis
+including the extensions trickier. However, it would also provide a single
+extension for a tool to support to permit a broad range of possible petri nets
+easily. This should reduce the difficulties in adopting detailed simulation as
+part of petri net modelling, allowing for more experimentation from the
+community and potential adoption from industry.
+
+
+\section{Making decisions}
+\label{sec:org1ba7164}
+
+Indecision caused the early stages of this PhD to be slow in building a research
+direction, and this direction was the main focus of the first progression viva's
+corrections.
+
+This is recalled when proposing many future units of research, some in new
+areas, and with their own additional research questions. It is acknowledged that
+the PhD has a limited timeframe, and that it might not be possible to complete
+all of the suggested projects within the remaining two years of the PhD. Should
+this be possible, it is hoped that all of the research options detailed in
+earlier sections can be completed and written up in the allotted time.
+
+It is, however, important to prioritise the work chosen, should time run out. It
+is unclear currently how best to prioritise this work --- representing models
+containing fuzzing is currently challenging but possible, and the additional
+work was not deemed necessary at the end of the first progression meeting. As a
+result, one might suppose it sensible to continue along the path identified
+earlier.
+
+Conversely, a simpler representation for the models might make the pursuit and
+construction of models containing fuzzing easier; the path identified earlier
+might pass faster if the research is made easier by allowing for domain-specific
+languages (or frameworks) in which to write models which are easier to reason
+about for a researcher, and quicker to build \ampersand{} prototype.
+
+
+\part{Conclusion}
+Future research in this project will depend on the direction chosen. 
+
+There is plenty of potential work to be undertaken, and it is important to
+choose a path before the current unit of work ends, so as not to be blocked by
+the indecision that held the project back in the past. Should no decision be
+made by the time the current unit of research draws to a close, the default
+direction will be to continue in answering the research questions previously
+decided upon.
+
+The decision at the end of the period of reading following the previous
+progression viva to focus on the generation of event logs as data from
+simulation, and to use data generation as a method of evaluating experiments,
+has helped to focus the project and identify opportunities in the literature not
+previously identified (particularly the need for the generation of event logs as
+experimental data which can be controlled; see
+\cite{secsy,on_bp_variant_generation,aalst_generating_logs}). Focus in this
+direction, and possibly in research which supports this directly, has helped to
+find a niche for the project to grow in, and to find collaborators.
+
+Future work should see the completion of the current unit of research, followed
+by future units to answer at least RQ1 and RQ2. Depending on the research
+direction chosen, alternative research questions or RQ3 may follow. The advice
+of the viva panel is very welcome in selecting this direction.
+
+
+
+\newpage
+\todo{Choose a better bib style}
+\bibliographystyle{plain}
+\bibliography{lib}
+
+
+
+\newpage
+\part{Appendices}
+\appendix
+\label{part:appendices}
+
+\section{Definitions}
+\label{sec:org6d3213d}
+\label{app:definitions}
+
+
+Following the previous progression viva, it became clear that many terms used in
+the report were ill-defined and unclear. To improve on this, a set of
+definitions was produced, both to serve as a memorandum of understanding for
+those \emph{in} the project, and as a clarifying tool for readers.
+
+\subsection{Basics}
+\label{sec:org2520578}
+
+\begin{itemize}
+\item A workflow is a graph where vertices are actions and edges are transitions from one action to another.
+\item An action is a function representing behaviour in a sociotechnical system. Actions can change the state of their agent, environment, or context.
+\item An Agent or Actor is any independent unit capable of executing workflows in a sociotechnical system.
+\item A workflow is executed with a state space just for that particular execution, called its context. Contexts begin as defined by a message which is passed to incur workflow execution. (They are sets of key-value pairs.)
+\item Workflows (and agents) exist in a global environment or world which is shared by all agents and workflows. (They are sets of key-value pairs.)
+\end{itemize}
+
+\subsection{Fuzzers}
+\label{sec:org086b3a5}
+\begin{itemize}
+\item A flow fuzzer is a function of signature workflow -> workflow which is used to replace the workflow it targets every time the target is invoked.
+\item An Action Fuzzer is a function of signature action -> action used to replace an action in a workflow every time it is invoked. 
+\begin{itemize}
+\item Action buzzers are passed (and return) symbolic representations of the target action (such as the target’s AST).
+\end{itemize}
+\item An adaptive fuzzer is any fuzzer with its own state. It can:
+\begin{itemize}
+\item record arbitrary code before fuzzing
+\item Interrogate \& record the outcome of fuzzing immediately after their outputs are executed
+\end{itemize}
+\end{itemize}
+
+
+\subsection{Model specifications}
+\label{sec:org1663948}
+
+\begin{itemize}
+\item Workflows can change the states of their context, their executing agent, or their environment.
+\item A condition is any expression a -> Bool. 
+\begin{itemize}
+\item They’re probably currently anything that compiles in the target language.
+\end{itemize}
+\item The target language of a workflow is whatever its fuzzers and actions are expressed in.
+\begin{itemize}
+\item In time, this will probably be our own intermediary language that can become the standard.
+\end{itemize}
+\item Any node on a workflow graph can be given a (unique!) identifier or label.
+\item Agents can goto any node on a workflow graph to any other, provided the second is labelled. (This gives us jumping to arbitrary points in the model.)
+\item A routine is a named workflow which is defined independently of a given agent. Any agent can execute them. They are inserted into workflows using ß-reduction.
+\item Actions have one of two types:
+\begin{itemize}
+\item A single action is a simple function which changes states of the simulation.
+\item A decision action forks onto one of at least two paths by matching conditions to cases. 
+\begin{itemize}
+\item So as to avoid runtime errors, all decision actions must define a default case.
+\end{itemize}
+\end{itemize}
+\item When decisions are defined, the edges leading out from them are provided with a label called a case. Cases are ordered, and checked against the return value of the condition. The first case to yield condition()==case is accepted, and its path is invoked.
+\end{itemize}
+\end{document}
