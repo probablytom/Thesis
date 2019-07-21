@@ -1,0 +1,4 @@
+*  PATCHY
+
+Patchy is a project from a freelance developer a few years ago which has several 
+things in common with PDSF, so it's worth discussing.
