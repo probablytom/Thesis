@@ -1,0 +1,12 @@
+#+NAME: importclass 
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'org-latex-classes
+             '("glasgowthesis"
+               "\\documentclass{glasgowthesis}"))
+#+END_SRC
+
+#+CALL: importclass()
+
+# Local Variables:
+# org-confirm-babel-evaluate: (lambda (lang body) (not (string= lang "emacs-lisp")))
+# End:

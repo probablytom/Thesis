@@ -1,0 +1,3 @@
+[submodule "thesis_current/strowes"]
+	path = thesis_current/strowes
+	url = git@github.com:probablytom/Glasgow-Thesis-Template.git

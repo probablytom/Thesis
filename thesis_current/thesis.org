@@ -1,0 +1,16 @@
+#+OPTIONS: TeX:t LaTeX:t
+#+LATEX_CLASS: glasgowthesis
+
+#+LATEX_CLASS_OPTIONS: [a4paper,draft]
+#+LATEX_HEADER_EXTRA: \usepackage{todonotes}
+
+#+TITLE: Generating Plausibly Realistic Synthetic Data using Dynamic Fuzzing
+#+AUTHOR: Tom Wallis
+#+EMAIL: w.wallis.1@research.gla.ac.uk
+#+DATE: 
+
+
+* subtitle
+
+Some content here
+
