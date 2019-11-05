@@ -1,0 +1,6 @@
+PWD /Users/neokimiko/Documents/workspace/Thesis/thesis_current
+INPUT /usr/local/texlive/2017/texmf.cnf
+INPUT /usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT preamble.tex
+OUTPUT preamble.log

@@ -1,0 +1,14 @@
+#+NAME: importclass 
+
+# RUN THE CODE BELOW IN YOUR CURRENT EMACS SESSION TO EXPORT.
+# (add-to-list 'org-latex-classes '("glasgowthesis" "\\documentclass{glasgowthesis}"))
+
+#+CALL: importclass()
+
+# Local Variables:
+# org-confirm-babel-evaluate: (lambda (lang body) (not (string= lang "emacs-lisp")))
+# End:
+
+* This is a test section
+
+Some extra stuff.

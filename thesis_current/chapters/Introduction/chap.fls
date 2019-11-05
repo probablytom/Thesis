@@ -1,0 +1,8 @@
+PWD /Users/neokimiko/Documents/workspace/Thesis/thesis_current/chapters/Introduction
+INPUT /usr/local/texlive/2017/texmf.cnf
+INPUT /usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT chap.tex
+OUTPUT chap.log
+INPUT intro_section.tex
+INPUT intro_section.tex
