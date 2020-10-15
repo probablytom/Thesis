@@ -1,0 +1,41 @@
+\chapter{Testing Synthetic Data Realism with RPGLite}
+
+\section{The RPGLite Model}
+
+The model for RPGLite is composed of a base model describing the game rules and
+random player behaviour. To this, we add four aspect-oriented components of the
+model, in an attempt to adapt the base model's random behaviour into something
+``realistic''.
+
+\subsection{Base Model}
+RPGLite's base model consists of a set of classes, representing playable
+characters, and a set of functions representing aspects of gameplay. Each
+function can be thought of as a discrete action an actor might take in a
+discrete-event agent-based simulation. These functions all adhere to an
+architecture which allows them to access and manipulate pertinent details of the
+simulation:
+
+\begin{description}
+  \item[actor — ] allows the function to identify the actor performing the activity
+    defined by the function. This argument is any object uniquely identifying an
+    actor.
+    \item[context — ] allows the function to determine details of the current
+      thread of work being undertaken by the actor. This is necessary because in
+      some simulations, the same actor might pause and resume multiple
+      occurrences of the same activity --- for example, they might concurrently
+      play three different matches in RPGLite. As a result, it is necessary to
+      understand the context of the action being performed by the actor in
+      question. This argument can be any object uniquely identifying the context
+      of a piece of work, but is most likely a class or dictionary-like object
+      to permit the communication of information across invocations of different
+      action-representing functions.
+      \item[environment — ] an actor's actions might involve 
+\end{description}
+
+
+
+
+
+% ========================================================================
+\section{Experiment 1: Correlating Synthetic and Real-World Character Choices}
+
