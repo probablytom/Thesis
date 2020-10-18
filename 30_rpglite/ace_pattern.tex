@@ -1,0 +1,69 @@
+\todo{Rewrite a little --- I should really actually define this well and call it
+the ``ace pattern''! It's a nice structure and probably works well as an elegant
+meta model if I can work out how to sell it right.}
+These functions all adhere to an
+architecture which allows them to access and manipulate pertinent details of the
+simulation:
+
+\begin{description}
+  \item[actor —] allows the function to identify the actor performing the activity
+    defined by the function. This argument is any object uniquely identifying an
+    actor.
+    \item[context —] allows the function to determine details of the current
+      thread of work being undertaken by the actor. This is necessary because in
+      some simulations, the same actor might pause and resume multiple
+      occurrences of the same activity --- for example, they might concurrently
+      play three different matches in RPGLite. As a result, it is necessary to
+      understand the context of the action being performed by the actor in
+      question. This argument can be any object uniquely identifying the context
+      of a piece of work, but is most likely a class or dictionary-like object
+      to permit the communication of information across invocations of different
+      action-representing functions.
+      \item[environment —] an actor's actions are often determined by the global
+        environment they act within. There may be ancillary details to the
+        actor's actions and the context of their particular thread of work which
+        they are undertaken within which are used to determine behaviour, such
+        as a landscape they traverse or other actors they might choose to
+        interact with. Because all actors share access to a global environment,
+        this also provides a message passing space, or a space where actors can
+        set values and flags other actors might look to, should those details be
+        more general than their specific thread of work at a given point in time.
+\end{description}
+
+This architecture was designed because the flexibility of raw source code was
+necessary for integrating existing Python tools into our model, meaning that
+bespoke agent-based modelling platforms were unsuitable for our model
+development.
+\par
+
+In particular, the properties this architecture satisfies are our need for a
+modelling structure which permitted simple procedural code for modelling (as
+used in \cite{pycx}) as well as object-oriented modelling where the above
+functions can be understood as methods instead (as used in
+\cite{wallis2018caise}). The format also had to be flexible, permitting a simple
+single-threaded model or concurrent, possibly multi-threaded models as in
+\cite{theatre_codebase}\todo{make a theatre citation via joss}. This
+architecture permits this by the property of obliviousness: the types of each
+argument are unimportant, meaning that thread-safe structures could be provided
+where needed, the complexity of data structures used could be determined by the
+needs of the model itself, and communication could be handled in any way that
+made sense to a given model. In iterations of various models through this work,
+this obliviousness lended itself to communication via  shared mutable data structures
+available to all actions (such as the use of a python dictionary for the model
+environment) or communication via a dedicated structure for message passing
+(such as more complicated actor classes with message inboxes and actor sets in an
+environment providing broadcast lists).
+
+While there were technical reasons why such a general approach to model
+architecture was taken, the general pattern provided by the architecture is also
+useful for reasons of compatibility. This pattern permits translation between
+any two languages which provide function calls with arguments of a model's
+activities and the way they break down into individual procedures. In this way,
+a model written in Python according to this pattern could more easily be
+translated (assuming no additional constraints) into other languages, such as
+Golang, Erlang, Julia, or any other language of interest in the current
+scientific zietgeist. This was of interest in the case of potential studies of
+usability and comprehension of our models, particularly with the added
+complexity of an aspect-oriented approach to model composition.
+
+
