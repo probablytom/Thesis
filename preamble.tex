@@ -1,26 +1,41 @@
-\title{The Efficacy and Utility of Component-Based Simulation}
+\title{Plausibly Realistic Sociotechnical Simulation with Aspect Orientation}
 \author{Tom Wallis}
 \date{Forthcoming 2021}
-
-
-% Fonts and other good layout business
-
-
+\degree{Doctor of Philosophy}
 
 % I heard you like ~~~CITATIONS~~~
 \usepackage{natbib}
-\bibliographystyle{plain}
+\bibliographystyle{unsrtnat}
 
 
 % Packages I for sure need
-\usepackage[obeyFinal]{todonotes}
-\usepackage{hyperref}
-\usepackage{cleveref}
-\usepackage{listings}
+% \usepackage{amsmath}
+% \usepackage{listings}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{titletoc}
+\usepackage{fontspec}
+\usepackage{enumitem}
 \usepackage{csquotes}
 
+% % Typesetting
+\setmainfont{Valkyrie A}
+\setsansfont{Concourse 4}
+\setmonofont{Triplicate A Code}
+\newfontfamily{\advocate}{Advocate55WideMed}
+\newfontfamily{\concourse}{Concourse 4}
+
+\usepackage{sectsty}
+\allsectionsfont{\concourse}
+
+\lstset{language=C,
+frame=L,
+numbers=left,
+stepnumber=1,
+numberstyle=\footnotesize,
+float,
+floatplacement=H,
+basicstyle=\normalsize\ttfamily}
 
 % Macros
 
-
-% Settings

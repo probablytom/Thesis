@@ -1,0 +1,318 @@
+\chapter{Relevant Literature}
+
+% Here's where the lit review goes.
+
+% \todo{Decide on section ordering}
+% \todo{Longlist papers to be included from devonthink}
+
+
+% \section{Aspect Orientation}
+
+% \subsection{AOP Techniques}
+% Aspect orientation is an engineering technique designed to separate concerns
+% in code, primarily in scenarios where the same concern appears in more than one
+% place. It 
+
+
+% \subsection{Aspect Orientation as applied to Modelling \& Simulation}
+
+
+% AOP and BPMN is the big one here!
+
+% SWARM \& MAML for the multi-agent approach
+
+% Check the lit again in the JAPROSIM paper
+
+% \section{Modelling and Simulation}
+
+% \subsection{General Simulation Techniques}
+
+% \subsection{Sociotechnical Modelling of Behaviour}
+
+
+
+
+% \section{Aspect Orientation as applied to Simulation}
+
+% Surprisingly little literature exists pertaining to aspect-oriented simulation.
+% Aspect orientation is often applied in the context of \emph{modelling},
+% composing together a perspective of the world which isn't necessarily executable
+% or able to produce data.
+
+% Early in the history of aspect orientation as an emerging paradigm, there was
+% some interest in its use for scientific simulation. \cite{gulyas1999use} discuss
+% that computer simulations require code for both observation of a simulation and
+% the simulation itself, and that misuse of this could cause what is in effect a
+% kind of Hawthorne Effect\todo{does this need a citation?}, where the inclusion
+% of observation code intertwined with simuilation code might influence the
+% outcome of an experiment. They suggest that improving simulation technologies
+% could combat this approach. Aspect Orientation, being developed specifically
+% with obliviousness in mind, is an ideal candidate which \citeauthor{gulyas1999use}
+% identify.
+
+% Much of the literature concerning aspect-oriented programming and simulation
+% focus on tooling support for aspect-oriented simulation, rather than
+% investigations into its efficacy. For example, attempts have been made to
+% integrate aspect orientation into new
+% tools~\cite{DEVSaspectorientation2008aksu}~\todo{throw more in here from excel},
+% or into existing ones~\cite{chibani2019using}\todo{throw more in here from
+% excel}. \todo{Fill out more}
+
+% Some experiments specifically using aspect orientation in the implementation of
+% process-based simulations also exist\cite{Ionescu_2009}~\todo{include more!}. For
+% example, \citeauthor{Ionescu_2009} apply aspect orientation in a nuclear
+% disaster prevention simulation. Their motivation is that code can become complex
+% to maintain over time and changes to the scientific zeitgeist or to regulatory
+% requirements become costly as technical debt mounts. Aspect orientation
+% therefore allows developers to separate functionality into distinct modules more
+% easily, without disturbing the underlying codebase.
+
+
+
+
+% \section{Realism in Models} % Consider removing
+% % Probably mostly stats?
+
+
+
+
+% \section{Research Opportunities}
+
+
+
+% \todo{Determine other sections that can be included here...!}
+
+
+
+% === PROPOSED NEW STRUCTURE
+% === It relies on the idea that the introduction tells the story leading up to
+%     the PHD research i.e. the development and ideas behind the PDSF originally
+
+
+Some notes here on what this chapter contains, and a brief description of its
+layout. Two snappy paras.
+\todo{Some notes here on what this chapter contains, and a brief description of its
+layout. Two snappy paras.}
+
+
+
+\section{Early work on PyDySoFu}
+% Some notes on where PDSF was before the PHD work.
+
+PyDySoFu\footnote{Or ``PDSF'' for short.} is a Python library~\cref{pdsf_repo}
+built for altering the source of a Python function as it is called, and before
+it is executed, while the original function definition remains oblivious to the
+changes being made. It was originally developed as an honours-level
+dissertation, which was built upon and detailled in a subsequent
+paper~\cref{wallis2018caise}. This thesis furthers that original work. To be
+clear about the work this thesis contains, the state of the project
+\emph{before} this work began is briefly discussed here.
+
+The goals of ``changing a function's behaviour'' and maintaining
+``obliviousness'' in the original definition of that function speak to the goals
+of the aspect oriented programming paradigm\cref{kiczales1997aspect}. Quoting
+their original definitions:
+
+\begin{displayquote}
+    Components are properties of a system, for which the implementation can be
+    cleanly encapsulated in a generalized procedure. Aspects are properties
+    for which the implementation cannot be cleanly encapsulated in a
+    generalized procedure. Aspects and cross-cut components cross-cut each other
+    in a system’s implementation.
+    [ \ldots{} ]
+    The key difference between
+    AOP and other approaches is that AOP provides component and aspect languages
+    with different abstraction and composition mechanisms.
+\end{displayquote}
+
+Generally, aspect orientation is percieved to be a technique for separation of
+concerns. Any cross-cutting concerns can be separated from their components into
+aspects applied where that concern arises. The strength of aspect orientation
+lies in its compositional nature: developers can write short, maintainable
+implementations of a procedure's core purpose (for example, business logic) and
+ancillary concerns such as logging or security can be woven into this
+implementation as preprocessing, compilation, or at runtime. This compositional
+nature is what gives rise to aspect orientation's ``obliviousness'', as the
+procedure targetted by a piece of advice is written without regard to that fact.
+
+The original PyDySoFu implementation was an aspect orientation library focusing
+on separating a function's definition from \emph{potential changes to it}. This
+was used to model ``contingent behaviour'' --- behaviour sensitive to some
+condition --- as an original, ``idealised'' definition of that behaviour, plus
+some possible alterations. These changes might apply to many different
+behaviours in the same manner, and therefore represent concerns which separate
+cleanly into an aspect. An example would be the behaviour of a worker whose job
+requires focus on allocated tasks. A lack of focus could be represented as steps
+of the worker's tasks being executed in duplicate, out-of-order, or skipped.
+Assuming aspects as described by \citeauthor{kiczales1997aspect} are able to
+edit the definition or execution of a procedure\footnote{As opposed to simply
+wrapping it with additional behaviour before and/or after execution}, such
+contingent behaviours are well modelled as aspects.
+
+To achieve this, a model was presented in \cref{wallis2018caise} wherein aspects
+were developed which could change function \emph{definitions} on each invocation
+of that function, contingent on program state. This allowed behavioural
+adaptation to be simulated in an aspect-oriented fashion. In addition, a library
+of behavioural adaptations called FUZZI-MOSS\todo{CITECITECITE} was developed
+which implemented many cross-cutting, contingent behaviours in procedural
+simulations of sociotechnical systems.
+
+One important contribution of this work is that PDSF aspects are effectively
+able to operate \emph{inside} a target. In typical aspect orientation frameworks
+such as AspectJ\cref{aspectj_intro}, aspects operate by effectively prepending
+or appending work to a target, referred to as ``before'' or ``after'' pointcuts
+respectively. To do both is referred to as ``around''. By manipulating
+procedures within Python directly, PDSF is able to manipulate its target from a
+new perspective, adding (or removing) work during the target's
+execution\footnote{Similarly to \cref{subsec:bca}, but in an aspect oriented
+manner.}. Moreover, because weaving is performed dynamically, every execution of
+a function may perform different operations.
+
+\subsection{Opportunities presented by PDSF}
+
+PDSF presented several oppportunities for future research. Some salient
+properties of the original work include:
+
+\begin{itemize}
+    \item 
+\end{itemize}
+
+\section{Dynamism in AOP}
+% Dynamic methods in aspect orientation
+
+Aspect orientation frameworks have supported ``dynamic behaviour'' in different
+ways for a long time. This is largely through a technique referred to as dynamic–
+or runtime–weaving.
+
+\subsection{Dynamic and static weaving}
+
+Dynamic weaving integrates advice into a target program during its execution, as
+opposed to during compilation or a pre-processing step. The advantage of this is
+flexibility: dynamic aspect-oriented approaches have been proposed for deploying
+hotfixes in safety-critical scenarios where software systems cannot be taken
+offline to apply patches\todo{CITECITECITE}, and in adaptive mobile scenarios where software
+may need to alter its properties in response to its
+environment\cref{hveding2005aspect}, or when debugging code to apply potential
+patches without reloading an entire software system\cref{popovici2002PROSE}.
+
+To meet these needs, software systems need to check for available aspects to
+weave at any join point, as it is always possible that the set of applied advice
+has changed since the program last encountered this point. The technique
+therefore presents a tradeoff compared to traditional (static) aspect weaving,
+as illustrated in \cref{dynamicAOchitchyan}. \citeauthor{dynamicAOchitchyan}
+generalise this tradeoff by describing different mechanisms used to implement
+aspect orientation into three main categories\footnote{Drawing from
+\cref{popovici2002PROSE,popovici2003JITaspects} where ``PROSE'', a particularly
+influential dynamic aspect orientation library, is detailled.}, each with their own
+strengths:
+
+\begin{description}
+    \item[``Total hook weaving''] alters all join points where advice may be
+    applied before runtime, so that during execution each join point ``watches''
+    for applied advice. The benefit of this approach is that aspects can be
+    applied at any point at runtime, but this flexibility is bought at the cost
+    of maximum overhead: at all points where weaving \emph{may} be possible,
+    checks for applied advice must be made.
+    \item[``Actual hook weaving''] weaves hooks only to join points that are
+    expected to be in use. This limits overhead from watching for applied
+    advice, at the cost of flexibility: during program execution, advice may be
+    applied or retracted \emph{only at specific points within the system}.
+    \item[``Collected weaving''] weaves aspects directly into code at
+    compilation / preprocessing\todo{surely this isn't dynamic, Ian...?!}, so as
+    to collect advice and target codebase into a single unit. This provides
+    exactly the necessary amount of overhead, and in many cases may result in
+    requiring no ``watching'' for applied advice at all, but this limits a
+    developer's ability to amend advice supplied at runtime.
+\end{description}
+
+There is an almost direct tradeoff between the number of potential join points
+actively checking for applied advice at runtime, and the overhead of dynamism in
+any aspect oriented framework, with ``total hook weaving'' providing complete
+adaptability at the expense of checking at all possible points whether advice is
+applied.
+
+Another tradeoff could be seen to be the clarity of dynamically woven aspect
+oriented code. 
+
+
+% Dynamic AO libraries
+\subsection{PROSE}
+One implementation of dynamic weaving is PROSE, a library which achieves dynamic weaving by
+use of a Just-In-Time compiler for Java. PROSE was developed with sever
+
+
+\subsection{Handi-Wrap}
+Handi-Wrap\cref{Baker_2002} is a Java library allowing for dynamic weaving via
+a third-party language, Maya\todo{Do I want a citation for this? Probably not,
+but worth revisiting.}. 
+
+
+
+% Alternative techniques
+\subsection{BCA}\label{subsec:BCA}
+%check Kell survey for more, I believe there's juicy stuff there, maybe in
+%section 2
+
+\section{Aspect Orientation \& Modelling}
+
+% Aspect orientation as it applies to modelling
+
+
+
+\section{Aspect Orientation \& Simulation}
+
+Surprisingly little literature exists pertaining to aspect-oriented simulation.
+Aspect orientation is often applied in the context of \emph{modelling},
+composing together a perspective of the world which isn't necessarily executable
+or able to produce data.
+
+Early in the history of aspect orientation as an emerging paradigm, there was
+some interest in its use for scientific simulation. \cref{gulyas1999use} discuss
+that computer simulations require code for both observation of a simulation and
+the simulation itself, and that misuse of this could cause what is in effect a
+kind of Hawthorne Effect\todo{does this need a citation?}, where the inclusion
+of observation code intertwined with simuilation code might influence the
+outcome of an experiment. They suggest that improving simulation technologies
+could combat this approach. Aspect Orientation, being developed specifically
+with obliviousness in mind, is an ideal candidate which \citeauthor{gulyas1999use}
+identify.
+
+Much of the literature concerning aspect-oriented programming and simulation
+focus on tooling support for aspect-oriented simulation, rather than
+investigations into its efficacy. For example, attempts have been made to
+integrate aspect orientation into new
+tools~\cref{DEVSaspectorientation2008aksu}~\todo{throw more in here from excel},
+or into existing ones~\cref{chibani2019using}\todo{throw more in here from
+excel}. \todo{Rethink this. The angle is, ``much of the lit strays from any kind
+of real-world testing of sim tech --- why?''}
+
+Some experiments specifically using aspect orientation in the implementation of
+process-based simulations also exist\cref{Ionescu_2009}~\todo{include more!}. For
+example, \citeauthor{Ionescu_2009} apply aspect orientation in a nuclear
+disaster prevention simulation. Their motivation is that code can become complex
+to maintain over time and changes to the scientific zeitgeist or to regulatory
+requirements become costly as technical debt mounts. Aspect orientation
+therefore allows developers to separate functionality into distinct modules more
+easily, without disturbing the underlying codebase.
+
+
+
+
+
+\section{Dynamism in Simulation and Modelling}
+
+% Dynamic / contingent behaviours in simulation and models
+% IMO this is where a lot of stuff like variance in process mining, sanitisation
+% of logs, log noise removal / injection goes.
+
+
+
+
+\section{Opportunities}
+
+% putting these all together. There's lit in each section,
+% but specifically AO in simulation and dynamic simulation aren't well studied
+% on their own and warrant further study. It just so happens that PDSF is
+% well-positioned to fill this gap, as it has the necessary properties of a
+% tool to perform this research, where something like AspectJ [likely...?] falls
+% short.

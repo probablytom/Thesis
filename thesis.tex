@@ -1,4 +1,5 @@
-\documentclass[12pt,draft]{book}
+\RequirePackage{luatex85}
+\documentclass[12pt,draft,physicalcopy]{good_template}
 
 \include{preamble}
 
@@ -7,8 +8,9 @@
 \tableofcontents
 
 \include{10_intro/chap}
-% \include{20_lit_review/chap}
-\include{30_rpglite/chap}
+\include{20_lit_review/chap}
+% \include{30_rpglite/chap} % needs rewriting, also needs restructuring for
+% final thesis plan
 
 \bibliography{refs}
 \end{document}
