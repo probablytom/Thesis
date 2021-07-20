@@ -10,7 +10,7 @@ clean:
 
 available:
 	make clean
-	git add thesis.tex refs.bib */chap.tex
+	git add *.tex refs.bib */chap.tex
 	git add makefile
 	git add .gitignore
 	git add thesis.pdf
