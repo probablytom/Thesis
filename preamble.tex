@@ -4,8 +4,12 @@
 \degree{Doctor of Philosophy}
 
 % I heard you like ~~~CITATIONS~~~
-\usepackage{natbib}
-\bibliographystyle{plainnat}
+\usepackage[
+  backend=biber,
+  bibencoding=utf8,
+  style=ieee %% draft probably wants changing...
+]{biblatex}
+\addbibresource{refs.bib}
 
 
 % Packages I for sure need
@@ -37,5 +41,12 @@ float,
 floatplacement=H,
 basicstyle=\normalsize\ttfamily}
 
+% For inline todos...nicked from https://tex.stackexchange.com/a/219354
+\makeatletter
+\usepackage{regexpatch}
+\xpatchcmd{\@todo}{\setkeys{todonotes}{#1}}{\setkeys{todonotes}{inline,#1}}{}{}
+\makeatother
+
 % Macros
+\newcommand{\inline}[1]{{\color{red}{#1}} \addcontentsline{tdo}{todo}{#1}}
 

@@ -1,6 +1,6 @@
 thesis:
 	lualatex thesis
-	bibtex thesis
+	biber thesis.bcf
 	lualatex thesis
 	lualatex thesis
 
