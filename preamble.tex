@@ -31,6 +31,7 @@
 \setmonofont{Triplicate A Code}
 \newfontfamily{\advocate}{Advocate55WideMed}
 \newfontfamily{\concourse}{Concourse 4}
+\newfontfamily{\concourseindex}{Concourse Index}
 
 \usepackage{sectsty}
 \allsectionsfont{\concourse}
@@ -50,6 +51,18 @@ basicstyle=\normalsize\ttfamily}
 \usepackage{regexpatch}
 \xpatchcmd{\@todo}{\setkeys{todonotes}{#1}}{\setkeys{todonotes}{inline,#1}}{}{}
 \makeatother
+
+% List formatting changes
+\setitemize[1]{label={\concourseindex\normalsize\symbol{"2022}}}
+\setitemize[2]{label={\concourseindex\small\symbol{"2022}}}
+\setitemize[3]{label={\concourseindex\footnotesize\symbol{"2022}}}
+\setitemize[4]{label={\concourseindex\scriptsize\symbol{"2022}}}
+\setitemize[5]{label={\concourseindex\scriptsize\symbol{"2022}}} % Technically could be \tiny
+\setenumerate[1]{font={\concourseindex\normalsize},label=\arabic*}
+\setenumerate[2]{font={\concourseindex\small},label=\arabic*}
+\setenumerate[3]{font={\concourseindex\footnotesize},label=\arabic*}
+\setenumerate[4]{font={\concourseindex\scriptsize},label=\arabic*}
+\setenumerate[5]{font={\concourseindex\scriptsize},label=\arabic*} % Technically could be \tiny
 
 % Macros
 \newcommand{\inline}[1]{{\color{red}{#1}} \addcontentsline{tdo}{todo}{#1}}
