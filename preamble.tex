@@ -64,6 +64,38 @@ basicstyle=\normalsize\ttfamily}
 \setenumerate[4]{font={\concourseindex\scriptsize},label=\arabic*}
 \setenumerate[5]{font={\concourseindex\scriptsize},label=\arabic*} % Technically could be \tiny
 
+% Some quote styling changes, modified from https://tex.stackexchange.com/a/468294
+\usepackage[%
+linewidth=1pt,
+middlelinecolor= black,
+middlelinewidth=0.4pt,
+roundcorner=10pt,
+topline = false,
+rightline = false,
+bottomline = false,
+rightmargin=0pt,
+skipabove=0pt,
+skipbelow=0pt,
+leftmargin=-1cm,
+innerleftmargin=1cm,
+innerrightmargin=0pt,
+innertopmargin=0pt,
+innerbottommargin=0pt,
+]{mdframed}
+\makeatletter
+%Take the original environment definition and change the leftmargin to 1cm
+\renewenvironment*{displayquote}
+  {\begingroup\setlength{\leftmargini}{1cm}\csq@getcargs{\csq@bdquote{}{}}}
+  {\csq@edquote\endgroup}
+\makeatother
+%Hooks
+%Use single spacing, set 10pt font, set quote style curly quotes, and beginning quotes
+\renewcommand{\mkbegdispquote}
+    {\begin{mdframed}\fontsize{12pt}{12pt}\setstretch{1.25}\setquotestyle{quote}\textooquote}
+%End displayquote environment with ending quotes
+\renewcommand{\mkenddispquote}{\textcoquote\end{mdframed}}
+
+
 % Macros
 \newcommand{\inline}[1]{{\color{red}{#1}} \addcontentsline{tdo}{todo}{#1}}
 
