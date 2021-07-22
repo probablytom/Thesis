@@ -53,7 +53,7 @@
 
 %-----------------------
 %COLORS and SECTIONING COLORS
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \definecolor{linkColor}{RGB}{156,78,13}
 \definecolor{sepia}{RGB}{70,42,14}
 \definecolor{grayBT}{RGB}{211,211,211}
@@ -253,10 +253,10 @@
   basicstyle=\ttfamily\color{gray},
   breaklines=true,
   captionpos=b,
-  commentstyle=\color{mygreen},
+  commentstyle=\color{green},
   escapeinside={\%*}{*)},
   keywordstyle=\color{blue},
-  stringstyle=\color{mymauve},
+  stringstyle=\color{RawSienna},
   language=python,
   showtabs=true
 }

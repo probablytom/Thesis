@@ -1,112 +1,103 @@
 \chapter{Relevant Literature}
 
-% Here's where the lit review goes.
+The work composing this thesis revolves around the combination of simulation and
+aspect orientation. As discussed, some research on the topic was also done prior
+to this body of work~\inline{I assume we discuss PDSF existing in the intro}.
+There are therefore several things to discuss: work that was done on this
+project prior to this thesis, related work by others, and opportunities found in
+this related work for which PyDySoFu is well-suited. This chapter is therefore
+structured as follows:
 
-% \inline{Decide on section ordering}
-% \inline{Longlist papers to be included from devonthink}
-
-
-% \section{Aspect Orientation}
-
-% \subsection{AOP Techniques}
-% Aspect orientation is an engineering technique designed to separate concerns
-% in code, primarily in scenarios where the same concern appears in more than one
-% place. It 
-
-
-% \subsection{Aspect Orientation as applied to Modelling \& Simulation}
-
-
-% AOP and BPMN is the big one here!
-
-% SWARM \& MAML for the multi-agent approach
-
-% Check the lit again in the JAPROSIM paper
-
-% \section{Modelling and Simulation}
-
-% \subsection{General Simulation Techniques}
-
-% \subsection{Sociotechnical Modelling of Behaviour}
+\begin{description}
+    \item[\cref{sec:pdsf_early_work}] The earlier work contextualising this thesis, summarised in
+    \cite{wallis2018caise}
+    \item[\cref{sec:dynamic_aop_review}] Similar software libraries which form a body of related work to the
+    tool described in \cite{wallis2018caise}
+    \item[\cref{sec:ao_and_modelling} and \cref{sec:ao_and_simulation}] Aspect orientation as applied in simulation and modelling
+    \item[\cref{sec:dynamism_in_sm}] Variable behaviour in simulation and modelling, a key strength of
+    \cite{pdsf_repo}
+    \item[\cref{sec:research_opportunities}] Research opportunities identified in these various bodies of work
+\end{description}
 
 
 
 
-% \section{Aspect Orientation as applied to Simulation}
 
-% Surprisingly little literature exists pertaining to aspect-oriented simulation.
-% Aspect orientation is often applied in the context of \emph{modelling},
-% composing together a perspective of the world which isn't necessarily executable
-% or able to produce data.
-
-% Early in the history of aspect orientation as an emerging paradigm, there was
-% some interest in its use for scientific simulation. \cite{gulyas1999use} discuss
-% that computer simulations require code for both observation of a simulation and
-% the simulation itself, and that misuse of this could cause what is in effect a
-% kind of Hawthorne Effect\inline{does this need a citation?}, where the inclusion
-% of observation code intertwined with simuilation code might influence the
-% outcome of an experiment. They suggest that improving simulation technologies
-% could combat this approach. Aspect Orientation, being developed specifically
-% with obliviousness in mind, is an ideal candidate which \citeauthor{gulyas1999use}
-% identify.
-
-% Much of the literature concerning aspect-oriented programming and simulation
-% focus on tooling support for aspect-oriented simulation, rather than
-% investigations into its efficacy. For example, attempts have been made to
-% integrate aspect orientation into new
-% tools~\cite{DEVSaspectorientation2008aksu}~\inline{throw more in here from excel},
-% or into existing ones~\cite{chibani2019using}\inline{throw more in here from
-% excel}. \inline{Fill out more}
-
-% Some experiments specifically using aspect orientation in the implementation of
-% process-based simulations also exist\cite{Ionescu_2009}~\inline{include more!}. For
-% example, \citeauthor{Ionescu_2009} apply aspect orientation in a nuclear
-% disaster prevention simulation. Their motivation is that code can become complex
-% to maintain over time and changes to the scientific zeitgeist or to regulatory
-% requirements become costly as technical debt mounts. Aspect orientation
-% therefore allows developers to separate functionality into distinct modules more
-% easily, without disturbing the underlying codebase.
-
-
-
-
-% \section{Realism in Models} % Consider removing
-% % Probably mostly stats?
-
-
-
-
-% \section{Research Opportunities}
-
-
-
-% \inline{Determine other sections that can be included here...!}
-
-
-
-% === PROPOSED NEW STRUCTURE
-% === It relies on the idea that the introduction tells the story leading up to
-%     the PHD research i.e. the development and ideas behind the PDSF originally
-
-
-Some notes here on what this chapter contains, and a brief description of its
-layout. Two snappy paras.
-\inline{Some notes here on what this chapter contains, and a brief description of its
-layout. Two snappy paras.}
-
-
-
-\section{Early work on PyDySoFu}
+\labelledsec{Early work on PyDySoFu}{pdsf_early_work}
 % Some notes on where PDSF was before the PHD work.
 
 PyDySoFu\footnote{Or ``PDSF'' for short.} is a Python library~\cite{pdsf_repo}
-built for altering the source of a Python function as it is called, and before
-it is executed, while the original function definition remains oblivious to the
-changes being made. It was originally developed as an honours-level
-dissertation, which was built upon and detailled in a subsequent
+built for making changes to the source code of a Python function as it is
+called, and before it is executed, while the original function definition
+remains oblivious to the changes being made. It was originally developed as an
+honours-level dissertation, which was built upon and detailled in a subsequent
 paper~\cite{wallis2018caise}. This thesis furthers that original work. To be
 clear about the work this thesis contains, the state of the project
 \emph{before} this work began is briefly discussed here.
+
+\subsection{PyDySoFu's implementation and features}
+
+The original version of PyDySoFu\footnote{Further improvements have been made
+through this research which improve on the design, but this section is to
+discuss the state of the project before this work began, and the general
+principles around it, which remain unchanged.} patched Python classes with
+additional handlers. Attributes of Python objects are usually retrieved using
+dot notation (i.e. \lstinline{object_id.attr_id}), which evaluates internally to
+a call to \lstinline{object_class.__getattribute__(``attr_id'')}. PyDySoFu replaces a
+class' built-in \lstinline{__getattribute__()} method with a new one, which
+calls the original to acquire the required attribute. 
+
+In the case where the required attribute is not callable, the value is returned
+as normal. Callable attributes are modified, however. In this case, the
+replacement \lstinline{__getattribute__()} also checks for a set of
+manipulations to make to the original code. These can be applied before or after
+the original code is run, as well as around it. A new function is returned
+containing a reference to the originally sought attribute, but which will search
+for these additional pieces of work before executing it, and can execute this
+work before or after the call (or both). These pieces of work are referred to as
+``advice'', adopting aspect orientation terminology.
+
+As discussed further in \cref{subsec:pdsf_aop}, this approach is effectively an
+implementation of a traditional aspect orientation framework. However, unlike
+existing frameworks, PyDySoFu also supports a special kind of ``around'' advice:
+before a function is called, it can be rewritten. This is done by applying
+``before'' advice which retrieves the abstract syntax tree of the target
+callable attribute using Python's \lstinline{inspect} module (its built-in
+reflection), applying arbitrary transformations to the tree, and recompiling it
+into a Python \lstinline{code} object (its representation of its
+internal bytecode). At this point, many things are possible: the transformation
+can be cached for later use, can replace the original callable's
+\lstinline{code} object to make the transformation persistent, or can be
+discarded after use. This transformed code is run in lieu of the original,
+effectively enabling aspect orientation which can make adaptations \emph{inside}
+a procedure as well as before and after its execution.
+
+This approach also had some limitations:
+
+\begin{itemize}
+    \item Traditional pointcuts cannot target points inside a procedure, meaning
+    that an aspect applied ``inside'' its target must manage the points where
+    its transformation is applied manually.
+    \item Importantly, a callable object's internal bytecode cannot be replaced
+    in Python3, leading to a rewrite discussed in \inline{Make a crossreference
+    to the discussion of PDSF's rewrite.}
+    \item This method is significantly slower than other aspect orientation
+    approaches, as rewriting a class' \lstinline{__getattribute__} method means
+    that \emph{every} resolution of an object's attributes --- whether they are
+    methods or values, and including a class' built-in ``magic'' methods ---
+    incurs an overhead from the replaced \lstinline{__getattribute__}
+    implementation. However slight this overhead can be made, affecting Python's
+    built-in methods on classes means that rewriting the
+    \lstinline{__getattribute__} method is unavoidably expensive due to the
+    scale of these methods' use.
+\end{itemize}
+
+However, the goal of the original research was to develop a flexible
+``proof-of-concept'' of aspect orientation adapting procedure definition at
+runtime, which was successfully
+achieved\cite{wallis2018caise,wallis2018genetic}. 
+
+\subsection{Aspect Orientation \& PyDySoFu}\label{subsec:pdsf_aop}
 
 The goals of ``changing a function's behaviour'' and maintaining
 ``obliviousness'' in the original definition of that function speak to the goals
@@ -177,12 +168,16 @@ properties of the original work include:
     \item It provided an aspect orientation library which could weave and
     unweave aspects during program execution, without relying on anything other
     than Python's built-in language features
-    \item \inline{todoi8o}
+    \item \inline{Write more PDSF opportunities}
 \end{itemize}
 
-\inline{Do we need a brief explainer of what aspect orientation is here? Or will this go in the introduction?}
+\inline{Do we need a brief explainer of what aspect orientation is here?
+Or will this go in the introduction? already a little in the earlier two subsections.}
 
-\section{Dynamism in AOP}
+
+
+
+\labelledsec{Dynamism in AOP}{dynamic_aop_review}
 % Dynamic methods in aspect orientation
 
 Aspect orientation frameworks have supported ``dynamic behaviour'' in different
@@ -237,11 +232,19 @@ adaptability at the expense of checking at all possible points whether advice is
 applied.
 
 Another tradeoff could be seen to be the clarity of dynamically woven aspect
-oriented code.\inline{FINISH!}
+oriented code. Aspect orientation is already criticised for the lack of clarity
+as to what woven code will \emph{do} when run, and where weaving can change
+during program execution, static tools are less useful in making these
+predictions. Some tools have been produced which do provide tooling for
+achieving understanding as to what dynamically woven code will do when executed
+(also called an ``Aspect Monitor'', as discussed in \cite{popovici2002PROSE}),
+but they are often limited or missing from a dynamically weaving framework's
+implementation (such as \cite{Baker_2002}). \inline{Find more citations for both
+dynamic weavers with aspect monitors and without. Nanning aspects? Nu?}
 
 
 % Dynamic AO libraries
-\subsection{PROSE}\label{subsec:PROSE} One implementation of dynamic weaving is
+\labelledsubsec{PROSE}{subsec:PROSE} One implementation of dynamic weaving is
 PROSE\cite{popovici2002PROSE,popovici2003JITaspects}, a library which achieves
 dynamic weaving by use of a Just-In-Time compiler for Java. The authors saw
 aspect orientation as a solution to software's increasing need for adaptivity:
@@ -301,9 +304,11 @@ aspects, its lack of adoption as a language limited handi-wrap's reach;
 nevertheless, it is encouraging to see another use of metaprogramming for
 weaving aspects at runtime.
 
+\subsection{Nu}
+\inline{Some extra things here about Nu, such as \cite{dyerNUmasters}.}
 
 % Alternative techniques
-\subsection{BCA}\label{subsec:BCA} Binary Component
+\subsection{Binary Component Adaptation}\label{subsec:BCA} Binary Component
 Adaptation\cite{keller1998binary} (BCA) is a technique for performing
 adaptations on software components after compilation. Though it works on
 already-compiled code it does provide dynamic behaviour: the technique can adapt
@@ -328,7 +333,14 @@ would not be well applied for this thesis.
 %check Kell survey for more, I believe there's juicy stuff there, maybe in
 %section 2
 
-\section{Aspect Orientation \& Modelling}
+
+
+
+
+
+
+% \section{Aspect Orientation \& Modelling}
+\labelledsec{Aspect Orientation \& Modelling}{ao_and_modelling}
 
 % Aspect orientation as it applies to modelling
 
@@ -375,33 +387,38 @@ in mind, an important body of work is still present, and therefore important to
 discuss.
 
 \subsection{Aspect Orientation in Business Process Modelling}
-Aspect orientation for sociotechnical systems is particularly well adopted in
-the business process modelling community\cite{Machado_2011,}
+Aspect orientation for sociotechnical systems is particularly well studied in
+the business process modelling
+community\cite{Machado_2011,Cappelli_AOBPM}~\inline{find more citations for AOBPM}
 
 
 \subsection{MAML \& SWARM}
+\inline{Is MAML/SWARM really modelling, or simulation? Simulation, right?}
 
 
 \subsection{}
 
 
-\section{Aspect Orientation \& Simulation}
+% \section{Aspect Orientation \& Simulation}\label{sec:ao_and_simulation}
+\labelledsec{Aspect Orientation \& Simulation}{ao_and_simulation}
+
+\inline{The simulation section \emph{badly} needs revisiting.}
 
 Surprisingly, little literature exists pertaining specifically to the use of
 aspect-orientation in a simulation context. Aspect orientation is often applied
-to \emph{modelling}, used to compose a perspective of the world from individual
+to modelling as discussed in \cref{sec:ao_and_modelling}, used to compose a perspective of the world from individual
 parts, but in a way which isn't necessarily executable or able to produce data.
 
 Early in the history of aspect orientation as an emerging paradigm, there was
 some interest in its use for scientific simulation. \cite{gulyas1999use} discuss
 that computer simulations require code for both observation of a simulation and
 the simulation itself, and that misuse of this could cause what is in effect a
-kind of Hawthorne Effect\inline{does this need a citation?}, where the inclusion
-of observation code intertwined with simulation code might influence the
-outcome of an experiment. They suggest that improving simulation technologies
-could combat this approach. Aspect Orientation, being developed specifically
-with obliviousness in mind, is an ideal candidate which \citeauthor{gulyas1999use}
-identify.
+kind of Hawthorne Effect\inline{does hawthorne effect need a citation?}, where
+the inclusion of observation code intertwined with simulation code might
+influence the outcome of an experiment. They suggest that improving simulation
+technologies could combat this approach. Aspect Orientation, being developed
+specifically with obliviousness in mind, is an ideal candidate which
+\citeauthor{gulyas1999use} identify.
 
 Much of the literature concerning aspect-oriented programming and simulation
 focus on tooling support for aspect-oriented simulation, rather than
@@ -421,28 +438,80 @@ requirements become costly as technical debt mounts. Aspect orientation
 therefore allows developers to separate functionality into distinct modules more
 easily, without disturbing the underlying codebase.
 
+\subsection{Aspect-oriented L-Systems}
 Aspect-orientation is also applied in other simulation paradigms.
 \citeauthor{Cieslak_2011} investigated the use of aspect orientation in L-system
-based simulations~\cite{Cieslak_2011}.
+based simulations~\cite{Cieslak_2011}. An L-system\cite{lindenmayer1968lsystem}
+is defined by a set of symbols, an initial string composed of these symbols, and
+a set of rules for rewriting substrings. While being a powerful tool for
+representing fractal structures, they were originally concieved of for plant
+modelling (and still see the most use in this field).
+
+\citeauthor{Cieslak_2011} note that some details of plant modelling are actually
+cross-cutting concerns against many plants or families of plants. To represent
+these, they introduce a new language to describe plant models which makes use of
+aspect orientation to represent these cross-cutting concerns. They test the
+approach by representing carbon dynamics, apical dominance and biomechanics as
+cross-cutting concerns that are integrated into a previously published model of
+kiwifruit shoot development. \citeauthor{Cieslak_2011} hope that these
+cross-cutting concerns might work in other models too, but this is untested. The
+use of an aspect in a new model, when developed for another, seems untested in
+the community's literature writ large and is a noted omission in the conclusion
+of this particular work.
 
 
-\inline{This \emph{badly} needs revisiting.}
 
-
-\section{Dynamism in Simulation and Modelling}
-
+\section{Variable Behaviour in Simulation and Modelling}\label{sec:dynamism_in_sm}
 % Dynamic / contingent behaviours in simulation and models
 % IMO this is where a lot of stuff like variance in process mining, sanitisation
 % of logs, log noise removal / injection goes.
 
+In \cite{wallis2018caise}, PyDySoFu was used to model behaviour that changed as
+the simulation progressed. Behaviour undergoing variance appears in literature
+from many fields, but some themes stand out. Researchers are often interested
+in:
+
+\begin{itemize}
+    \item Removing small variations from datasets in order to mine the original
+    process (that real-world actors might be deviating from), referred to as
+    sanitisation,
+    \item Inserting variations so as to produce datasets with 
+\end{itemize}
+
+\subsection{Process mining \& variation in behaviour}
+% process mining for processes which exhibit natural variations
+\inline{Is this going from data to a model? Models to data? Potentially multiple models either way depending on their use? Consider this and possibly restructure.}
+
+
+\subsection{Process mining \& variation in data}
+% working with noisy data: sanitisation / coping strategies
+\inline{Write a short subsection on the trend of santising data / coping with noisy datasets. Sometimes behavioural variance isn't desirable.}
+\inline{Consider making noisy data a subsubsection of \cref{subsec:review_synthetic_datasets}.}
+
+\subsection{Synthetic datasets exhibiting variance}\label{subsec:review_synthetic_datasets}
 
 
 
-\section{Opportunities}
 
-% putting these all together. There's lit in each section,
-% but specifically AO in simulation and dynamic simulation aren't well studied
+\labelledsec{Research Opportunities in the Literature}{research_opportunities}
+% putting these all together. There's lit in each section, but specifically AO
+% for representing cross-cutting behaviour, behaviour with variance, or
+% simulations produced by composition of speculative parts aren't well studied
 % on their own and warrant further study. It just so happens that PDSF is
-% well-positioned to fill this gap, as it has the necessary properties of a
-% tool to perform this research, where something like AspectJ [likely...?] falls
+% well-positioned to fill this gap, as it has the necessary properties of a tool
+% to perform this research, where something like AspectJ [likely...?] falls
 % short.
+
+One notable omission from the set of research themes outlined in
+\cref{sec:dynamism_in_sm} is that variations on processes aren't well
+studied in their own right. That is to say, behavioural variation is typically
+treated as a nuisance to the researcher or practicioner interested in a model or
+dataset, and the variations and their impact on simulations are not studied on
+their own. Some work exists\inline{cite work that focuses on variations
+specifically}, but the majority of this is done in the context of tooling, i.e.
+the representation of variation for their use in another research context, where
+they are not the subject.
+
+As an aspect orientation framework capable of runtime adaptation of a target
+system which can manipulate a join point from inside \inline{what are our
+research opportunities given the above...?}
