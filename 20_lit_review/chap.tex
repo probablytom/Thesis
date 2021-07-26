@@ -25,7 +25,6 @@ the body of this thesis.
 
 
 
-
 \labelledsec{Early work on PyDySoFu}{pdsf_early_work}
 % Some notes on where PDSF was before the PHD work.
 
@@ -149,7 +148,7 @@ of that function, contingent on program state. This allowed behavioural
 adaptation to be simulated in an aspect-oriented fashion. In addition, a library
 of behavioural adaptations called FUZZI-MOSS\inline{CITECITECITE} was developed
 which implemented many cross-cutting, contingent behaviours in procedural
-simulations of sociotechnical systems.
+simulations of \sociotechnical systems.
 
 One important contribution of this work is that PDSF aspects are effectively
 able to operate \emph{inside} a target. In typical aspect orientation frameworks
@@ -162,20 +161,55 @@ execution\footnote{Similarly to \cref{subsec:bca}, but in an aspect oriented
 manner.}. Moreover, because weaving is performed dynamically, every execution of
 a function may perform different operations.
 
-\subsection{Opportunities presented by PDSF}
+\subsection{Opportunities presented by PyDySoFu}
 
-PDSF presented several oppportunities for future research. Some salient
+PyDySoFu presented several oppportunities for future research. Some salient
 properties of the original work include:
 
 \begin{itemize}
     \item It provided an aspect orientation library which could weave and
     unweave aspects during program execution, without relying on anything other
-    than Python's built-in language features
-    \item \inline{Write more PDSF opportunities}
+    than Python's built-in language features. As discussed in
+    \cref{sec:dynamic_aop_review}, this is supported by some early aspect
+    orientation frameworks also, but AspectJ dominates in the world of aspect
+    orientation frameworks and does not support weaving during program execution.
+    \item It provided the capacity to weave aspects \emph{inside} targets, as
+    opposed to around them, or at either end of their execution. So far as we
+    are aware, no aspect orientation framework in research or industry has
+    offered this feature, and its applications and potential are yet to be
+    explored.
+    \item Relatedly, PyDySoFu was used in the context of simulating behaviour which may change
+    over time. Contingent behaviour being a cross-cutting concern is an
+    innovation of the early research which suggests aspect orientation may have
+    strong applications in \sociotechnical simulation \& modelling.
 \end{itemize}
 
-\inline{Do we need a brief explainer of what aspect orientation is here?
-Or will this go in the introduction? already a little in the earlier two subsections.}
+\inline{Do we need a brief explainer of what aspect orientation is before
+jumping into outside lit? Or will this go in the introduction? already a little
+in the earlier litrev subsections.}
+
+The amount of potential investigation which can be done into the dynamic weaving
+of target-altering / ``inside'' aspects in simulation \& modelling applications
+is vast. While literature on the complete topic is absent, each individual
+component of this research angle is well-studied on its own. These opportunities
+might be related to existing literature through the following questions:
+
+\begin{itemize}
+    \item How does PyDySoFu compare to existing aspect orientation frameworks,
+    particularly those with a focus on dynamic weaving? Related frameworks are
+    summarised and compared in \cref{sec:dynamic_aop_review}.
+
+    \item What is the use of aspect orientation in simulation \& modelling? How
+    does the approach taken in \pdsf's prior work relate to existing
+    approaches? This will be discussed for simulation in
+    \cref{sec:ao_and_simulation}, and for modelling in
+    \cref{sec:ao_and_modelling}.
+    
+    \item Variability is important to capture in any \sociotechnical model or
+    simulation. How is variability treated in existing literature, and how does
+    this relate to \pdsf's approach? This will be explored in
+    \cref{sec:dynamism_in_sm}.
+\end{itemize}
 
 
 
@@ -323,7 +357,7 @@ simulation purposes, it could therefore be appealing in situations where
 adaptations are made to another researcher's simulations --- assuming the
 original source code is not published --- or in security settings investigating
 trust in compilers and runtimes\cite{trustingtrust}. In the present context of
-developing sociotechnical simulations however, this does not appear to be an
+developing \sociotechnical simulations however, this does not appear to be an
 advantage, particularly at a time when the source code of software components of
 research projects are increasingly published.
 
@@ -384,13 +418,13 @@ on its use, it often cannot be --- and for which many alternatives now exist
 specifically to address this
 limitation~\cite{opm_original,ExecutableBPMNMitsyuk}.\inline{surely one more
 here to round this out.}}. Aspect orientation has seen some study in modelling,
-particularly for sociotechnical modelling, and while aspect-oriented
-sociotechnical modelling is not generally researched with subsequent simulation
+particularly for \sociotechnical modelling, and while aspect-oriented
+\sociotechnical modelling is not generally researched with subsequent simulation
 in mind, an important body of work is still present, and therefore important to
 discuss.
 
 \subsection{Aspect Orientation in Business Process Modelling}
-Aspect orientation for sociotechnical systems is particularly well studied in
+Aspect orientation for \sociotechnical systems is particularly well studied in
 the business process modelling
 community\cite{Machado_2011,Cappelli_AOBPM}~\inline{find more citations for AOBPM}
 

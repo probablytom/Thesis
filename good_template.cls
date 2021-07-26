@@ -90,13 +90,13 @@
 
     \geometry{
         	paper=a4paper, % Paper size, change to letterpaper for US letter size
-        	top=1.8cm, % Top margin
+        	top=2.4cm, % Top margin
         	bottom=5.75cm, % Bottom margin
         	left=4.5cm, % Left margin
         	right=4.5cm, % Right margin
         	headheight=2pt, % Header height
         	footskip=1.4cm, % Space from the bottom margin to the baseline of the footer
-        	headsep=10pt, % Space from the top margin to the baseline of the header
+        	headsep=1.5\baselineskip, % Space from the top margin to the baseline of the header
     }
 \else % below is the code for non-Ben-And-Tom-Typography-Nerdery
     %----------------------------------------
