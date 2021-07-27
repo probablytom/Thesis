@@ -126,7 +126,7 @@
         	bindingoffset=2.5cm, % gutter, the margin for the book binding to go into
         	headheight=2pt, % Header height
         	footskip=1.4cm, % Space from the bottom margin to the baseline of the footer
-        	headsep=10pt, % Space from the top margin to the baseline of the header
+        	headsep=1.5\baselineskip, % Space from the top margin to the baseline of the header
             }
     \else  % default options 
         \hypersetup{
@@ -141,7 +141,7 @@
         	right=2.75cm, % Right margin
         	headheight=2pt, % Header height
         	footskip=1.4cm, % Space from the bottom margin to the baseline of the footer
-        	headsep=10pt, % Space from the top margin to the baseline of the header
+        	headsep=1.5\baselineskip, % Space from the top margin to the baseline of the header
         }
     \fi
 \fi
