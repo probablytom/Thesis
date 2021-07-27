@@ -344,6 +344,12 @@ weaving aspects at runtime.
 \subsection{Nu}
 \inline{Some extra things here about Nu, such as \cite{dyerNUmasters}.}
 
+Nu is an aspect orientation framework written in Java which achieves dynamic
+weaving by way of the Nu virtual machine~\cite{dyerNUmasters}. This introduced
+new primitives in Java for the application and removal of aspects:
+\lstinline{BIND} and \lstinline{REMOVE}.\inline{Write more NU writeup — requires
+more citations etc.}
+
 % Alternative techniques
 \subsection{Binary Component Adaptation}\label{subsec:BCA} Binary Component
 Adaptation\cite{keller1998binary} (BCA) is a technique for performing
@@ -367,10 +373,12 @@ with separation of concerns in mind. It is presented here as a useful contrast
 to PyDySoFu: it demonstrates an alternative technique for achieving dynamic
 runtime source manipulation, even if the lack of separation of concerns means it
 would not be well applied for this thesis.
-%check Kell survey for more, I believe there's juicy stuff there, maybe in
-%section 2
 
 
+
+
+% check Kell survey for more, I believe there's juicy stuff there, maybe in
+% section 2
 
 
 
@@ -461,10 +469,11 @@ Much of the literature concerning aspect-oriented programming and simulation
 focus on tooling support for aspect-oriented simulation, rather than
 investigations into its efficacy. For example, attempts have been made to
 integrate aspect orientation into new
-tools~\cite{DEVSaspectorientation2008aksu}~\inline{throw more in here from excel},
-or into existing ones~\cite{chibani2019using}\inline{throw more in here from
-excel}. \inline{Rethink this. The angle is, ``much of the lit strays from any kind
-of real-world testing of sim tech --- why?''}
+tools~\cite{DEVSaspectorientation2008aksu}~\inline{throw more in here from
+excel}, or into existing ones~\cite{chibani2019using}\inline{throw more in here
+from excel}. \inline{Rethink the argument around AOP and sim in the lit. The
+angle is, ``much of the lit strays from any kind of real-world testing of sim
+tech --- why?''}
 
 Some experiments specifically using aspect orientation in the implementation of
 process-based simulations also exist\cite{Ionescu_2009}~\inline{include more!}. For
@@ -481,7 +490,7 @@ Aspect-orientation is also applied in other simulation paradigms.
 based simulations~\cite{Cieslak_2011}. An L-system\cite{lindenmayer1968lsystem}
 is defined by a set of symbols, an initial string composed of these symbols, and
 a set of rules for rewriting substrings. While being a powerful tool for
-representing fractal structures, they were originally concieved of for plant
+representing fractal structures, they were originally conceived of for plant
 modelling (and still see the most use in this field).
 
 \citeauthor{Cieslak_2011} note that some details of plant modelling are actually
@@ -515,9 +524,44 @@ in:
     \item Inserting variations so as to produce datasets with 
 \end{itemize}
 
-\subsection{Process mining \& variation in behaviour}
+\subsection{Business Process Modelling \& variation in behaviour}
 % process mining for processes which exhibit natural variations
 \inline{Is this going from data to a model? Models to data? Potentially multiple models either way depending on their use? Consider this and possibly restructure.}
+
+In real-world business processes, natural variation is difficult to avoid. This
+is because business processes are inherently \sociotechnical, and so can be
+expected to exhibit at least slight variations due to the mistakes of human
+actors executing those processes. Variations can effectively take two forms:
+
+\begin{enumerate}
+    \item Some variations are expected, where predictable shifts in behaviour
+    emerge over time. Examples would be habits forming which deviate from
+    prescribed processes, skipped steps, or paths of a fork in a process
+    becoming effectively ignored as others become the default (essentially
+    producing redundancy in the model).
+    \item Unexpected variations can occur if an actor behaves erratically,
+    information is improperly recorded in a log (and so \emph{seems} to exhibit
+    variance), or if some accident occurs. This appears as random noise in
+    collected data, and is difficult to statically embed in any model, as change
+    might take myriad forms and occur at an arbitrary number of points in the
+    process.
+\end{enumerate}
+
+As these two forms of variance must be modelled differently, they are treated
+differently in a business process model exhibiting variance. Typically the
+second is treated as noise: undesired and a distraction from a model built to
+reflect a prescribed process. They are therefore removed via sanitisation, and
+are discussed in \cref{subsec:review_synthetic_datasets}. The first, variation
+which might be reflective of a model as it can be expected to be \emph{executed}
+--- even when this was not an intended or prescribed version --- might be
+interesting to modellers. These situations might arise, for example, where
+sociotechnical variance within the context of the broader system is the specific
+subject of investigation. Degraded modes in these systems are a good example of
+this~\cite{johnson2007degradedmodes}.
+
+
+\labelledsubsec{Variations in Process Models}{bpm_variation}
+Discussing 
 
 
 \subsection{Process mining \& variation in data}
@@ -525,8 +569,96 @@ in:
 \inline{Write a short subsection on the trend of santising data / coping with noisy datasets. Sometimes behavioural variance isn't desirable.}
 \inline{Consider making noisy data a subsubsection of \cref{subsec:review_synthetic_datasets}.}
 
-\subsection{Synthetic datasets exhibiting variance}\label{subsec:review_synthetic_datasets}
 
+\inline{So, there's some stuff to cite on sanitisation and mining in the
+    presence of noise --- see On process model synthesis based on event logs
+    with noise, \cite{Mitsyuk_2016}.}
+
+    \inline{Add more stuff to be cited here, at the very least...}
+
+Process Mining is a field which necessarily deals with erroneous data. As
+processes are identified within event logs sourced from real systems,
+inconsistencies in data collected or execution of a prescribed process results
+in data fed to a mining algorithm which is at best not indicative of the desired
+result, and at worst indicative of a different one altogether. As a result,
+variation in process logs is a subject of active research in the community.
+
+There are two main research efforts involving mining on log data with variance:
+
+\begin{enumerate}
+    \item Some researchers look to minimise the impact of log variance on the
+    outcome of process mining. This can be done through the development of
+    mining algorithms which are able to cope somewhat with variance. Many
+    algorithms attempting to solve this problem have been developed, but their
+    effectiveness depends on the kind of variance present and the degree to
+    which those different variances are expressed in the
+    data\cite{Mitsyuk_2016}.
+    \item Other researchers look to identify noise in event logs before they are
+    mined, processing them to eliminate any variance before mining begins. This
+    requires classification of noise and the removal of suspect
+    traces\cite{Cheng2015logsanitization}.
+\end{enumerate}
+
+Another perspective on the problem is that noise cannot be successfully
+eliminated, but that training on empirical noise limits a researcher's control
+over an experiment. The argument here is usually along the lines that empirical
+noise is effectively impossible to predict, exert control over, or classify
+entirely, so any testing of tools using that data is flawed. Without knowing an
+algorithm's response to specific kinds of variance, a researcher can't compare
+one approach properly or reproducibly against another. It is therefore important
+to \emph{produce logs with controlled kinds of variance}, so as to create a kind
+of synthetic workspace where algorithms are tested against synthetic data with
+known kinds and degrees of variance. Once they are reproducibly tested against
+known good datasets, they can undergo empirical verification by using data
+captured ``in the wild''.
+
+Naturally, similar approaches exist outside of process mining, as the
+requirement for synthetic data is a common one. In potentially sensitive data
+collected on the public --- census or health data for example --- there may be a
+need to publish data which is at least partially
+synthetic~\cite{little1993statistical,Drechsler_2011,rubin1993discussion}.
+\citeauthor{Drechsler_2011} presents an array of simple statistical methods for
+producing this~\cite{Drechsler_2011}. \citeauthor{koenecke2020syntheticgenecon}
+note that, depending on the nature of the data \emph{needed} for a given
+application, different methods are appropriate, meaning a variety of techniques
+are required~\cite{koenecke2020syntheticgenecon}, and give an overview of
+methods suitable in economics. MetaSim\cite{kar2019metasim} produces data using
+probabilistic grammars for training neural nets in a manner naturally resilient
+to variance by including an appropriate amount via the trained grammar, thereby
+injecting a guaranteed correct degree of noise. Admittedly neural nets are a
+common source of synthetic data in modern literature and a research subject with
+a growing need for training data, perhaps best exemplified in the community's
+production of another kind of neural net specifically for this purpose:
+Generative Adversarial Nets, or GANs~\cite{goodfellow2014generative}.
+
+Approaches specific to the generation of synthetic event logs are also
+abundant\cite{stocker2013secsy, pourmasoumi2015business, Loreti_2019,
+Yousfi_2015, ExecutableBPMNMitsyuk}, and as PyDySoFu's original use was in
+\sociotechnical modelling, this is our primary interest. 
+
+\inline{OK! So now we need to go through the lit, in particular the five articles cited above. Some notes below too.}
+
+\begin{enumerate}
+    \item \cite{Yousfi_2015} --- unread, v interesting
+    \item \cite{stocker2013secsy} for secsy, and \cite{stocker2014secsy}, the associated
+    tooling paper
+    \item \cite{pourmasoumi2015business} generates synthetic logs with variance,
+    just like secsy, but instead of making edits to the process before
+    simulation using a ``structure tree'' representation and identifying points
+    suitable for mutation.
+    \item \cite{Loreti_2019} --- unread, v interesting
+    \item \cite{ExecutableBPMNMitsyuk} --- Aalst generating logs from models. No
+    variance but they make the case that synthetic data is needed by the
+    community \emph{and} it's a big name taking a swing, too. Could combine well
+    with \cite{pourmasoumi2015business} to get variance without actually
+    producing new techniques, assuming a limitation of the sim approach to
+    block-structured models (which I think they already impose anyway…)
+    % \item \cite{kar2019metasim} where probabilistic grammars are used to generate training
+    % data for neural nets. Not directly related but an example of how broad
+    % synthetic generation is (and a good case for there being a broad requirement
+    % in research and industry for synthetic datasets too). Their approach
+    % naturally introduces plenty of noise.
+\end{enumerate}
 
 
 

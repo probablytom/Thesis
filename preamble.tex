@@ -16,13 +16,12 @@
 
 
 % Packages I for sure need
-% \usepackage{amsmath}
-% \usepackage{listings}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{titletoc}
 \usepackage{enumitem}
 \usepackage{csquotes}
+\usepackage{xstring}
 
 % Fonts
 \usepackage{fontspec}
@@ -97,10 +96,16 @@ innerbottommargin=0pt,
 
 
 % Macros
-\newcommand{\inline}[1]{{\color{red}{#1}} \addcontentsline{tdo}{todo}{#1}}
+% A todo system that is turned off by enabling final mode.
+\makeatletter
+\@ifclasswith{good_template}{final}
+{\newcommand{\inline}[1]{}}
+{\newcommand{\inline}[1]{{\color{red}{#1}}\addcontentsline{tdo}{todo}{#1}{}}}
+\makeatother
+
 \newcommand{\labelledsec}[2]{\section{#1}\label{sec:#2}}
 \newcommand{\labelledsubsec}[2]{\subsection{#1}\label{subsec:#2}}
 % a macro to stop me switching between hyphenation/spacing/neither
-\newcommand{\sociotechnical}{socio-technical}
+\newcommand{\sociotechnical}{socio-technical }
 % To prevent me absent-mindedly shortening pydysofu to pdsf, the macro is handy.
-\newcommand{\pdsf}{PyDySoFu}
+\newcommand{\pdsf}{PyDySoFu }
