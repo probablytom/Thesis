@@ -634,9 +634,82 @@ Generative Adversarial Nets, or GANs~\cite{goodfellow2014generative}.
 Approaches specific to the generation of synthetic event logs are also
 abundant\cite{stocker2013secsy, pourmasoumi2015business, Loreti_2019,
 Yousfi_2015, ExecutableBPMNMitsyuk}, and as PyDySoFu's original use was in
-\sociotechnical modelling, this is our primary interest. 
+\sociotechnical modelling, this is our primary interest. \inline{Shugurov paper
+from 2014 should be checked for citing here too. There's a useful summary in On
+Business Process Variants Generation (Pourmasoumi 2015).}
 
-\inline{OK! So now we need to go through the lit, in particular the five articles cited above. Some notes below too.}
+
+
+% \inline{OK! So now we need to go through the lit, in particular the five
+% articles cited above. Some notes below too.}
+
+In \cite{stocker2013secsy, stocker2014secsy} \citeauthor[]{stocker2013secsy}
+describe a method for injecting variance into synthetic event logs (``traces'').
+In \cite{stocker2013secsy}, a method is described whereby security-specific
+alterations to traces can be made which represent the behaviour of an attacker
+in some \sociotechnical system. Variance can be injected by statically
+manipulating a process before simulating it to generate traces or making
+modifications to traces after simulation. A supporting tool, ``Secsy'', is
+provided in \cite{stocker2014secsy}.
+
+A similar approach approach is provided in \cite{pourmasoumi2015business}, where
+alterations are made to a process before simulation occurs. In terms of
+alterations made to the model directly (and not produced traces), Secsy only
+supports a limited number of operations on a model: transformation of
+\texttt{AND} and \texttt{OR} gateways to the alternative kind, and swapping the
+ordering of modelled activities. The method proposed in
+\cite{pourmasoumi2015business} is able to make use of a much broader gamut of
+alterations, by limiting themselves to mutating only block-structured processes
+which they represent as ``structure trees''. The authors claim this limitation
+does not impact the broad applicability of their approach, as
+\citeauthor{chenthesis} claims in their own PhD thesis notes that around 95\% of
+BPMN models can be represented this way~\cite{chenthesis}. However, that claim
+should be held with some scepticism. The citations for this claim are
+\cite{Thom2009ActivityPI} and a paper by \citeauthor{polyvyanny2010structuring}
+which is most likely \cite{polyvyanny2010structuring}\footnote{The citation
+indicates a paper presented a year earlier than
+\cite{polyvyanny2010structuring}, and the author has given talks with the same
+title and published other works with similar titles --- although it is possible
+a paper with the same name was published a year earlier, and this could change
+\citeauthor{chenthesis}'s claim, some confidence can be had that this is a
+simple referencing error or typo.}. The first work checks 214 process models
+against a set of patterns which are specifically not formalised, and the second
+presents some formal work on the translation of process models following the
+block structure relied on in \cite{pourmasoumi2015business} and
+\cite{chenthesis}. However, the two works never cite each other, the application
+of the formal translations to the patterns presented is non-trivial, and no
+further explanation as to the application required appears to be presented in
+the thesis. One could suppose that the translation of the patterns to
+block-structuring could be automated by an implementation of the theory
+presented in \cite{polyvyanny2010structuring}. In any case,
+\citeauthor{chenthesis} notes in \cite{chenthesis} that the requirement of
+block-structuring on a process model is a limiting factor in the application of
+their own work in their conclusions, and so the broad applicability of
+\cite{pourmasoumi2015business} should be taken with healthsome caution. After
+some exhaustive citation reading we can conclude that neither approach supports
+effective production of synthetic event logs exhibiting a wide gamut of
+variances by statically manipulating a BPMN model prior to simulation, although
+the existence of both methods suggests it would be a valuable research outcome.
+
+\inline{In \cite{ExecutableBPMNMitsyuk}, we can find good things I should write
+about.}
+
+\inline{In \cite{Loreti_2019}, we can find good things I should write about.}
+
+
+\inline{In \cite{Yousfi_2015}, we can find good things I should write about.}
+
+
+In \cite{eno2008generating},
+\citeauthor{eno2008generating} develop a workflow for generating synthetic data
+by converting from PMML, a markup language for predictive modelling, into their
+own DSL for storing synthetic data specifically. PMML is designed specifically
+with mining in mind, but SDDL is a flexible language useful for storing
+arbitrary synthetic data, and they note that the technique might be applicable
+to anybody generating synthetic datgasets for privacy or security concerns, or
+for those looking to generate much larger datasets than can be feasibly
+collected empirically. Their goal is to synthesise datasets
+indistinguishable in specified characteristics to real-world datasets.
 
 \begin{enumerate}
     \item \cite{Yousfi_2015} --- unread, v interesting
