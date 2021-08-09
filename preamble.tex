@@ -45,6 +45,16 @@ float,
 floatplacement=H,
 basicstyle=\normalsize\ttfamily}
 
+% Extra colours for listings
+\definecolor{backcolour}{gray}{0.95}
+
+% Inline listings text size correction from https://tex.stackexchange.com/a/575053
+\makeatletter
+\lst@AddToHook{TextStyle}{\let\lst@basicstyle\ttfamily}
+\makeatother
+
+
+
 % For inline todos...nicked from https://tex.stackexchange.com/a/219354
 \makeatletter
 \usepackage{regexpatch}

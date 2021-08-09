@@ -57,6 +57,7 @@
 \definecolor{linkColor}{RGB}{156,78,13}
 \definecolor{sepia}{RGB}{70,42,14}
 \definecolor{grayBT}{RGB}{211,211,211}
+\definecolor{commentgrey}{gray}{0.3}
 %-----------------------
 
 %-----------------------
@@ -75,12 +76,11 @@
 \if@beautifulcopy
     %----------------------------------------
     %SPACING: LINE, PARAGRAPH, PAGE
-    \setlength{\parskip}{1em}
+    \setlength{\parskip}{1.0em}
     \renewcommand{\baselinestretch}{1.25}
+    % \setlength{\parindent}{30pt}
 
     % Set paragraph layout.
-    \setlength{\parindent}{30pt}
-    \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
     \textwidth 12.5cm
     
     \hypersetup{
@@ -107,12 +107,12 @@
     \renewcommand{\baselinestretch}{2.0}
 
     % Set paragraph layout.
-    \setlength{\parindent}{30pt}
-    \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+    % \setlength{\parindent}{30pt}
+    % \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
     % The actual width of the body text must be 15.5cm.
     \textwidth 15.5cm
     
-    % Default page layout is for pdf viewing, set @physicalcopy command to get layout for printing
+    % Default page layout is for pdf viewing, set physicalcopy option to get layout for printing
     \if@physicalcopy
         \hypersetup{
             colorlinks = false,
@@ -253,7 +253,7 @@
   basicstyle=\ttfamily\color{gray},
   breaklines=true,
   captionpos=b,
-  commentstyle=\color{green},
+  commentstyle=\color{commentgrey},
   escapeinside={\%*}{*)},
   keywordstyle=\color{blue},
   stringstyle=\color{RawSienna},

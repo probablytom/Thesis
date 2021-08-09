@@ -1,0 +1,167 @@
+\labelledsec{Dynamism in AOP}{dynamic_aop_review}
+% Dynamic methods in aspect orientation
+
+Aspect orientation frameworks have supported ``dynamic behaviour'' in different
+ways for a long time. This is largely through a technique referred to as dynamic–
+or runtime–weaving.
+
+\subsection{Dynamic and static weaving}
+
+Dynamic weaving integrates advice into a target program during its execution, as
+opposed to during compilation or a pre-processing step. The advantage of this is
+flexibility: dynamic aspect-oriented approaches have been proposed for deploying
+hotfixes in safety-critical scenarios where software systems cannot be taken
+offline to apply patches\inline{CITECITECITE}, and in adaptive mobile scenarios where software
+may need to alter its properties in response to its
+environment\cite{hveding2005aspect}, or when debugging code to apply potential
+patches without reloading an entire software system\cite{popovici2002PROSE}.
+
+To meet these needs, software systems need to check for available aspects to
+weave at any join point, as it is always possible that the set of applied advice
+has changed since the program last encountered this point. The technique
+therefore presents a tradeoff compared to traditional (static) aspect weaving,
+as illustrated in \cite{dynamicAOchitchyan}. \citeauthor{dynamicAOchitchyan}
+generalise this tradeoff by describing different mechanisms used to implement
+aspect orientation into three main categories\footnote{Drawing from
+\cite{popovici2002PROSE,popovici2003JITaspects} where ``PROSE'', a particularly
+influential dynamic aspect orientation library, is detailled.}, each with their own
+strengths:
+
+\begin{description}
+    \item[``Total hook weaving''] alters all join points where advice may be
+    applied before runtime, so that during execution each join point ``watches''
+    for applied advice. The benefit of this approach is that aspects can be
+    applied at any point at runtime, but this flexibility is bought at the cost
+    of maximum overhead: at all points where weaving \emph{may} be possible,
+    checks for applied advice must be made.
+    \item[``Actual hook weaving''] weaves hooks only to join points that are
+    expected to be in use. This limits overhead from watching for applied
+    advice, at the cost of flexibility: during program execution, advice may be
+    applied or retracted \emph{only at specific points within the system}.
+    \item[``Collected weaving''] weaves aspects directly into code at
+    compilation / preprocessing\inline{surely this isn't dynamic, Ian...?!}, so as
+    to collect advice and target codebase into a single unit. This provides
+    exactly the necessary amount of overhead, and in many cases may result in
+    requiring no ``watching'' for applied advice at all, but this limits a
+    developer's ability to amend advice supplied at runtime.
+\end{description}
+
+There is an almost direct tradeoff between the number of potential join points
+actively checking for applied advice at runtime, and the overhead of dynamism in
+any aspect oriented framework, with ``total hook weaving'' providing complete
+adaptability at the expense of checking at all possible points whether advice is
+applied.
+
+Another tradeoff could be seen to be the clarity of dynamically woven aspect
+oriented code. Aspect orientation is already criticised for the lack of clarity
+as to what woven code will \emph{do} when run, and where weaving can change
+during program execution, static tools are less useful in making these
+predictions. Some tools have been produced which do provide tooling for
+achieving understanding as to what dynamically woven code will do when executed
+(also called an ``Aspect Monitor'', as discussed in \cite{popovici2002PROSE}),
+but they are often limited or missing from a dynamically weaving framework's
+implementation (such as \cite{Baker_2002}). \inline{Find more citations for both
+dynamic weavers with aspect monitors and without. Nanning aspects? Nu?}
+
+
+% Dynamic AO libraries
+\labelledsubsec{PROSE}{subsec:PROSE} One implementation of dynamic weaving is
+PROSE\cite{popovici2002PROSE,popovici2003JITaspects}, a library which achieves
+dynamic weaving by use of a Just-In-Time compiler for Java. The authors saw
+aspect orientation as a solution to software's increasing need for adaptivity:
+mobile devices, for example, could enable a required feature by applying an
+aspect as a kind of ``hotfix'', thereby adapting over time to a user's needs.
+Other uses of dynamic aspect orientation they identify are in the process of
+software development: as aspects are applied to a compiled, live product, the
+join points being used can be inspected by a developer to see whether the
+pointcut used is correct. If not, a developer could use dynamic weaving to
+remove a mis-applied aspect, rewrite the pointcut, and weave again without
+recompiling and relaunching their project.
+
+Indeed, the conclusion \citeauthor{popovici2003JITaspects} provide in
+\cite{popovici2003JITaspects} indicates that the performance issues generalised
+by \citeauthor{dynamicAOchitchyan} in \cite{dynamicAOchitchyan} may prevent
+dynamic aspect orientation from being useful in production software, but that
+it presented opportunities in a prototyping or debugging context.
+
+PROSE explores dynamic weaving as it could apply in a development context, but
+the authors do not appear to have investigated dynamic weaving as it could apply
+to simulation contexts, or others where software making use of aspects does not
+constitute a \emph{product}.
+
+
+\subsection{Handi-Wrap}
+Handi-Wrap\cite{Baker_2002} is a Java library allowing for dynamic weaving via a
+third-party language designed for metaprogramming, called Maya\inline{Do I want a
+citation for this? Probably not, but worth revisiting.}. At the time of
+development Handi-Wrap's dynamic aspect weaving feature was novel: the aspect
+orientation library of note, AspectJ, wove only statically\footnote{AspectJ now
+supports what it calls ``load-time weaving'' --- that is, weaving aspects as
+classes are loaded into the JVM --- but not weaving to things that are
+\emph{already} loaded, meaning AspectJ still allows for only a particular
+flavour of dynamic behaviour.}, and Handi-Wrap's purpose was to show that DSLs
+for metaprogramming could pave a way to dynamic weaving.
+
+\citeauthor{Baker_2002} implemented an aspect orientation framework which is
+reasonably performant, weaves dynamically, and allows for aspect orientation
+features to be implemented natively for greater control as compared to
+Handi-Wrap's then competitor, AspectJ. As a tool, Handi-Wrap demonstrated a
+promising approach to dynamic weaving, but the project appears to have enjoyed
+less attention than similar work (such as PROSE, described in
+\cref{subsec:PROSE}).
+
+The technique used to implement Handi-Wrap (implementation via a
+metaprogramming-specific DSL, Maya) is familiar, in that it shares a perspective
+on dynamic weaving with early PyDySoFu work. The fuzzers used in
+\cite{wallis2018caise} applied transformations to abstract syntax trees, not
+unlike a LISP-style macro. To quote \cite{baker2002maya} by way of contrast:
+``{\ttfamily{}Maya generalizes macro systems by treating grammar productions as
+generic functions\ldots{}}''.\inline{Revisit this inline quote format} The two
+approaches have clear differences. Most notably, PyDySoFu's entire
+implementation \emph{and use} is performed in Python directly, and Maya's
+intended purpose is metaprogramming in a more general sense. It is possible
+that, while Maya provided a useful foundation to explore the dynamic weaving of
+aspects, its lack of adoption as a language limited handi-wrap's reach;
+nevertheless, it is encouraging to see another use of metaprogramming for
+weaving aspects at runtime.
+
+\subsection{Nu}
+\inline{Some extra things here about Nu, such as \cite{dyerNUmasters}.}
+
+Nu is an aspect orientation framework written in Java which achieves dynamic
+weaving by way of the Nu virtual machine~\cite{dyerNUmasters}. This introduced
+new primitives in Java for the application and removal of aspects:
+\lstinline{BIND} and \lstinline{REMOVE}.\inline{Write more NU writeup — requires
+more citations etc.}
+
+% Alternative techniques
+\subsection{Binary Component Adaptation}\label{subsec:BCA} Binary Component
+Adaptation\cite{keller1998binary} (BCA) is a technique for performing
+adaptations on software components after compilation. Though it works on
+already-compiled code it does provide dynamic behaviour: the technique can adapt
+software components via rewriting before or during the loading of its target.
+Like some aspect orientation techniques\inline{which?!}, BCA adapts a Java class
+loader to make its adaptations, but unlike aspect oriented approaches it does
+not require access to the original source of the software. For scientific
+simulation purposes, it could therefore be appealing in situations where
+adaptations are made to another researcher's simulations --- assuming the
+original source code is not published --- or in security settings investigating
+trust in compilers and runtimes\cite{trustingtrust}. In the present context of
+developing \sociotechnical simulations however, this does not appear to be an
+advantage, particularly at a time when the source code of software components of
+research projects are increasingly published.
+
+An important distinction to be made is that BCA provides an example of runtime
+adaptation, but does not enable an aspect oriented approach and is not developed
+with separation of concerns in mind. It is presented here as a useful contrast
+to PyDySoFu: it demonstrates an alternative technique for achieving dynamic
+runtime source manipulation, even if the lack of separation of concerns means it
+would not be well applied for this thesis.
+
+
+
+
+% check Kell survey for more, I believe there's juicy stuff there, maybe in
+% section 2
+
+

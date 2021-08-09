@@ -1,0 +1,186 @@
+\labelledsec{Early work on PyDySoFu}{pdsf_early_work}
+% Some notes on where PDSF was before the PHD work.
+
+PyDySoFu\footnote{Or ``PDSF'' for short.} is a Python library~\cite{pdsf_repo}
+built for making changes to the source code of a Python function as it is
+called, and before it is executed, while the original function definition
+remains oblivious to the changes being made. It was originally developed as an
+honours-level dissertation, which was built upon and detailled in a subsequent
+paper~\cite{wallis2018caise}. This thesis furthers that original work. To be
+clear about the work this thesis contains, the state of the project
+\emph{before} this work began is briefly discussed here.
+
+\subsection{PyDySoFu's implementation and features}
+
+The original version of PyDySoFu\footnote{Further improvements have been made
+through this research which improve on the design, but this section is to
+discuss the state of the project before this work began, and the general
+principles around it, which remain unchanged.} patched Python classes with
+additional handlers. Attributes of Python objects are usually retrieved using
+dot notation (i.e. \lstinline{object_id.attr_id}), which evaluates internally to
+a call to \lstinline{object_class.__getattribute__(``attr_id'')}. PyDySoFu replaces a
+class' built-in \lstinline{__getattribute__()} method with a new one, which
+calls the original to acquire the required attribute. 
+
+In the case where the required attribute is not callable, the value is returned
+as normal. Callable attributes are modified, however. In this case, the
+replacement \lstinline{__getattribute__()} also checks for a set of
+manipulations to make to the original code. These can be applied before or after
+the original code is run, as well as around it. A new function is returned
+containing a reference to the originally sought attribute, but which will search
+for these additional pieces of work before executing it, and can execute this
+work before or after the call (or both). These pieces of work are referred to as
+``advice'', adopting aspect orientation terminology.
+
+As discussed further in \cref{subsec:pdsf_aop}, this approach is effectively an
+implementation of a traditional aspect orientation framework. However, unlike
+existing frameworks, PyDySoFu also supports a special kind of ``around'' advice:
+before a function is called, it can be rewritten. This is done by applying
+``before'' advice which retrieves the abstract syntax tree of the target
+callable attribute using Python's \lstinline{inspect} module (its built-in
+reflection), applying arbitrary transformations to the tree, and recompiling it
+into a Python \lstinline{code} object (its representation of its
+internal bytecode). At this point, many things are possible: the transformation
+can be cached for later use, can replace the original callable's
+\lstinline{code} object to make the transformation persistent, or can be
+discarded after use. This transformed code is run in lieu of the original,
+effectively enabling aspect orientation which can make adaptations \emph{inside}
+a procedure as well as before and after its execution.
+
+This approach also had some limitations:
+
+\begin{itemize}
+    \item Traditional pointcuts cannot target points inside a procedure, meaning
+    that an aspect applied ``inside'' its target must manage the points where
+    its transformation is applied manually.
+    \item Importantly, a callable object's internal bytecode cannot be replaced
+    in Python3, leading to a rewrite discussed in \inline{Make a crossreference
+    to the discussion of PDSF's rewrite.}
+    \item This method is significantly slower than other aspect orientation
+    approaches, as rewriting a class' \lstinline{__getattribute__} method means
+    that \emph{every} resolution of an object's attributes --- whether they are
+    methods or values, and including a class' built-in ``magic'' methods ---
+    incurs an overhead from the replaced \lstinline{__getattribute__}
+    implementation. However slight this overhead can be made, affecting Python's
+    built-in methods on classes means that rewriting the
+    \lstinline{__getattribute__} method is unavoidably expensive due to the
+    scale of these methods' use.
+\end{itemize}
+
+However, the goal of the original research was to develop a flexible
+``proof-of-concept'' of aspect orientation adapting procedure definition at
+runtime, which was successfully
+achieved\cite{wallis2018caise,wallis2018genetic}. 
+
+\subsection{Aspect Orientation \& PyDySoFu}\label{subsec:pdsf_aop}
+
+The goals of ``changing a function's behaviour'' and maintaining
+``obliviousness'' in the original definition of that function speak to the goals
+of the aspect oriented programming paradigm\cite{kiczales1997aspect}. Quoting
+their original definitions:
+
+\begin{displayquote}
+    Components are properties of a system, for which the implementation can be
+    cleanly encapsulated in a generalized procedure. Aspects are properties
+    for which the implementation cannot be cleanly encapsulated in a
+    generalized procedure. Aspects and cross-cut components cross-cut each other
+    in a system’s implementation.
+    [ \ldots{} ]
+    The key difference between
+    AOP and other approaches is that AOP provides component and aspect languages
+    with different abstraction and composition mechanisms.
+\end{displayquote}
+
+Generally, aspect orientation is percieved to be a technique for separation of
+concerns. Any cross-cutting concerns can be separated from their components into
+aspects applied where that concern arises. The strength of aspect orientation
+lies in its compositional nature: developers can write short, maintainable
+implementations of a procedure's core purpose (for example, business logic) and
+ancillary concerns such as logging or security can be woven into this
+implementation as preprocessing, compilation, or at runtime. This compositional
+nature is what gives rise to aspect orientation's ``obliviousness'', as the
+procedure targetted by a piece of advice is written without regard to that fact.
+
+The original PyDySoFu implementation was an aspect orientation library focusing
+on separating a function's definition from \emph{potential changes to it}. This
+was used to model ``contingent behaviour'' --- behaviour sensitive to some
+condition --- as an original, ``idealised'' definition of that behaviour, plus
+some possible alterations. These changes might apply to many different
+behaviours in the same manner, and therefore represent concerns which separate
+cleanly into an aspect. An example would be the behaviour of a worker whose job
+requires focus on allocated tasks. A lack of focus could be represented as steps
+of the worker's tasks being executed in duplicate, out-of-order, or skipped.
+Assuming aspects as described by \citeauthor{kiczales1997aspect} are able to
+edit the definition or execution of a procedure\footnote{As opposed to simply
+wrapping it with additional behaviour before and/or after execution}, such
+contingent behaviours are well modelled as aspects.
+
+To achieve this, a model was presented in \cite{wallis2018caise} wherein aspects
+were developed which could change function \emph{definitions} on each invocation
+of that function, contingent on program state. This allowed behavioural
+adaptation to be simulated in an aspect-oriented fashion. In addition, a library
+of behavioural adaptations called FUZZI-MOSS\inline{CITECITECITE} was developed
+which implemented many cross-cutting, contingent behaviours in procedural
+simulations of \sociotechnical systems.
+
+One important contribution of this work is that PDSF aspects are effectively
+able to operate \emph{inside} a target. In typical aspect orientation frameworks
+such as AspectJ~\cite{aspectj_intro}, aspects operate by effectively prepending
+or appending work to a target, referred to as ``before'' or ``after'' pointcuts
+respectively. To do both is referred to as ``around''. By manipulating
+procedures within Python directly, PDSF is able to manipulate its target from a
+new perspective, adding (or removing) work during the target's
+execution\footnote{Similarly to \cref{subsec:bca}, but in an aspect oriented
+manner.}. Moreover, because weaving is performed dynamically, every execution of
+a function may perform different operations.
+
+\subsection{Opportunities presented by PyDySoFu}
+
+PyDySoFu presented several oppportunities for future research. Some salient
+properties of the original work include:
+
+\begin{itemize}
+    \item It provided an aspect orientation library which could weave and
+    unweave aspects during program execution, without relying on anything other
+    than Python's built-in language features. As discussed in
+    \cref{sec:dynamic_aop_review}, this is supported by some early aspect
+    orientation frameworks also, but AspectJ dominates in the world of aspect
+    orientation frameworks and does not support weaving during program execution.
+    \item It provided the capacity to weave aspects \emph{inside} targets, as
+    opposed to around them, or at either end of their execution. So far as we
+    are aware, no aspect orientation framework in research or industry has
+    offered this feature, and its applications and potential are yet to be
+    explored.
+    \item Relatedly, PyDySoFu was used in the context of simulating behaviour which may change
+    over time. Contingent behaviour being a cross-cutting concern is an
+    innovation of the early research which suggests aspect orientation may have
+    strong applications in \sociotechnical simulation \& modelling.
+\end{itemize}
+
+\inline{Do we need a brief explainer of what aspect orientation is before
+jumping into outside lit? Or will this go in the introduction? already a little
+in the earlier litrev subsections.}
+
+The amount of potential investigation which can be done into the dynamic weaving
+of target-altering / ``inside'' aspects in simulation \& modelling applications
+is vast. While literature on the complete topic is absent, each individual
+component of this research angle is well-studied on its own. These opportunities
+might be related to existing literature through the following questions:
+
+\begin{itemize}
+    \item How does PyDySoFu compare to existing aspect orientation frameworks,
+    particularly those with a focus on dynamic weaving? Related frameworks are
+    summarised and compared in \cref{sec:dynamic_aop_review}.
+
+    \item What is the use of aspect orientation in simulation \& modelling? How
+    does the approach taken in \pdsf's prior work relate to existing
+    approaches? This will be discussed for simulation in
+    \cref{sec:ao_and_simulation}, and for modelling in
+    \cref{sec:ao_and_modelling}.
+    
+    \item Variability is important to capture in any \sociotechnical model or
+    simulation. How is variability treated in existing literature, and how does
+    this relate to \pdsf's approach? This will be explored in
+    \cref{sec:dynamism_in_sm}.
+\end{itemize}
+

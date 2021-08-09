@@ -1,0 +1,119 @@
+\labelledsec{Aspect Orientation in Simulation \& Modelling}{ao_and_modelling}
+
+% Aspect orientation as it applies to modelling
+
+Having discussed aspect orientation as it is used in a simulation context, it is
+natural to investigate its use in modelling research, too.
+
+Simulation and modelling are similar topics and are often combined into a single
+study. However, their goals differ. Simulation typically involves the study of
+processes or behaviour: there is an expectation that simulations are
+\emph{executed} or \emph{run}. This often produces data. The intent of modelling
+is more structural in nature: models are typically observed or analysed to gain
+insights. Quoting \citeauthor{smintro}'s introduction~\cite{smintro}:
+
+\begin{displayquote}
+    Modeling \emph{[sic]} is the process of producing a model; a model
+    is a representation of the construction and working of
+    some system of interest. A model is similar to but
+    simpler than the system it represents.
+    \newline{}
+    [ \ldots{} ]
+    \newline{}
+    A simulation of a system is the operation of a model of the system. The
+    model can be reconfigured and experimented with; usually, this is
+    impossible, too expensive or impractical to do in the system it represents.
+    The operation of the model can be studied, and hence, properties concerning
+    the behavior of the actual system or its subsystem can be inferred.
+\end{displayquote}
+
+\citeauthor{smintro}'s definition implies that to simulate is to operate a
+model. Whether this model is constructed for the purpose of simulation or for
+study in its own right, a simplified representation of the system being studied
+is implicitly required for any simulation. However, modelling does not imply
+simulation. Models can be studied for their own merits, and many modelling
+frameworks exist which are made explicitly for their own study, without regard
+to their use in simulation\footnote{Consider UML, a well-studied modelling
+framework which is generally not used for any kind of simulation --- depending
+on its use, it often cannot be --- and for which many alternatives now exist
+specifically to address this
+limitation~\cite{opm_original,ExecutableBPMNMitsyuk}.\inline{surely one more
+here to round this out.}}. Aspect orientation has seen some study in modelling,
+particularly for \sociotechnical modelling, and while aspect-oriented
+\sociotechnical modelling is not generally researched with subsequent simulation
+in mind, an important body of work is still present, and therefore important to
+discuss.
+
+\subsection{Aspect Orientation in Business Process Modelling}
+Aspect orientation for \sociotechnical systems is particularly well studied in
+the business process modelling
+community\cite{Machado_2011,Cappelli_AOBPM}~\inline{find more citations for AOBPM}
+
+
+\subsection{MAML \& SWARM}
+\inline{Is MAML/SWARM really modelling, or simulation? Simulation, right?}
+
+
+\subsection{}
+
+
+% \section{Aspect Orientation \& Simulation}\label{sec:ao_and_simulation}
+\labelledsec{Aspect Orientation \& Simulation}{ao_and_simulation}
+
+\inline{The simulation section \emph{badly} needs revisiting.}
+
+Surprisingly, little literature exists pertaining specifically to the use of
+aspect-orientation in a simulation context. Aspect orientation is often applied
+to modelling as discussed in \cref{sec:ao_and_modelling}, used to compose a perspective of the world from individual
+parts, but in a way which isn't necessarily executable or able to produce data.
+
+Early in the history of aspect orientation as an emerging paradigm, there was
+some interest in its use for scientific simulation. \cite{gulyas1999use} discuss
+that computer simulations require code for both observation of a simulation and
+the simulation itself, and that misuse of this could cause what is in effect a
+kind of Hawthorne Effect\inline{does hawthorne effect need a citation?}, where
+the inclusion of observation code intertwined with simulation code might
+influence the outcome of an experiment. They suggest that improving simulation
+technologies could combat this approach. Aspect Orientation, being developed
+specifically with obliviousness in mind, is an ideal candidate which
+\citeauthor{gulyas1999use} identify.
+
+Much of the literature concerning aspect-oriented programming and simulation
+focus on tooling support for aspect-oriented simulation, rather than
+investigations into its efficacy. For example, attempts have been made to
+integrate aspect orientation into new
+tools~\cite{DEVSaspectorientation2008aksu}~\inline{throw more in here from
+excel}, or into existing ones~\cite{chibani2019using}\inline{throw more in here
+from excel}. \inline{Rethink the argument around AOP and sim in the lit. The
+angle is, ``much of the lit strays from any kind of real-world testing of sim
+tech --- why?''}
+
+Some experiments specifically using aspect orientation in the implementation of
+process-based simulations also exist\cite{Ionescu_2009}~\inline{include more!}. For
+example, \citeauthor{Ionescu_2009} apply aspect orientation in a nuclear
+disaster prevention simulation. Their motivation is that code can become complex
+to maintain over time and changes to the scientific zeitgeist or to regulatory
+requirements become costly as technical debt mounts. Aspect orientation
+therefore allows developers to separate functionality into distinct modules more
+easily, without disturbing the underlying codebase.
+
+\subsection{Aspect-oriented L-Systems}
+Aspect-orientation is also applied in other simulation paradigms.
+\citeauthor{Cieslak_2011} investigated the use of aspect orientation in L-system
+based simulations~\cite{Cieslak_2011}. An L-system\cite{lindenmayer1968lsystem}
+is defined by a set of symbols, an initial string composed of these symbols, and
+a set of rules for rewriting substrings. While being a powerful tool for
+representing fractal structures, they were originally conceived of for plant
+modelling (and still see the most use in this field).
+
+\citeauthor{Cieslak_2011} note that some details of plant modelling are actually
+cross-cutting concerns against many plants or families of plants. To represent
+these, they introduce a new language to describe plant models which makes use of
+aspect orientation to represent these cross-cutting concerns. They test the
+approach by representing carbon dynamics, apical dominance and biomechanics as
+cross-cutting concerns that are integrated into a previously published model of
+kiwifruit shoot development. \citeauthor{Cieslak_2011} hope that these
+cross-cutting concerns might work in other models too, but this is untested. The
+use of an aspect in a new model, when developed for another, seems untested in
+the community's literature writ large and is a noted omission in the conclusion
+of this particular work.
