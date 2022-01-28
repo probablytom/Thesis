@@ -1,4 +1,4 @@
-\chapter{Rewriting PyDySoFu}
+\chapter{Rewriting PyDySoFu}\label{chap:pdsf_rewrite}
 
 \inline{Check the most up-to-date pdsf implementation --- is it actually on that
 backup drive?}
@@ -323,10 +323,15 @@ a latent issue in the design of the aspect oriented paradigm. The original
 PyDySoFu implementation was able to modify any procedure in a more traditional,
 oblivious manner. While this new implementation is clearly more limited as a
 result, we consider these limitations an overall benefit to the design of the
-tool.
+tool, and a contribution to aspect orientation framework design.
 
 
-\subsection{Improvements to supported aspects}
+% \subsection{Improvements to supported aspects}
+\labelledsubsec{Weaving process}{pdsf3_weaving_process}
+
+\inline{Describe the improved process of weaving in PDSF3}
+
+\inline{Find the newest copy of PDSF3, make a repo for it, cite the new impl}
 
 % \labelledsec{}
 
@@ -360,10 +365,10 @@ Despite this, there is room for improvement in the design of the framework:
     less overhead, as searching for applied aspects need not be performed at
     every target invocation. Targets should have ``changedness'' flags which are
     set every time an aspect is applied or removed from it.
-    \item A major use of aspect orientation for simulation \& modelling is in
-    scientific codebases; direct integration with the scientific package
-    ecosystem (which is vibrant in Python's community) should be made,
-    particularly flagging aspects to apply in sciunit
-    tests\cite{sciunit_primer}.
+    \item Our intended use case for aspect orientation for simulation \&
+    modelling is in scientific codebases specifically; direct integration with
+    the scientific package ecosystem (which is vibrant in Python's community)
+    should be made. A good initial project would be integration of aspect
+    application in sciunit tests~\cite{sciunit_primer}.
 \end{itemize}
 

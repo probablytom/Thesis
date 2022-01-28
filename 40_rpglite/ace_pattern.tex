@@ -6,28 +6,28 @@ architecture which allows them to access and manipulate pertinent details of the
 simulation:
 
 \begin{description}
-  \item[actor —] allows the function to identify the actor performing the activity
+  \item[actor ---] allows the function to identify the actor performing the activity
     defined by the function. This argument is any object uniquely identifying an
     actor.
-    \item[context —] allows the function to determine details of the current
-      thread of work being undertaken by the actor. This is necessary because in
-      some simulations, the same actor might pause and resume multiple
-      occurrences of the same activity --- for example, they might concurrently
-      play three different matches in RPGLite. As a result, it is necessary to
-      understand the context of the action being performed by the actor in
-      question. This argument can be any object uniquely identifying the context
-      of a piece of work, but is most likely a class or dictionary-like object
-      to permit the communication of information across invocations of different
-      action-representing functions.
-      \item[environment —] an actor's actions are often determined by the global
-        environment they act within. There may be ancillary details to the
-        actor's actions and the context of their particular thread of work which
-        they are undertaken within which are used to determine behaviour, such
-        as a landscape they traverse or other actors they might choose to
-        interact with. Because all actors share access to a global environment,
-        this also provides a message passing space, or a space where actors can
-        set values and flags other actors might look to, should those details be
-        more general than their specific thread of work at a given point in time.
+  \item[context ---] allows the function to determine details of the current
+    thread of work being undertaken by the actor. This is necessary because in
+    some simulations, the same actor might pause and resume multiple
+    occurrences of the same activity --- for example, they might concurrently
+    play three different matches in RPGLite. As a result, it is necessary to
+    understand the context of the action being performed by the actor in
+    question. This argument can be any object uniquely identifying the context
+    of a piece of work, but is most likely a class or dictionary-like object
+    to permit the communication of information across invocations of different
+    action-representing functions.
+  \item[environment ---] an actor's actions are often determined by the global
+    environment they act within. There may be ancillary details to the
+    actor's actions and the context of their particular thread of work which
+    they are undertaken within which are used to determine behaviour, such
+    as a landscape they traverse or other actors they might choose to
+    interact with. Because all actors share access to a global environment,
+    this also provides a message passing space, or a space where actors can
+    set values and flags other actors might look to, should those details be
+    more general than their specific thread of work at a given point in time.
 \end{description}
 
 This architecture was designed because the flexibility of raw source code was

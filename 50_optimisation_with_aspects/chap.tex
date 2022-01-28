@@ -1,0 +1,240 @@
+\chapter{Simulation Optimisation with Aspect Orientation}
+
+With a game deployed to experiment participants and a dataset of empirical play
+collected, it was possible to determine optimal play in any game state. This
+entirely separate body of work is documented in another student's PhD
+thesis\inline{Cite William's PhD thesis}. This dataset leads to
+further research. If we understand how players \emph{should} play, and we have
+data to indicate how they \emph{do} play, we can investigate how real-world
+players might be modelled. 
+
+\labelledsec{Aims}{aop_simulation_optimisation_aims}
+
+Aspect orientation's use in previous simulation and modelling efforts have
+typically focused on the use of aspects to compose model or simulation
+details\inline{There must be tons of good citations for aspects being used to
+compose together a simulation / model}. Critics of aspect orientation note that
+the act of process composition makes visually understanding codebases difficult,
+and so ensuring that a simulation properly models real-world behaviour is made
+trickier with the introduction of aspect orientation. However, aspect
+orientation might instead be used to \emph{augment} an existing model, by
+rethinking what aspects are used to represent.
+
+An alternative use of aspects would be to first build a non-aspect-oriented
+model of \emph{expected} behaviour, and separately build aspects which describe
+deviations from this. For example, one might more realistically simulate safety
+procedures by first producing an idealised, ``naive'' model of what employees
+are expected to do, and separately model alterations to prescribed behaviour as
+an employee's boredom, expectation that checks and balances are unneccesary
+wastes of their time, and so on --- effectively, separating out models of
+degraded modes\cite{johnson2007degradedmodes}.
+
+Previous research on the use of aspect orientation to model degraded modes
+adopted the traditionally claimed benefit of aspect orientation: separation of
+cross-cutting concerns, allowing for a greater reusability of
+codebases\cite{wallis2018caise}. A repository of cross-cutting concerns in
+socio-technical simulation such as boredom was developed as a library to be
+applied to any future models\cite{fuzzimoss_repo}. However, aspects used in
+simulation have no intrinsic need to represent concerns that are cross-cutting.
+Indeed, whether they can be accurately used to represent cross-cutting concerns
+in simulation is the topic addressed in \inline{Add a cross-reference to the
+chapter on cross-cutting concern simulation accuracy when it exists}. Aspects
+might instead be used to represent \emph{amendments to processes} which deviate
+from an expected norm, in this case represented by the idealised model aspects
+are applied to.
+
+To more concretely relate this to the experiment at hand: play of RPGLite can be
+modelled as players matchmaking, picking characters, and then mutually taking
+turns until one player's characters are entirely expired. Once a player's
+characters are dead, new matches can be made. This can continue indefinitely.
+Lacking a heuristic to select next moves or characters, players might be
+modelled as picking random moves. However, heuristics for move selection can be
+added to the naive model of play by way of augmenting the processes already
+defined through aspects. This approach can be of significant utility in both
+modelling player behaviour and accurately modelling different players:
+
+\begin{enumerate}
+    \item Different players might use their own unique heuristics to model play.
+    Each player's behaviour is therefore well described by separating what play
+    ``looks like'' to what makes a given player play differently to their peers.
+    \item Different players might lean more heavily on different heuristics, or
+    mixes thereof. Play might be characterised by reliance on experience, on
+    recent games, on knowledge of an opponent, and so on; these different
+    variables can be expected to be weighted differently by each player, adding
+    complexity to the code which models this individualised play.
+    \item A modeller might discover a new idea for a heuristic long after
+    developing an original concept for a model. The easiest methods for amending
+    the original model should require the least rewriting of original code. Due
+    to the impact of \pointno{2}, ideal architectures for an approach such as
+    this should require these heuristics to be defined entirely separately to
+    the base model.
+\end{enumerate}
+
+Considering \pointno{1}, \pointno{2}, and \pointno{3}, architectures and
+paradigms which enable separation of concerns are well-suited to defining
+alternative approaches to play. Some architectural approaches such as mixins or
+plugin design patterns might support this structure well, but they typically
+rely on language features (in the case of mixins) or knowledge of software
+engineering (in the case of design patterns). Aspect orientation is typically
+provided to developers as a framework or runtime in a language (such as
+AspectJ\cite{aspectj_intro} or PROSE\cite{popovici2002PROSE}) and can require
+minimal architectural understanding to use: concepts are simple, and the effort
+of composition is alleviated by the supporting framework or runtime.
+
+The approach makes little use of aspect orientation's significant contribution
+--- cross-cutting concerns --- as whether behaviour cross-cuts different parts
+of a codebase is not of interest in this use case. Instead, aspect orientation
+is treated as a composition mechanism with a reasonably low degree of technical
+knowledge required.
+
+\labelledsubsec{PyDySoFu Suitability}{optimisation_with_aspects_usingpdsf}
+Some aspect orientation frameworks do not adequately achieve this requirement.
+For example, the most influential framework, AspectJ, requires the use of
+language extensions to define integrate aspect
+orientation\cite{AspectJLanguageAndTools}, and similar additional complexity is
+added in seemingly every alternative framework, through the use of bespoke
+virtual machines, compilers, translators, or
+languages\cite{rajan2006nu_towardsAO_invocation,popovici2003JITaspects,AspectCplusplusDesignImpl,baker2002maya}.
+
+PyDySoFu, however, requires very little additional knowledge to use. Its design
+prioritises simplicity and a shallow learning curve that makes its adoption by
+researchers without a software engineering background feasible: \inline{maybe
+cut this list of reasons PyDySoFu is fantastic...}
+
+\begin{itemize}
+    \item PyDySoFu is implemented as a pure-python library, meaning that it can
+    be installed through Python's package manager (pip) and imported like any
+    other Python library. No additional supporting infrastructure is required.
+    \item Aspects in PyDySoFu are simple functions which take as arguments
+    whichever pieces of information are pertinent for the function's use as an
+    aspect\footnote{For example, an ``encore'' aspect which is woven after a
+    target procedure returns will be provided that target's return value.}.
+    \item To weave a PyDySoFu aspect requires only a method call, which returns a
+    \lstinline{callable} which unweaves that aspect.
+    \item Defining PyDySoFu pointcuts requires only a regular expression
+    matching a method name. This can apply to a wide range of join points if
+    required, but where method names are provided directly, the join point is
+    made clear.
+    \item Additional clarity over where aspects \emph{can} be woven is
+    introduced by PyDySoFu's transparent weaving of aspect hooks, mitigating
+    some of aspect orientation's most prominent criticisms.
+\end{itemize}
+
+PyDySoFu therefore satisfies the requirements of this work well: it offers
+composition of procedures outside of the scope of an original codebase, makes
+what is being composed where clear to a programmer, and makes no significant
+changes to Python as a language (thereby requiring users to specialise in fewer
+tools). 
+
+
+\labelledsubsec{Proposed Experiment}{optimisation_with_aspects_experiment}
+
+Aspect orientation's use as a composition tool for model components makes sense
+in principle, but it is unclear whether the addition of behaviours to a naive
+model would make the model more ``realistic''. It is unclear whether the changes
+made would properly represent what might be empirically observed, and while
+PyDySoFu's design makes understanding \emph{what} is being composed simpler than
+other aspect orientation frameworks, a composed model under this paradigm is
+still split across multiple areas of a codebase, making a visual assessment of
+whether a model accurately reflects the intended behaviour impractical. 
+
+We can confirm whether aspects can realistically represent changes to a naive
+understanding of the real world by comparing their output against empirical
+data. For example, if a such a model of behaviour in a system outputs data which
+correlates poorly against empirically collected data, a change to that system
+would make it more realistic if it improved this correlation, and could be said
+to be realistic if the generated data appeared sufficiently ``close'' to the
+empirical dataset --- which here means that the correlation between the two is
+of statistical significance. Such a change can be aspect-oriented. Therefore, we
+can see the application of aspects as the application of packages of potential
+improvements to a base model, which can be verified by way of comparison to
+known-good datasets.
+
+This is the basis of the experiments in this thesis.
+
+With datasets collected empirically on RPGLite's play, we can build a naive
+model of play and aspects to apply that should realistically model data from
+players. This can be used to answer the question:
+
+\begin{researchquestion}
+    Can aspect-oriented models be said to exhibit realism?
+\end{researchquestion}
+
+To answer this question, we will produce a model of play, and develop aspects
+which encapsulate different play styles so as to compare the aspect-augmented
+datasets and naive datasets against the empirically sourced data. The following
+subsections detail the naive model developed and aspects applied to this model
+respectively.
+
+
+\labelledsec{Naive Model}{optimisation_with_aspects_naivemodel}
+
+A naive model of play was developed by separating each stage of the actions
+taken by players in the client-side app, and separating them into individual
+procedures. To facilitate the retrieval of most information about a simulation
+in an applied aspect, the model was written so as to contain the entire
+simulation state as mutable function arguments. The model was written as a
+workflow, and state of workflow execution was separated into three components:
+the actor a function invocation (or ``step'') repesents activity from; the
+context of that step in the execution of a workflow; and the context of that
+workflow's execution in a broader environment. Incidentally, we found this
+structure to allow a flexible and natural implementation of a procedural
+simulation, which should translate easily to existing simulation frameworks such
+as SimPy\cite{simpy_intro}:
+
+\begin{description}
+  \item[Actor ---] allows the function to identify the actor performing the activity
+    defined by the function. This argument is any object uniquely identifying an
+    actor.
+  \item[Context ---] allows the function to determine details of the current
+    thread of work being undertaken by the actor. This is necessary because in
+    some simulations, the same actor might pause and resume multiple occurrences
+    of the same activity --- for example, they might concurrently play three
+    different matches in RPGLite. As a result, it is necessary to understand the
+    context of the action being performed by the actor in question. This
+    argument can be any object uniquely identifying the context of a piece of
+    work, but should be mutable (such as a class or dictionary-like object) to
+    permit the communication of information across invocations of different
+    action-representing functions.
+  \item[Environment ---] an actor's actions are often determined by the global
+    environment they act within. There may be ancillary details to the
+    actor's actions and the context of their particular thread of work which
+    they are undertaken within which are used to determine behaviour, such
+    as a landscape they traverse or other actors they might choose to
+    interact with. Because all actors share access to a global environment,
+    this also provides a message passing space, or a space where actors can
+    set values and flags other actors might look to, should those details be
+    more general than their specific thread of work at a given point in time.
+    \footnote{This is different to environments in some other simulation frameworks, such
+    as SimPy\cite{simpy_documentation}, where the environment controls scheduling and
+    execution: this structure imposes no constraints such as models of time, and
+    anticipates that any such functionality should be implemented by the
+    programmer. However, an environment such as SimPy's might satisfy a programmer's needs
+    when using this particular pattern.}
+\end{description}
+
+Each simulation step suitable as a join point receives these three arguments at
+a minimum. Aspects applied to these therefore have access to the entire state of
+the simulation.
+
+The naive model of RPGLite follows a simple workflow mimicking player
+interaction with the client-side application used by real-world players.
+Graphically, it would be represented as a flowchart like so:
+
+
+
+\inline{TODO FINISH WRITING ABOUT THE NAIVE MODEL'S STEPS}
+
+
+\labelledsec{Aspects Applied}{optimisation_with_aspects_aspectsdeveloped}
+
+Players can be expected to select stronger characters as they understand
+gameplay more. Aspects were therefore developed to track player experience with
+characters. As players became more familiar with the characters they play, we
+can hypothesise that they will better understand how to play with those
+characters, and more often select characters they have success with. 
+
+
+
+
+\inline{Write about \emph{both} aspects so as to answer the hypothesis : Can aspects be used to generate models of alternative behaviours?}

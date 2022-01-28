@@ -3,7 +3,9 @@
 
 Aspect orientation frameworks have supported ``dynamic behaviour'' in different
 ways for a long time. This is largely through a technique referred to as dynamic–
-or runtime–weaving.
+or runtime–weaving. 
+
+\inline{Describe for each framework in this section how it compares to PDSF}
 
 \subsection{Dynamic and static weaving}
 
@@ -11,10 +13,10 @@ Dynamic weaving integrates advice into a target program during its execution, as
 opposed to during compilation or a pre-processing step. The advantage of this is
 flexibility: dynamic aspect-oriented approaches have been proposed for deploying
 hotfixes in safety-critical scenarios where software systems cannot be taken
-offline to apply patches\inline{CITECITECITE}, and in adaptive mobile scenarios where software
-may need to alter its properties in response to its
-environment\cite{hveding2005aspect}, or when debugging code to apply potential
-patches without reloading an entire software system\cite{popovici2002PROSE}.
+offline to apply patches~\cite{Ionescu_2009}, and in adaptive mobile scenarios
+where software may need to alter its properties in response to its
+environment~\cite{hveding2005aspect}, or when debugging code to apply potential
+patches without reloading an entire software system~\cite{popovici2002PROSE}.
 
 To meet these needs, software systems need to check for available aspects to
 weave at any join point, as it is always possible that the set of applied advice
@@ -24,7 +26,7 @@ as illustrated in \cite{dynamicAOchitchyan}. \citeauthor{dynamicAOchitchyan}
 generalise this tradeoff by describing different mechanisms used to implement
 aspect orientation into three main categories\footnote{Drawing from
 \cite{popovici2002PROSE,popovici2003JITaspects} where ``PROSE'', a particularly
-influential dynamic aspect orientation library, is detailled.}, each with their own
+influential dynamic aspect orientation library, is detailed.}, each with their own
 strengths:
 
 \begin{description}

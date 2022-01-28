@@ -1,0 +1,106 @@
+\chapter{Testing Synthetic Data Realism with RPGLite}
+
+\section{The RPGLite Model}
+
+The model for RPGLite is composed of a base model describing the game rules and
+random player behaviour. To this, we add four aspect-oriented components of the
+model, in an attempt to adapt the base model's random behaviour into something
+``realistic''.
+
+\subsection{Base Model}
+RPGLite's base model consists of a set of classes, representing playable
+characters, and a set of functions representing aspects of gameplay. Each
+function can be thought of as a discrete action an actor might take in a
+discrete-event agent-based simulation. 
+\par
+
+The basic concept of the model is, given two players and an environment they
+play within, to simulate a game in this environment between these players. This
+is invoked via a \lstinline{play_game} method, which constructs a ``game
+document'' to store game details in, selects a player to go first, and then
+plays the game via a series of small functions intended to represent the
+discrete actions a player takes when playing RPGLite. Broadly, these involve
+choosing characters and choosing moves, as RPGLite is a simple game.
+\par
+
+It should be noted, however, that all behaviour in this base model is strictly
+random. Any decision, such as the choice of characters to play or moves to make,
+are made at random in a uniform manner. As such, the base model effectively
+represents ``naive'' play: the equivalent play in the real world would be
+represented by players tapping randomly on areas of a phone screen until a game
+concluded, with no discernable strategy.
+
+\subsection{Aspects applied}
+
+Four aspects are applied to the base model in order to impose a model of
+``realistic'' play over the original naive model. Our hypothesis is:
+
+\inline{Rewrite --- our original wording of the hypothesis clearly no longer works.}
+\begin{displayquote}
+  Is it possible to take a model which poorly represents some real-world system,
+  and have that model represent emergent properties of said system by way of
+  composing additional model details?
+\end{displayquote}
+
+The nature of the comparison between the real-world system --- RPGLite --- and
+the model --- our aspect-applied `naive' model --- will be detailed in
+\cref{exp:rpglite-simple}. Briefly, the experiment correlates synthetic data
+with real-world data to assess whether real-world character choices correlate to
+those chosen in the synthetic dataset. We are therefore interested in applying
+aspects which produce a model where character pairs are chosen for a given game
+in a manner reflecting the real world. Here we describe the additional model
+details composed via aspect-oriented programming so as to produce a more
+``realistic'' model.
+\par
+
+The four aspects applied perform the following functions:
+
+\begin{itemize}
+\item \ldots{}adding to the model a record of players' experience over time
+  \item \ldots{}players making ideal moves according to
+    \cite{kavanagh2020}
+  \item \ldots{}players ``remembering'' the outcomes of games they have played,
+    in particular the winning character pair
+    \item \ldots{}``experienced'' players choosing to play with characters they
+      have seen perform well in earlier games
+\end{itemize}
+
+The first of these aspects tracks player experience according to a logistic
+curve model. It is applied to a \lstinline{play_game} pointcut to update a point on a
+logistic curve when a game is completed. The logistic curve was chosen for its
+simplicity and relatively close shape to the desired slope of player
+experience\footnote{A sigmoid was desirable because, with RPGLite being a
+  relatively simple game, we expected that players would take a few games to
+  become familiar with the concepts and strategies involved and, once passing
+  familiarity was achieved, there was little else to learn; hence a single
+  ``phase transition''-style slope on the experience curve.}. At the end of each
+game, players move a small degree on the curve as dictated by the curve's
+relative growth rate: a parameter for optimisation in the experiments as
+detailled in \cref{exp:rpglite-simple}.
+\par
+
+The second of these aspects applies to a \lstinline{get_moves_from_table} pointcut and
+intercepts the return value of the target function, which randomly generates a
+move to play. The move is replaced by looking up an ideal move in
+\cite{kavanagh2020}\inline{find citation for William's journal paper submitted
+after game-on presentation.}, generating a move object for the game in progress
+according to \citeauthor{kavanagh2020}'s calculated optimal move, and returning this
+in lieu of the original random move. In so doing we inject optimal moves played
+into the game, meaning that our simulated players can ``see'' the optimal move
+in a given scenario and therefore do not make mistakes. In an analysis of moves
+made by players it can be seen that players are likely to play the ``right''
+move, and so we generalise to all modelled players playing optimally.\inline{back
+  this up with a graph or something, I'm certain William has this already.}
+
+The third aspect applies to a \lstinline{}
+\inline{\textbf{finish this!} I need to actually look at the code and make sure
+  the aspects do what I'm saying they do, I think there's a bit of a mismatch.
+  It's not super important anyway.}
+
+
+
+% ========================================================================
+\label{sec:experiment1}
+\label{exp:rpglite-simple}
+\section{Experiment 1: Correlating Synthetic and Real-World Character Choices}
+

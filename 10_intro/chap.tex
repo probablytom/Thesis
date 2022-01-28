@@ -1,9 +1,57 @@
 \chapter{Introduction}
 
-Some good things here
 
-also some text
 
-\section{The first section header}
+\section{A primer on aspect orientation}
 
-this thesis has many features, such as content and citations, such as \cite{wallis_game_on_2020}
+\inline{Explain aspect orientation briefly.} Some useful notes for the
+explanation:
+
+\begin{itemize}
+    \item AO originated in xerox parc, first described in
+    \cite{kiczales1997aspect}. There are lots of weaving mechanisms for regular,
+    static aspect orientation, and there's a good early survey of them all (and
+    implementation in a custom OO language specifically for this!) in
+    \cite{masuhara2003modeling}.
+    \item AO has some forebears: metaobject protocols, subject-oriented
+    programming, adaptive programming, composition filters. The latter three are
+    described by \cite{chibani2019using} as being alternative \emph{kinds} of AO
+    --- I disagree, but they're certainly attempting similar things.
+    \item The original and still most widely used AO implementation is AspectJ,
+    which comes with its own aspect language. It's grown over the years and is
+    used sometimes in industry [citation needed...]. A smaller alternative would
+    be Spring AOP\inline{find a citation for spring AOP}
+\end{itemize}
+
+
+
+\labelledsec{Prior Work}{priorwork}
+
+\inline{Write a section for the introduction describing the work done on pdsf
+before this, to delineate where we're starting from and avoid any claims of
+plagiarism. This can be short, the first sec of the lit review is a proper
+discussion, but the tool should be mentioned here. See
+\cref{sec:pdsf_early_work} for what already exists.}
+
+
+
+\labelledsec{Terms \& definitions}{glossary}
+
+\inline{Complete the glossary in \cref{sec:glossary}.}
+
+\inline{Decide whether terms like BPMN, simulation \& modelling, etc also belong
+in the glossary\cref{sec:glossary}.}
+
+\begin{description}
+    \item[Aspect]  
+    \item[Advice] 
+    \item[Joinpoint]
+    \item[Pointcut]  
+    \item[Weaving] 
+    \item[AspectJ] The original aspect orientation framework, with language
+    extensions to describe pointcuts and aspects.  
+    \item[Target] The procedure an aspect is applied to via a join point, to
+    affect advice.
+    \item[PyDySoFu] 
+    \item[]
+\end{description}

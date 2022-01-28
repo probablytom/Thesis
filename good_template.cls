@@ -45,8 +45,8 @@
 % We set up AMS formatting, including seamless paragraph and theorem numbering.
 \usepackage{amsthm}
 \usepackage[fleqn]{amsmath} % flush equations left
-% \usepackage{amsfonts}
-% \usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amssymb}
 \usepackage{stix} 
 \usepackage{setspace}
 %-----------------------------------

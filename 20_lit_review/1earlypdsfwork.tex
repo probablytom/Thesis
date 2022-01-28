@@ -54,8 +54,7 @@ This approach also had some limitations:
     that an aspect applied ``inside'' its target must manage the points where
     its transformation is applied manually.
     \item Importantly, a callable object's internal bytecode cannot be replaced
-    in Python3, leading to a rewrite discussed in \inline{Make a crossreference
-    to the discussion of PDSF's rewrite.}
+    in Python3, leading to a rewrite discussed in \cref{chap:pdsf_rewrite}.
     \item This method is significantly slower than other aspect orientation
     approaches, as rewriting a class' \lstinline{__getattribute__} method means
     that \emph{every} resolution of an object's attributes --- whether they are

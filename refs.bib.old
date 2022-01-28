@@ -1,0 +1,291 @@
+@article{wallis_game_on_2020,
+  title={Designing a Mobile Game to Generate Player Data-Lessons Learned},
+  author={Wallis, William and Kavanagh, William and Miller, Alice and Storer, Tim},
+  year={2020}
+}
+
+@article{pycx,
+  title={PyCX: a Python-based simulation code repository for complex systems education},
+  author={Sayama, Hiroki},
+  journal={Complex Adaptive Systems Modeling},
+  volume={1},
+  number={1},
+  pages={1--10},
+  year={2013},
+  publisher={SpringerOpen}
+}
+
+@inproceedings{wallis2018caise,
+  title={Modelling realistic user behaviour in information systems simulations as fuzzing aspects},
+  author={Wallis, Tom and Storer, Tim},
+  booktitle={International Conference on Advanced Information Systems Engineering},
+  pages={254--268},
+  year={2018},
+  organization={Springer}
+}
+
+@inproceedings{gulyas1999use,
+  title={The use of aspect-oriented programming in scientific simulations},
+  author={Guly{\'a}s, L{\'a}szl{\'o} and Kozsik, Tam{\'a}s},
+  booktitle={Proceedings of Sixth Fenno-Ugric Symposium on Software Technology, Estonia},
+  year={1999}
+}
+
+@article{kavanagh2020,
+	doi = {10.1007/s40869-020-00121-5},
+	url = {https://doi.org/10.1007%2Fs40869-020-00121-5},
+	year = 2020,
+	month = {dec},
+	publisher = {Springer Science and Business Media {LLC}},
+	volume = {10},
+	number = {1-4},
+	pages = {89--110},
+	author = {William Kavanagh and Alice Miller},
+	title = {Gameplay Analysis of Multiplayer Games with Verified Action-Costs},
+	journal = {The Computer Games Journal}
+}
+
+@inproceedings{DEVSaspectorientation2008aksu,
+  title={Developing aspects for a discrete event simulation system},
+  author={Aksu, AU and Belet, Faruk and Zdemir, B},
+  booktitle={Proceedings of the 3rd Turkish Aspect-Oriented Software Development Workshop},
+  pages={84--93},
+  year={2008},
+  organization={Bilkent University}
+}
+
+@article{chibani2019using,
+  title={Using aop in discrete event simulation: A case study with japrosim},
+  author={Chibani, Meriem and Belattar, Brahim and Bourouis, Abdelhabib},
+  journal={International Journal of Applied Mathematics, Computational Science and Systems Engineering},
+  volume={1},
+  year={2019},
+  publisher={AMCSE}
+}
+
+@inproceedings{Ionescu_2009,
+	doi = {10.1109/ds-rt.2009.35},
+	url = {https://doi.org/10.1109%2Fds-rt.2009.35},
+	year = 2009,
+	publisher = {{IEEE}},
+	author = {Tudor B. Ionescu and Andreas Piater and Walter Scheuermann and Eckart Laurien and Alexandru Iosup},
+	title = {An Aspect-Oriented Approach for Disaster Prevention Simulation Workflows on Supercomputers, Clusters, and Grids},
+	booktitle = {2009 13th {IEEE}/{ACM} International Symposium on Distributed Simulation and Real Time Applications}
+}
+
+@inproceedings{dynamicAOchitchyan,
+  title={Comparing dynamic AO systems},
+  author={Chitchyan, Ruzanna and Sommerville, Ian},
+  booktitle={Proceedings of the 2004 Dynamic Aspects Workshop (DAW04)},
+  pages={120--134},
+  year={2004},
+  organization={Citeseer}
+}
+
+@inproceedings{popovici2002PROSE,
+author = {Popovici, Andrei and Gross, Thomas and Alonso, Gustavo},
+title = {Dynamic Weaving for Aspect-Oriented Programming},
+year = {2002},
+isbn = {158113469X},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/508386.508404},
+doi = {10.1145/508386.508404},
+abstract = {When using Aspect Oriented Programming in the development of software components,
+a developer must understand the program units actually changed by weaving, how they
+behave, and possibly correct the aspects used. Support for rapid AOP prototyping and
+debugging is therefore crucial in such situations. Rapid prototyping is difficult
+with current aspect weaving tools because they do not support dynamic changes. This
+paper describes PROSE (PROgrammable extenSions of sErvices), a platform based on Java
+which addresses dynamic AOP. Aspects are expressed in the same source language as
+the application (Java), and PROSE allows aspects to be woven, unwoven, or replaced
+at run-time.},
+booktitle = {Proceedings of the 1st International Conference on Aspect-Oriented Software Development},
+pages = {141–147},
+numpages = {7},
+location = {Enschede, The Netherlands},
+series = {AOSD '02}
+}
+
+@mastersthesis{hveding2005aspect,
+  title={An Aspect-Oriented Approach to Adaptive Systems},
+  author={Hveding, John Christian},
+  year={2005},
+  school={Institutt for datateknikk og informasjonsvitenskap}
+}
+
+@inproceedings{popovici2003JITaspects,
+author = {Popovici, Andrei and Alonso, Gustavo and Gross, Thomas},
+title = {Just-in-Time Aspects: Efficient Dynamic Weaving for Java},
+year = {2003},
+isbn = {1581136609},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/643603.643614},
+doi = {10.1145/643603.643614},
+abstract = {Recent developments in service architectures suggest that run-time adaptations could
+be implemented with dynamic AOP. In this paper we discuss application requirements
+on run-time AOP support and present a system that addresses these requirements. We
+provide basic support for weaving using the Just-In-Time compiler, while the AOP system
+is treated as an exchangeable module on top of the basic support. This approach allows
+us to provide low run-time overhead, AOP system flexibility, and secure weaving. We
+provide an extensive empirical evaluation and discuss the tradeoffs resulting from
+using the JIT compiler and a modularized architecture.},
+booktitle = {Proceedings of the 2nd International Conference on Aspect-Oriented Software Development},
+pages = {100–109},
+numpages = {10},
+location = {Boston, Massachusetts},
+series = {AOSD '03}
+}
+
+@misc{pdsf_repo,
+  author = {Wallis, Tom and Storer, Tim},
+  title = {PyDySoFu},
+  year = {2018},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/twsswt/pydysofu}},
+  commit = {afc0d509ec14ef17fab1ff82565b74db16d7f443}
+}
+
+@inproceedings{kiczales1997aspect,
+  title={Aspect-oriented programming},
+  author={Kiczales, Gregor and Lamping, John and Mendhekar, Anurag and Maeda, Chris and Lopes, Cristina and Loingtier, Jean-Marc and Irwin, John},
+  booktitle={European conference on object-oriented programming},
+  pages={220--242},
+  year={1997},
+  organization={Springer}
+}
+
+@inproceedings{Constantinides04aopconsidered,
+    author = {Constantinos Constantinides and Therapon Skotiniotis and Maximilian Stoerzer},
+    title = {AOP Considered Harmful},
+    booktitle = {In Proceedings of European Interactive Workshop on Aspects in Software (EIWAS)},
+    year = {2004}
+}
+
+@inproceedings{Baker_2002,
+	doi = {10.1145/508386.508396},
+	url = {https://doi.org/10.1145%2F508386.508396},
+	year = 2002,
+	publisher = {{ACM} Press},
+	author = {Jason Baker and Wilson Hsieh},
+	title = {Runtime aspect weaving through metaprogramming},
+	booktitle = {Proceedings of the 1st international conference on Aspect-oriented software development  - {AOSD} {\textquotesingle}02}
+}
+
+@article{Parnas_1972,
+	doi = {10.1145/361598.361623},
+	url = {https://doi.org/10.1145%2F361598.361623},
+	year = 1972,
+	month = {dec},
+	publisher = {Association for Computing Machinery ({ACM})},
+	volume = {15},
+	number = {12},
+	pages = {1053--1058},
+	author = {D. L. Parnas},
+	title = {On the criteria to be used in decomposing systems into modules},
+	journal = {Communications of the {ACM}}
+}
+
+@inproceedings{aspectj_intro,
+  title={An Overview of AspectJ},
+  author={G. Kiczales and Erik Hilsdale and Jim Hugunin and Mik Kersten and Jeffrey Palm and W. Griswold},
+  booktitle={ECOOP},
+  year={2001}
+}
+
+@article{kell2008survey,
+  title={A survey of practical software adaptation techniques.},
+  author={Kell, Stephen},
+  journal={J. Univers. Comput. Sci.},
+  volume={14},
+  number={13},
+  pages={2110--2157},
+  year={2008}
+}
+
+@inproceedings{keller1998binary,
+  title={Binary component adaptation},
+  author={Keller, Ralph and H{\"o}lzle, Urs},
+  booktitle={European Conference on Object-Oriented Programming},
+  pages={307--329},
+  year={1998},
+  organization={Springer}
+}
+
+@article{10.1145/543552.512562,
+author = {Baker, Jason and Hsieh, Wilson C.},
+title = {Maya: Multiple-Dispatch Syntax Extension in Java},
+year = {2002},
+issue_date = {May 2002},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {37},
+number = {5},
+issn = {0362-1340},
+url = {https://doi.org/10.1145/543552.512562},
+doi = {10.1145/543552.512562},
+abstract = {We have designed and implemented Maya, a version of Java that allows programmers to
+extend and reinterpret its syntax. Maya generalizes macro systems by treating grammar
+productions as generic functions, and semantic actions on productions as multimethods
+on the corresponding generic functions. Programmers can write new generic functions
+(i.e., grammar productions) and new multimethods (i.e., semantic actions), through
+which they can extend the grammar of the language and change the semantics of its
+syntactic constructs, respectively. Maya's multimethods are compile-time metaprograms
+that transform abstract syntax: they execute at program compile-time, because they
+are semantic actions executed by the parser. Maya's multimethods can be dispatched
+on the syntactic structure of the input, as well as the static, source-level types
+of expressions in the input. In this paper we describe what Maya can do and how it
+works. We describe how its novel parsing techniques work and how Maya can statically
+detect certain kinds of errors, such as code that generates references to free variables.
+Finally, to demonstrate Maya's expressiveness, we describe how Maya can be used to
+implement the MultiJava language, which was described by Clifton et al. at OOPSLA
+2000.},
+journal = {SIGPLAN Not.},
+month = may,
+pages = {270–281},
+numpages = {12},
+keywords = {Java, macros, generative programming, metaprogramming}
+}
+
+@inproceedings{baker2002maya,
+author = {Baker, Jason and Hsieh, Wilson C.},
+title = {Maya: Multiple-Dispatch Syntax Extension in Java},
+year = {2002},
+isbn = {1581134630},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/512529.512562},
+doi = {10.1145/512529.512562},
+abstract = {We have designed and implemented Maya, a version of Java that allows programmers to
+extend and reinterpret its syntax. Maya generalizes macro systems by treating grammar
+productions as generic functions, and semantic actions on productions as multimethods
+on the corresponding generic functions. Programmers can write new generic functions
+(i.e., grammar productions) and new multimethods (i.e., semantic actions), through
+which they can extend the grammar of the language and change the semantics of its
+syntactic constructs, respectively. Maya's multimethods are compile-time metaprograms
+that transform abstract syntax: they execute at program compile-time, because they
+are semantic actions executed by the parser. Maya's multimethods can be dispatched
+on the syntactic structure of the input, as well as the static, source-level types
+of expressions in the input. In this paper we describe what Maya can do and how it
+works. We describe how its novel parsing techniques work and how Maya can statically
+detect certain kinds of errors, such as code that generates references to free variables.
+Finally, to demonstrate Maya's expressiveness, we describe how Maya can be used to
+implement the MultiJava language, which was described by Clifton et al. at OOPSLA
+2000.},
+booktitle = {Proceedings of the ACM SIGPLAN 2002 Conference on Programming Language Design and Implementation},
+pages = {270–281},
+numpages = {12},
+keywords = {macros, Java, metaprogramming, generative programming},
+location = {Berlin, Germany},
+series = {PLDI '02}
+}
+
+@incollection{trustingtrust,
+  title={Reflections on trusting trust},
+  author={Thompson, Ken},
+  booktitle={ACM Turing award lectures},
+  pages={1983},
+  year={2007}
+}

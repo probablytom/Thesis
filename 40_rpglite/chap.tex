@@ -1,107 +1,228 @@
-\chapter{Testing Synthetic Data Realism with RPGLite}
+\chapter{RPGLite: A Mobile Game for Collecting Data}
 
-\section{The RPGLite Model}
+RPGLite is a game designed with some special qualities: \citeauthor{kavanagh2020}
+have produced PRISM models which can be model-checked to identify ideal play
+strategies in all game states\cite{kavanagh2020}\inline{maybe add more kavanagh
+citations early on!}. Some experiments were conducted around RPGLite to answer
+the question: ``Over time, do players converge on an ideal strategy of
+play?''\inline{Fix formatting and correct wording of William's hypothesis, and
+mine below.}
 
-The model for RPGLite is composed of a base model describing the game rules and
-random player behaviour. To this, we add four aspect-oriented components of the
-model, in an attempt to adapt the base model's random behaviour into something
-``realistic''.
+An alternative question to answer would be, ``what strategy of play do players
+typically adopt'', and the related question, ``do all players adopt the same
+strategies?'' These are not scientific hypotheses, but interesting questions to
+ask of a game where ``correct'' and ``incorrect'' actions can be categorised.
+Moreover, \citeauthor{kavanagh2020}'s work can identify the \emph{cost} of an
+action, allowing for even richer datasets and analyses. It would not be possible
+to perform actual analyses of player behaviour without real-world player data,
+however.
 
-\subsection{Base Model}
-RPGLite's base model consists of a set of classes, representing playable
-characters, and a set of functions representing aspects of gameplay. Each
-function can be thought of as a discrete action an actor might take in a
-discrete-event agent-based simulation. 
-\par
+To that end, a collaboration was undertaken with \citeauthor{kavanagh2020} to
+develop and release a mobile implementation of RPGLite which would collect
+player data for later analysis. \citeauthor{kavanagh2020} would get to
+demonstrate the utility of their model checking in an empirical scenario. We
+would get to develop models representing player behaviour, and check these
+models against the collected data. This represents an ideal opportunity to make
+use of aspect orientation in a new context: a model of naive RPGLite play would
+be produced which represented random play\inline{The naive version \emph{does}
+do random play...right?}, and aspects could be written which augment the naive
+model with guesses as to player behaviour. If the data augmented models generate
+correlates with empirical data more closely than the naive data, we can dismiss
+naive play as ``realistic'', and assume the augmented behaviour. Many aspects
+can be written representing different styles of play, which might be adopted by
+different players, a concrete benefit of aspect orientation in modelling \&
+simulation. This chapter discusses the design and implementation of RPGLite for data
+collection purposes, allowing for discussions of actual experiments --- and a
+more detailled examination of the application of aspect orientation --- in
+chapters\inline{cref the chapters on specific experiments at the beginning of
+the RPGLite chapter.}.
 
-The basic concept of the model is, given two players and an environment they
-play within, to simulate a game in this environment between these players. This
-is invoked via a \lstinline{play_game} method, which constructs a ``game
-document'' to store game details in, selects a player to go first, and then
-plays the game via a series of small functions intended to represent the
-discrete actions a player takes when playing RPGLite. Broadly, these involve
-choosing characters and choosing moves, as RPGLite is a simple game.
-\par
+\inline{Add an outline of the RPGLite chapter here.}
 
-It should be noted, however, that all behaviour in this base model is strictly
-random. Any decision, such as the choice of characters to play or moves to make,
-are made at random in a uniform manner. As such, the base model effectively
-represents ``naive'' play: the equivalent play in the real world would be
-represented by players tapping randomly on areas of a phone screen until a game
-concluded, with no discernable strategy.
+\section{An Overview of RPGLite}
 
-\subsection{Aspects applied}
+RPGLite is a simple two-player game played in turns. Each player selects
+characters independent of the other, with each character having a unique set of
+abilities and properties, which are generally health, chance of success on
+attack, and damage dealt on a successful attack. The abilities of some
+characters necessitate additional properties. Each player selects an ``alive''
+character (one with health greater than 0) to perform their action against a
+chosen ``alive'' target (or occasionally targets). A successful attack ---
+randomly determined by chance of successful attack for the selected attacking
+character --- results in that character's unique ability being inflicted on
+their target[s]. A random player is chosen to take a first move, players may
+always skip their turn as a valid action, and players continue to take
+alternating turns until a victor is left with the only ``alive'' characters.
 
-Four aspects are applied to the base model in order to impose a model of
-``realistic'' play over the original naive model. Our hypothesis is:
+Eight characters are available for selection, with the following abilities:
 
-\todo{Rewrite --- our original wording of the hypothesis clearly no longer works.}
-\begin{displayquote}
-  Is it possible to take a model which poorly represents some real-world system,
-  and have that model represent emergent properties of said system by way of
-  composing additional model details?
-\end{displayquote}
+\begin{description}
+    \item[Knight] Deals damage to an opponent character on a successful hit.
+    \item[Archer] Deals damage to two opponent characters on a successful hit. 
+    \item[Wizard] Deals damage to an opponent character on a successful hit,
+    disabling (or \emph{``stunning''}) them for the duration of the opponent's
+    next turn.
+    \item[Healer] Deals damage to an opponent character on a successful hit, and
+    heals themselves or, optionally, the other player character instead
+    (assuming that character is still alive).
+    \item[Barbarian] Deals damage to an opponent character on a successful hit,
+    dealing additional damage if their health is low when attacking.
+    \item[Rogue] Deals damage to an opponent character on a successful hit,
+    dealing additional damage if the target's health is low when attacked.
+    \item[Monk] Deals damage to an opponent character on a successful hit, and
+    immediately takes another turn, until their attack is unsuccessful.
+    \item[Gunner] Deals damage to an opponent regardless of success, dealing
+    additional damage on a successful hit.
+\end{description}
 
-The nature of the comparison between the real-world system --- here RPGLite ---
-and the model --- here our aspect-applied `naive' model --- will be detailed in
-\cref{exp:rpglite-simple}. Briefly, the experiment correlates synthetic data
-with real-world data to assess whether real-world character choices correlate to
-those chosen in the synthetic dataset. We are therefore interested in applying
-aspects which produce a model where character pairs are chosen for a given game
-in a manner reflecting the real world. Here we describe the additional model
-details composed via aspect-oriented programming so as to produce a more
-``realistic'' model.
-\par
+Specific details of each character --- their health, chance to hit, and damage
+on hit as well as character-specific details (such as the threshold for
+additional Barbarian or Rogue damage, for instance) --- are defined as a
+\emph{``configuration''} of RPGLite. Different configurations change the game's
+\emph{``balance''}, a term referring to the relative strengths of different
+characters or character pairs. For example, if a configuration leaves many
+characters with initial health values close to a Barbarian's threshold for
+additional damage, then they become a very powerful character due to their
+ability to inflict additional damage. If the Monk's chance to hit is high, the
+repeated turns it offers can be very advantageous. Character skills can work in
+concert with each other: choosing a Barbarian and Healer such that the barbarian
+can be kept at low health for additional damage, but the healer can be used to
+keep them alive, may be an effective strategy depending on the game's
+configuration. \citeauthor{kavanagh2020} found that model-checking a
+configuration of the game could discover the relative strengths of characters
+and character pairs when played optimally\inline{Cite the correct paper for the
+game blaancing!}.
 
-The four aspects applied perform the following functions:
+RPGLite's design has two objectives it must meet. First, that it is interesting
+to players, which requires that it is approachable and complex enough not to be
+immediately solvable. This is necessary for real-world data collection, and to
+demonstrate a design representative of something that could conceivably be a
+real-world game with an active playerbase. Second, RPGLite's design must be
+sufficiently simple for model-checking. Model checking is a necessary
+requirement of design because of our need to identify optimal moves: analysis of
+player behaviour rests on our understanding of how close to ``ideal'' players
+are, and whether players approach ideal strategies over time. This is the crux
+of the work found in \cite{}\inline{Cite William's PhD thesis for explaining
+RPGLite design.}, which relies on a reduced state space in order to calculate
+optimal moves, character pairings, and the like.
+
+To demonstrate this state space, note that RPGLite games can have their states
+described by a set of values: the healths of characters on each team, plus a
+stunned character. with eight characters having a maximum health value of $w, x,
+y, z$\footnote{Maximum health values are dependent on RPGLite's configuration.},
+two players, and an indicator of which character is stunned --- which can be
+represented as an integer index of the stunned character in the
+currently-playing team\footnote{Note that stunnedness is valid for exactly one
+character for one turn, meaning that only one character may e stunned at any
+time, and the status effect immediately resets, making this integer index of
+which character is stunned sufficient to represent the stun effect.}. The
+entropy of a game is therefore:
+
+\[log_2(w\times{}x\times{}y\times{}z\times{}2)\]
+
+Where 2 represents the stunnedness indicator for the current player. The entropy
+of a typical game is therefore $~14 bits$. Simulating gameplay means iterating
+between these states, which can be time-consuming, but this value should
+indicate that the game --- while embedding design elements which make it
+enjoyable to play --- is also simple enough to thoroughly analyse.
+
+\section{Implementation of RPGLite}
+
+Knowing ideal play is useful, but to understand how real-world players would
+interact with RPGLite, empirical data needed to be collected. To produce this,
+we developed a mobile online multiplayer version of the game. Play constituted
+engagement with an experiment for data collection, and after several months, a
+database logging player behaviour presented a dataset which could be used, in
+the case of this PhD, to simulate real-world player behaviour and present a
+``realistic'' environment in which to test the effectiveness of aspect-oriented
+simulation.
+
+This section briefly describes the details of RPGLite's implementation as a data
+collection tool. Some lessons learned after reflection on the implementation
+process were documented for the benefit of others' avoiding our
+errors\cite{RPGLiteLessonsLearned}, might produce a more complete overview of
+the development.
+
+\subsection{Mobile app}
+
+As a mobile game, RPGLite's user-facing component was an application,
+distributed through the Google Play Store on Android and the Apple App Store on
+iOS. This was developed in Unity, a framework for developing games in C\# which
+can be distributed to almost any platform\footnote{Meaning that there are
+technically also versions of RPGLite playable on, say, a games console or web
+browser.}. Most assets were developed in GIMP, with character designs
+contributed by a commissioned artist online. Unity allowed for a ``WYSIWYG''
+or what-you-see-is-what-you-get interface builder, with event handlers defined
+in C\# code which would ``hook'' into events signalled by interface element
+interactions. User-facing components of the game were largely produced by
+William Kavanagh, the collaborator on the project and original RPGLite designer.
+Therefore, in an attempt not to take credit for this work, see \inline{Cite
+William's thesis here for client-side development notes} for full details.
+
+Beta testing required user engagement. Apps were deployed to Android and iOS
+devices of colleagues, who played a series of games to check that game logic was
+robust enough (and graphic design adequate enough) for final distribution of the
+game. Beta tests were iterated for 2-3 months, until the game behaved correctly
+in all edge cases and a final design was settled upon. 
+
+\inline{Insert client-side photos here, maybe William's photos of the design
+changing over time...?}
+
+\subsection{API \& Server-side Logic}
+
+As the data collected ought to be empirical, RPGLite was developed as an online
+game. This required a server and API for a client to communicate with.
+
+A REST API was developed with Python's \emph{Flask} framework. Endpoints were
+created for almost all in-game actions, allowing for player search, matchmaking,
+player profile design, game history and statistics analysis, ranking
+calculations, login and password reset, implement mutexes on sensitive
+information, and other in-game activities. The API would also allow moves to be
+made, and reject erroneous game states or unauthorised input from any malicious
+input. The API would also send push notifications to an opponent's device when
+moves were made, which beta testing showed improved engagement significantly.
+
+On each of these actions, data was collected about the action performed, and
+logged in a database. In addition, in-game activities which required no
+server-side input but were considered to have potential in later analysis would
+send data directly to be inputted into our database.
+
+A MongoDB database instance was installed and managed on a University of Glasgow
+Computing Science virtual machine. The no-SQL nature of the database permitted
+flexible structuring of the data, and easy analysis of the games' results. The
+API was also hosted on the same virtual machine. A combination of port access
+rules and hardening of the database itself prevented unauthorised access to the
+database, ensuring that the data remained untampered-with.
+
+\inline{MORE HERE?!}
+
+
+\section{Empirical Play and Data Collected}
+
+In total, players produced a dataset used in this PhD comprising around 4,000
+games\inline{Find the exact number of games analysed} entirely
+completed\footnote{``Entirely completed'' here means games that ended in a win
+or lose, not abandoned by players or left unfinished by a player who abandoned
+the app.}. It also includes around 1,000,000 datapoints generated by gameplay or
+player interaction with the client, such as players checking their history or
+rolling a dice, although these datapoints are not used in the simulations
+presented in this simulation. The data is drawn directly from the MongoDB
+database used to run the game.
+
+Completed games drawn from the MongoDB instance contain many fields, including: 
 
 \begin{itemize}
-\item \ldots{}adding to the model a record of players' experience over time
-  \item \ldots{}players making ideal moves according to
-    \cite{kavanagh2020}\todo{find citation for William's journal paper submitted
-    after game-on presentation.}
-  \item \ldots{}players ``remembering'' the outcomes of games they have played,
-    in particular the winning character pair
-    \item \ldots{}``experienced'' players choosing to play with characters they
-      have seen perform well in earlier games
+    \item The history of moves made, and the times those moves were made
+    \inline{Confirm moves made includes timestamps, I'm sure it does}
+    \item The players involved (by username), and the winning player
+    \item The ELO scores of the players before and after playing the game
+    \inline{Confirm that games include both ELO before and after the game is played.}
+    \item The characters chosen by each player
+    \item The ``score'' of each player\footnote{RPGLite's mobile app presented
+    users with a naive scoring mechanism used to rank users on a leaderboard,
+    which some users then used to identify other players of a similar notional
+    skill.}
 \end{itemize}
 
-The first of these aspects tracks player experience according to a logistic
-curve model. It is applied to a \lstinline{play_game} pointcut to update a point on a
-logistic curve when a game is completed. The logistic curve was chosen for its
-simplicity and relatively close shape to the desired slope of player
-experience\footnote{A sigmoid was desirable because, with RPGLite being a
-  relatively simple game, we expected that players would take a few games to
-  become familiar with the concepts and strategies involved and, once passing
-  familiarity was achieved, there was little else to learn; hence a single
-  ``phase transition''-style slope on the experience curve.}. At the end of each
-game, players move a small degree on the curve as dictated by the curve's
-relative growth rate: a parameter for optimisation in the experiments as
-detailled in \cref{exp:rpglite-simple}.
-\par
 
-The second of these aspects applies to a \lstinline{get_moves_from_table} pointcut and
-intercepts the return value of the target function, which randomly generates a
-move to play. The move is replaced by looking up an ideal move in
-\cite{kavanagh2020}\todo{find citation for William's journal paper submitted
-after game-on presentation.}, generating a move object for the game in progress
-according to \citeauthor{kavanagh2020}'s calculated optimal move, and returning this
-in lieu of the original random move. In so doing we inject optimal moves played
-into the game, meaning that our simulated players can ``see'' the optimal move
-in a given scenario and are unlikely to make mistakes. In an analysis of moves
-made by players it can be seen that players are likely to play the ``right''
-move, and so we generalise to all modelled players playing optimally.\todo{back
-  this up with a graph or something, I'm certain William has this already.}
-
-The third aspect applies to a \lstinline{}
-\todo{\textbf{finish this!} I need to actually look at the code and make sure
-  the aspects do what I'm saying they do, I think there's a bit of a mismatch.
-  It's not super important anyway.}
-
-
-
-% ========================================================================
-\label{sec:experiment1}
-\label{exp:rpglite-simple}
-\section{Experiment 1: Correlating Synthetic and Real-World Character Choices}
 

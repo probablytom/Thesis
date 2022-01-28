@@ -24,7 +24,7 @@
 \usepackage{xstring}
 
 % Fonts
-\usepackage{fontspec}
+\usepackage[no-math]{fontspec}
 \setmainfont{Valkyrie A}
 \setsansfont{Concourse 4}
 \setmonofont{Triplicate A Code}
@@ -115,7 +115,17 @@ innerbottommargin=0pt,
 
 \newcommand{\labelledsec}[2]{\section{#1}\label{sec:#2}}
 \newcommand{\labelledsubsec}[2]{\subsection{#1}\label{subsec:#2}}
+% a macro for indicating a number in an enumerated list using the concourseindex
+% font (for consistency)
+\newcommand{\pointno}[1]{{\concourseindex{}#1}}
 % a macro to stop me switching between hyphenation/spacing/neither
 \newcommand{\sociotechnical}{socio-technical }
 % To prevent me absent-mindedly shortening pydysofu to pdsf, the macro is handy.
 \newcommand{\pdsf}{PyDySoFu }
+
+
+\newenvironment{researchquestion}{
+  \begin{displayquote}\itshape
+}{
+  \end{displayquote}
+}

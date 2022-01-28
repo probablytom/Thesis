@@ -35,14 +35,13 @@ simulation. Models can be studied for their own merits, and many modelling
 frameworks exist which are made explicitly for their own study, without regard
 to their use in simulation\footnote{Consider UML, a well-studied modelling
 framework which is generally not used for any kind of simulation --- depending
-on its use, it often cannot be --- and for which many alternatives now exist
-specifically to address this
-limitation~\cite{opm_original,ExecutableBPMNMitsyuk}.\inline{surely one more
-here to round this out.}}. Aspect orientation has seen some study in modelling,
-particularly for \sociotechnical modelling, and while aspect-oriented
-\sociotechnical modelling is not generally researched with subsequent simulation
-in mind, an important body of work is still present, and therefore important to
-discuss.
+on the use case, it often cannot be --- and for which many alternatives now
+exist specifically to address this
+limitation~\cite{opm_original,ExecutableBPMNMitsyuk,obashimethodology}.}. Aspect
+orientation has seen some study in modelling, particularly for \sociotechnical
+modelling, and while aspect-oriented \sociotechnical modelling is not generally
+researched with subsequent simulation in mind, an important body of work is
+still present, and therefore important to discuss.
 
 \subsection{Aspect Orientation in Business Process Modelling}
 Aspect orientation for \sociotechnical systems is particularly well studied in
@@ -54,7 +53,12 @@ community\cite{Machado_2011,Cappelli_AOBPM}~\inline{find more citations for AOBP
 \inline{Is MAML/SWARM really modelling, or simulation? Simulation, right?}
 
 
-\subsection{}
+\subsection{BPMN \& aspect orientation}
+\inline{There's tons here. Go through the remarkable read folder. Particularly
+anything Claudia Capelli's worked on, see
+\cite{da2020implementation,Cappelli_AOBPM}. Also the widely cited work on aspect
+orientation in BPEL\cite{charfi2007ao4bpel}, and the work on precedence of
+aspect application in \cite{jalali2012aspect}, }
 
 
 % \section{Aspect Orientation \& Simulation}\label{sec:ao_and_simulation}
@@ -64,14 +68,15 @@ community\cite{Machado_2011,Cappelli_AOBPM}~\inline{find more citations for AOBP
 
 Surprisingly, little literature exists pertaining specifically to the use of
 aspect-orientation in a simulation context. Aspect orientation is often applied
-to modelling as discussed in \cref{sec:ao_and_modelling}, used to compose a perspective of the world from individual
-parts, but in a way which isn't necessarily executable or able to produce data.
+to modelling as discussed in \cref{sec:ao_and_modelling}, used to compose a
+perspective of the world from individual parts, but in a way which isn't
+necessarily executable or able to produce data.
 
 Early in the history of aspect orientation as an emerging paradigm, there was
 some interest in its use for scientific simulation. \cite{gulyas1999use} discuss
 that computer simulations require code for both observation of a simulation and
 the simulation itself, and that misuse of this could cause what is in effect a
-kind of Hawthorne Effect\inline{does hawthorne effect need a citation?}, where
+kind of Hawthorne Effect\inline{Does hawthorne effect need a citation?}, where
 the inclusion of observation code intertwined with simulation code might
 influence the outcome of an experiment. They suggest that improving simulation
 technologies could combat this approach. Aspect Orientation, being developed
@@ -79,23 +84,43 @@ specifically with obliviousness in mind, is an ideal candidate which
 \citeauthor{gulyas1999use} identify.
 
 Much of the literature concerning aspect-oriented programming and simulation
-focus on tooling support for aspect-oriented simulation, rather than
+focuses on tooling support for aspect-oriented simulation, rather than
 investigations into its efficacy. For example, attempts have been made to
 integrate aspect orientation into new
-tools~\cite{DEVSaspectorientation2008aksu}~\inline{throw more in here from
-excel}, or into existing ones~\cite{chibani2019using}\inline{throw more in here
-from excel}. \inline{Rethink the argument around AOP and sim in the lit. The
-angle is, ``much of the lit strays from any kind of real-world testing of sim
-tech --- why?''}
+tools~\cite{DEVSaspectorientation2008aksu,ribault2008OSA,ribault2010osif,} or
+into existing
+ones~\cite{chibani2019using,DEVSaspectorientation2008aksu,wallis2018caise}.
+Typically, these papers identify a need for aspect orientation in simulation
+frameworks --- the argument often revolves around a need for increased
+modularity, and occasionally around better structuring of the simulations
+themselves\footnote{See \citeauthor{chibani2014practical}'s series of papers on
+the topic~\cite{chibani2013toward,chibani2014practical,chibani2019using}, which
+culminate in an implementation of a suite of aspects for simulation purposes.
+Unfortunately, the work still does not produce significant case studies showing
+the benefits of the technique in practice. Some empirical measurements are made.
+A lack of significant real-world evidence that the technique works is a major
+criticism of aspect orientation as a paradigm~\cite{steimann06paradoxical},
+however, and the use of these empirical measurements designed for different
+paradigms as a sign of success hints that satisfactory results in the
+measurement are being treated as more important than empirical effectiveness, an
+instance of Goodhart's Law: ``when a measure becomes a target, it ceases to be a
+good measure''\cite{strathern1997improving}.\inline{refactor this footnote into
+its own paragraph underneath its currently enclosing one.}} --- but past a small example to
+demonstrate how the tooling can be used, little additional development is
+performed. No significant case studies or refactoring of existing codebases of
+notable scale are provided. This is important because aspect orientation's main
+strength is pragmatic in nature. If no real-world testing is conducted, it is
+hard to conclude that the community's suite of modelling tools contribute
+anything useful when developing simulations.
 
 Some experiments specifically using aspect orientation in the implementation of
-process-based simulations also exist\cite{Ionescu_2009}~\inline{include more!}. For
-example, \citeauthor{Ionescu_2009} apply aspect orientation in a nuclear
+process-based simulations also exist\cite{Ionescu_2009}~\inline{include more!}.
+For example, \citeauthor{Ionescu_2009} apply aspect orientation in a nuclear
 disaster prevention simulation. Their motivation is that code can become complex
 to maintain over time and changes to the scientific zeitgeist or to regulatory
-requirements become costly as technical debt mounts. Aspect orientation
-therefore allows developers to separate functionality into distinct modules more
-easily, without disturbing the underlying codebase.
+requirements leads to costly technical debt. Aspect orientation therefore allows
+developers to separate functionality into distinct modules more easily, without
+disturbing the underlying codebase.
 
 \subsection{Aspect-oriented L-Systems}
 Aspect-orientation is also applied in other simulation paradigms.
@@ -117,3 +142,12 @@ cross-cutting concerns might work in other models too, but this is untested. The
 use of an aspect in a new model, when developed for another, seems untested in
 the community's literature writ large and is a noted omission in the conclusion
 of this particular work.
+
+
+
+\subsection{AOP and simulation tooling}
+
+\inline{Here, I should be discussing: japrosim work by chibani
+\cite{chibani2019using,chibani2014practical,chibani2013toward}; OSIF \& OSA in
+\cite{ribault2008OSA,ribault2010osif}; 
+}
