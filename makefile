@@ -1,6 +1,6 @@
 thesis:
 	lualatex thesis
-	biber thesis.bcf
+	arch=x86_64 biber thesis.bcf
 	lualatex thesis
 	lualatex thesis
 

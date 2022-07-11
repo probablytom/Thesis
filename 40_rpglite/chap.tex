@@ -106,36 +106,46 @@ of the work found in \cite{}\inline{Cite William's PhD thesis for explaining
 RPGLite design.}, which relies on a reduced state space in order to calculate
 optimal moves, character pairings, and the like.
 
+\subsection{RPGLite's Design Implications}
+
+The state space of RPGLite makes it unusually well-suited to analysis through formal methods.
+Because of this, a the datasets produced through simulation of RPGLite can be compared against two other datasets: one of real-world play, and another of what can be mathematically shown to be ``correct'' player behaviour.
+
 To demonstrate this state space, note that RPGLite games can have their states
 described by a set of values: the healths of characters on each team, plus a
-stunned character. with eight characters having a maximum health value of $w, x,
+stunned character. With eight characters having a maximum health value of $w, x,
 y, z$\footnote{Maximum health values are dependent on RPGLite's configuration.},
-two players, and an indicator of which character is stunned --- which can be
-represented as an integer index of the stunned character in the
-currently-playing team\footnote{Note that stunnedness is valid for exactly one
-character for one turn, meaning that only one character may e stunned at any
-time, and the status effect immediately resets, making this integer index of
-which character is stunned sufficient to represent the stun effect.}. The
-entropy of a game is therefore:
+two players, and an indicator of which character is stunned.\footnote{Note that stunnedness is valid for exactly one
+character for one turn, meaning that only one character may be stunned at any
+time, and the status effect immediately resets, meaning there are only three possible states for stunnedness: either character belonging to the player taking a turn, or neither.}. The
+entropy of a game's state is therefore \(log_2(w\times{}x\times{}y\times{}z\times{}3\times{}2)\), where the multiplications by 3 and 2 represent the stunnedness indicator for the current player (either character, or neither), and the player whose turn it is to play, respectively. The maximum health for a character is 10 hit points, which makes the maximum entropy of a game state
+ \(log_2(10^{4}\times{}3\times{}2\}) = log_2(60000) \approx 16.87 bits\). Each player picks 2 of 10 characters, and can choose to attack either opponent character with either of their own, or skip their turn, for a maximum of 6 possible actions. We can therefore see that the total entropy of the entire RPGLite game is no greater than \(log_2(10^{4}\times{}6\times{}2\times{}{10\choose2}\times{}6 \approx 24.36 bits\).\footnote{The actual figure is smaller: \begin{itemize}\item Players may choose two characters with special abilities that prevent them from attacking both opponent characters at once (this accounts for 9 out of 10 characters), giving 5 possible actions in a turn, rather than 6.\item The ``metagame'', which refers to the percieved ``best'' strategies at any given point in time, would impact the chance of a player selecting making certain moves or choosing to play with certain characters. RPGLite is designed to be slightly ``unbalanced'' in the parameters of different characters such as health, attack damage, or potency of special abilities, meaning long-term players are expected to learn effective playstyles and adjust accordingly.\end{itemize}\par{}\indent{}Players' behaviour is therefore less uniform than this calculation would imply, but the calculation provides a \emph{maximum} entropy of the game.}
 
-\[log_2(w\times{}x\times{}y\times{}z\times{}2)\]
+Iterating through these states allows us to map the entire state space of RPGLite. As the state space the game defines is relatively small --- for comparison, mapping valid positions in chess takes about 136 bits\cite{information_content_chess}, and this figure does not account for valid \emph{moves} within the game, which our calculation for RPGLite does --- it is feasible to analyse every possible game state. Note that the figure of \(\approx 24.36 bits\) includes movements \emph{between} states as well as the states themselves, meaning that it is feasible to map the potential progressions through all possible games of RPGLite using formal methods. Further, this allows us to understand the chances of a given player winning given transitions between different states, for example by representing moves in the game as transitions in a decision diagram where nodes are the game's state. We can calculate exactly how ``good'' a move is, by comparing chances of success making a given move in a given state against the chances of success when making the calculably-optimal move.
+ 
+In this way, RPGLite's design allows it to be understood formally, yet it also draws on common game design elements and is sufficiently ``interesting'' to generate data from a real-world playerbase.\footnote{Data collected from several thousand completed games can be found at \cite{rpglite_dataset}.} This yields some properties that are interesting for the purposes of aspect-oriented simulation:
 
-Where 2 represents the stunnedness indicator for the current player. The entropy
-of a typical game is therefore $~14 bits$. Simulating gameplay means iterating
-between these states, which can be time-consuming, but this value should
-indicate that the game --- while embedding design elements which make it
-enjoyable to play --- is also simple enough to thoroughly analyse.
+\begin{enumerate}
+    \item Simulated moves can be selected naively, i.e. at random, but can also be made perfectly according to the known-correct move in a given game state, or made with some calculated ``cost'' as to the chance of winning.
+    \item Real-world players' behaviour can also be analysed according to the same metrics: for example, moves made by players can be analysed to understand bias, whether players learned to play ``better'' moves over time, or whether they selected known-strong characters more frequently than those who can be formally shown to have a relatively low chance of winning games.
+    \item As the actions taken when playing RPGLite are consistent --- such as deciding the target character of an attack, or a character to use in an attack --- random play can be simulated as a ``naive'' play style, which can be compared against real-world players. Where player behaviour does not correlate to naive play,\footnote{The concept of play correlation is introduced in \cref{chap:exp1_simulation_optimisation}.} the biases of players may be represented as aspects which are applied only to specific actors within the simulation.
+    \item Should aspects be suitable as a manner of accurately representing biased play, aspects offer a separation of concerns within the simulation: any nuance found within the playstyle of specific real-world players would be replicated and applied not to the model itself, but to specific simulated players. Playstyles might also be mixed with the application of multiple aspects.
+\end{enumerate}
+ 
+Whether aspect orientation is suitable for the realistic simulation of RPGLite gameplay is the topic of the remainder of this thesis. However, the design of RPGLite allows for a controlled system where a clear notion of ``good'' and ``naive'' behaviours can be defined, the system is closed insofar as all interactions within the system are known and all game elements are precicely understood, and all interactions take place between experiment participants for data collection purposes, allowing for a large dataset to be collected without information being removed due to players not consenting to their data being collected and disseminated for science. In short, RPGLite's design constitutes a system where all aspects are well-understood, no interference is anticipated from system components which are unknown or outside of experimental control, and lots of data can be collected for analysis. Therefore, the data generated by gameplay is suitable for comparison against datasets outputted through aspect-oriented simulation. This can be used to assess whether simulated players with aspect-affected behaviour accurately reflect the playerbase, and so can help to assess whether aspect orientation is suitable for realistic simulation.
+
+ % can be represented as modifications to naive play modificationsReal-world player data can be compared against simulation data with biases repre to identify 
 
 \section{Implementation of RPGLite}
 
 Knowing ideal play is useful, but to understand how real-world players would
 interact with RPGLite, empirical data needed to be collected. To produce this,
-we developed a mobile online multiplayer version of the game. Play constituted
+a mobile online multiplayer version of the game was developed for data collection purposes. Play constituted
 engagement with an experiment for data collection, and after several months, a
-database logging player behaviour presented a dataset which could be used, in
-the case of this PhD, to simulate real-world player behaviour and present a
-``realistic'' environment in which to test the effectiveness of aspect-oriented
-simulation.
+database logging player behaviour presented a dataset which could be used to simulate real-world player behaviour.
+%  and present a
+% ``realistic'' environment in which to test the effectiveness of aspect-oriented
+% simulation.
 
 This section briefly describes the details of RPGLite's implementation as a data
 collection tool. Some lessons learned after reflection on the implementation
