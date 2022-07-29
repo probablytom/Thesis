@@ -1,0 +1,37 @@
+\usepackage{enumitem}
+\usepackage[no-math]{fontspec}
+\setmainfont{Valkyrie A}
+\setsansfont{Concourse 4}
+\setmonofont{Triplicate A Code}
+\newfontfamily{\advocate}{Advocate55WideMed}
+\newfontfamily{\concourse}{Concourse 4}
+\newfontfamily{\concourseindex}{Concourse Index}
+
+\usepackage{sectsty}
+\allsectionsfont{\concourse}
+
+% Listings config
+\lstset{language=Python,
+frame=L,
+numbers=left,
+stepnumber=1,
+numberstyle=\footnotesize,
+float,
+floatplacement=H,
+basicstyle=\normalsize\ttfamily}
+
+% List formatting changes
+\setitemize[1]{label={\concourseindex\normalsize\symbol{"2022}}}
+\setitemize[2]{label={\concourseindex\small\symbol{"2022}}}
+\setitemize[3]{label={\concourseindex\footnotesize\symbol{"2022}}}
+\setitemize[4]{label={\concourseindex\scriptsize\symbol{"2022}}}
+\setitemize[5]{label={\concourseindex\scriptsize\symbol{"2022}}} % Technically could be \tiny
+\setenumerate[1]{font={\concourseindex\normalsize},label=\arabic*}
+\setenumerate[2]{font={\concourseindex\small},label=\arabic*}
+\setenumerate[3]{font={\concourseindex\footnotesize},label=\arabic*}
+\setenumerate[4]{font={\concourseindex\scriptsize},label=\arabic*}
+\setenumerate[5]{font={\concourseindex\scriptsize},label=\arabic*} % Technically could be \tiny
+
+% a macro for indicating a number in an enumerated list using the concourseindex
+% font (for consistency)
+\newcommand{\pointno}[1]{{\concourseindex{}#1}}

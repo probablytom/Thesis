@@ -1,12 +1,12 @@
 \chapter{RPGLite: A Mobile Game for Collecting Data}
 
-RPGLite is a game designed with some special qualities: \citeauthor{kavanagh2020}
-have produced PRISM models which can be model-checked to identify ideal play
-strategies in all game states\cite{kavanagh2020}\inline{maybe add more kavanagh
-citations early on!}. Some experiments were conducted around RPGLite to answer
-the question: ``Over time, do players converge on an ideal strategy of
-play?''\inline{Fix formatting and correct wording of William's hypothesis, and
-mine below.}
+RPGLite is a game designed with some special qualities:
+\citeauthor{kavanagh2020} have produced PRISM models which can be model-checked
+to identify ideal play strategies in all game
+states\cite{kavanagh2020}\inline{maybe add more kavanagh citations early on!}.
+Some experiments were conducted around RPGLite to answer the question: ``Over
+time, do players converge on an ideal strategy of play?''\inline{Fix formatting
+and correct wording of William's hypothesis, and mine below.}
 
 An alternative question to answer would be, ``what strategy of play do players
 typically adopt'', and the related question, ``do all players adopt the same
@@ -31,9 +31,9 @@ correlates with empirical data more closely than the naive data, we can dismiss
 naive play as ``realistic'', and assume the augmented behaviour. Many aspects
 can be written representing different styles of play, which might be adopted by
 different players, a concrete benefit of aspect orientation in modelling \&
-simulation. This chapter discusses the design and implementation of RPGLite for data
-collection purposes, allowing for discussions of actual experiments --- and a
-more detailled examination of the application of aspect orientation --- in
+simulation. This chapter discusses the design and implementation of RPGLite for
+data collection purposes, allowing for discussions of actual experiments --- and
+a more detailled examination of the application of aspect orientation --- in
 chapters\inline{cref the chapters on specific experiments at the beginning of
 the RPGLite chapter.}.
 
@@ -56,24 +56,20 @@ alternating turns until a victor is left with the only ``alive'' characters.
 
 Eight characters are available for selection, with the following abilities:
 
-\begin{description}
-    \item[Knight] Deals damage to an opponent character on a successful hit.
-    \item[Archer] Deals damage to two opponent characters on a successful hit. 
-    \item[Wizard] Deals damage to an opponent character on a successful hit,
-    disabling (or \emph{``stunning''}) them for the duration of the opponent's
-    next turn.
-    \item[Healer] Deals damage to an opponent character on a successful hit, and
-    heals themselves or, optionally, the other player character instead
-    (assuming that character is still alive).
-    \item[Barbarian] Deals damage to an opponent character on a successful hit,
-    dealing additional damage if their health is low when attacking.
-    \item[Rogue] Deals damage to an opponent character on a successful hit,
-    dealing additional damage if the target's health is low when attacked.
-    \item[Monk] Deals damage to an opponent character on a successful hit, and
-    immediately takes another turn, until their attack is unsuccessful.
-    \item[Gunner] Deals damage to an opponent regardless of success, dealing
-    additional damage on a successful hit.
-\end{description}
+\begin{description} \item[Knight] Deals damage to an opponent character on a
+successful hit.  \item[Archer] Deals damage to two opponent characters on a
+successful hit.  \item[Wizard] Deals damage to an opponent character on a
+successful hit, disabling (or \emph{``stunning''}) them for the duration of the
+opponent's next turn.  \item[Healer] Deals damage to an opponent character on a
+successful hit, and heals themselves or, optionally, the other player character
+instead (assuming that character is still alive).  \item[Barbarian] Deals damage
+to an opponent character on a successful hit, dealing additional damage if their
+health is low when attacking.  \item[Rogue] Deals damage to an opponent
+character on a successful hit, dealing additional damage if the target's health
+is low when attacked.  \item[Monk] Deals damage to an opponent character on a
+successful hit, and immediately takes another turn, until their attack is
+unsuccessful.  \item[Gunner] Deals damage to an opponent regardless of success,
+dealing additional damage on a successful hit.  \end{description}
 
 Specific details of each character --- their health, chance to hit, and damage
 on hit as well as character-specific details (such as the threshold for
@@ -108,44 +104,120 @@ optimal moves, character pairings, and the like.
 
 \subsection{RPGLite's Design Implications}
 
-The state space of RPGLite makes it unusually well-suited to analysis through formal methods.
-Because of this, a the datasets produced through simulation of RPGLite can be compared against two other datasets: one of real-world play, and another of what can be mathematically shown to be ``correct'' player behaviour.
+The state space of RPGLite makes it unusually well-suited to analysis through
+formal methods.  Because of this, a the datasets produced through simulation of
+RPGLite can be compared against two other datasets: one of real-world play, and
+another of what can be mathematically shown to be ``correct'' player behaviour.
 
 To demonstrate this state space, note that RPGLite games can have their states
 described by a set of values: the healths of characters on each team, plus a
 stunned character. With eight characters having a maximum health value of $w, x,
 y, z$\footnote{Maximum health values are dependent on RPGLite's configuration.},
-two players, and an indicator of which character is stunned.\footnote{Note that stunnedness is valid for exactly one
-character for one turn, meaning that only one character may be stunned at any
-time, and the status effect immediately resets, meaning there are only three possible states for stunnedness: either character belonging to the player taking a turn, or neither.}. The
-entropy of a game's state is therefore \(log_2(w\times{}x\times{}y\times{}z\times{}3\times{}2)\), where the multiplications by 3 and 2 represent the stunnedness indicator for the current player (either character, or neither), and the player whose turn it is to play, respectively. The maximum health for a character is 10 hit points, which makes the maximum entropy of a game state
- \(log_2(10^{4}\times{}3\times{}2\}) = log_2(60000) \approx 16.87 bits\). Each player picks 2 of 10 characters, and can choose to attack either opponent character with either of their own, or skip their turn, for a maximum of 6 possible actions. We can therefore see that the total entropy of the entire RPGLite game is no greater than \(log_2(10^{4}\times{}6\times{}2\times{}{10\choose2}\times{}6 \approx 24.36 bits\).\footnote{The actual figure is smaller: \begin{itemize}\item Players may choose two characters with special abilities that prevent them from attacking both opponent characters at once (this accounts for 9 out of 10 characters), giving 5 possible actions in a turn, rather than 6.\item The ``metagame'', which refers to the percieved ``best'' strategies at any given point in time, would impact the chance of a player selecting making certain moves or choosing to play with certain characters. RPGLite is designed to be slightly ``unbalanced'' in the parameters of different characters such as health, attack damage, or potency of special abilities, meaning long-term players are expected to learn effective playstyles and adjust accordingly.\end{itemize}\par{}\indent{}Players' behaviour is therefore less uniform than this calculation would imply, but the calculation provides a \emph{maximum} entropy of the game.}
+two players, and an indicator of which character is stunned.\footnote{Note that
+stunnedness is valid for exactly one character for one turn, meaning that only
+one character may be stunned at any time, and the status effect immediately
+resets, meaning there are only three possible states for stunnedness: either
+character belonging to the player taking a turn, or neither.}. The entropy of a
+game's state is therefore
+\(log_2(w\times{}x\times{}y\times{}z\times{}3\times{}2)\), where the
+multiplications by 3 and 2 represent the stunnedness indicator for the current
+player (either character, or neither), and the player whose turn it is to play,
+respectively. The maximum health for a character is 10 hit points, which makes
+the maximum entropy of a game state \(log_2(10^{4}\times{}3\times{}2\}) =
+log_2(60000) \approx 16.87 bits\). Each player picks 2 of 10 characters, and can
+choose to attack either opponent character with either of their own, or skip
+their turn, for a maximum of 6 possible actions. We can therefore see that the
+total entropy of the entire RPGLite game is no greater than
+\(log_2(10^{4}\times{}6\times{}2\times{}{10\choose2}\times{}6 \approx 24.36
+bits\).\footnote{The actual figure is smaller: \begin{itemize}\item Players may
+choose two characters with special abilities that prevent them from attacking
+both opponent characters at once (this accounts for 9 out of 10 characters),
+giving 5 possible actions in a turn, rather than 6.\item The ``metagame'', which
+refers to the percieved ``best'' strategies at any given point in time, would
+impact the chance of a player selecting making certain moves or choosing to play
+with certain characters. RPGLite is designed to be slightly ``unbalanced'' in
+the parameters of different characters such as health, attack damage, or potency
+of special abilities, meaning long-term players are expected to learn effective
+playstyles and adjust accordingly.\end{itemize}\par{}\indent{}Players' behaviour
+is therefore less uniform than this calculation would imply, but the calculation
+provides a \emph{maximum} entropy of the game.}
 
-Iterating through these states allows us to map the entire state space of RPGLite. As the state space the game defines is relatively small --- for comparison, mapping valid positions in chess takes about 136 bits\cite{information_content_chess}, and this figure does not account for valid \emph{moves} within the game, which our calculation for RPGLite does --- it is feasible to analyse every possible game state. Note that the figure of \(\approx 24.36 bits\) includes movements \emph{between} states as well as the states themselves, meaning that it is feasible to map the potential progressions through all possible games of RPGLite using formal methods. Further, this allows us to understand the chances of a given player winning given transitions between different states, for example by representing moves in the game as transitions in a decision diagram where nodes are the game's state. We can calculate exactly how ``good'' a move is, by comparing chances of success making a given move in a given state against the chances of success when making the calculably-optimal move.
- 
-In this way, RPGLite's design allows it to be understood formally, yet it also draws on common game design elements and is sufficiently ``interesting'' to generate data from a real-world playerbase.\footnote{Data collected from several thousand completed games can be found at \cite{rpglite_dataset}.} This yields some properties that are interesting for the purposes of aspect-oriented simulation:
+Iterating through these states allows us to map the entire state space of
+RPGLite. As the state space the game defines is relatively small --- for
+comparison, mapping valid positions in chess takes about 136
+bits\cite{information_content_chess}, and this figure does not account for valid
+\emph{moves} within the game, which our calculation for RPGLite does --- it is
+feasible to analyse every possible game state. Note that the figure of \(\approx
+24.36 bits\) includes movements \emph{between} states as well as the states
+themselves, meaning that it is feasible to map the potential progressions
+through all possible games of RPGLite using formal methods. Further, this allows
+us to understand the chances of a given player winning given transitions between
+different states, for example by representing moves in the game as transitions
+in a decision diagram where nodes are the game's state. We can calculate exactly
+how ``good'' a move is, by comparing chances of success making a given move in a
+given state against the chances of success when making the calculably-optimal
+move.
 
-\begin{enumerate}
-    \item Simulated moves can be selected naively, i.e. at random, but can also be made perfectly according to the known-correct move in a given game state, or made with some calculated ``cost'' as to the chance of winning.
-    \item Real-world players' behaviour can also be analysed according to the same metrics: for example, moves made by players can be analysed to understand bias, whether players learned to play ``better'' moves over time, or whether they selected known-strong characters more frequently than those who can be formally shown to have a relatively low chance of winning games.
-    \item As the actions taken when playing RPGLite are consistent --- such as deciding the target character of an attack, or a character to use in an attack --- random play can be simulated as a ``naive'' play style, which can be compared against real-world players. Where player behaviour does not correlate to naive play,\footnote{The concept of play correlation is introduced in \cref{chap:exp1_simulation_optimisation}.} the biases of players may be represented as aspects which are applied only to specific actors within the simulation.
-    \item Should aspects be suitable as a manner of accurately representing biased play, aspects offer a separation of concerns within the simulation: any nuance found within the playstyle of specific real-world players would be replicated and applied not to the model itself, but to specific simulated players. Playstyles might also be mixed with the application of multiple aspects.
-\end{enumerate}
- 
-Whether aspect orientation is suitable for the realistic simulation of RPGLite gameplay is the topic of the remainder of this thesis. However, the design of RPGLite allows for a controlled system where a clear notion of ``good'' and ``naive'' behaviours can be defined, the system is closed insofar as all interactions within the system are known and all game elements are precicely understood, and all interactions take place between experiment participants for data collection purposes, allowing for a large dataset to be collected without information being removed due to players not consenting to their data being collected and disseminated for science. In short, RPGLite's design constitutes a system where all aspects are well-understood, no interference is anticipated from system components which are unknown or outside of experimental control, and lots of data can be collected for analysis. Therefore, the data generated by gameplay is suitable for comparison against datasets outputted through aspect-oriented simulation. This can be used to assess whether simulated players with aspect-affected behaviour accurately reflect the playerbase, and so can help to assess whether aspect orientation is suitable for realistic simulation.
+In this way, RPGLite's design allows it to be understood formally, yet it also
+draws on common game design elements and is sufficiently ``interesting'' to
+generate data from a real-world playerbase.\footnote{Data collected from several
+thousand completed games can be found at \cite{rpglite_dataset}.} This yields
+some properties that are interesting for the purposes of aspect-oriented
+simulation:
 
- % can be represented as modifications to naive play modificationsReal-world player data can be compared against simulation data with biases repre to identify 
+\begin{enumerate} \item Simulated moves can be selected naively, i.e. at random,
+but can also be made perfectly according to the known-correct move in a given
+game state, or made with some calculated ``cost'' as to the chance of winning.
+\item Real-world players' behaviour can also be analysed according to the same
+metrics: for example, moves made by players can be analysed to understand bias,
+whether players learned to play ``better'' moves over time, or whether they
+selected known-strong characters more frequently than those who can be formally
+shown to have a relatively low chance of winning games.  \item As the actions
+taken when playing RPGLite are consistent --- such as deciding the target
+character of an attack, or a character to use in an attack --- random play can
+be simulated as a ``naive'' play style, which can be compared against real-world
+players. Where player behaviour does not correlate to naive play,\footnote{The
+concept of play correlation is introduced in
+\cref{chap:exp1_simulation_optimisation}.} the biases of players may be
+represented as aspects which are applied only to specific actors within the
+simulation.  \item Should aspects be suitable as a manner of accurately
+representing biased play, aspects offer a separation of concerns within the
+simulation: any nuance found within the playstyle of specific real-world players
+would be replicated and applied not to the model itself, but to specific
+simulated players. Playstyles might also be mixed with the application of
+multiple aspects.  \end{enumerate}
+
+Whether aspect orientation is suitable for the realistic simulation of RPGLite
+gameplay is the topic of the remainder of this thesis. However, the design of
+RPGLite allows for a controlled system where a clear notion of ``good'' and
+``naive'' behaviours can be defined, the system is closed insofar as all
+interactions within the system are known and all game elements are precicely
+understood, and all interactions take place between experiment participants for
+data collection purposes, allowing for a large dataset to be collected without
+information being removed due to players not consenting to their data being
+collected and disseminated for science. In short, RPGLite's design constitutes a
+system where all aspects are well-understood, no interference is anticipated
+from system components which are unknown or outside of experimental control, and
+lots of data can be collected for analysis. Therefore, the data generated by
+gameplay is suitable for comparison against datasets outputted through
+aspect-oriented simulation. This can be used to assess whether simulated players
+with aspect-affected behaviour accurately reflect the playerbase, and so can
+help to assess whether aspect orientation is suitable for realistic simulation.
+
+% can be represented as modifications to naive play modificationsReal-world
+% player data can be compared against simulation data with biases repre to
+% identify 
 
 \section{Implementation of RPGLite}
 
 Knowing ideal play is useful, but to understand how real-world players would
-interact with RPGLite, empirical data needed to be collected. To produce this,
-a mobile online multiplayer version of the game was developed for data collection purposes. Play constituted
-engagement with an experiment for data collection, and after several months, a
-database logging player behaviour presented a dataset which could be used to simulate real-world player behaviour.
-%  and present a
-% ``realistic'' environment in which to test the effectiveness of aspect-oriented
-% simulation.
+interact with RPGLite, empirical data needed to be collected. To produce this, a
+mobile online multiplayer version of the game was developed for data collection
+purposes. Play constituted engagement with an experiment for data collection,
+and after several months, a database logging player behaviour presented a
+dataset which could be used to simulate real-world player behaviour.
+%  and present a ``realistic'' environment in which to test the effectiveness of
+%  aspect-oriented simulation.
 
 This section briefly describes the details of RPGLite's implementation as a data
 collection tool. Some lessons learned after reflection on the implementation
@@ -161,9 +233,9 @@ iOS. This was developed in Unity, a framework for developing games in C\# which
 can be distributed to almost any platform\footnote{Meaning that there are
 technically also versions of RPGLite playable on, say, a games console or web
 browser.}. Most assets were developed in GIMP, with character designs
-contributed by a commissioned artist online. Unity allowed for a ``WYSIWYG''
-or what-you-see-is-what-you-get interface builder, with event handlers defined
-in C\# code which would ``hook'' into events signalled by interface element
+contributed by a commissioned artist online. Unity allowed for a ``WYSIWYG'' or
+what-you-see-is-what-you-get interface builder, with event handlers defined in
+C\# code which would ``hook'' into events signalled by interface element
 interactions. User-facing components of the game were largely produced by
 William Kavanagh, the collaborator on the project and original RPGLite designer.
 Therefore, in an attempt not to take credit for this work, see \inline{Cite
@@ -221,18 +293,15 @@ database used to run the game.
 
 Completed games drawn from the MongoDB instance contain many fields, including: 
 
-\begin{itemize}
-    \item The history of moves made, and the times those moves were made
-    \inline{Confirm moves made includes timestamps, I'm sure it does}
-    \item The players involved (by username), and the winning player
-    \item The ELO scores of the players before and after playing the game
-    \inline{Confirm that games include both ELO before and after the game is played.}
-    \item The characters chosen by each player
-    \item The ``score'' of each player\footnote{RPGLite's mobile app presented
-    users with a naive scoring mechanism used to rank users on a leaderboard,
-    which some users then used to identify other players of a similar notional
-    skill.}
-\end{itemize}
+\begin{itemize} \item The history of moves made, and the times those moves were
+made \inline{Confirm moves made includes timestamps, I'm sure it does} \item The
+players involved (by username), and the winning player \item The ELO scores of
+the players before and after playing the game \inline{Confirm that games include
+both ELO before and after the game is played.} \item The characters chosen by
+each player \item The ``score'' of each player\footnote{RPGLite's mobile app
+presented users with a naive scoring mechanism used to rank users on a
+leaderboard, which some users then used to identify other players of a similar
+notional skill.} \end{itemize}
 
 
 

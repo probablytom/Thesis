@@ -1,0 +1,158 @@
+\chapter{Future Work}\label{chap:future_work}
+
+The focus of this thesis is in developing a state-of-the-art aspect-oriented 
+framework, producing a suitably constrained experimental environment to
+demonstrate its effectiveness, and using that environment to investigate whether
+aspect orientation\inline{is suitable for simulation purposes? It's about
+showing that we \emph{can} use aspect orientation appropriately in simulation
+environments, and that aspect orientation can also lead us to realistic and
+nuanced simulations, too. Go back through the pdsf and lit review chapters to
+make this argument properly.}. As we have found that aspect orientation is
+appropriate in this context, successfully produced this well-constrained
+environment for simulation, and produced a novel aspect orientation framework
+which demonstrates novel and powerful weaving concepts, lots of opportunities
+for research outwith this thesis' scope present themselves.
+
+This chapter describes some possibilities for the presented research to be
+extended in the future.
+
+\inline{Rewrite the chunks in each future work section for this chapter, into their own
+subsecs with proper explorations, citations, and so on. This chapter is
+currently a scapbook of ideas!}
+
+\labelledsec{Future Work pertaining to PyDySoFu}{future_work_pdsf}
+
+\labelledsubsec{Aspect-Oriented Metaprogramming}{aspect_oriented_metaprogramming}
+
+The combination of metaprogramming and aspect-orientation introduces powerful
+new possibilities in the realm of aspect-orientation. In traditional
+aspect-oriented work, aspects treat their targets as black boxes. This leads to
+some limitations:
+
+\begin{itemize}
+    \item Traditional aspects cannot add their behavioural modifications
+    interspersed within the work being done by their target. The ``textbook''
+    use-case for aspect-orientation is logging: aspects can separate logging
+    from the business logic they are applied to. However, a programmer in more
+    mainstream programming styles may wish to insert logging behaviour
+    \emph{within} their business logic, rather than \emph{around} it.
+    Aspect-oriented metaprogramming makes this possible, as the target can have
+    logging logic interspersed through otherwise decoupled business logic when
+    woven. As even in aspect-orientation's most famous example there are
+    benefits to the introduction of aspects woven within their targets, a study
+    of the broader utility of the aspect-oriented metaprogramming approach
+    should be conducted.
+    \item Traditional aspects cannot make decisions based on reflection on
+    specific properties of the code they are being applied to, such as
+    calculations made, data accessed, computational complexity, and so on. There
+    are many scenarios where one can anticipate this reflective behaviour to be
+    useful. For example, compilation of Python code for efficient performance on
+    a GPU (redirected from the CPU), as in \inline{cite the thesis here of
+    Jeremy's student who worked in Python. He was very nice --- can't remember
+    his name for the life of me.}, seems to decouple from the rewritten logic
+    nicely in concept, but relies on an examination of iteration logic and
+    specifics of the code being recompiled. Aspects with metaprogramming
+    directly support reflection as access to the target's AST is trivial to
+    achieve. There are many possible applications for this technology, and
+    likely in a diverse set of domains; there is therefore research to be done
+    to demonstrate the utility of this new approach.
+    \item \inline{Would be nice to have a third reason as to why \pdsf
+    introduces new research possibilities.}
+\end{itemize}
+
+
+\labelledsec{Future Work pertaining to RPGLite}{future_work_rpglite}
+
+RPGLite's dataset was analysed for the purposes it was collected for in this
+thesis: to aid in the realistic simulation of a well-controlled \sociotechnical
+system. However, many analyses are yet to be explored:
+
+\begin{itemize}
+    \item Why were games abandoned? Are there patterns that can be identified
+    which lead players to abandon games?
+    \item Players likely formed cliques, where they would play against people
+    they knew (perhaps in person) rather than relying on RPGLite's matchmaking
+    features to find new opponents. The existence of cliques of players may have
+    implications for the playstyles of players, how they learned ``better''
+    strategies over time, and the players' general dedication to playing RPGLite
+    (and therefore producing a greater wealth of data for analysis and
+    dissemination to the community)
+    \item RPGLite's dataset contains information about players' interactions
+    with the application itself; as the game made available some features
+    typical of modern games (leaderboards, matchmaking, achievements, graphical
+    customisation), an analysis of the features most commonly used can shed
+    light on the more effective aspects of modern game design in both the
+    general playerbase and more dedicated players\footnote{For example, are some
+    features heavily used, but only by a dedicated subset? Do all players use
+    other features a moderate amount, showing mild but general appeal?}
+    \item RPGLite's playerbase was recruited informally and there is scope for a
+    larger and longer-term data collection effort to be made. A re-release of
+    the application in major mobile app stores with a concerted effort to
+    release new seasons of the game and maintain player interest for an extended
+    period of time
+    --- perhaps with additional features, such as in-game chat, favourites lists
+    --of
+    previous opponents, or match replay and analysis (with suggestions for
+    improved play backed by the formal methods inherant in RPGLite's design)
+    would enable a richer analysis, and broader utility to the games research
+    community.
+\end{itemize}
+
+While investigations into these questions warrant further study, they remain
+outwith the scope of this thesis, which focuses on simulation technologies more
+than it does game design. There are many opportunities available for the game
+design research community to investigate. Publications in the field from
+co-creators of RPGLite reflect further on the design and future improvements of
+the game; see \inline{cite William's PhD here}.
+
+
+\labelledsec{Future Work pertaining to Aspect-Oriented Simulation}{future_work_simulations}
+
+Aspect-orientation's goal of separation of concerns, and the possibility of
+using its trait of obliviousness to augment naive models in ways the original
+creator did not anticipate, presents research opportunities that are also
+outwith the scope of this thesis.
+
+\begin{itemize}
+    \item Myriad models exist which have been provided accurate results in past
+    research, but could not account for unforseen modern situations. For
+    example, models of world health over time could not account for the Covid19
+    pandemic, and models of the world economy could not incorporate real-world
+    data from the recession caused by responses to the pandemic, or the 2008
+    financial crisis. The World3 model is an example of one which has provided
+    accurate predictions for decades, but could not account for incidents in
+    modern times when constructed. Models such as these work from prior data which
+    requires some adjustment as simulated time progresses to account for events
+    of a large enough scale to disrupt their simulated system (here, global
+    population, industry, food, resources, and pollution). An alternative to
+    adjusting the models directly --- adding cases at the relevant points in
+    time to introduce ``blips'' in simulated data --- is to construct aspects
+    which represent global events such as pandemics, economic crises, and others
+    such as war or famine. These can be modelled on real-world data, which we
+    have shown in this research to produce realistic simulations. A
+    proof-of-concept of the approach as applied to pre-existing models would
+    start this work, and the augmentation of existing models to improve their
+    accuracy can follow.
+    \item Relatedly, aspects can represent anticipated future states so as to
+    model their potential impact without modifying a known-good model of the
+    world today. Future health and economic crises can be constructed as
+    prospective changes to a model in an aspect, and applied to investigate the
+    possible effects. A potential benefit of this approach as opposed to the
+    simple modification of an existing model would be that many potential crises
+    can be applied in any combination. For example, 10 aspects representing
+    unpredictable future events yield 1024 possible combinations: there are
+    \(2^{10}\) possible combinations of these aspects being applied or omitted
+    from an execution of a simulation. Work to develop aspect-oriented models of
+    speculative futures therefore gives an exponential number of predicted
+    futures, which one could analyse to predict possible future trends. With a
+    successful proof-of-concept of the augmentation of existing models to
+    represent past events, this further step could anticipate future events and
+    take advantage of aspect orientation's unique properties as a tool for
+    simulation and modelling.
+\end{itemize}
+
+
+\labelledsec{Discussion}{future_work_conclusion}
+
+This section is not intentionally left blank.
+
