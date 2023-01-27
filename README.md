@@ -1,4 +1,6 @@
-Gantt chart for planning PHD:
+Repo for PhD thesis.
+
+Gantt chart for planning PhD:
 
 ```mermaid
 gantt

@@ -1,0 +1,365 @@
+Tim's format:
+- What was the author trying to do?
+- What was their method?
+- What did they find?
+
+========
+
+Kiezales — the lead author of the paper — introduced AOP in '97 and here
+presents a library as a tool for the AOP community, which had grown
+significantly since Kiezales' original, more theoretical publication. The need
+for the tool is born from the growing community, and their need --- as well as
+that of the community --- for a tool with which to demonstrate their paradigm in
+case studies. The tool is intended to serve as "the basis of an empirical
+assessment of aspect-oriented programming". The library makes use of standard
+AOP concepts: Pointcuts, Join Points, and Advice, bundled together in Aspects.
+They define "dynamic" and "static" cross-cutting, by which they refer to join
+points at specific points in the execution of a program, and join points
+describing specific types whose functionality is to be altered in some way.
+Their paper describes only "dynamic" cross-cutting, but presents architectural
+detail of its implementation, tool support, and the representation & definition
+of pointcuts in AspectJ. AspectJ is compared to other AOP techniques; the
+authors are explicit about their approach being distinct from metaprogramming
+in, say, Smalltalk or Clojure.
+
+@inproceedings{aspectj_intro,
+  title={An Overview of AspectJ},
+  author={G. Kiczales and Erik Hilsdale and Jim Hugunin and Mik Kersten and Jeffrey Palm and W. Griswold},
+  booktitle={ECOOP},
+  year={2001}
+}
+
+===
+
+Charfi & Mezini see an opportunity in BPEL, an executable business-process
+modelling language, having aspect orientation. This is because, when BPEL
+systems are composed together, the static nature of the logic being composed is
+not always appropriate for BPEL's use cases; they're specifically interested in
+web service definitions. Therefore, they look to construct an aspect-oriented
+BPEL extension. They specifically seek to support dynamic workflow definitions
+--- "adaptive workflows" --- which BPEL's existing extension mechanisms do not
+sufficiently support. Using the case study of modelling a travel agency's web
+services, they create an aspect-oriented extension by first defining how such an
+extension would be represented graphically in BPEL's workflow diagrams, and add
+further detail to arrive at a technical definition with XML representations,
+weaving mechanics, and eventually the construction of a BPEL dialect, AO4BPEL.
+The authors find that their pointcut system (which describes join points on both
+messages and processes), support for adaptive workflows, and aspect-oriented
+approach to workflow processes make AO4BPEL unique at the time of publication,
+though related AOP implementations exist in each individual area of their
+contributions. The work is weakened by brittle semantics around pointcuts, join
+points, and the temporal nature of workflow modelling. They also call for more
+general theoretical AOP research.
+
+NOTE: some interersting lit to pick up in their discussion.
+
+@article{charfi2007ao4bpel,
+  title={Ao4bpel: An aspect-oriented extension to bpel},
+  author={Charfi, Anis and Mezini, Mira},
+  journal={World wide web},
+  volume={10},
+  number={3},
+  pages={309--344},
+  year={2007},
+  publisher={Springer}
+}
+
+===
+
+The authors see AOP's core concepts as having significant similarities to GO-TO
+statements, which have historically been the subject of some derision in the
+literature. AOP Considered Harmful is, in spirit, very much a child of
+Dijkstra's "Go To statement considered harmful". The authors note that the
+notion of unstructured control flow makes reasoning about a program complicated
+--- disorientating a programmer by way of "destroying their coordinate system",
+leaving them unsure about both a program's flow of execution and the states at
+different points of that flow --- and discuss whether aspect orientated programs
+can have a consistent "coordinate system" for developers. They note that, while
+Go To statements are at least visible in disrupted code, the AOP concept of
+obliviousness makes such reasoning even more difficult than Go To statements, as
+even the understanding of where and how flow is interrupted is not represented
+structurally within an aspect-oriented program. They compare aspects to a Come
+From statement, noting that the concept is a literal April Fools' joke for
+programming language enthusiasts who claim they've found an improvement over Go
+To statements. The authors conclude that existing techniques, specifically
+Dynamic Dispatch in OOP, provide similar benefits without the tradeoff in
+legibility of a program's intended execution.
+
+Worth noting here that the PDSF rewrite effectively addresses a lot of these
+concepts, while preserving what OOP's ordinary techniques don't provide, namely
+join points at arbitrary points of program execution. We make obliviousness
+trade-offs in the application of our aspects, I believe, and I think this paper
+presents strong arguments that that's not a weakness of our approach (arguably,
+an improvement…?)
+
+@inproceedings{Constantinides04aopconsidered,
+  author = {Constantinos Constantinides and Therapon Skotiniotis and Maximilian Stoerzer},
+  title = {AOP Considered Harmful},
+  booktitle = {In Proceedings of European Interactive Workshop on Aspects in Software (EIWAS)},
+  year = {2004}
+}
+
+===
+
+Kiczales et al's seminal AOP paper attempts to address complications of modern
+software engineering, where the necessities of engineering such as logging and
+error handling are intermixed with business logic. The authors see these
+engineering concepts as universal throughout business logic --- "cutting across"
+the codebase in many areas --- and so suggest a paradigm whereby these
+"crosscutting concerns" are factored out of business logic, defined separately,
+and woven into the business logic in some way (through compilation, during
+interpretation, by way of metaprogramming, etc). The authors present an
+implementation in Lisp of AOP, and compare implementations by way of e.g. SLOC
+count in an emitted C program to a comparable, non-AOP implementation, with two
+examples (its use in image processing and document processing). They find the
+idea --- which they note is "young" and note many areas where research might
+help it to grow --- can successfully separate systemic, implementation concerns
+such as memory management in a way that reduces program bloat and simplifies
+implemenation. The authors note that measuring the benefits of their approach
+quantitatively is challenging.
+
+@inproceedings{kiczales1997aspect,
+  title={Aspect-oriented programming},
+  author={Kiczales, Gregor and Lamping, John and Mendhekar, Anurag and Maeda, Chris and Lopes, Cristina and Loingtier, Jean-Marc and Irwin, John},
+  booktitle={European conference on object-oriented programming},
+  pages={220--242},
+  year={1997},
+  organization={Springer}
+}
+
+===
+
+Keller and H{\"o}lzle's technical report describes an implementation of BCA, a
+method of program adaptation by way of directly manupulating its compiled
+representation. Their research investigates solutions to the difficulties
+involved in the integration of software components and their evolution over
+time, where those components are re-used with differing requirements. By
+modifying binaries directly, incompatibilities in an program and, say, one of
+that program's dependancies can be resolved by way of mutating either after
+compilation. Their implementation defines a representation for the modification
+of pre-generated Java class binaries, the output of which can be verified as
+also being valid Java class binaries. The authors claim that BCA allows for
+dynamic modification of programs with little overhead. They believe BCA is
+unique in its combination of features, which include engineering concerns such
+as re-typechecking code which is subject to adaptation and its obliviousness to
+source implementation, as well as guarantees that modifications are valid even
+for later iterations of the program subject to adaptation.
+
+@inproceedings{keller1998binary,
+  title={Binary component adaptation},
+  author={Keller, Ralph and H{\"o}lzle, Urs},
+  booktitle={European Conference on Object-Oriented Programming},
+  pages={307--329},
+  year={1998},
+  organization={Springer}
+}
+
+===
+
+The authors look to synthesise process logs which are representative of
+attackers' efforts to comporomise the security of a modelled system. Their work
+is an attempt to address issues arising from the difficulty of retreiving
+representative log traces for security-critical systems in which attacker
+activity is present. Logs are developed by process simulation through
+"well-structured" models, a mathematial property on which transformations are
+already defined. The authors develop a tool for the simulation of a process
+using well-structured process models, and apply transformations to both the
+model before execution and the log it produces through the trace of a
+simluation. They conclude that their tool is performant, and verify it can
+produce logs represneting security violations by way of analysis through PROM
+and pre-defined security constraints on their models. They note that log traces
+cannot be interleaved (due to a lack of parallel simulation of processes), may
+be incomplete (missing violations), and that mutated models and traces are not
+sound by construction. However, they see their proposal as a necessary step in
+realistic data generation for business processes. A weakness of the work is that
+model and trace modifications are relatively rudimentary: proesses can be added
+or removed, but complex graph transformations are presumably only permissable
+when representable through the composition of the mutation primatives they
+provide, on which there are only three for processes (swapping And and Xor
+definitions of process gateways, and swapping process order). Mutations cannot
+be applied contingently.
+
+Note: currently I don't tink I reference the PhD thesis "well-structured models"
+are defined in, but it's very good and worth reviewing too. Maybe I do have a
+reference, but if so it's slight at best, I think.
+
+@inproceedings{stocker2013secsy,
+  title={Secsy: Security-aware synthesis of process event logs},
+  author={Stocker, Thomas and Accorsi, Rafael},
+  booktitle={Proceedings of the 5th International Workshop on Enterprise Modelling and Information Systems Architectures, St. Gallen, Switzerland},
+  year={2013},
+  organization={Citeseer}
+}
+
+===
+
+The authors detail the technical aspects of SecSY, their tool for the generation
+of synthetic logs repesentative of security violations in security-critical
+business processes. A Java implementation of SecSY is described, which simulates
+"well-structured" models and applies mathematically-defined transformations on
+the model being simulated (before simulation occurs) and the logs obtained
+through simulation traces. An improvement on earlier work is that custom
+transformers can be written.
+
+@inproceedings{stocker2014secsy,
+  title={SecSy: A Security-oriented Tool for Synthesizing Process Event Logs.},
+  author={Stocker, Thomas and Accorsi, Rafael},
+  booktitle={BPM (Demos)},
+  pages={71},
+  year={2014}
+}
+
+===
+
+The authors address the need for access to variations on business processes for
+the development of a research field: cross-organisational process mining.
+Process mining can require many process logs, but a variety of business
+processes can produce log traces with variations which can be used in the
+training and analysis of process mining tooling and techniques. To support the
+field, log trace generation from a variety of process models is therefore
+required. Such logs are not in adequate supply. The authors' approach to the
+problem is to present an algorithm for the mutation of business processes, such
+that simulation against variations of the business process can produce process
+logs exhibiting variations too. Their algorithm makes use of block-structured
+models, a mathematical constraint on process models on which graph
+transformations are already researched. Their contribution is an algorithm
+applying these transformations to process models, and a tool which implements
+it built on PLG. They conclude that tools such theirs can be used to generate
+log traces representing process variation, in such a manner as to satisfy the
+requirements of the process mining research community.
+
+@inproceedings{pourmasoumi2015business,
+  title={On Business Process Variants Generation.},
+  author={Pourmasoumi, Asef and Kahani, Mohsen and Bagheri, Ebrahim and Asadi, Mohsen},
+  booktitle={CAiSE Forum},
+  pages={179--188},
+  year={2015}
+}
+
+
+===
+
+The authors identify opportunities for the use of AOP in simulation tooling, by
+increasing "modularity, understandability, maintainability, reusability, and
+testability". They present a case study of an application of AOP to simulation
+tooling by identifying cross-cutting concerns in Japrosim, a discrete event
+simulation framework, and propose an aspect-oriented redesign of the tool using
+AspectJ, a leading AOP toolset in Java. The authors describe Japrosim's existing
+object-oriented design, and note AOP variations of some design elements,
+including concurrent process management and applications in Japrosim's graphical
+animation features. Their contribution is the design itself; counting the main
+improvements between their aspect-oriented design and the existing
+object-oriented one is left to future work.
+
+@article{chibani2019using,
+  title={Using aop in discrete event simulation: A case study with japrosim},
+  author={Chibani, Meriem and Belattar, Brahim and Bourouis, Abdelhabib},
+  journal={International Journal of Applied Mathematics, Computational Science and Systems Engineering},
+  volume={1},
+  year={2019},
+  publisher={AMCSE}
+}
+
+===
+
+The authors discuss two issues in object oriented programming: "tangling", where
+separate design elements of a program are woven within each other in program
+source, and "scattering", where a single design element is strewn throughout the
+source, rather than being contained within a single area of the codebase. They
+propose that aspect orientation solves these problems, and identify that there
+are potential benefits in discreete event simulation code in both regards,
+making DES frameworks with AOP primatives a potentially fruitful contribution to
+the research community. They identify cross-cutting concerns in DES codebases,
+including event handling, resource sharing, and the restoration of a simulation
+run. The contribution of the paper is the discussion of AOP's potential
+application to DES codebases, and detail of the avenues available for research
+in the field. Japrosim is presented as a motivating example of an existing DES
+framework which they see as ripe for the aspect-oriented enhancements they identify.
+
+@article{chibani2013toward,
+  title={Toward an aspect-oriented simulation},
+  author={Chibani, Meriem and Belattar, Brahim and Bourouis, Abdelhabib},
+  journal={International Journal of New Computer Architectures and their Applications (IJNCAA)},
+  volume={3},
+  number={1},
+  pages={1--10},
+  year={2013}
+}
+
+
+===
+
+The authors note that process mining has a requirement for a dataset of process
+logs made from well-understood process models defined in a high-level manner.
+They address event log generation by introducing algorithms for the simulation
+of BPMN models and the collection of traces from those simulations. While their
+approach does not support the simulation of all BPMN concepts (notably message
+passing), they provide a tool which produces log traces for a BPMN model through
+PROM, making high-level model simulation available through already-standard
+tooling.
+
+@article{ExecutableBPMNMitsyuk,
+	doi = {10.1016/j.simpat.2017.01.003},
+	url = {https://doi.org/10.1016%2Fj.simpat.2017.01.003},
+	year = 2017,
+	month = {may},
+	publisher = {Elsevier {BV}},
+	volume = {74},
+	pages = {1--16},
+	author = {Alexey A. Mitsyuk and Ivan S. Shugurov and Anna A. Kalenkova and Wil M.P. van der Aalst},
+	title = {Generating event logs for high-level process models},
+	journal = {Simulation Modelling Practice and Theory}
+}
+
+
+===
+
+\labelledsubsec{PROSE}{subsec:PROSE} One implementation of dynamic weaving is
+PROSE\cite{popovici2002PROSE,popovici2003JITaspects}, a library which achieves
+dynamic weaving by use of a Just-In-Time compiler for Java. The authors saw
+aspect orientation as a solution to software's increasing need for adaptivity:
+mobile devices, for example, could enable a required feature by applying an
+aspect as a kind of ``hotfix'', thereby adapting over time to a user's needs.
+Other uses of dynamic aspect orientation they identify are in the process of
+software development: as aspects are applied to a compiled, live product, the
+join points being used can be inspected by a developer to see whether the
+pointcut used is correct. If not, a developer could use dynamic weaving to
+remove a mis-applied aspect, rewrite the pointcut, and weave again without
+recompiling and relaunching their project.
+
+Indeed, the conclusion \citeauthor{popovici2003JITaspects} provide in
+\cite{popovici2003JITaspects} indicates that the performance issues generalised
+by \citeauthor{dynamicAOchitchyan} in \cite{dynamicAOchitchyan} may prevent
+dynamic aspect orientation from being useful in production software, but that
+it presented opportunities in a prototyping or debugging context.
+
+PROSE explores dynamic weaving as it could apply in a development context, but
+the authors do not appear to have investigated dynamic weaving as it could apply
+to simulation contexts, or others where software making use of aspects does not
+constitute a \emph{product}.
+
+@inproceedings{popovici2002PROSE,
+  author = {Popovici, Andrei and Gross, Thomas and Alonso, Gustavo},
+  title = {Dynamic Weaving for Aspect-Oriented Programming},
+  year = {2002},
+  isbn = {158113469X},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  url = {https://doi.org/10.1145/508386.508404},
+  doi = {10.1145/508386.508404},
+  booktitle = {Proceedings of the 1st International Conference on Aspect-Oriented Software Development},
+  pages = {141–147},
+  numpages = {7},
+  location = {Enschede, The Netherlands},
+  series = {AOSD '02}
+}
+
+@inproceedings{popovici2003JITaspects,
+  author = {Popovici, Andrei and Alonso, Gustavo and Gross, Thomas},
+  title = {Just-in-Time Aspects: Efficient Dynamic Weaving for Java},
+  year = {2003},
+  booktitle = {Proceedings of the 2nd International Conference on Aspect-Oriented Software Development},
+  publisher = {Association for Computing Machinery},
+  pages = {100–109},
+}
+
