@@ -363,3 +363,70 @@ constitute a \emph{product}.
   pages = {100–109},
 }
 
+===
+
+This paper addresses the authors' observation that, in the study of complex
+systems through software models, the software developed typically serves two
+purposes: the experimental subject, and the observational apparatus used to
+conduct the experiment itself. Arguing that separting these roles ought to make
+both the implementation of an experimental system and its later analysis
+simpler, the authors propose the use of aspect orientation as a means of
+separating what they perceive as cross-cutting concerns of systems modelling.
+They present their Multi-Agent Modelling Language, a language implemented in
+Objective-C via the Swarm simulation package and designed for aspect-oriented
+simulation of agent-based models. Their aspect orientation effectively makes use
+of Observer patterns to measure a pre-constructed system under simulation,
+without the observations being an intrinsic component of the simulated system.
+They find that AOP provides an intuitive and straightforward method by which
+experimental simulated systems can be composed, and that MAML's simplicity and
+its philosophy on modelling are more "satisfactory" than Swarm's standard
+approach, though the paper betrays that its implementation was more complex than
+initially conceived: the `patch` unix tool was intended for use as their weaver,
+though the team eventually developed a transpiler from MAML to Swarm instead.
+The deciding factors for the development of a custom transpiler is not
+discussed.
+
+@inproceedings{gulyas1999use,
+  title={The use of aspect-oriented programming in scientific simulations},
+  author={Guly{\'a}s, L{\'a}szl{\'o} and Kozsik, Tam{\'a}s},
+  booktitle={Proceedings of Sixth Fenno-Ugric Symposium on Software Technology, Estonia},
+  year={1999}
+}
+
+===
+
+Steimann's concern in this paper is that the popularity of aspect oriented
+programming, which was nearly 10 years old at time of publication, was founded
+on a perception that it assisted in engineering more than it was proof that such
+assistance viable in practice. The author notes that most papers are
+theoretical in their discussion on tooling, that examples were typically
+repetitive, and that the community's discussion concerned more what aspect
+orientation is good for than what it actually is in practice. AOP is compared
+against OOP, AOP's claimed properties and principles are examined in detail, and
+the impact on software engineering is reasoned about from a skeptical
+perspective, comparing claims such as improved modularity against classic papers
+on the subjects (such as Parnas' work on the same). The paper presents a
+philosophical examination of aspect orientation, assessing the paradigm against
+its purported merits and discussing whether we should expect, rationally, that
+the claims made by the AOP research community would hold true. The paper ends
+noting some benefits of AOP that do hold true under rational scruitiny, and
+notes that the true utility of AOP may be very different to those purported by
+the community. Overall, the paper is a philosophical and critical reflection on
+the state of AOP research and the community's zeitgeist at the time, where what
+it is isn't necessarily consistent with claims around what it's useful for. In
+particular, the author sees AOP's promise of unprecedented modularisation as
+unfulfillable. 
+
+Arguably, what AOP is "good for" and what it "is" might be modelling --- see the
+notes on MAML and Swarm above.
+
+@inproceedings{steimann06paradoxical,
+	doi = {10.1145/1167473.1167514},
+	url = {https://doi.org/10.1145%2F1167473.1167514},
+	year = 2006,
+	publisher = {{ACM} Press},
+	author = {Friedrich Steimann},
+	title = {The paradoxical success of aspect-oriented programming},
+	booktitle = {Proceedings of the 21st annual {ACM} {SIGPLAN} conference on Object-oriented programming systems, languages, and applications  - {OOPSLA} {\textquotesingle}06}
+}
+
