@@ -18,6 +18,7 @@ gantt
     Prior Work cleanup & final Draft :priorFinish , after priorWorkStart, 14d 
     Contextual work & lit-focused writing draft complete : milestone, after priorFinish
     
+    
     Draft final sections of tools chapter      : toolsStart, after litReviewFinalDraft, 21d
     Tools final draft      :toolsFinish, after priorFinish, 7d
     RPGLite Sim Technical background redraft :rpgLiteTechnicalNotes, after toolsFinish, 14d
@@ -31,6 +32,10 @@ gantt
 
     Experimental Outcome discussion :discussion, after rpgLiteExp3, 14d
     Conclusion & Intro draft :concAndIntro, after discussion, 14d
+
+    Add future work ideas to construct skeleton & basic concepts :futureWorkScratching, after w1, 112d
+    Future work notes restructuring into chapter draft :after futureWorkScratching, 28d
+
     Complete draft : milestone, after concAndIntro
     
     section Planning
