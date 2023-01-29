@@ -12,7 +12,7 @@ gantt
     
     
     section Content Drafting
-    Re-Review Papers           :w1, 01-27, 14d
+    Re-Review Papers           :w1, 01-27, active, 14d
     Redraft Lit Review     : litReviewFinalDraft, after w1 , 14d
     Prior Work working draft : priorWorkStart, after litReviewFinalDraft, 14d
     Prior Work cleanup & final Draft :priorFinish , after priorWorkStart, 14d 
