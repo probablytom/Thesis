@@ -1,0 +1,459 @@
+%\labelledsec{Aspect Orientation}{dynamic_aop_review}
+%
+%In \cref{kiczales1997aspect}, \citeauthor{kiczales1997aspect} see these
+%engineering concepts as universal throughout business logic, motivating the
+%aspect-oriented approach for the first time. The authors present an
+%implementation of AOP in Lisp, and compare implementations by way of e.g. SLOC
+%count in an emitted C program to a comparable, non-AOP implementation, with two
+%examples (its use in image processing and document processing). They find the
+%idea --- which they note is "young" and note many areas where research might
+%help it to grow --- can successfully separate systemic implementation concerns
+%such as memory management in a way that reduces program bloat and simplifies
+%implemenation. It is noted that measuring the benefits of their approach
+%quantitatively is challenging.
+%
+% Aspect oriented programming (AOP) is a technique for isolating `cross-cutting
+% concerns'' in a codebase in separate parts of that
+% codebase\cite{kiczales1997aspect}. For the benefit of the reader, a short
+% explanation of aspect orientation precedes the discussion of its literature and
+% its relevance to the work presented in this thesis.
+
+
+% \subsection*{Literature Review Structure}\label{sec:lit_review_structure}
+
+This thesis presents an aspect-oriented approach to simulation and experimental
+design, tooling to support these endeavours, some empirical assessment of both
+the paradigm and its application in the domain of simulation and modelling. In
+particular, the presented research makes use of aspects to model hypotheses and
+the complexities of variable and unpredictable behaviour in the simulation of
+\sociotechnical systems.
+
+Relevant literature in this topic typically comes from a variety of fields which
+do not overlap significantly, meaning that this review must cover segments of
+several parly-related fields. The presented material is eclectic in nature as a
+result. We therefore present context for unfamiliar readers as well as a
+motivating case for the work to follow in three distinct areas, which are, in
+order:
+
+\begin{description}
+
+    \item[\Cref{sec:AOP_explainer},] which introduces aspect orientation and
+    gives a background on the field;
+    \item[\Cref{sec:dynamic_aop_review},] which details some existing approaches
+    to the dynamic weaving of aspects;
+    \item[\Cref{sec:ao_and_modelling},] which discusses the use of aspect
+    orientation in simulation and modelling; and
+    \item[\Cref{sec:dynamism_in_sm},] which outlines literature on the modelling
+    of process variance, particularly in simulation and modelling.
+
+\end{description}
+
+
+\labelledsec{Aspect Orientation}{AOP_explainer}
+
+Often, software engineers have to repetitively handle an issue in some codebase,
+where the issue is pervasive across many parts of the codebase and is
+necessarily interwoven through its core functionality. Common examples of this
+are guarding against unsafe concurrency usage, memory management, and logging.
+Maintainability is considered a key trait of maintainable, flexible and legible
+programs\cite{Parnas_1972}. Modern design techniques often center around the
+structure of a program to increase its modularity, with object-oriented
+programming being the standard approach to designing with modularity in mind in
+many industrially-relevant languages today. \inline{Citation needed?}
+
+Approaches to modularity typically section codebases into units of
+functionality. Concerns such as logging and memory management happen in
+effectively all areas of a codebase, as a result of engineering needs and the
+properties of a project's language and environment. As a result, common devices
+employed with the aim of increasing modularity are unable to strip these
+``cross-cutting concerns'' into some separate, modular unit. Programmers
+separating these concerns into additional modules are expected to see two key
+benefits:
+
+\begin{enumerate}
+    \item A reduction of \emph{``tangling''}, where program logic essential for
+    a program's intended purpose is intermixed with ancillary code addressing
+    cross-cutting concerns, thereby making essential logic more difficult to maintain;
+    \item A reduction of \emph{``scattering''}, where program logic for
+    cross-cutting concerns is strewn throughout a codebase, making maintainance
+    of this code more difficult.
+\end{enumerate}
+
+In other words, cross-cutting concerns are expected to make maintainance of both
+ancillary program logic and a program's core logic more difficult. Addressing this, \citeauthor{kiczales1997aspect} introduced the notion
+of aspect-oriented programming~\cite{kiczales1997aspect}. Aspects are best described through their
+component parts:
+
+\begin{itemize}
+    \item A \emph{``join point''} defines some point in a program's execution
+(usually the moment of invocation or return of some function or method).
+    \item \emph{``Advice''} defines some behaviour, such as emitting a logline, which
+    can conceptually happen anywhere in program execution (i.e. what's defined
+    would typically represent behaviour which cuts across many parts of a
+    codebase).
+    \item An \emph{``aspect''} is constructed by composing this advice with
+    \emph{``point cut''}s: sets of join points that define all moments in
+    program execution where associated advice is intended to be invoked.
+    \item An \emph{``aspect weaver''} then adds the functionality defined by
+    each aspect by adding the functionality defined by its advice at each join
+    point defined by its point cut.
+\end{itemize}
+
+The definition of join points and advice, or how weaving occurs, is a matter
+left for aspect orientation frameworks and languages to define. In employing the
+technique, aspect oriented programming aims to separate cross-cutting concerns
+into aspects, removing the aforementioned repetitive code from the logic
+implementing a program's functional behaviour so that additional pieces of
+functionality --- logging, authentication, and so on --- can be maintained in
+only one place in a codebase (thereby simplifying their maintainance and
+comprehension), and reminaing program logic can be understood and maintained
+without the overhead imposed by the previously tangled cross-cutting concerns.
+
+In \cref{kiczales1997aspect}, \citeauthor{kiczales1997aspect} see these
+engineering concepts as universal throughout business logic, motivating the
+aspect-oriented approach for the first time. The authors present an
+implementation of AOP in Lisp, and compare implementations by way of e.g. SLOC
+count in an emitted C program to a comparable, non-AOP implementation, with two
+examples (its use in image processing and document processing). They find the
+idea --- which they note is "young" and note many areas where research might
+help it to grow --- can successfully separate systemic implementation concerns
+such as memory management in a way that reduces program bloat and simplifies
+implemenation. It is noted that measuring the benefits of their approach
+quantitatively is challenging.
+
+This approach was later developed into more robust tooling by
+\citeauthor{aspectj_intro}~\cite{aspectj_intro}, in which more technical detail
+is discussed. The need for the tool is born from the growing community, and
+their need for a tool with which to demonstrate their paradigm in case studies.
+The tool is intended to serve as ``the basis of an empirical assessment of
+aspect-oriented programming''. The library makes use of standard AOP concepts:
+Pointcuts, Join Points, and Advice, bundled together in Aspects. They define
+``dynamic'' and ``static'' cross-cutting, by which they refer to join points at
+specific points in the execution of a program, and join points describing
+specific types whose functionality is to be altered in some way. Their paper
+describes only ``dynamic'' cross-cutting, but presents tooling support,
+architectural detail of its implementation, and the representation \& definition
+of pointcuts in AspectJ. AspectJ is compared to other AOP techniques; the
+authors are explicit about their approach being distinct from metaprogramming
+in, say, Smalltalk or Clojure.
+
+\subsection{Criticisms of aspect-oriented programming}
+
+The growing aspect-oriented programming research community collected both
+proponents and detractors of the paradigm. The developments in
+aspect-orientation pertinent to the research presented in this thesis are
+discussed in later sections of this literature review. However, common
+criticisms of aspect-oriented programming are important to present in two
+regards:
+
+\begin{enumerate}
+    \item Discussions of advancements in the field pertinent to the work
+    presented in this thesis should be understood within the context of some
+    perceived weaknesses in the field, which helps to frame an understanding of
+    literature reviewed in this chapter,
+    \item The presented work addresses some criticisms of aspect-oriented
+    programming, meaning that the criticisms of the paradigm writ large and
+    properties of work published in awareness of those weaknesses will motivate
+    some research presented in later chapters.
+\end{enumerate}
+
+An early piece of scepticism in the aspect orientation community is
+\cite{Constantinides04aopconsidered}, in which
+\citeauthor{Constantinides04aopconsidered} see AOP's core concepts as having
+significant similarities to \lstinline{GO-TO} statements, which have
+historically been the subject of some derision in the literature.
+\cite{Constantinides04aopconsidered} is, in spirit, a child of
+\citeauthor{dijkstra1968letters}'s \citetitle{dijkstra1968letters}. The authors
+note that the notion of unstructured control flow makes reasoning about a
+program complicated --- disorientating a programmer by way of ``destroying their
+coordinate system'', leaving them unsure about both a program's flow of
+execution and the states at different points of that flow --- and discuss
+whether aspect orientated programs can have a consistent "coordinate system" for
+developers. They note that, while Go To statements are at least visible in
+disrupted code, the AOP concept of obliviousness makes such reasoning even more
+difficult than Go To statements, as even the understanding of where and how flow
+is interrupted is not represented structurally within an aspect-oriented
+program. They compare aspects to a Come From statement, noting that the concept
+is a literal April Fools' joke for programming language enthusiasts who claim
+they've found an improvement over Go To statements. The authors conclude that
+existing techniques, specifically Dynamic Dispatch in OOP, provide similar
+benefits without the tradeoff in legibility of a program's intended execution.
+
+
+A similar, but more thorough critique of the aspect oriented paradigm is
+\citeauthor{steimann06paradoxical}'s work in \cite{steimann06paradoxical}. The
+concern in this paper is that the popularity of aspect oriented programming ---
+which was nearly 10 years old at time of publication --- was founded on a
+perception that it assisted in engineering more than it was proof that such
+assistance viable in practice. The author notes that most papers are theoretical
+in their discussion on tooling, that examples were typically repetitive, and
+that the community's discussion concerned more what aspect orientation is good
+for than what it actually is in practice. AOP is compared against OOP, AOP's
+claimed properties and principles are examined in detail, and the impact on
+software engineering is reasoned about from a skeptical perspective, comparing
+claims such as improved modularity against classic papers on the subjects (such
+as Parnas' work on the same). The paper presents a philosophical examination of
+aspect orientation, assessing the paradigm against its purported merits and
+discussing whether we should expect, rationally, that the claims made by the AOP
+research community would hold true. The paper ends noting some benefits of AOP
+that do hold true under rational scruitiny, and notes that the true utility of
+AOP may be very different to those purported by the community. Overall, the
+paper is a philosophical and critical reflection on the state of AOP research
+and the community's zeitgeist at the time, where what it is isn't necessarily
+consistent with claims around what it's useful for. In particular, the author
+sees AOP's promise of unprecedented modularisation as unfulfillable. 
+
+Similar sentiments are shared in \cite{przybylek2010wrong} by
+\citeauthor{przybylek2010wrong}, who looks to examine aspect oriented
+programming within the context of language designers' quest to achieve
+maintainable modularity in system design. They frame the design goals of aspect
+orientation as being to represent issues that ``cannot be represented as
+first-class entities in the adopted language''. The paper discusses whether the
+modularity offered by aspect orientation actually makes code more modular. In
+particular, they distinguish between lexical separation of concerns and the
+separation of concerns originally discussed by
+\citeauthor{djikstra_scientific_thought} in
+\citetitle{djikstra_scientific_thought}. They assess the principles of
+modularity --- modular reasoning, interface design, and a decrease in coupling,
+for example --- and find that from a theoretical perspective, there are many
+reasons to believe that the aspect-oriented paradigm can detrimentally impact
+the expected benefits of proper modularisation in a program. They conclude that
+the benefits touted by AOP are a myth repeated often enough to be believed, but
+point to many papers which suggest improvements to the standard AOP approach
+which might reduce it's negative impact or make it more practically viable.
+\citeauthor{przybylek2010wrong} presents a critical review of aspect orientation
+literature, but often hints at others' solutions to the problems identified too.
+
+
+%%  ## References to pick up & review:
+%%  
+%%  On criticisms of AOP
+%%  - Dantas & Walker 2006, from What Is Wrong With AOP
+%%  - Leavens & Clifton 2007, from What Is Wrong With AOP
+%%  - Filman & Friedman 2001, from What Is Wrong With AOP
+%%  - Constantinides, Scotinides & Störzer 2004, from What Is Wrong With AOP
+%%  - Tourwe, Brichau & Gybels 2003, from What Is Wrong With AOP
+%%  - Wampler 2007, from What Is Wrong With AOP
+%%      - "Most AO languages in use today are based on structural information about
+%%      join points, such as naming conventions and package structure, rather than
+%%      the logical patterns of the software
+%%  
+%%  On AOP and decreasing coupling
+%%  - Yourdon & Constantine 1979, from What is Wrong With AOP
+%%      - "The fact that we must know something about another module is a priori
+%%      evidence of some degree of interconnection even if the form of the
+%%      interconnection is not known" 
+
+
+%% NOTE: MOVE THIS TO A REGULAR SECTION FILE
+\section{Dynamic Aspect Weaving}\label{sec:dynamic_aop_review}
+
+One implementation of dynamic weaving is
+PROSE~\cite{popovici2002PROSE,popovici2003JITaspects}, a library which achieves
+dynamic weaving by use of a Just-In-Time compiler for Java. The authors saw
+aspect orientation as a solution to software's increasing need for adaptivity:
+mobile devices, for example, could enable a required feature by applying an
+aspect as a kind of ``hotfix'', thereby adapting over time to a user's needs.
+Other uses of dynamic aspect orientation they identify are in the process of
+software development: as aspects are applied to a compiled, live product, the
+join points being used can be inspected by a developer to see whether the
+pointcut used is correct. If not, a developer could use dynamic weaving to
+remove a mis-applied aspect, rewrite the pointcut, and weave again without
+recompiling and relaunching their project.
+
+Indeed, the conclusion \citeauthor{popovici2003JITaspects} provide in
+\cite{popovici2003JITaspects} indicates that some performance issues 
+% generalised by \citeauthor{dynamicAOchitchyan} in \cite{dynamicAOchitchyan
+may prevent
+dynamic aspect orientation from being useful in production software, but that
+it presented opportunities in a prototyping or debugging context.
+
+PROSE explores dynamic weaving as it could apply in a development context, but
+the authors do not appear to have investigated dynamic weaving as it could apply
+to simulation contexts, or others where software making use of aspects does not
+constitute a product.
+
+% MARK: dynamicAOchitchyan
+
+The performance issues noted by \citeauthor{popovici2003JITaspects} are explored
+in more detail by \citeauthor{dynamicAOchitchyan} in \cite{dynamicAOchitchyan}.
+\citeauthor{dynamicAOchitchyan} present a review of early dynamic aspect orientation
+techniques. The paper reviews AspectWerkz, JBoss, Prose, and Nanning Aspects
+through the lens of the authors' prior work on dynamic reconfiguration of
+software systems and their generalisation of dynamic aspect orientation
+approaches: 
+
+\begin{enumerate}
+\item ``Total hook'' weaving, where aspect hooks are woven at all possible
+points; 
+\item ``Actual hook'' weaving, where aspect hooks are woven where required;
+\item ``Collective'' weaving, where aspects are woven directly into the executed
+code, ``collecting the aspects and base in one unit''. 
+\end{enumerate}
+
+Because of the paper's focus on software reconfiguration (rather than the
+mechanics and design of dynamic aspect weaving specifically), the analysis of
+the tools presented in the paper is of less relevance to the work presented in
+this thesis than their generalisation of dynamic weaving. The tradeoffs of the
+three generalised philosophies are discussed. Chitchyan and Sommerville propose
+that total hook weaving allows flexibility in the evolution of a software
+product, at the expense of the performance of that product; this contrasts
+collected weaving, which shifts overhead out of the codebase and into the
+maintenance effort. Actual hook weaving is positioned as a compromise between
+the two, offering the best approach for none of their criteria but never
+compromising so much as to offer the worst, either. This suggests merit in a
+tool designed to flexibly offer any weaving approach appropriate for the task at
+hand. It's explicitly noted that, in practice, one could use many of the systems
+they describe. Though the paper is an early publication in the field, no tool
+the authors review offers all three, and none offers collective weaving
+alongside either kind of hook weaving.
+
+
+In contrast, \citeauthor{gilani2004family} note that, while there are different
+approaches to dynamically weaving aspects, no approach is suitable for an
+embedded environment. This is due to these systems' low power and available
+memory. \citeauthor{gilani2004family} therefore propose a framework through
+which weavers can be assessed for suitability in a given domain, or generated
+from a set of possible features (where, presumably, features would be enabled
+and disabled as per an environment's needs). Their families of weavers are
+defined by the similarities of the requirements in domains they are applied to,
+and specifically defined by their tradeoff between dynamism and resource use
+(asserted to be broadly proportional). It is unclear that a carefully crafted
+``actual hook weaver'', or JIT-compiled ``collective weaving'', in the parlance
+of \citeauthor{dynamicAOchitchyan} (see \citep{dynamicAOchitchyan}), would be
+meaningfully less efficient than static weaving in all but the extreme
+application areas outlined in the paper (embedded systems with resources in the
+range of 30kb memory). Aspect oriented programming's criticism can often be that
+it doesn't know what it ``aims to be good for'' , and its application in such
+extreme environments is arguably mistaken from the off. The families outlined in
+\citeauthor{gilani2004family}'s publication are unneccesary if dynamic aspects
+are not required in their target environments.
+\Citeauthor{steimann06paradoxical}'s critique of aspect-oriented programming,
+contrasted against these families, presents an interesting question. If the
+goals of dynamism and resource efficiency are at odds, and Steimann's stance
+that aspect-oriented programs do not earn its proponents' plaudits in practice,
+what can dynamic aspect weaving be appropriately applied to? In what environment
+does the tradeoff presented by dynamic weaving not necessitate a theory like
+\citeauthor{gilani2004family}'s in the first place? Arguably, that environment
+is not found in low-resource systems, and a take-away of \cite{gilani2004family}
+could be that researchers should seek other contexts in which to apply aspect
+oriented programming. \footnote{As discussed alongside \cite{gulyas1999use} in
+\Cref{sec:ao_and_modelling}, simulation \& modelling might present a more
+appropriate field.}
+
+
+
+
+%% MARK MARK MARK
+
+% This is a good position to add notes on other dynamic weavers
+
+%% MARK MARK MARK
+
+
+
+\citeauthor{rajan2006nu_towardsao_invocation} propose a new aspect-oriented
+invocation mechanism, which they call ``Bind''. Bind's design is motivated by
+perceived opportunities to improve modularity from a design perspective. The
+impact of ``scattering'' and ``tangling'' in a codebase after weaving in some
+aspect orientation implementations leads to a more complicated post-weave
+codebase, which in turn leads to increased difficulty including the compilation
+of aspect-oriented code and the development and execution of unit tests on said
+code. In order to demonstrate Bind's approach to simplifying post-weave
+codebases, the design of ``Nu'', an aspect-orientation framework in .NET
+supporting Bind, is explained and an implementation presented. They present Bind
+as an alternative to the weaving of aspect hooks (for load-time registration)
+into target code, in the style of PROSE (see
+\cite{popovici2002PROSE,popovici2003JITaspects}), or the weaving of calls
+directly, in the style of AspectJ (see \cite{aspectj_intro}). Bind's model for
+aspect orientation is to apply or remove implementations of crosscutting
+concerns to arbitrary sets of join points at a time of a developer's choosing.
+Nu's model for this is designed with the aim of granularity of join point
+specification. What results is a flexible model for aspect orientation which is
+demonstrated to satisfactorially emulate many other models for aspect oriented
+programming, such as the models of AspectJ, HyperJ, and Adaptive Programming. It
+is noted that it is ``very common in aspect-oriented programming research
+literature to provide language extensions to support new properties of
+aspect-like constructs'', and note that their work is similar to (yet distinct
+from) weaving approaches in run-time \& load-time weaving, support for aspect
+orientation directly in a language's virtual machine, and work towards general
+models of aspect oriented programming (models which can represent a variety of
+existing approaches). Their approach is flexible and considered enough to
+warrant impact in the introduction of aspect orientation within virtual machines
+(because they require no direct support), and in their ability to represent
+different weaving approaches, arguably \emph{because} their approach is general
+enough in design to approach the general model worked towards, which qualifies
+their satisfaction of their motivation to provide a model distinct to the
+approaches initially discussed. In line with the complaints of AOP's critics,
+this does not seem to qualify the sastisfaction with which they achieve their
+practical engineering goals.
+
+In \cite{dyerNUmasters}, \citeauthor{dyerNUmasters} explain in more depth than
+in \cite{rajan2006nu} the design and implementation of the Bind mechanism and
+the implementation of the Nu framework. A more technical discussion is
+presented, in particular on implementation details including optimisation and
+benchmarking, largely against AspectJ. Notably, the implementation discussed is
+a Java implementation, rather than the .Net implementation presented in
+\cite{rajan2006nu}. Many aspect orientation frameworks are language-specific;
+the existence of Nu's implementation on multiple platforms highlights the work's
+most interesting facet being the design of the Bind primitive, rather than the
+framework itself. In a research area where tooling papers are common but the
+lack of design philosophy \& analysis of case studies is frequent fodder for
+critics, the novelty of the Bind mechanism distinguishes this series of papers.
+
+
+\labelledsec{Aspect Orientation in Simulation \&
+Modelling}{ao_and_modelling}
+
+Aspect orientation as applied to simulating systems, and building models of
+systems, has been researched from several approaches.
+
+A very early example of aspect orientation in simulation \& modelling is
+\cite{gulyas1999use}. \citeauthor{gulyas1999use} observes that, in the study of
+complex systems through software models, the software developed typically serves
+two purposes: the experimental subject, and the observational apparatus used to
+conduct the experiment itself. Arguing that separting these roles ought to make
+both the implementation of an experimental system and its later analysis
+simpler, \citeauthor{gulyas1999use} proposes the use of aspect orientation as a
+means of separating what they perceive as cross-cutting concerns of systems
+modelling. They present their Multi-Agent Modelling Language, a language
+implemented in Objective-C via the Swarm simulation package and designed for
+aspect-oriented simulation of agent-based models. Their aspect orientation
+effectively makes use of Observer patterns to measure a pre-constructed system
+under simulation, without the observations being an intrinsic component of the
+simulated system. They find that AOP provides an intuitive and straightforward
+method by which experimental simulated systems can be composed, and that MAML's
+simplicity and its philosophy on modelling are more ``satisfactory'' than
+Swarm's standard approach, though the paper betrays that its implementation was
+more complex than initially conceived: the \lstinline{patch} unix tool was
+intended for use as their weaver, though the team eventually developed a
+transpiler from MAML to Swarm instead (which they name \lstinline{xmc}.). The
+deciding factors for the development of a custom transpiler are not discussed.
+
+In \cite{gulyas1999use}, \citeauthor{gulyas1999use} present not only tooling for
+aspect oriented simulation, but some reasoning \& philosophy on the potential
+benefit of using aspect orientation in these endeavours that extends further
+than the conclusions of modularity through separation of concerns and a
+reduction of tangling \& scattering. In particular, their work discusses
+specific scenarios in which the \emph{type} of separation of concerns offered by
+aspect orientation is desirable, and the engineering approach to achieving the
+aim reasonable. This distinguishes the work in comparison to many aspect
+orientation papers reviewed in this chapter. Many papers describe the expected
+benefits by simply drawing from existing literature such as
+\cite{kiczales1997aspect}. The fact that a rare example of detailed reasoning
+about the appropriateness of aspect oriented programming in a particular domain
+is highlighted because the domain in question is simulation \& modelling; the
+subject of this thesis. That aspect orientation might be well suited to
+separating observer and experiment motivates, in part, this thesis' work showing
+the plausible realism of a simulation in which behaviour is modified by aspects.
+Put another way: this thesis draws on the idea that, in response to
+\citeauthor{steimann06paradoxical} asking what aspect orientation is good for,
+\citeauthor{gulyas1999use} would seem to answer, ``simulation \& modelling'', a
+premise this thesis shares.
+
+
+
+\labelledsec{Variance \& Aspect Orientation in Simulation \&
+Modelling}{dynamism_in_sm}
+
+

@@ -40,7 +40,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>labelalpha</bcf:key>
-      <bcf:value>0</bcf:value>
+      <bcf:value>1</bcf:value>
     </bcf:option>
     <bcf:option type="multivalued">
       <bcf:key>labelnamespec</bcf:key>
@@ -91,7 +91,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxbibnames</bcf:key>
-      <bcf:value>6</bcf:value>
+      <bcf:value>3</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxcitenames</bcf:key>
@@ -99,7 +99,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxsortnames</bcf:key>
-      <bcf:value>6</bcf:value>
+      <bcf:value>3</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxitems</bcf:key>
@@ -111,15 +111,15 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minbibnames</bcf:key>
-      <bcf:value>3</bcf:value>
+      <bcf:value>1</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>mincitenames</bcf:key>
-      <bcf:value>3</bcf:value>
+      <bcf:value>1</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minsortnames</bcf:key>
-      <bcf:value>3</bcf:value>
+      <bcf:value>1</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minitems</bcf:key>
@@ -163,7 +163,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>sortingtemplatename</bcf:key>
-      <bcf:value>none</bcf:value>
+      <bcf:value>anyt</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>sortsets</bcf:key>
@@ -274,7 +274,7 @@
   <bcf:options component="biblatex" type="online">
     <bcf:option type="singlevalued">
       <bcf:key>labelalpha</bcf:key>
-      <bcf:value>0</bcf:value>
+      <bcf:value>1</bcf:value>
     </bcf:option>
     <bcf:option type="multivalued">
       <bcf:key>labelnamespec</bcf:key>
@@ -317,7 +317,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxbibnames</bcf:key>
-      <bcf:value>6</bcf:value>
+      <bcf:value>3</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxcitenames</bcf:key>
@@ -325,7 +325,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxsortnames</bcf:key>
-      <bcf:value>6</bcf:value>
+      <bcf:value>3</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>maxitems</bcf:key>
@@ -337,15 +337,15 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minbibnames</bcf:key>
-      <bcf:value>3</bcf:value>
+      <bcf:value>1</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>mincitenames</bcf:key>
-      <bcf:value>3</bcf:value>
+      <bcf:value>1</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minsortnames</bcf:key>
-      <bcf:value>3</bcf:value>
+      <bcf:value>1</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>minitems</bcf:key>
@@ -626,8 +626,6 @@
     <bcf:option datatype="boolean">eprint</bcf:option>
     <bcf:option datatype="boolean">related</bcf:option>
     <bcf:option datatype="boolean">subentry</bcf:option>
-    <bcf:option datatype="boolean">dashed</bcf:option>
-    <bcf:option datatype="boolean">subentrycomp</bcf:option>
     <bcf:option datatype="boolean">bibtexcaseprotection</bcf:option>
     <bcf:option datatype="integer">mincrossrefs</bcf:option>
     <bcf:option datatype="integer">minxrefs</bcf:option>
@@ -710,7 +708,6 @@
     <bcf:option datatype="boolean">eprint</bcf:option>
     <bcf:option datatype="boolean">related</bcf:option>
     <bcf:option datatype="boolean">subentry</bcf:option>
-    <bcf:option datatype="boolean">subentrycomp</bcf:option>
     <bcf:option datatype="boolean">bibtexcaseprotection</bcf:option>
     <bcf:option datatype="xml">labelalphatemplate</bcf:option>
     <bcf:option datatype="xml">translit</bcf:option>
@@ -798,7 +795,6 @@
     <bcf:option datatype="boolean" backendout="1">eprint</bcf:option>
     <bcf:option datatype="boolean" backendout="1">related</bcf:option>
     <bcf:option datatype="boolean" backendout="1">subentry</bcf:option>
-    <bcf:option datatype="boolean" backendout="1">subentrycomp</bcf:option>
     <bcf:option datatype="boolean" backendout="1">bibtexcaseprotection</bcf:option>
     <bcf:option datatype="integer" backendin="maxcitenames,maxbibnames,maxsortnames">maxnames</bcf:option>
     <bcf:option datatype="integer" backendin="mincitenames,minbibnames,minsortnames">minnames</bcf:option>
@@ -2346,249 +2342,176 @@
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
     <bcf:datasource type="file" datatype="bibtex" glob="false">refs.bib</bcf:datasource>
+    <bcf:datasource type="file" datatype="bibtex" glob="false">annotated.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="10">kiczales1997aspect</bcf:citekey>
-    <bcf:citekey order="11">masuhara2003modeling</bcf:citekey>
-    <bcf:citekey order="12">chibani2019using</bcf:citekey>
-    <bcf:citekey order="13">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="14">pdsf_repo</bcf:citekey>
-    <bcf:citekey order="15">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="16">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="16">wallis2018genetic</bcf:citekey>
-    <bcf:citekey order="17">kiczales1997aspect</bcf:citekey>
-    <bcf:citekey order="18">kiczales1997aspect</bcf:citekey>
-    <bcf:citekey order="19">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="20">aspectj_intro</bcf:citekey>
-    <bcf:citekey order="21">Ionescu_2009</bcf:citekey>
-    <bcf:citekey order="22">hveding2005aspect</bcf:citekey>
-    <bcf:citekey order="23">popovici2002PROSE</bcf:citekey>
-    <bcf:citekey order="24">dynamicAOchitchyan</bcf:citekey>
-    <bcf:citekey order="25">dynamicAOchitchyan</bcf:citekey>
-    <bcf:citekey order="26">popovici2002PROSE</bcf:citekey>
-    <bcf:citekey order="26">popovici2003JITaspects</bcf:citekey>
-    <bcf:citekey order="27">popovici2002PROSE</bcf:citekey>
-    <bcf:citekey order="28">Baker_2002</bcf:citekey>
-    <bcf:citekey order="29">popovici2002PROSE</bcf:citekey>
-    <bcf:citekey order="29">popovici2003JITaspects</bcf:citekey>
-    <bcf:citekey order="30">popovici2003JITaspects</bcf:citekey>
-    <bcf:citekey order="31">popovici2003JITaspects</bcf:citekey>
+    <bcf:citekey order="1">kiczales1997aspect</bcf:citekey>
+    <bcf:citekey order="2">masuhara2003modeling</bcf:citekey>
+    <bcf:citekey order="3">chibani2019using</bcf:citekey>
+    <bcf:citekey order="4">Parnas_1972</bcf:citekey>
+    <bcf:citekey order="5">kiczales1997aspect</bcf:citekey>
+    <bcf:citekey order="6">kiczales1997aspect</bcf:citekey>
+    <bcf:citekey order="7">kiczales1997aspect</bcf:citekey>
+    <bcf:citekey order="8">aspectj_intro</bcf:citekey>
+    <bcf:citekey order="9">aspectj_intro</bcf:citekey>
+    <bcf:citekey order="10">Constantinides04aopconsidered</bcf:citekey>
+    <bcf:citekey order="11">Constantinides04aopconsidered</bcf:citekey>
+    <bcf:citekey order="12">Constantinides04aopconsidered</bcf:citekey>
+    <bcf:citekey order="13">dijkstra1968letters</bcf:citekey>
+    <bcf:citekey order="14">dijkstra1968letters</bcf:citekey>
+    <bcf:citekey order="15">steimann06paradoxical</bcf:citekey>
+    <bcf:citekey order="16">steimann06paradoxical</bcf:citekey>
+    <bcf:citekey order="17">przybylek2010wrong</bcf:citekey>
+    <bcf:citekey order="18">przybylek2010wrong</bcf:citekey>
+    <bcf:citekey order="19">djikstra_scientific_thought</bcf:citekey>
+    <bcf:citekey order="20">djikstra_scientific_thought</bcf:citekey>
+    <bcf:citekey order="21">przybylek2010wrong</bcf:citekey>
+    <bcf:citekey order="22">popovici2002PROSE</bcf:citekey>
+    <bcf:citekey order="22">popovici2003JITaspects</bcf:citekey>
+    <bcf:citekey order="23">popovici2003JITaspects</bcf:citekey>
+    <bcf:citekey order="24">popovici2003JITaspects</bcf:citekey>
+    <bcf:citekey order="25">popovici2003JITaspects</bcf:citekey>
+    <bcf:citekey order="26">dynamicAOchitchyan</bcf:citekey>
+    <bcf:citekey order="27">dynamicAOchitchyan</bcf:citekey>
+    <bcf:citekey order="28">dynamicAOchitchyan</bcf:citekey>
+    <bcf:citekey order="29">gilani2004family</bcf:citekey>
+    <bcf:citekey order="30">gilani2004family</bcf:citekey>
+    <bcf:citekey order="31">dynamicAOchitchyan</bcf:citekey>
     <bcf:citekey order="32">dynamicAOchitchyan</bcf:citekey>
-    <bcf:citekey order="33">dynamicAOchitchyan</bcf:citekey>
-    <bcf:citekey order="34">Baker_2002</bcf:citekey>
-    <bcf:citekey order="35">Baker_2002</bcf:citekey>
-    <bcf:citekey order="36">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="37">baker2002maya</bcf:citekey>
-    <bcf:citekey order="38">dyerNUmasters</bcf:citekey>
-    <bcf:citekey order="39">dyerNUmasters</bcf:citekey>
-    <bcf:citekey order="40">keller1998binary</bcf:citekey>
-    <bcf:citekey order="41">trustingtrust</bcf:citekey>
-    <bcf:citekey order="42">smintro</bcf:citekey>
-    <bcf:citekey order="43">smintro</bcf:citekey>
-    <bcf:citekey order="44">smintro</bcf:citekey>
-    <bcf:citekey order="45">opm_original</bcf:citekey>
-    <bcf:citekey order="45">ExecutableBPMNMitsyuk</bcf:citekey>
-    <bcf:citekey order="45">obashimethodology</bcf:citekey>
-    <bcf:citekey order="46">Machado_2011</bcf:citekey>
-    <bcf:citekey order="46">Cappelli_AOBPM</bcf:citekey>
-    <bcf:citekey order="47">da2020implementation</bcf:citekey>
-    <bcf:citekey order="47">Cappelli_AOBPM</bcf:citekey>
-    <bcf:citekey order="48">charfi2007ao4bpel</bcf:citekey>
-    <bcf:citekey order="49">jalali2012aspect</bcf:citekey>
-    <bcf:citekey order="50">gulyas1999use</bcf:citekey>
-    <bcf:citekey order="51">gulyas1999use</bcf:citekey>
-    <bcf:citekey order="52">DEVSaspectorientation2008aksu</bcf:citekey>
-    <bcf:citekey order="52">ribault2008OSA</bcf:citekey>
-    <bcf:citekey order="52">ribault2010osif</bcf:citekey>
-    <bcf:citekey order="53">chibani2019using</bcf:citekey>
-    <bcf:citekey order="53">DEVSaspectorientation2008aksu</bcf:citekey>
-    <bcf:citekey order="53">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="54">chibani2014practical</bcf:citekey>
-    <bcf:citekey order="55">chibani2013toward</bcf:citekey>
-    <bcf:citekey order="55">chibani2014practical</bcf:citekey>
-    <bcf:citekey order="55">chibani2019using</bcf:citekey>
-    <bcf:citekey order="56">steimann06paradoxical</bcf:citekey>
-    <bcf:citekey order="57">strathern1997improving</bcf:citekey>
-    <bcf:citekey order="58">Ionescu_2009</bcf:citekey>
-    <bcf:citekey order="59">Ionescu_2009</bcf:citekey>
-    <bcf:citekey order="60">Cieslak_2011</bcf:citekey>
-    <bcf:citekey order="61">Cieslak_2011</bcf:citekey>
-    <bcf:citekey order="62">lindenmayer1968lsystem</bcf:citekey>
-    <bcf:citekey order="63">Cieslak_2011</bcf:citekey>
-    <bcf:citekey order="64">Cieslak_2011</bcf:citekey>
-    <bcf:citekey order="65">chibani2019using</bcf:citekey>
-    <bcf:citekey order="65">chibani2014practical</bcf:citekey>
-    <bcf:citekey order="65">chibani2013toward</bcf:citekey>
-    <bcf:citekey order="66">ribault2008OSA</bcf:citekey>
-    <bcf:citekey order="66">ribault2010osif</bcf:citekey>
-    <bcf:citekey order="67">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="68">johnson2007degradedmodes</bcf:citekey>
-    <bcf:citekey order="69">Mitsyuk_2016</bcf:citekey>
-    <bcf:citekey order="70">Mitsyuk_2016</bcf:citekey>
-    <bcf:citekey order="71">Cheng2015logsanitization</bcf:citekey>
-    <bcf:citekey order="72">little1993statistical</bcf:citekey>
-    <bcf:citekey order="72">Drechsler_2011</bcf:citekey>
-    <bcf:citekey order="72">rubin1993discussion</bcf:citekey>
-    <bcf:citekey order="73">Drechsler_2011</bcf:citekey>
-    <bcf:citekey order="74">Drechsler_2011</bcf:citekey>
-    <bcf:citekey order="75">koenecke2020syntheticgenecon</bcf:citekey>
-    <bcf:citekey order="76">koenecke2020syntheticgenecon</bcf:citekey>
-    <bcf:citekey order="77">kar2019metasim</bcf:citekey>
-    <bcf:citekey order="78">goodfellow2014generative</bcf:citekey>
-    <bcf:citekey order="79">stocker2013secsy</bcf:citekey>
-    <bcf:citekey order="79">pourmasoumi2015business</bcf:citekey>
-    <bcf:citekey order="79">Loreti_2019</bcf:citekey>
-    <bcf:citekey order="79">Yousfi_2015</bcf:citekey>
-    <bcf:citekey order="79">ExecutableBPMNMitsyuk</bcf:citekey>
-    <bcf:citekey order="80">stocker2013secsy</bcf:citekey>
-    <bcf:citekey order="80">stocker2014secsy</bcf:citekey>
-    <bcf:citekey order="81">stocker2013secsy</bcf:citekey>
-    <bcf:citekey order="82">stocker2013secsy</bcf:citekey>
-    <bcf:citekey order="83">stocker2014secsy</bcf:citekey>
-    <bcf:citekey order="84">pourmasoumi2015business</bcf:citekey>
-    <bcf:citekey order="85">pourmasoumi2015business</bcf:citekey>
-    <bcf:citekey order="86">chenthesis</bcf:citekey>
-    <bcf:citekey order="87">chenthesis</bcf:citekey>
-    <bcf:citekey order="88">Thom2009ActivityPI</bcf:citekey>
-    <bcf:citekey order="89">polyvyanny2010structuring</bcf:citekey>
-    <bcf:citekey order="90">polyvyanny2010structuring</bcf:citekey>
-    <bcf:citekey order="91">polyvyanny2010structuring</bcf:citekey>
-    <bcf:citekey order="92">chenthesis</bcf:citekey>
-    <bcf:citekey order="93">pourmasoumi2015business</bcf:citekey>
-    <bcf:citekey order="94">chenthesis</bcf:citekey>
-    <bcf:citekey order="95">polyvyanny2010structuring</bcf:citekey>
-    <bcf:citekey order="96">chenthesis</bcf:citekey>
-    <bcf:citekey order="97">chenthesis</bcf:citekey>
-    <bcf:citekey order="98">pourmasoumi2015business</bcf:citekey>
-    <bcf:citekey order="99">Loreti_2019</bcf:citekey>
-    <bcf:citekey order="100">Yousfi_2015</bcf:citekey>
-    <bcf:citekey order="101">Yousfi_2015</bcf:citekey>
-    <bcf:citekey order="102">stocker2013secsy</bcf:citekey>
-    <bcf:citekey order="103">stocker2014secsy</bcf:citekey>
-    <bcf:citekey order="104">pourmasoumi2015business</bcf:citekey>
-    <bcf:citekey order="105">Loreti_2019</bcf:citekey>
-    <bcf:citekey order="106">ExecutableBPMNMitsyuk</bcf:citekey>
-    <bcf:citekey order="107">pourmasoumi2015business</bcf:citekey>
-    <bcf:citekey order="108">dynamicAOchitchyan</bcf:citekey>
-    <bcf:citekey order="109">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="109">wallis2018genetic</bcf:citekey>
-    <bcf:citekey order="110">dynamicAOchitchyan</bcf:citekey>
-    <bcf:citekey order="111">dynamicAOchitchyan</bcf:citekey>
-    <bcf:citekey order="112">aspectj_intro</bcf:citekey>
-    <bcf:citekey order="113">forbiddenfruit_repo</bcf:citekey>
-    <bcf:citekey order="114">py3docs</bcf:citekey>
-    <bcf:citekey order="115">magicmethodguide</bcf:citekey>
-    <bcf:citekey order="116">dynamicAOchitchyan</bcf:citekey>
-    <bcf:citekey order="117">przybylek2010wrong</bcf:citekey>
-    <bcf:citekey order="117">Constantinides04aopconsidered</bcf:citekey>
-    <bcf:citekey order="117">steimann06paradoxical</bcf:citekey>
-    <bcf:citekey order="118">Constantinides04aopconsidered</bcf:citekey>
-    <bcf:citekey order="119">clark73comefrom</bcf:citekey>
-    <bcf:citekey order="119">Constantinides04aopconsidered</bcf:citekey>
-    <bcf:citekey order="120">sciunit_primer</bcf:citekey>
-    <bcf:citekey order="121">kavanagh2020</bcf:citekey>
-    <bcf:citekey order="122">kavanagh2020</bcf:citekey>
-    <bcf:citekey order="123">kavanagh2020</bcf:citekey>
-    <bcf:citekey order="124">kavanagh2020</bcf:citekey>
-    <bcf:citekey order="125">kavanagh2020</bcf:citekey>
-    <bcf:citekey order="126">kavanagh2020</bcf:citekey>
-    <bcf:citekey order="128">information_content_chess</bcf:citekey>
-    <bcf:citekey order="129">rpglite_dataset</bcf:citekey>
-    <bcf:citekey order="130">RPGLiteLessonsLearned</bcf:citekey>
-    <bcf:citekey order="131">johnson2007degradedmodes</bcf:citekey>
-    <bcf:citekey order="132">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="133">fuzzimoss_repo</bcf:citekey>
-    <bcf:citekey order="134">aspectj_intro</bcf:citekey>
-    <bcf:citekey order="135">popovici2002PROSE</bcf:citekey>
-    <bcf:citekey order="136">AspectJLanguageAndTools</bcf:citekey>
-    <bcf:citekey order="137">rajan2006nu_towardsAO_invocation</bcf:citekey>
-    <bcf:citekey order="137">popovici2003JITaspects</bcf:citekey>
-    <bcf:citekey order="137">AspectCplusplusDesignImpl</bcf:citekey>
-    <bcf:citekey order="137">baker2002maya</bcf:citekey>
-    <bcf:citekey order="138">simpy_intro</bcf:citekey>
-    <bcf:citekey order="139">simpy_documentation</bcf:citekey>
-    <bcf:citekey order="140">kiczales1997aspect</bcf:citekey>
-    <bcf:citekey order="141">masuhara2003modeling</bcf:citekey>
-    <bcf:citekey order="142">chibani2019using</bcf:citekey>
-    <bcf:citekey order="143">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="144">pdsf_repo</bcf:citekey>
-    <bcf:citekey order="145">wallis2018genetic</bcf:citekey>
-    <bcf:citekey order="146">aspectj_intro</bcf:citekey>
-    <bcf:citekey order="147">Ionescu_2009</bcf:citekey>
-    <bcf:citekey order="148">hveding2005aspect</bcf:citekey>
-    <bcf:citekey order="149">popovici2002PROSE</bcf:citekey>
-    <bcf:citekey order="150">dynamicAOchitchyan</bcf:citekey>
-    <bcf:citekey order="151">popovici2003JITaspects</bcf:citekey>
-    <bcf:citekey order="152">Baker_2002</bcf:citekey>
-    <bcf:citekey order="153">baker2002maya</bcf:citekey>
-    <bcf:citekey order="154">dyerNUmasters</bcf:citekey>
-    <bcf:citekey order="155">keller1998binary</bcf:citekey>
-    <bcf:citekey order="156">trustingtrust</bcf:citekey>
-    <bcf:citekey order="157">smintro</bcf:citekey>
-    <bcf:citekey order="158">opm_original</bcf:citekey>
-    <bcf:citekey order="159">ExecutableBPMNMitsyuk</bcf:citekey>
-    <bcf:citekey order="160">obashimethodology</bcf:citekey>
-    <bcf:citekey order="161">Machado_2011</bcf:citekey>
-    <bcf:citekey order="162">Cappelli_AOBPM</bcf:citekey>
-    <bcf:citekey order="163">da2020implementation</bcf:citekey>
-    <bcf:citekey order="164">charfi2007ao4bpel</bcf:citekey>
-    <bcf:citekey order="165">jalali2012aspect</bcf:citekey>
-    <bcf:citekey order="166">gulyas1999use</bcf:citekey>
-    <bcf:citekey order="167">DEVSaspectorientation2008aksu</bcf:citekey>
-    <bcf:citekey order="168">ribault2008OSA</bcf:citekey>
-    <bcf:citekey order="169">ribault2010osif</bcf:citekey>
-    <bcf:citekey order="170">chibani2014practical</bcf:citekey>
-    <bcf:citekey order="171">chibani2013toward</bcf:citekey>
-    <bcf:citekey order="172">steimann06paradoxical</bcf:citekey>
-    <bcf:citekey order="173">strathern1997improving</bcf:citekey>
-    <bcf:citekey order="174">Cieslak_2011</bcf:citekey>
-    <bcf:citekey order="175">lindenmayer1968lsystem</bcf:citekey>
-    <bcf:citekey order="176">johnson2007degradedmodes</bcf:citekey>
-    <bcf:citekey order="177">Mitsyuk_2016</bcf:citekey>
-    <bcf:citekey order="178">Cheng2015logsanitization</bcf:citekey>
-    <bcf:citekey order="179">little1993statistical</bcf:citekey>
-    <bcf:citekey order="180">Drechsler_2011</bcf:citekey>
-    <bcf:citekey order="181">rubin1993discussion</bcf:citekey>
-    <bcf:citekey order="182">koenecke2020syntheticgenecon</bcf:citekey>
-    <bcf:citekey order="183">kar2019metasim</bcf:citekey>
-    <bcf:citekey order="184">goodfellow2014generative</bcf:citekey>
-    <bcf:citekey order="185">stocker2013secsy</bcf:citekey>
-    <bcf:citekey order="186">pourmasoumi2015business</bcf:citekey>
-    <bcf:citekey order="187">Loreti_2019</bcf:citekey>
-    <bcf:citekey order="188">Yousfi_2015</bcf:citekey>
-    <bcf:citekey order="189">stocker2014secsy</bcf:citekey>
-    <bcf:citekey order="190">chenthesis</bcf:citekey>
-    <bcf:citekey order="191">Thom2009ActivityPI</bcf:citekey>
-    <bcf:citekey order="192">polyvyanny2010structuring</bcf:citekey>
-    <bcf:citekey order="193">forbiddenfruit_repo</bcf:citekey>
-    <bcf:citekey order="194">py3docs</bcf:citekey>
-    <bcf:citekey order="195">magicmethodguide</bcf:citekey>
-    <bcf:citekey order="196">przybylek2010wrong</bcf:citekey>
-    <bcf:citekey order="197">Constantinides04aopconsidered</bcf:citekey>
-    <bcf:citekey order="198">clark73comefrom</bcf:citekey>
-    <bcf:citekey order="199">sciunit_primer</bcf:citekey>
-    <bcf:citekey order="200">kavanagh2020</bcf:citekey>
-    <bcf:citekey order="201">information_content_chess</bcf:citekey>
-    <bcf:citekey order="202">rpglite_dataset</bcf:citekey>
-    <bcf:citekey order="203">RPGLiteLessonsLearned</bcf:citekey>
-    <bcf:citekey order="204">fuzzimoss_repo</bcf:citekey>
-    <bcf:citekey order="205">AspectJLanguageAndTools</bcf:citekey>
-    <bcf:citekey order="206">rajan2006nu_towardsAO_invocation</bcf:citekey>
-    <bcf:citekey order="207">AspectCplusplusDesignImpl</bcf:citekey>
-    <bcf:citekey order="208">simpy_intro</bcf:citekey>
-    <bcf:citekey order="209">simpy_documentation</bcf:citekey>
+    <bcf:citekey order="33">gilani2004family</bcf:citekey>
+    <bcf:citekey order="34">steimann06paradoxical</bcf:citekey>
+    <bcf:citekey order="35">gilani2004family</bcf:citekey>
+    <bcf:citekey order="36">gilani2004family</bcf:citekey>
+    <bcf:citekey order="37">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="38">rajan2006nu_towardsao_invocation</bcf:citekey>
+    <bcf:citekey order="39">popovici2002PROSE</bcf:citekey>
+    <bcf:citekey order="39">popovici2003JITaspects</bcf:citekey>
+    <bcf:citekey order="40">aspectj_intro</bcf:citekey>
+    <bcf:citekey order="41">dyerNUmasters</bcf:citekey>
+    <bcf:citekey order="42">dyerNUmasters</bcf:citekey>
+    <bcf:citekey order="43">rajan2006nu</bcf:citekey>
+    <bcf:citekey order="44">rajan2006nu</bcf:citekey>
+    <bcf:citekey order="45">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="46">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="47">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="48">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="49">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="50">kiczales1997aspect</bcf:citekey>
+    <bcf:citekey order="51">steimann06paradoxical</bcf:citekey>
+    <bcf:citekey order="52">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="53">dynamicAOchitchyan</bcf:citekey>
+    <bcf:citekey order="54">wallis2018caise</bcf:citekey>
+    <bcf:citekey order="54">wallis2018genetic</bcf:citekey>
+    <bcf:citekey order="55">dynamicAOchitchyan</bcf:citekey>
+    <bcf:citekey order="56">dynamicAOchitchyan</bcf:citekey>
+    <bcf:citekey order="57">aspectj_intro</bcf:citekey>
+    <bcf:citekey order="58">forbiddenfruit_repo</bcf:citekey>
+    <bcf:citekey order="59">py3docs</bcf:citekey>
+    <bcf:citekey order="60">magicmethodguide</bcf:citekey>
+    <bcf:citekey order="61">dynamicAOchitchyan</bcf:citekey>
+    <bcf:citekey order="62">przybylek2010wrong</bcf:citekey>
+    <bcf:citekey order="62">Constantinides04aopconsidered</bcf:citekey>
+    <bcf:citekey order="62">steimann06paradoxical</bcf:citekey>
+    <bcf:citekey order="63">Constantinides04aopconsidered</bcf:citekey>
+    <bcf:citekey order="64">clark73comefrom</bcf:citekey>
+    <bcf:citekey order="64">Constantinides04aopconsidered</bcf:citekey>
+    <bcf:citekey order="65">sciunit_primer</bcf:citekey>
+    <bcf:citekey order="66">kavanagh2020</bcf:citekey>
+    <bcf:citekey order="67">kavanagh2020</bcf:citekey>
+    <bcf:citekey order="68">kavanagh2020</bcf:citekey>
+    <bcf:citekey order="69">kavanagh2020</bcf:citekey>
+    <bcf:citekey order="70">kavanagh2020</bcf:citekey>
+    <bcf:citekey order="71">kavanagh2020</bcf:citekey>
+    <bcf:citekey order="73">information_content_chess</bcf:citekey>
+    <bcf:citekey order="74">rpglite_dataset</bcf:citekey>
+    <bcf:citekey order="75">RPGLiteLessonsLearned</bcf:citekey>
+    <bcf:citekey order="76">johnson2007degradedmodes</bcf:citekey>
+    <bcf:citekey order="77">wallis2018caise</bcf:citekey>
+    <bcf:citekey order="78">fuzzimoss_repo</bcf:citekey>
+    <bcf:citekey order="79">aspectj_intro</bcf:citekey>
+    <bcf:citekey order="80">popovici2002PROSE</bcf:citekey>
+    <bcf:citekey order="81">AspectJLanguageAndTools</bcf:citekey>
+    <bcf:citekey order="82">rajan2006nu_towardsAO_invocation</bcf:citekey>
+    <bcf:citekey order="82">popovici2003JITaspects</bcf:citekey>
+    <bcf:citekey order="82">AspectCplusplusDesignImpl</bcf:citekey>
+    <bcf:citekey order="82">baker2002maya</bcf:citekey>
+    <bcf:citekey order="83">simpy_intro</bcf:citekey>
+    <bcf:citekey order="84">simpy_documentation</bcf:citekey>
+    <bcf:citekey order="85">kiczales1997aspect</bcf:citekey>
+    <bcf:citekey order="86">masuhara2003modeling</bcf:citekey>
+    <bcf:citekey order="87">chibani2019using</bcf:citekey>
+    <bcf:citekey order="88">Parnas_1972</bcf:citekey>
+    <bcf:citekey order="89">aspectj_intro</bcf:citekey>
+    <bcf:citekey order="90">Constantinides04aopconsidered</bcf:citekey>
+    <bcf:citekey order="91">dijkstra1968letters</bcf:citekey>
+    <bcf:citekey order="92">steimann06paradoxical</bcf:citekey>
+    <bcf:citekey order="93">przybylek2010wrong</bcf:citekey>
+    <bcf:citekey order="94">djikstra_scientific_thought</bcf:citekey>
+    <bcf:citekey order="95">popovici2002PROSE</bcf:citekey>
+    <bcf:citekey order="96">popovici2003JITaspects</bcf:citekey>
+    <bcf:citekey order="97">dynamicAOchitchyan</bcf:citekey>
+    <bcf:citekey order="98">gilani2004family</bcf:citekey>
+    <bcf:citekey order="99">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="100">rajan2006nu_towardsao_invocation</bcf:citekey>
+    <bcf:citekey order="101">dyerNUmasters</bcf:citekey>
+    <bcf:citekey order="102">rajan2006nu</bcf:citekey>
+    <bcf:citekey order="103">wallis2018caise</bcf:citekey>
+    <bcf:citekey order="104">wallis2018genetic</bcf:citekey>
+    <bcf:citekey order="105">forbiddenfruit_repo</bcf:citekey>
+    <bcf:citekey order="106">py3docs</bcf:citekey>
+    <bcf:citekey order="107">magicmethodguide</bcf:citekey>
+    <bcf:citekey order="108">clark73comefrom</bcf:citekey>
+    <bcf:citekey order="109">sciunit_primer</bcf:citekey>
+    <bcf:citekey order="110">kavanagh2020</bcf:citekey>
+    <bcf:citekey order="111">information_content_chess</bcf:citekey>
+    <bcf:citekey order="112">rpglite_dataset</bcf:citekey>
+    <bcf:citekey order="113">RPGLiteLessonsLearned</bcf:citekey>
+    <bcf:citekey order="114">johnson2007degradedmodes</bcf:citekey>
+    <bcf:citekey order="115">fuzzimoss_repo</bcf:citekey>
+    <bcf:citekey order="116">AspectJLanguageAndTools</bcf:citekey>
+    <bcf:citekey order="117">rajan2006nu_towardsAO_invocation</bcf:citekey>
+    <bcf:citekey order="118">AspectCplusplusDesignImpl</bcf:citekey>
+    <bcf:citekey order="119">baker2002maya</bcf:citekey>
+    <bcf:citekey order="120">simpy_intro</bcf:citekey>
+    <bcf:citekey order="121">simpy_documentation</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
-  <bcf:sortingtemplate name="none">
+  <bcf:sortingtemplate name="anyt">
     <bcf:sort order="1">
-      <bcf:sortitem order="1">citeorder</bcf:sortitem>
+      <bcf:sortitem order="1">presort</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="2">
+      <bcf:sortitem order="1">labelalpha</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="3" final="1">
+      <bcf:sortitem order="1">sortkey</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="4">
+      <bcf:sortitem order="1">sortname</bcf:sortitem>
+      <bcf:sortitem order="2">author</bcf:sortitem>
+      <bcf:sortitem order="3">editor</bcf:sortitem>
+      <bcf:sortitem order="4">translator</bcf:sortitem>
+      <bcf:sortitem order="5">sorttitle</bcf:sortitem>
+      <bcf:sortitem order="6">title</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="5">
+      <bcf:sortitem order="1">sortyear</bcf:sortitem>
+      <bcf:sortitem order="2">year</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="6">
+      <bcf:sortitem order="1">sorttitle</bcf:sortitem>
+      <bcf:sortitem order="2">title</bcf:sortitem>
+    </bcf:sort>
+    <bcf:sort order="7">
+      <bcf:sortitem order="1">volume</bcf:sortitem>
+      <bcf:sortitem literal="1" order="2">0</bcf:sortitem>
     </bcf:sort>
   </bcf:sortingtemplate>
   <!-- DATALISTS -->
   <bcf:datalist section="0"
-                name="none/global//global/global"
+                name="anyt/global//global/global"
                 type="entry"
-                sortingtemplatename="none"
+                sortingtemplatename="anyt"
                 sortingnamekeytemplatename="global"
                 labelprefix=""
                 uniquenametemplatename="global"

@@ -54,12 +54,10 @@
       <file>blx-unicode.def</file>
       <file>blx-compat.def</file>
       <file>biblatex.def</file>
+      <file>blx-natbib.def</file>
       <file>standard.bbx</file>
-      <file>numeric.bbx</file>
-      <file>numeric-comp.bbx</file>
-      <file>ieee.bbx</file>
-      <file>numeric-comp.cbx</file>
-      <file>ieee.cbx</file>
+      <file>alphabetic.bbx</file>
+      <file>alphabetic.cbx</file>
       <file>biblatex.cfg</file>
       <file>english.lbx</file>
     </requires>
@@ -84,6 +82,7 @@
     </requires>
     <requires type="editable">
       <file>refs.bib</file>
+      <file>annotated.bib</file>
     </requires>
   </external>
 </requests>

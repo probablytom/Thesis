@@ -1,60 +1,64 @@
 \chapter{Relevant Literature}
 
-The work presented in this thesis revolves around the combination of simulation
-\& modelling and aspect orientation. As discussed, some research on the topic
-was also done prior to this body of work~\inline{I assume we discuss PDSF
-existing in the intro}. There are therefore several things to discuss: work that
-was done on this project prior to this thesis must be discussed so as to make
-clear what is \emph{new} in this thesis, related work by others should make
-clear the context in which this research was done, and opportunities found in
-this related work for which PyDySoFu is well-suited must be identified to set
-the scene for the rest of this thesis.
+\input{20_lit_review/rework.tex}
 
-With this in mind, \cref{sec:pdsf_early_work} discusses the earlier work contextualising this
-thesis, summarised in \cite{wallis2018caise}. As PyDySofu has some unusual
-features as an aspect orientation library, \cref{sec:dynamic_aop_review} follows
-this with a review of similar approaches in the literature.
-\cref{sec:ao_and_modelling} and \cref{sec:ao_and_simulation} then review aspect
-orientation as applied in simulation and modelling respectively, and
-\cref{sec:dynamism_in_sm} reviews literature on variable behaviour in simulation
-and modelling, a key strength of PyDySoFu. Finally, research opportunities
-identified in these various bodies of work are discussed in
-\cref{sec:research_opportunities}, which pave the way for the research composing
-the body of this thesis.
+%%%% OLD LIT REVIEW INTRO
 
-
-\input{20_lit_review/1earlypdsfwork.tex}
-
-\input{20_lit_review/2dynamicao.tex}
-
-\input{20_lit_review/3aosimmod.tex}
-
-\input{20_lit_review/4variancesimmod.tex}
-
-% \section{Aspect Orientation \& Modelling}
-
-
-
-
-\labelledsec{Research Opportunities in the Literature}{research_opportunities}
-% putting these all together. There's lit in each section, but specifically AO
-% for representing cross-cutting behaviour, behaviour with variance, or
-% simulations produced by composition of speculative parts aren't well studied
-% on their own and warrant further study. It just so happens that PDSF is
-% well-positioned to fill this gap, as it has the necessary properties of a tool
-% to perform this research, where something like AspectJ [likely...?] falls
-% short.
-
-One notable omission from the set of research themes outlined in
-\cref{sec:dynamism_in_sm} is that variations on processes aren't well
-studied in their own right. That is to say, behavioural variation is typically
-treated as a nuisance to the researcher or practicioner interested in a model or
-dataset, and the variations and their impact on simulations are not studied on
-their own. Some work exists\inline{cite work that focuses on variations
-specifically}, but the majority of this is done in the context of tooling, i.e.
-the representation of variation for their use in another research context, where
-they are not the subject.
-
-As an aspect orientation framework capable of runtime adaptation of a target
-system which can manipulate a join point from inside \inline{what are our
-research opportunities given the above...?}
+% The work presented in this thesis revolves around the combination of simulation
+% \& modelling and aspect orientation. As discussed, some research on the topic
+% was also done prior to this body of work~\inline{I assume we discuss PDSF
+% existing in the intro}. There are therefore several things to discuss: work that
+% was done on this project prior to this thesis must be discussed so as to make
+% clear what is \emph{new} in this thesis, related work by others should make
+% clear the context in which this research was done, and opportunities found in
+% this related work for which PyDySoFu is well-suited must be identified to set
+% the scene for the rest of this thesis.
+% 
+% With this in mind, \cref{sec:pdsf_early_work} discusses the earlier work contextualising this
+% thesis, summarised in \cite{wallis2018caise}. As PyDySofu has some unusual
+% features as an aspect orientation library, \cref{sec:dynamic_aop_review} follows
+% this with a review of similar approaches in the literature.
+% \cref{sec:ao_and_modelling} and \cref{sec:ao_and_simulation} then review aspect
+% orientation as applied in simulation and modelling respectively, and
+% \cref{sec:dynamism_in_sm} reviews literature on variable behaviour in simulation
+% and modelling, a key strength of PyDySoFu. Finally, research opportunities
+% identified in these various bodies of work are discussed in
+% \cref{sec:research_opportunities}, which pave the way for the research composing
+% the body of this thesis.
+% 
+% 
+% \input{20_lit_review/1earlypdsfwork.tex}
+% 
+% \input{20_lit_review/2dynamicao.tex}
+% 
+% \input{20_lit_review/3aosimmod.tex}
+% 
+% \input{20_lit_review/4variancesimmod.tex}
+% 
+% % \section{Aspect Orientation \& Modelling}
+% 
+% 
+% 
+% 
+% \labelledsec{Research Opportunities in the Literature}{research_opportunities}
+% % putting these all together. There's lit in each section, but specifically AO
+% % for representing cross-cutting behaviour, behaviour with variance, or
+% % simulations produced by composition of speculative parts aren't well studied
+% % on their own and warrant further study. It just so happens that PDSF is
+% % well-positioned to fill this gap, as it has the necessary properties of a tool
+% % to perform this research, where something like AspectJ [likely...?] falls
+% % short.
+% 
+% One notable omission from the set of research themes outlined in
+% \cref{sec:dynamism_in_sm} is that variations on processes aren't well
+% studied in their own right. That is to say, behavioural variation is typically
+% treated as a nuisance to the researcher or practicioner interested in a model or
+% dataset, and the variations and their impact on simulations are not studied on
+% their own. Some work exists\inline{cite work that focuses on variations
+% specifically}, but the majority of this is done in the context of tooling, i.e.
+% the representation of variation for their use in another research context, where
+% they are not the subject.
+% 
+% As an aspect orientation framework capable of runtime adaptation of a target
+% system which can manipulate a join point from inside \inline{what are our
+% research opportunities given the above...?}
