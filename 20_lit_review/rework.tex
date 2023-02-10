@@ -109,7 +109,7 @@ only one place in a codebase (thereby simplifying their maintainance and
 comprehension), and reminaing program logic can be understood and maintained
 without the overhead imposed by the previously tangled cross-cutting concerns.
 
-In \cref{kiczales1997aspect}, \citeauthor{kiczales1997aspect} see these
+In \cite{kiczales1997aspect}, \citeauthor{kiczales1997aspect} see these
 engineering concepts as universal throughout business logic, motivating the
 aspect-oriented approach for the first time. The authors present an
 implementation of AOP in Lisp, and compare implementations by way of e.g. SLOC
@@ -338,7 +338,7 @@ does the tradeoff presented by dynamic weaving not necessitate a theory like
 is not found in low-resource systems, and a take-away of \cite{gilani2004family}
 could be that researchers should seek other contexts in which to apply aspect
 oriented programming. \footnote{As discussed alongside \cite{gulyas1999use} in
-\Cref{sec:ao_and_modelling}, simulation \& modelling might present a more
+\cref{sec:ao_and_modelling}, simulation \& modelling might present a more
 appropriate field.}
 
 
@@ -353,7 +353,8 @@ appropriate field.}
 
 
 \citeauthor{rajan2006nu_towardsao_invocation} propose a new aspect-oriented
-invocation mechanism, which they call ``Bind''. Bind's design is motivated by
+invocation mechanism, which they call
+``Bind''\cite{rajan2006nu_towardsao_invocation}. Bind's design is motivated by
 perceived opportunities to improve modularity from a design perspective. The
 impact of ``scattering'' and ``tangling'' in a codebase after weaving in some
 aspect orientation implementations leads to a more complicated post-weave
@@ -451,6 +452,63 @@ Put another way: this thesis draws on the idea that, in response to
 \citeauthor{gulyas1999use} would seem to answer, ``simulation \& modelling'', a
 premise this thesis shares.
 
+In a manner similar to \citeauthor{chibani2019using}'s
+\cite{chibani2019using,chibani2013toward},
+\citeauthor{DEVSaspectorientation2008aksu} observe in
+\cite{DEVSaspectorientation2008aksu} that there are opportunities to be found in
+a simulation framework able to take advantage of aspect orientation. Examining
+the DEVS framework Simkit, their proposal for aspect-oriented programming
+adoption is two-fold: refactoring of the framework itself and aspect-oriented
+tooling for use by modellers, who represent cross-cutting concerns within their
+models. Opportunities for improvements in production and development are
+discussed, and some implementation notes are detailled, although no concrete
+implementation or evaluation is provided; the work instead proposes design
+alterations, and the authors ``leave it as a future work \emph{[sic]} to explore
+the usability and efficiency'' of aspect orientation used idiomatically
+alongside Java's existing reflection offerings. The existence of multiple
+attempts to refactor differing simulation packages with aspect orientation
+indicates potential for modellers in the use of aspect-oriented patterns, but
+the real-world utility of the techniques are omitted.
+\citeauthor{chibani2019using} and \citeauthor{DEVSaspectorientation2008aksu}
+both seem to defer to the zeitgeist wisdom of the AOP community that AOP
+improves modularity and maintainability of a codebase.
+
+
+\labelledsubsec{Aspect Orientation \& Business Process Modelling}{ao_and_bpm_review}
+
+Aspect orientation has found some success applied in business process modelling
+contexts. \inline{Add Charfi \& Cappelli's work before Jalali's in this subsec}
+
+This thesis offers tooling for and results in the modelling of \sociotechnical
+systems, a domain business process modelling has found success in. Additionally,
+related work undertaken before this PhD develops on software engineering
+processes that lend themselves well to the same modelling paradigms as business
+processes (see \cref{chap:prior_work}), and there also exists interest in
+modelling behavioural variance within the business process modelling community
+(see \cref{sec:dynamism_in_sm}). This overlap necessitates a review of related
+literature within the business process modelling field.
+
+New concerns within the design of aspect orientation frameworks are addressed in
+the business process modelling community. \Citeauthor{jalali2012aspect} note in
+\cite{jalali2012aspect} that aspect oriented modelling frameworks often do not
+explicitly model the precedence of aspect application. They address this
+limitation by defining a mechanism to be used in capturing multiple concerns as
+aspects, where the invocation of advice must follow a certain precedence. The
+aim of the work is not to propose tooling around the precedence of aspect
+application so much as to contribute to aspect oriented design theory, providing
+a notation for precedence which is broadly applicable. The precedence model is,
+put simply, that a mapping exists for each application of advice to join point
+such that the mapping defines an ordering on advice for that join point. The
+definition defines ``AOBPMN'', a formalised dialect of BPMN supporting aspect
+orientation with precedence. A case study is provided where AOBPMN is
+instantiated within a coloured petri net. Their study expands on existing work
+by research teams led by Capelli~\cite{Cappelli_AOBPM,da2020implementation} and
+by Charfi~\cite{charfi2007ao4bpel}, in that it develops a mature formalism for
+and model of aspect orientation as applied to business process modelling.
+\inline{Maybe I need more references to Charfi? Only one reviewed paper here.}
+However, \citeauthor{jalali2012aspect} note that their case study is limited in
+scale. No tooling or evaluation of the practical benefit of their approach is
+provided.
 
 
 \labelledsec{Variance \& Aspect Orientation in Simulation \&

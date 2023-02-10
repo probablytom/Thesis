@@ -4,34 +4,36 @@
 \contentsline {todo}{Complete the glossary in \cref {sec:glossary}.}{12}{section.1.3}%
 \contentsline {todo}{Decide whether terms like BPMN, simulation \& modelling, etc also belong in the glossary\cref {sec:glossary}.}{12}{section.1.3}%
 \contentsline {todo}{Citation needed?}{14}{section.2.1}%
-\contentsline {todo}{Check the most up-to-date pdsf implementation --- is it actually on that backup drive?}{23}{chapter.3}%
-\contentsline {todo}{Consider adding references to the sections through this PDSF chapter, depending on how beefy it becomes\ldots {}}{23}{chapter.3}%
-\contentsline {todo}{Decide whether this needs to be more thoroughly broken up / structured\ldots {}}{27}{subsection.3.2.2}%
-\contentsline {todo}{Include a discussion of \emph {what} gets hooks added using this method\ldots {}}{27}{subsection.3.2.2}%
-\contentsline {todo}{Consider adding local namespace weaving to pdsf3: should be easy to implement as a cheeky little monkey-patch\ldots {}}{29}{subsection.3.2.4}%
-\contentsline {todo}{Describe the improved process of weaving in PDSF3}{30}{subsection.3.2.5}%
-\contentsline {todo}{Find the newest copy of PDSF3, make a repo for it, cite the new impl}{30}{subsection.3.2.5}%
-\contentsline {todo}{maybe add more kavanagh citations early on!}{33}{chapter.4}%
-\contentsline {todo}{Fix formatting and correct wording of William's hypothesis, and mine below.}{33}{chapter.4}%
-\contentsline {todo}{The naive version \emph {does} do random play...right?}{33}{chapter.4}%
-\contentsline {todo}{cref the chapters on specific experiments at the beginning of the RPGLite chapter.}{34}{chapter.4}%
-\contentsline {todo}{Add an outline of the RPGLite chapter here.}{34}{chapter.4}%
-\contentsline {todo}{Cite the correct paper for the game blaancing!}{35}{section.4.1}%
-\contentsline {todo}{Cite William's PhD thesis for explaining RPGLite design.}{35}{section.4.1}%
-\contentsline {todo}{Cite William's thesis here for client-side development notes}{39}{subsection.4.2.1}%
-\contentsline {todo}{Insert client-side photos here, maybe William's photos of the design changing over time...?}{39}{subsection.4.2.1}%
-\contentsline {todo}{MORE HERE?!}{40}{subsection.4.2.2}%
-\contentsline {todo}{Find the exact number of games analysed}{40}{section.4.3}%
-\contentsline {todo}{Confirm moves made includes timestamps, I'm sure it does}{40}{section.4.3}%
-\contentsline {todo}{Confirm that games include both ELO before and after the game is played.}{40}{section.4.3}%
-\contentsline {todo}{Cite William's PhD thesis}{41}{chapter.5}%
-\contentsline {todo}{There must be tons of good citations for aspects being used to compose together a simulation / model}{41}{section.5.1}%
-\contentsline {todo}{Add a cross-reference to the chapter on cross-cutting concern simulation accuracy when it exists}{42}{section.5.1}%
-\contentsline {todo}{maybe cut this list of reasons PyDySoFu is fantastic...}{43}{subsection.5.1.1}%
-\contentsline {todo}{TODO FINISH WRITING ABOUT THE NAIVE MODEL'S STEPS}{46}{section.5.2}%
-\contentsline {todo}{Write about \emph {both} aspects so as to answer the hypothesis : Can aspects be used to generate models of alternative behaviours?}{47}{section.5.3}%
-\contentsline {todo}{is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{51}{chapter.7}%
-\contentsline {todo}{Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scapbook of ideas!}{51}{chapter.7}%
-\contentsline {todo}{cite the thesis here of Jeremy's student who worked in Python. He was very nice --- can't remember his name for the life of me.}{52}{subsection.7.1.1}%
-\contentsline {todo}{Would be nice to have a third reason as to why PyDySoFu introduces new research possibilities.}{52}{subsection.7.1.1}%
-\contentsline {todo}{cite William's PhD here}{54}{section.7.2}%
+\contentsline {todo}{Add Charfi \& Cappelli's work before Jalali's in this subsec}{23}{subsection.2.3.1}%
+\contentsline {todo}{Maybe I need more references to Charfi? Only one reviewed paper here.}{24}{subsection.2.3.1}%
+\contentsline {todo}{Check the most up-to-date pdsf implementation --- is it actually on that backup drive?}{25}{chapter.3}%
+\contentsline {todo}{Consider adding references to the sections through this PDSF chapter, depending on how beefy it becomes\ldots {}}{25}{chapter.3}%
+\contentsline {todo}{Decide whether this needs to be more thoroughly broken up / structured\ldots {}}{29}{subsection.3.2.2}%
+\contentsline {todo}{Include a discussion of \emph {what} gets hooks added using this method\ldots {}}{29}{subsection.3.2.2}%
+\contentsline {todo}{Consider adding local namespace weaving to pdsf3: should be easy to implement as a cheeky little monkey-patch\ldots {}}{31}{subsection.3.2.4}%
+\contentsline {todo}{Describe the improved process of weaving in PDSF3}{32}{subsection.3.2.5}%
+\contentsline {todo}{Find the newest copy of PDSF3, make a repo for it, cite the new impl}{32}{subsection.3.2.5}%
+\contentsline {todo}{maybe add more kavanagh citations early on!}{35}{chapter.4}%
+\contentsline {todo}{Fix formatting and correct wording of William's hypothesis, and mine below.}{35}{chapter.4}%
+\contentsline {todo}{The naive version \emph {does} do random play...right?}{35}{chapter.4}%
+\contentsline {todo}{cref the chapters on specific experiments at the beginning of the RPGLite chapter.}{36}{chapter.4}%
+\contentsline {todo}{Add an outline of the RPGLite chapter here.}{36}{chapter.4}%
+\contentsline {todo}{Cite the correct paper for the game blaancing!}{37}{section.4.1}%
+\contentsline {todo}{Cite William's PhD thesis for explaining RPGLite design.}{37}{section.4.1}%
+\contentsline {todo}{Cite William's thesis here for client-side development notes}{41}{subsection.4.2.1}%
+\contentsline {todo}{Insert client-side photos here, maybe William's photos of the design changing over time...?}{41}{subsection.4.2.1}%
+\contentsline {todo}{MORE HERE?!}{42}{subsection.4.2.2}%
+\contentsline {todo}{Find the exact number of games analysed}{42}{section.4.3}%
+\contentsline {todo}{Confirm moves made includes timestamps, I'm sure it does}{42}{section.4.3}%
+\contentsline {todo}{Confirm that games include both ELO before and after the game is played.}{42}{section.4.3}%
+\contentsline {todo}{Cite William's PhD thesis}{43}{chapter.5}%
+\contentsline {todo}{There must be tons of good citations for aspects being used to compose together a simulation / model}{43}{section.5.1}%
+\contentsline {todo}{Add a cross-reference to the chapter on cross-cutting concern simulation accuracy when it exists}{44}{section.5.1}%
+\contentsline {todo}{maybe cut this list of reasons PyDySoFu is fantastic...}{45}{subsection.5.1.1}%
+\contentsline {todo}{TODO FINISH WRITING ABOUT THE NAIVE MODEL'S STEPS}{48}{section.5.2}%
+\contentsline {todo}{Write about \emph {both} aspects so as to answer the hypothesis : Can aspects be used to generate models of alternative behaviours?}{49}{section.5.3}%
+\contentsline {todo}{is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{53}{chapter.7}%
+\contentsline {todo}{Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scapbook of ideas!}{53}{chapter.7}%
+\contentsline {todo}{cite the thesis here of Jeremy's student who worked in Python. He was very nice --- can't remember his name for the life of me.}{54}{subsection.7.1.1}%
+\contentsline {todo}{Would be nice to have a third reason as to why PyDySoFu introduces new research possibilities.}{54}{subsection.7.1.1}%
+\contentsline {todo}{cite William's PhD here}{56}{section.7.2}%
