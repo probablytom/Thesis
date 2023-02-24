@@ -56,7 +56,7 @@ where the issue is pervasive across many parts of the codebase and is
 necessarily interwoven through its core functionality. Common examples of this
 are guarding against unsafe concurrency usage, memory management, and logging.
 Maintainability is considered a key trait of maintainable, flexible and legible
-programs\cite{Parnas_1972}. Modern design techniques often center around the
+programs~\cite{Parnas_1972}. Modern design techniques often center around the
 structure of a program to increase its modularity, with object-oriented
 programming being the standard approach to designing with modularity in mind in
 many industrially-relevant languages today. \inline{Citation needed?}
@@ -79,10 +79,11 @@ benefits:
     of this code more difficult.
 \end{enumerate}
 
-In other words, cross-cutting concerns are expected to make maintainance of both
-ancillary program logic and a program's core logic more difficult. Addressing this, \citeauthor{kiczales1997aspect} introduced the notion
-of aspect-oriented programming~\cite{kiczales1997aspect}. Aspects are best described through their
-component parts:
+The existence of cross-cutting concerns therefore expected to make maintainance
+of both ancillary program logic and a program's core logic more difficult.
+Addressing this, \citeauthor{kiczales1997aspect} introduced the notion of
+aspect-oriented programming~\cite{kiczales1997aspect}. Aspects are best
+described through their component parts:
 
 \begin{itemize}
     \item A \emph{``join point''} defines some point in a program's execution
@@ -121,27 +122,114 @@ such as memory management in a way that reduces program bloat and simplifies
 implemenation. It is noted that measuring the benefits of their approach
 quantitatively is challenging.
 
-This approach was later developed into more robust tooling by
-\citeauthor{aspectj_intro}~\cite{aspectj_intro}, in which more technical detail
-is discussed. The need for the tool is born from the growing community, and
-their need for a tool with which to demonstrate their paradigm in case studies.
-The tool is intended to serve as ``the basis of an empirical assessment of
-aspect-oriented programming''. The library makes use of standard AOP concepts:
-Pointcuts, Join Points, and Advice, bundled together in Aspects. They define
-``dynamic'' and ``static'' cross-cutting, by which they refer to join points at
-specific points in the execution of a program, and join points describing
-specific types whose functionality is to be altered in some way. Their paper
-describes only ``dynamic'' cross-cutting, but presents tooling support,
-architectural detail of its implementation, and the representation \& definition
-of pointcuts in AspectJ. AspectJ is compared to other AOP techniques; the
-authors are explicit about their approach being distinct from metaprogramming
-in, say, Smalltalk or Clojure.
+Tooling followed the theoretical work presented by
+\citeauthor{kiczales1997aspect}~\cite{kiczales1997aspect} with a demonstration
+and subsequent technical description of AspectJ, a Java extension for aspect
+oriented programming~\cite{AspectJLanguageAndTools,aspectj_intro}. AspectJ was
+introduced to satisfy the research community's need for a tool with which to
+demonstrate the aspect-oriented paradigm in case studies. The tool is intended
+to serve as ``the basis of an empirical assessment of aspect-oriented
+programming''~\cite{aspectj_intro}. The library makes use of standard
+aspect-oriented concepts: Pointcuts, Join Points, and Advice, bundled together
+in Aspects. They define ``dynamic'' and ``static'' cross-cutting, by which they
+refer to join points at specific points in the execution of a program, and join
+points describing specific types whose functionality is to be altered in some
+way. Their paper describes only ``dynamic'' cross-cutting, but presents tooling
+support, architectural detail of its implementation, and the representation \&
+definition of pointcuts in AspectJ. AspectJ is compared to other tools for
+aspect orientation and related decompositional paradigms, and the authors are
+explicit about their approach being distinct from metaprogramming in, say,
+Smalltalk or Clojure.
 
-\subsection{Criticisms of aspect-oriented programming}
+\subsection{Alternative methods to Aspect Orientation}
+
+Aspect-oriented programming's goal of modularising cross-cutting concerns is
+shared by other paradigms. Seminal work in aspect orientation makes note of
+similarities to use of reflection, metaprogramming \& program transformation,
+and subject-oriented programming~\cite{kiczales1997aspect,aspectj_intro}. They
+also observe that other disciplines have introduced ``aspectual decomposition''
+independently.
+
+The example of pre-existing aspectual decomposition by way of diagramming given
+by \citeauthor{kiczales1997aspect}~\cite{kiczales1997aspect} is in physical
+engineering. To give a concrete example from their description, differing types
+of diagrams when engineering a system such as thermal and electric diagrams of a
+heater are described as ``aspectual'' because of the modular nature of the
+diagrams; though there might be many diagrams of different kinds, they compose
+together to give an overview of the system being designed.
+
+Similar diagramming techniques have independently arisen in other domains since.
+The Obashi dataflow modelling methodology\cite{obashimethodology} by
+\citeauthor{obashimethodology} models all possible paths of dataflow through
+``B\&IT'' (business and IT) diagrams, where business-specific concerns (people,
+locations, groups, and business processes such as payroll, stock-check or
+budgeting) are modelled alongside IT concerns such as applications supporting
+business processes and the software and hardware infrastructure supporting them.
+Modelling dataflows in this way allows for a comprehensive understanding of
+assets and business processes. However, in order to understand how data flows
+between specific assets within a B\&IT, sub-graphs (``DAVs'', or Dataflow
+Analysis Views) denote specific pathways through which data flows between source
+and sink assets. Alternatively, a B\&IT can be viewed as a composition of all
+possible DAVs within an organisation. Dataflows are therefore broken into
+different diagramming techniques and specific business concerns can be described
+independently of others, even if these concerns interact in their dataflow
+pathways (and, therefore, cutting across each other). Obashi therefore allows
+for the aspectual decomposition of business processes, through the description
+of an organisation by individual dataflow analysis views, which compose into an
+overall model of a system in a B\&IT diagram. Obashi models are an instance of
+aspect orientation which were designed for simplicity and
+comprehension\cite{obashimethodology,seow2011obashi}, but trade this for
+domain-specificity.
+
+Research conducted by \Citeauthor{keller1998binary}~\cite{keller1998binary}
+investigates solutions to the difficulties involved in the integration of
+software components and their evolution over time, where those components are
+re-used with differing requirements. By modifying binaries directly,
+incompatibilities in an program and, say, one of that program's dependancies can
+be resolved by way of mutating either after compilation. Their implementation
+defines a representation for the modification of pre-generated Java class
+binaries, the output of which can be verified as also being valid Java class
+binaries. \Citeauthor{keller1998binary} claim that BCA allows for dynamic
+modification of programs with little overhead. They believe BCA is unique in its
+combination of features, which include engineering concerns such as
+re-typechecking code which is subject to adaptation and its obliviousness to
+source implementation, as well as guarantees that modifications are valid even
+for later iterations of the program subject to adaptation.
+
+Other engineering techniques can be used to modularise cross-cutting concerns.
+For example, metaobject protocols describe the properties of an object's class
+(including, for example, its position within a class hierarchy) in an adaptable
+manner~\cite{kiczales1991art}. These can be used to implement aspect
+orientation~\cite{espakaspect}, therefore providing at a minimum the same
+functionality, though they achieve this through their reflective qualities and
+are designed with metaprogramming as a primary goal as opposed to modularisation
+of cross-cutting concerns~\cite{kiczales1991art,sullivan2001aspect}.
+Multiple-dispatch, where methods on objects are chosen to be run based on the
+properties of the parameters passed at point of invocation, allows for oblivious
+decomposition without the need for a weaver~\cite{dozsa2008lisp}, although this
+does not support the goals of aspect orientation in totality. For example, a
+programmer might want their program to exhibit differing behaviour when methods
+are called with differently-typed arguments, which is supported by multiple
+dispatch. However, they might instead want their program to exhibit some
+additional behaviour whenever a method is invoked, such as logging, but might
+not want to implement logging alongside the rest of their method implementation
+for clarity or length reasons. Multiple dispatch therefore offers comparable but
+different functionality to a software engineer. Engineering patterns such as
+decorators provide similar functionality to
+aspects~\cite{friesel2017annotations}, in that cross-cutting concerns can be
+separated into their own module, but they differ in their approach to
+obliviousness: decorators annotate areas of a codebase they are applied to, and
+therefore do not offer obliviousness as aspects do. \inline{Add a paragraph afer
+this on subject-oriented programming.}
+
+More notes\inline{Add notes on subject-oriented programming, bigraphs, maybe holons?}
+%% subject oriented programming
+
+\labelledsubsec{Criticisms of aspect-oriented programming}{aop-criticisms}
 
 The growing aspect-oriented programming research community collected both
 proponents and detractors of the paradigm. The developments in
-aspect-orientation pertinent to the research presented in this thesis are
+aspect orientation pertinent to the research presented in this thesis are
 discussed in later sections of this literature review. However, common
 criticisms of aspect-oriented programming are important to present in two
 regards:
@@ -203,8 +291,8 @@ and the community's zeitgeist at the time, where what it is isn't necessarily
 consistent with claims around what it's useful for. In particular, the author
 sees AOP's promise of unprecedented modularisation as unfulfillable. 
 
-Similar sentiments are shared in \cite{przybylek2010wrong} by
-\citeauthor{przybylek2010wrong}, who looks to examine aspect oriented
+Similar sentiments are shared by
+\citeauthor{przybylek2010wrong}~\cite{przybylek2010wrong}, who looks to examine aspect oriented
 programming within the context of language designers' quest to achieve
 maintainable modularity in system design. They frame the design goals of aspect
 orientation as being to represent issues that ``cannot be represented as
@@ -313,19 +401,21 @@ In contrast, \citeauthor{gilani2004family} note that, while there are different
 approaches to dynamically weaving aspects, no approach is suitable for an
 embedded environment. This is due to these systems' low power and available
 memory. \citeauthor{gilani2004family} therefore propose a framework through
-which weavers can be assessed for suitability in a given domain, or generated
-from a set of possible features (where, presumably, features would be enabled
-and disabled as per an environment's needs). Their families of weavers are
-defined by the similarities of the requirements in domains they are applied to,
-and specifically defined by their tradeoff between dynamism and resource use
+which weavers can be assessed for suitability in a given environment, or
+generated from a set of possible features (where, presumably, features would be
+enabled and disabled as per an environment's needs). Their families of weavers
+are defined by the similarities of the requirements in domains they are applied
+to, and specifically defined by their tradeoff between dynamism and resource use
 (asserted to be broadly proportional). It is unclear that a carefully crafted
 ``actual hook weaver'', or JIT-compiled ``collective weaving'', in the parlance
 of \citeauthor{dynamicAOchitchyan} (see \citep{dynamicAOchitchyan}), would be
 meaningfully less efficient than static weaving in all but the extreme
 application areas outlined in the paper (embedded systems with resources in the
-range of 30kb memory). Aspect oriented programming's criticism can often be that
-it doesn't know what it ``aims to be good for'' , and its application in such
-extreme environments is arguably mistaken from the off. The families outlined in
+range of 30kb memory).
+
+Aspect oriented programming's criticism can often be that it doesn't know what
+it ``aims to be good for'' , and its application in such extreme environments is
+arguably mistaken from the off. The families outlined in
 \citeauthor{gilani2004family}'s publication are unneccesary if dynamic aspects
 are not required in their target environments.
 \Citeauthor{steimann06paradoxical}'s critique of aspect-oriented programming,
@@ -339,7 +429,9 @@ is not found in low-resource systems, and a take-away of \cite{gilani2004family}
 could be that researchers should seek other contexts in which to apply aspect
 oriented programming. \footnote{As discussed alongside \cite{gulyas1999use} in
 \cref{sec:ao_and_modelling}, simulation \& modelling might present a more
-appropriate field.}
+appropriate field.}\inline{Note from discussion with Tim to work into this:
+``the anticipated benefits of aspect-oriented programs are not observed in
+practice''}\inline{Both paragraphs on Gilani2004 need to be heavily edited.}
 
 
 
@@ -361,7 +453,7 @@ aspect orientation implementations leads to a more complicated post-weave
 codebase, which in turn leads to increased difficulty including the compilation
 of aspect-oriented code and the development and execution of unit tests on said
 code. In order to demonstrate Bind's approach to simplifying post-weave
-codebases, the design of ``Nu'', an aspect-orientation framework in .NET
+codebases, the design of ``Nu'', an aspect orientation framework in .NET
 supporting Bind, is explained and an implementation presented. They present Bind
 as an alternative to the weaving of aspect hooks (for load-time registration)
 into target code, in the style of PROSE (see
@@ -389,12 +481,12 @@ approaches initially discussed. In line with the complaints of AOP's critics,
 this does not seem to qualify the sastisfaction with which they achieve their
 practical engineering goals.
 
-In \cite{dyerNUmasters}, \citeauthor{dyerNUmasters} explain in more depth than
-in \cite{rajan2006nu} the design and implementation of the Bind mechanism and
-the implementation of the Nu framework. A more technical discussion is
-presented, in particular on implementation details including optimisation and
-benchmarking, largely against AspectJ. Notably, the implementation discussed is
-a Java implementation, rather than the .Net implementation presented in
+Relatedly, \citeauthor{dyerNUmasters} explain in more depth than in the design
+and implementation of the Bind mechanism and the implementation of the Nu
+framework~\cite{dyerNUmasters}. A more technical discussion is presented, in
+particular on implementation details including optimisation and benchmarking,
+largely against AspectJ. Notably, the implementation discussed is a Java
+implementation, rather than the .Net implementation presented in
 \cite{rajan2006nu}. Many aspect orientation frameworks are language-specific;
 the existence of Nu's implementation on multiple platforms highlights the work's
 most interesting facet being the design of the Bind primitive, rather than the
@@ -423,7 +515,7 @@ aspect-oriented simulation of agent-based models. Their aspect orientation
 effectively makes use of Observer patterns to measure a pre-constructed system
 under simulation, without the observations being an intrinsic component of the
 simulated system. They find that AOP provides an intuitive and straightforward
-method by which experimental simulated systems can be composed, and that MAML's
+method by which simulated experimental systems can be composed, and that MAML's
 simplicity and its philosophy on modelling are more ``satisfactory'' than
 Swarm's standard approach, though the paper betrays that its implementation was
 more complex than initially conceived: the \lstinline{patch} unix tool was
@@ -431,7 +523,7 @@ intended for use as their weaver, though the team eventually developed a
 transpiler from MAML to Swarm instead (which they name \lstinline{xmc}.). The
 deciding factors for the development of a custom transpiler are not discussed.
 
-In \cite{gulyas1999use}, \citeauthor{gulyas1999use} present not only tooling for
+\citeauthor{gulyas1999use}'s work presents not only tooling for
 aspect oriented simulation, but some reasoning \& philosophy on the potential
 benefit of using aspect orientation in these endeavours that extends further
 than the conclusions of modularity through separation of concerns and a
@@ -452,46 +544,270 @@ Put another way: this thesis draws on the idea that, in response to
 \citeauthor{gulyas1999use} would seem to answer, ``simulation \& modelling'', a
 premise this thesis shares.
 
-In a manner similar to \citeauthor{chibani2019using}'s
-\cite{chibani2019using,chibani2013toward},
-\citeauthor{DEVSaspectorientation2008aksu} observe in
-\cite{DEVSaspectorientation2008aksu} that there are opportunities to be found in
-a simulation framework able to take advantage of aspect orientation. Examining
-the DEVS framework Simkit, their proposal for aspect-oriented programming
-adoption is two-fold: refactoring of the framework itself and aspect-oriented
-tooling for use by modellers, who represent cross-cutting concerns within their
-models. Opportunities for improvements in production and development are
-discussed, and some implementation notes are detailled, although no concrete
-implementation or evaluation is provided; the work instead proposes design
-alterations, and the authors ``leave it as a future work \emph{[sic]} to explore
-the usability and efficiency'' of aspect orientation used idiomatically
-alongside Java's existing reflection offerings. The existence of multiple
-attempts to refactor differing simulation packages with aspect orientation
-indicates potential for modellers in the use of aspect-oriented patterns, but
-the real-world utility of the techniques are omitted.
-\citeauthor{chibani2019using} and \citeauthor{DEVSaspectorientation2008aksu}
-both seem to defer to the zeitgeist wisdom of the AOP community that AOP
+\citeauthor{chibani2013toward} discuss two issues in object oriented
+programming: ``tangling'', where separate design elements of a program are woven
+within each other in program source, and ``scattering'', where a single design
+element is strewn throughout the source, rather than being contained within a
+single area of the codebase.\inline{Remove the description of tangling and
+scattering from here and include in a review of more foundational AOP literature
+early in the lit review. They don't belong buried so far down in this chapter.}
+They propose that aspect orientation solves these problems, and identify that
+there are potential benefits in discrete event simulation code in both regards,
+making DES frameworks with aspect oriented primatives a potentially fruitful
+contribution to the research community. They identify cross-cutting concerns in
+DES codebases, including event handling, resource sharing, and the restoration
+of a simulation run. The contribution of the paper is the discussion of AOP's
+potential application to DES codebases, and detail of the avenues available for
+research in the field. Japrosim is presented as a motivating example of an
+existing DES framework which they see as ripe for the aspect oriented
+enhancements they identify.
+
+In a later publication~\cite{chibani2019using}, \citeauthor{chibani2019using}
+identify opportunities for the use of aspect orientation in simulation tooling,
+aiming to increase ``modularity, understandability, maintainability,
+reusability, and testability'' by applying the paradigm~\cite{chibani2019using}.
+They present a case study of an application of aspect orientation to simulation
+tooling by identifying cross-cutting concerns in Japrosim, a discrete event
+simulation framework, and propose an aspect-oriented redesign of the tool using
+AspectJ. \citeauthor{chibani2019using} describe Japrosim's existing
+object-oriented design, followed by aspect oriented variations of some design
+elements, including concurrent process management and in Japrosim's graphical
+animation features. A similar survey of areas in which Japrosim's source might
+benefit from the application of aspect orientation is presented by
+\citeauthor{chibani2014practical} in an earlier
+work~\cite{chibani2014practical}. In both cases, the main contribution noted is
+the design itself. Counting the main improvements between the presented
+aspect-oriented design and the existing object-oriented one is left to future
+work in the authors' later publication~\cite{chibani2019using}, although a
+concrete implementation is linked to and some quantitative evaluation of that
+implementation presented in their earlier
+publication~\cite{chibani2014practical}. The quantitative evaluation provides
+measurements based on \citeauthor{martin1994oo}'s object-oriented design metrics
+and demonstrates a greater independence of packages in their aspect oriented
+version of Japrosim than in the original. However, the intended aim of aspect
+orientation is not to decouple existing packages, but to isolate those packages'
+cross-cutting concerns into new ones. It is therefore unclear that their
+quantitative evaluation achieves its improvements as a result of aspect
+orientation. No further discussion of their results is provided, and it is
+possible that the improvement is due to the rewriting necessary in their
+maintainance of the Japrosim source, rather than due to their use of aspect
+orientation specifically.
+
+In a manner similar to
+\citeauthor{chibani2019using}'s~\cite{chibani2019using,chibani2013toward,chibani2014practical},
+\citeauthor{DEVSaspectorientation2008aksu} observe that there are opportunities
+to be found in a simulation framework able to take advantage of aspect
+orientation~\cite{DEVSaspectorientation2008aksu}. Examining the DEVS framework
+Simkit, their proposal for aspect-oriented programming adoption is two-fold:
+refactoring of the framework itself and aspect-oriented tooling for use by
+modellers, who represent cross-cutting concerns within their models.
+Opportunities for improvements in production and development are discussed, and
+some implementation notes are detailled, although no concrete implementation or
+evaluation is provided; the work instead proposes design alterations, and the
+authors ``leave it as a future work \emph{[sic]} to explore the usability and
+efficiency'' of aspect orientation used idiomatically alongside Java's existing
+reflection offerings. The existence of multiple attempts to refactor differing
+simulation packages with aspect orientation indicates potential for modellers in
+the use of aspect-oriented patterns, but the real-world utility of the
+techniques are omitted. \citeauthor{chibani2019using} and
+\citeauthor{DEVSaspectorientation2008aksu} both seem to defer to the zeitgeist
+wisdom of the aspect orientation community in their unproven claim that it
 improves modularity and maintainability of a codebase.
+\footnote{\citeauthor{chibani2014practical} do present some quantitative
+evaluation, but this is flawed as previously described.}
+
+Neither \citeauthor{gulyas1999use} nor
+\citeauthor{DEVSaspectorientation2008aksu} detail a case study of their
+techniques with real-world examples. However, \citeauthor{ionescu2009aspect} do
+in their work identifying an increased demand for computational power in
+simulation execution on supercomputers~\cite{ionescu2009aspect}. Existing
+known-good models might be unsuitable for the extreme requirements of code
+efficiency modellers contend with, but running the code on different
+environments requires modifications for suitability in different environments,
+around which there are regulations and risks of a reduction in quality during
+maintainance. The authors propose an aspect-oriented solution to the problem,
+where aspects modify the simulation codebase with minimal overhead. An
+implementation of a real-world model for disaster prevention is presented, and
+assessed both by comparison against an equivalent non-aspect-oriented codebase
+and by assessment of the aspect-oriented variant's scalability and reliability
+in both cluster and multi-cluster environments. They find that a comparative
+analysis of generated code and of their simulations in various configurations
+both indicate that their simulation's aspect-oriented implementation is suitable
+for use in disaster prevention, implying that aspect orientation could be
+suitable in scenarios with comparable requirements.
+
+That the authors can conclude that aspect orientation is suitable in a
+real-world use case constrained by the requirements of supercomputer use seems
+promising for the aspect-oriented paradigm, which is criticised for its lack of
+practical
+evaluation~\cite{Constantinides04aopconsidered,steimann06paradoxical,przybylek2010wrong}.
+As it is therefore a rare example of aspect-oriented case studies, their
+evaluation methodology is important to highlight. Their code analysis makes use
+of significant lines of code as a core metric, which doesn't reliably reflect
+code quality; quoting \citeauthor{rosenberg1997some}'s \citetitle{rosenberg1997some}~\cite{rosenberg1997some}:
+\begin{displayquote}
+    (\ldots{})~the best use of SLOC is not as a predictor of quality
+itself (for such a prediction would simply reduce to a claim about size, not
+quality), but rather as a covariate adjusting for size in using another
+metric.
+\end{displayquote}
+This is important because a common claim in the aspect-oriented
+literature for which there is little empirical evidence is that aspect
+orientation improves the ``quality'' of a codebase, but the related claims made
+by \citeauthor{ionescu2009aspect}~\cite{ionescu2009aspect} are unreliable.
+
+It is important to note that improvements in code quality specifically are those
+which have come under scruitiny by the critical papers reviewed in
+\cref{subsec:aop-criticisms}. The results presented by
+\citeauthor{ionescu2009aspect} do not satisfactorially address the requests for
+empircal evidence of improved code quality in these reviewed criticisms. This
+does not impact their aspect-oriented models' suitability given the motivations
+of \citeauthor{ionescu2009aspect}, which are that models should be amendable for
+new supercomputing settings without lack of performance. The models described in
+this work satisfy that aim. These models are also evaluated by way of
+performance, an important factor in supercomputer use where execution time is
+financially expensive and power-intensive. Quantitative evaluation of their
+simulation's execution time shows less than 5\% slowdown compared to a
+non-aspect-oriented implementation. \citeauthor{ionescu2009aspect} deem this a
+reasonable tradeoff for the engineering improvements they observe. Their
+application to the supercomputing \& disaster prevention simulation domains
+therefore seem satisfactory by way of performance, and meet
+\citeauthor{ionescu2009aspect}'s aim of demonstrating a modelling technique
+which permits adapting existing models for use in new environments without
+directly maintaining the original model's source.
+
+This result is notable with regards the findings presented in this thesis, which
+similarly aim to alter a pre-existing model without directly altering it,
+although for purposes such as model reuse and simplification of experimental
+design rather than for avoiding the regulatory overhead and financial cost of
+maintaining the models described by
+\citeauthor{ionescu2009aspect}~\cite{ionescu2009aspect}.
+
 
 
 \labelledsubsec{Aspect Orientation \& Business Process Modelling}{ao_and_bpm_review}
 
-Aspect orientation has found some success applied in business process modelling
-contexts. \inline{Add Charfi \& Cappelli's work before Jalali's in this subsec}
 
-This thesis offers tooling for and results in the modelling of \sociotechnical
-systems, a domain business process modelling has found success in. Additionally,
-related work undertaken before this PhD develops on software engineering
-processes that lend themselves well to the same modelling paradigms as business
-processes (see \cref{chap:prior_work}), and there also exists interest in
-modelling behavioural variance within the business process modelling community
-(see \cref{sec:dynamism_in_sm}). This overlap necessitates a review of related
-literature within the business process modelling field.
+% As business processes models represent a kind of \sociotechnical system, and
+% this thesis offers tooling for and results in the modelling of \sociotechnical
+% systems, . Additionally,
+% related work undertaken before this PhD develops on software engineering
+% processes that lend themselves well to the same modelling paradigms as business
+% processes (see \cref{chap:prior_work}), and there also exists interest in
+% modelling behavioural variance within the business process modelling community
+% (see \cref{sec:dynamism_in_sm}). This overlap necessitates a review of related
+% literature within the business process modelling field. \inline{Add Charfi \&
+% Cappelli's work before Jalali's in this subsec}
 
-New concerns within the design of aspect orientation frameworks are addressed in
-the business process modelling community. \Citeauthor{jalali2012aspect} note in
-\cite{jalali2012aspect} that aspect oriented modelling frameworks often do not
-explicitly model the precedence of aspect application. They address this
+
+Several projects within the business process modelling research community make
+use of aspect orientation to design modelling languages which produce less
+monolithic business process models~\cite{Cappelli_AOBPM,da2020implementation}
+and simplify the composition of models~\cite{charfi2007ao4bpel}. As business
+processes are inherantly sociotechnical and this thesis presents tooling for and
+results in the modelling and simulation of \sociotechnical systems using
+aspect-oriented techniques, it is important to review this community's
+literature. This field is particularly relevant as work on this project prior to
+this thesis' research models software engineering processes that are
+conceptually similar to business process modelling (see \cref{chap:prior_work}),
+and there also eists interest in modelling behavioural variance within the
+business process modelling community (see \cref{sec:dynamism_in_sm}), which is
+highly relevant to this thesis' concern with the representation of alteration to
+process and modelled behaviour as aspects.
+
+\citeauthor{charfi2007ao4bpel} see an opportunities in integrating BPEL, an
+executable business-process modelling language, with aspect-oriented
+concepts~\cite{charfi2007ao4bpel}. This is because when BPEL systems are
+composed together the static nature of the logic being composed is not always
+appropriate for BPEL's use cases. The specific use-case examined is web service
+definitions, where changes affecting composition of multiple component parts can
+affect many areas of a final result, making modification error-prone. They
+specifically seek to support dynamic workflow definitions --- ``adaptive
+workflows'' --- which BPEL's existing extension mechanisms do not sufficiently
+support, but the aspect-oriented literature discusses at length (an overview of
+which is presented in \cref{sec:dynamic_aop_review}). Therefore, they look to
+construct an aspect-oriented BPEL extension. Using the case study of modelling a
+travel agency's web services, they create an aspect-oriented extension by first
+defining how such an extension would be represented graphically in BPEL's
+workflow diagrams. Further detail is added to arrive at a technical definition
+with XML representations, weaving mechanics, and eventually the construction of
+a BPEL dialect, AO4BPEL. The authors find that their pointcut system (which
+describes join points on both processes and BPEL messages), support for adaptive
+workflows, and aspect-oriented approach to workflow process modelling make
+AO4BPEL unique at the time of publication, though related AOP implementations
+exist in each individual area of their contributions. The work is weakened by
+brittle semantics around pointcuts, join points, and the temporal nature of
+workflow modelling. For example, they note that defining contingent behaviour
+--- only applying an aspect conditionally, based on a trace through a simulation
+of a modelled system --- would allow the application of advice only when model
+state deems this appropriate.\footnote{The contingent application of model
+adaptation is a motivating case for some of the work presented in this thesis;
+see \cref{chap:prior_work} for a discussion.} They also call for more generally
+theoretical AOP research, which mirrors the requests some critics of aspect
+orientation reasearch make (as noted in \cref{subsec:aop-criticisms}).
+
+In a PhD thesis describing AO4BPEL in detail~\cite{Charfi2006AspectOrientedWL}
+\citeauthor{Charfi2006AspectOrientedWL} presented a generalisation of the
+notation developed for AO4BPEL, which applies to any graphical workflow
+modelling language. Accompanying this are some examples of its use building a
+framework for enforcing certain requirements of BPEL models, and use of that
+framework to develop aspect-oriented frameworks for enforcing security and
+reliability within AO4BPEL models.
+
+In later work, \citeauthor{charfi2010AO4BPMN} define a similar aspect-oriented
+dialect of BPMN they name AO4BPMN~\cite{charfi2010AO4BPMN}, after asserting that
+the concerns addressed by
+AO4BPEL~\cite{Charfi2006AspectOrientedWL,charfi2007ao4bpel} in the field of
+executable process languages also apply to business-process modelling languages,
+and can be solved in a similar way. The generalised notation of aspectual
+workflow models presented in \citeauthor{Charfi2006AspectOrientedWL}'s
+thesis~\cite{Charfi2006AspectOrientedWL} are applied to BPMN to produce an
+aspect-oriented language specifically for process modelling, as opposed to
+executable business process modelling.
+
+\Citeauthor{Cappelli_AOBPM} also note that cross-cutting concerns exist in
+business process models, and are specifically motivated by monolithic design
+approaches common in business process modelling languages. Like
+\citeauthor{kiczales1997aspect}, they claim that a lack of modularity in
+business process models leads to cross-cutting concerns scattered throughout a
+model~\cite{Cappelli_AOBPM}. To alleviate the issue, they propose a
+meta-langauge, AOPML, which incorporates aspect orientation in a metamodel of
+business process modelling langauges, and instantiate it within their own
+dialect of BPMN. Using a model of a steering committee as a case study, and
+separating cross-cutting concerns such as logging, the paper proposes reducing
+complexity and repetition graphically, thereby in a manner more in keeping with
+the language design philosophies of popular business process modelling
+languages, the design and use of which are typically
+graphical~\cite{OMG-BPMN-SPEC,opm_original,OMG-UML-SPEC}. They note that this is
+in contrast to other applications of aspect orientation in business process
+modelling --- specifically AO4BPMN --- where aspect definitions are written in
+XML concern not only the advice to be applied but also their relevant join
+points, as in general programming aspect orientation implementations such as
+AspectJ. In this way, the AOPML exhibits the spirit of business process
+modelling more stringently than does \citeauthor{Charfi2006AspectOrientedWL}'s
+notation for aspect-oriented workflow modelling.
+
+The difference between \citeauthor{charfi2010AO4BPMN}'s approach in designing
+AO4BPMN~\cite{charfi2010AO4BPMN} and \citeauthor{Cappelli_AOBPM}'s approach in
+designing AOPML~\cite{Cappelli_AOBPM} highlights design decisions taken when
+introducing aspect orientation in a new domain. There is an opportunity for a
+domain-specific aspect orientation framework to align it's design with the
+traditions and idioms already present in models within that domain, but doing so
+may break the traditions and idioms which already exist in aspect-oriented
+approaches in other domains.  Comparing the approaches of
+\citeauthor{charfi2010AO4BPMN} and \citeauthor{Cappelli_AOBPM} does surface that
+there may be no clear ``best'' design approach when blending pre-existing
+modelling paradigms, such as the graphical modelling languages used in
+business-process modelling and the abstract concepts of aspect orientation. The
+philosophical discussion as to whether it is generally more desirable to adapt
+existing design elements of aspect-oriented frameworks to a given domain or
+adapt that domain's existing modelling traditions and idioms to incorporate
+aspect orientation as it is used elsewhere is outside the scope of this thesis.
+
+New concepts within the design of aspect orientation frameworks are addressed in
+the business process modelling community. \Citeauthor{jalali2012aspect} note
+that aspect oriented modelling frameworks often do not explicitly model the
+precedence of aspect application~\cite{jalali2012aspect}. They address this
 limitation by defining a mechanism to be used in capturing multiple concerns as
 aspects, where the invocation of advice must follow a certain precedence. The
 aim of the work is not to propose tooling around the precedence of aspect
@@ -505,13 +821,225 @@ instantiated within a coloured petri net. Their study expands on existing work
 by research teams led by Capelli~\cite{Cappelli_AOBPM,da2020implementation} and
 by Charfi~\cite{charfi2007ao4bpel}, in that it develops a mature formalism for
 and model of aspect orientation as applied to business process modelling.
-\inline{Maybe I need more references to Charfi? Only one reviewed paper here.}
 However, \citeauthor{jalali2012aspect} note that their case study is limited in
 scale. No tooling or evaluation of the practical benefit of their approach is
 provided.
 
 
-\labelledsec{Variance \& Aspect Orientation in Simulation \&
-Modelling}{dynamism_in_sm}
+\labelledsec{Process Variance in Simulation \& Data Generation}{dynamism_in_sm}
 
+Brief intro of the section here\inline{Brief intro of the process variance
+section here}
+%% Note motivating modelling with variance:
+% - representing contingent behaviour
+% - generating data with variation, for i.e. process mining.
+
+% First review here should probably be the Aalst-co-written one on executable
+% BPMN for log generation with variance
+
+Typically, a simulation concerns a single process. This means that all expected
+behaviour must be included within that process; complex or contingent behaviour
+must be represented within it. The techniques reviewed here offer separately
+including some modification of a process (or represent the modifications of
+varied process within the simulated
+output~\cite{stocker2013secsy,stocker2014secsy}). The benefit of this approach
+is that possible changes to a process can be described once and applied to that
+process where appropriate. Process changes might describe attempts to circumvent
+security protocols, laziness or confusion in a human actor within the model, or
+random ``noise'' so as to produce synthetic log traces containing abberations
+which mimic those found in noisy empirical datasets. In all cases, behavioural
+variations can be described as some alteration to a process and applied to
+either a model or the product of that model (datasets or log traces) to
+represent the same alteration introduced at an arbitrary point of the
+simulation.
+
+This decouples the expected behaviour in the original model from simulated
+behaviour, which is obtained by composing the model and behavioural variation
+using a given technique's method for doing so. This approach to modelling
+behavioural variation allows the same altered behaviour, which would otherwise
+be described in many disparate points in a model, to instead be written once and
+introduced wherever required. The observation that the same variation might
+appear in many different areas of a model, and that the variation can be
+separated from the model and introduced where necessary, frames the modelling of
+these variations in the same way as aspect orientation frames cross-cutting
+concerns. The work presented in this thesis explicitly applies changes to
+processes and simulated behaviour as aspects in the same manner. Therefore,
+although this aspectual connection is not made explicit in much of the
+literature to date, it is important to review literature on simulation and
+modelling which modularises these variations; this section reviews that
+literature. The work reviewed is highly relevant to the contributions in this
+thesis, in particular because the core motivations of this field are shared by
+this thesis; the section therefore leads with a subsection discussing those
+motivations, and their relationship to aspect orientation, in detail.
+
+
+\labelledsubsec{Discussion of Variation \& Motivations for Variations in Process Models}{variation_sm_motivations}
+
+
+\citeauthor{ExecutableBPMNMitsyuk} are motivated by the field of process
+mining's requirement for datasets of process logs made from well-understood
+process models, defined in a high-level manner~\cite{ExecutableBPMNMitsyuk}.
+They demonstrate a technique for generating event logs from BPMN models by
+introducing algorithms for the direct simulation of BPMN models and the
+collection of traces from those simulations. While their approach does not
+support the simulation of all BPMN concepts, notably message passing, they
+provide a tool which produces log traces for a BPMN model through PROM, a
+standard tool within the process mining community~\cite{van2005prom}. This
+results in their technique providing high-level model simulation through
+already-standard tooling, meaning adopters of the technique need not rely on
+dedicated tooling which may not be compatible with other researchers' process
+mining techniques.
+
+The algorithms presented by \citeauthor{ExecutableBPMNMitsyuk} simulate
+processes described by BPMN models, but don't include any provisions for
+representing variance. However, the technique could plausibly be combined with
+aspect orientation techniques for BPMN as discussed in
+\cref{ao_and_bpm_review}~\cite{charfi2010AO4BPMN,Cappelli_AOBPM} to represent
+alternate behaviour applied contingently. Demonstrating the viability of this
+approach is an avenue of research beyond the scope of this thesis. However, the
+motivation of the work mirrors that of other research projects reviewed in this
+section: a need for synthetic datasets of traces through a process, for use in
+scenarios where empirical datasets are difficult to obtain.
+
+Difficulties arise when obtaining real-world datasets for many reasons. For
+example, large empirical datasets are typically produced by organisations which
+would prefer some level of secrecy around their operations, making publishing
+those operations for the investigation of research teams unlikely. Researchers
+collecting these datasets describe a \textquote{lengthy
+process}~\cite{bpi_ten_years_of_datasets} and explain that traces of real-world
+processes are hard to obtain because \textquote{higher management [can be]
+worried about the risks} of publishing such
+datasets~\cite{bpi_ten_years_of_datasets}. Another factor contributing to the
+difficulty of collecting empirical datasets is that they often cannot be
+collected, either because there is a need to study the process before
+implementing it (making synthetic datasets the only option available to
+researchers \inline{Find citation for empirical datasets being the only ones
+available to researchers, maybe for disaster prevention or similar?}), because
+the process is not yet fully understood (making simulation of many variants of
+that process useful in aiding understanding \inline{find a citation for
+simulating different systems for finding an optimal one. Arguably Genetic
+programming \& hillclimbing do similar things?}), or because the dataset itself
+is of use to researchers, not the real-world system that produced it (such as in
+the case of evaluating process mining
+techniques~\cite{van2004process,agrawal1998mining}). \inline{Find some nice way
+to round this subsec out, or refactor so there are no subsecs}\inline{Important
+to acknowledge somewhere in this subsec that synthetic data generation is a
+well-researched field, but that generating logs from simulations with variance
+is the specific area relevant to this thesis}
+
+\labelledsubsec{Representing Variations in Process Models and their Outputs}{variations_in_sm}
+
+Research undertaken by \citeauthor{stocker2013secsy}~\cite{stocker2013secsy}
+aims to synthesise process logs which are representative of attackers' efforts
+to comporomise the security of a modelled system. Their research project, named
+``SecSY'', is an attempt to address issues arising from the difficulty of
+retreiving representative log traces for security-critical systems in which
+attacker activity is present. Logs are developed by process simulation through
+``well-structured'' models, a mathematical property on which transformations
+were previously defined by
+\citeauthor{vanhatalo2009refined}~\cite{vanhatalo2009refined}. The authors
+develop a tool for the simulation of a process using well-structured process
+models, and apply transformations to both the model before execution and the log
+it produces through the trace of a simluation. They conclude that their tool is
+performant, and verify it can produce logs represneting security violations by
+way of analysis through PROM, a popular framework for process mining, and
+pre-defined security constraints on their models. They note that log traces
+cannot be interleaved (due to a lack of parallel simulation of processes), may
+be incomplete (missing violations), and that mutated models and traces are not
+guaranteed to be sound by construction. However, they see their proposal as a
+necessary step in realistic data generation for business processes. A weakness
+of the work is that model and trace modifications are relatively rudimentary:
+proesses can be added or removed, but complex graph transformations are
+presumably only permissable when representable through the composition of the
+mutation primatives they provide, on which there are only three for processes:
+swapping AND and XOR definitions of process gateways, and swapping process
+order. Mutations cannot be applied contingent on the state of a simulation run,
+for example, representing a decision taken by an attacker based on what had
+already happened. In later work, \citeauthor{stocker2014secsy} detail the
+technical aspects of SecSY, their tool for implementing the generation of
+synthetic logs which use their technique~\cite{stocker2013secsy} to represent
+security violations security-critical business processes. A Java implementation
+of SecSY is described, which simulates well-structured models and applies
+mathematically-defined transformations on the model being simulated (before
+simulation occurs) and the logs obtained through simulation traces. An
+improvement on earlier work is that custom transformers can be written. However,
+a limitation of the original work remains, which is that users cannot easily
+dictate the degree to which variations are applied.
+
+
+\citeauthor{pourmasoumi2015business} also address the need for access to
+variations on business processes, though for the development of a research
+field, ``cross-organisational process mining''\cite{pourmasoumi2015business}.
+Process mining can require many process logs, as does the benchmarking and
+evaluation of process mining techniques. Traces from business processes which
+are similar but not identical can produce log traces which reflect that
+similarity, but also reflect the variations in different instances of those
+processes. These log traces exhibiting can be used in the training and analysis
+of process mining tooling and techniques, which must contend with natural
+variation present in the execution of real-world traces. To support the field,
+log trace generation from a variety of process models is therefore required.
+Such logs are not in adequate supply, as explained in
+\cref{subsec:variation_sm_motivations}. The authors' approach to the problem is
+to present an algorithm for the mutation of business processes, such that
+simulation against variations of the business process can produce process logs
+reflecting those variations. Their algorithm makes use of structure tree
+representations of processes, which models processess as trees and permits
+conversion to BPMN models and petri-nets~\cite{buijs2014flexible}.
+\citeauthor{pourmasoumi2015business} make use of this constraint to demonstrate
+that their models are block-structured, a mathematical constraint on model
+structure which 95\% of models are shown to comply with~\cite{chenthesis}. Their
+contribution is a set of transformations on structure trees and block-structured
+models, and an algorithm applying these transformations to process models, and a
+tool which implements it built on PLG, a process log generation tool. They
+conclude that tools such theirs can be used to generate log traces representing
+process variation, in such a manner as to satisfy the requirements of the
+process mining research community.
+
+\citeauthor{pourmasoumi2015business} describe a list of transformations they
+explain is \textquote{not intended to be
+comprehensive}~\cite{pourmasoumi2015business}, which makes its full potential
+unclear. Additionally, processes their tool applies to must be block-structured.
+The importance of this requirment is that it limits their technique to business
+process models. It is not demonstrated that models of processes in other domains
+satisfy the condition, such as the flow of data~\cite{obashimethodology} or
+behaviour of human or technical actors in \sociotechnical
+systems~\cite{wallis2018caise}. Finally, the tool is limited by its lack of
+capacity to represent variations which are applied contingent on system state. A
+use case for modelling behavioural variance is to model changes which are
+impossible to anticipate from the vantage of a modeller, such as a
+\sociotechnical system's human actors' mistakes, security exceptions and
+violations, or corrective actions to mitigate undesirable system state.
+\citeauthor{pourmasoumi2015business}'s tool produces variations on a process
+model, but modelling behaviour which is expected to vary within iterations of
+the \emph{same} model is outwith the scope of their project.
+\inline{Shugurov \& Mitsyuk's work should follow this. REVIEW IT.}
+
+
+%% Shugurov & Mitsyuk here
+% Mitsyuk_2016
+% shugurov2014generation
+
+
+\citeauthor{Machado_2011} note that there are operational costs to the
+inefficient modelling of business processes. Specifically, they note that
+processes can be replicated across automated processes, and failure to identify
+such scenarios give rise to these operational costs. This work's core motivation
+is that the representation of variation in process models would allow for the
+capture of a replicated process once, with instances of similar processes
+described as deviations from that captured blueprint. On this basis,
+\citeauthor{Machado_2011} extend BPMN to support the notion of individual
+processes as transformations of an underlying process, i.e. that a given process
+can sometimes be expressed as a deviation from some pattern, and is therefore
+define-able as the composition of that pattern and a variation upon it. Their
+approach is illustrated through two small, broadly similar business processes
+initially modelled in BPMN and then represented in Haskell, allowing the authors
+to demonstrate their representation of variability as process deviation with
+realistic examples. While the work presented makes no empirical evaluation of
+their technique, \citeauthor{Machado_2011} note that their industrial partner
+responded positively to the research presented in this publication and that
+further technical improvements are to be made (support for around advice, and
+for quantification). They also express an intent to conduct a real-world
+evaluation in the HR domain. While we are unaware of any real-world evaluation
+undertaken by this research time to date, some formal proofs that the
+transformations their tool supports are always well-formed~\cite{machado2012formal}.
 

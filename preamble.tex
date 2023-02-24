@@ -23,6 +23,7 @@
 \usepackage{titletoc}
 \usepackage{csquotes}
 \usepackage{xstring}
+\usepackage{calc}
 
 % Extra colours for listings
 \definecolor{backcolour}{gray}{0.95}
@@ -42,21 +43,27 @@
 
 % Some quote styling changes, modified from https://tex.stackexchange.com/a/468294
 \usepackage[%
-linewidth=1pt,
-middlelinecolor= black,
-middlelinewidth=0.4pt,
-roundcorner=10pt,
-topline = false,
-rightline = false,
-bottomline = false,
-rightmargin=0pt,
-skipabove=0pt,
-skipbelow=0pt,
-leftmargin=-1cm,
-innerleftmargin=1cm,
-innerrightmargin=0pt,
-innertopmargin=0pt,
-innerbottommargin=0pt,
+hidealllines=true,
+leftline=true,
+skipabove=0cm,
+skipbelow=0cm,
+% skipabove=5cm,
+% skipbelow=-10\baselineskip,
+%linewidth=1pt,
+%middlelinecolor= black,
+%middlelinewidth=0.4pt,
+%roundcorner=10pt,
+%topline = false,
+%rightline = false,
+%bottomline = false,
+%rightmargin=0pt,
+%skipabove=\topsep,
+%skipbelow=\topsep,
+%leftmargin=-1cm,
+%innerleftmargin=0.65cm,
+%innerrightmargin=0pt,
+%innertopmargin=0pt,
+%innerbottommargin=0pt,
 ]{mdframed}
 \makeatletter
 %Take the original environment definition and change the leftmargin to 1cm
@@ -65,12 +72,13 @@ innerbottommargin=0pt,
   {\csq@edquote\endgroup}
 \makeatother
 %Hooks
-%Use single spacing, set 10pt font, set quote style curly quotes, and beginning quotes
+%Use single spacing, set 10pt font, set quote style curly quotes, and beginning
+%quotes. Also normalise spacing before and after the quote --- mdframed options
+%don't work for this.
 \renewcommand{\mkbegdispquote}
-    {\begin{mdframed}\fontsize{12pt}{12pt}\setstretch{1.25}\setquotestyle{quote}\textooquote}
+    {\bigskip\begin{mdframed}\fontsize{12pt}{12pt}\setstretch{1.25}\setquotestyle{quote}\textooquote}
 %End displayquote environment with ending quotes
-\renewcommand{\mkenddispquote}{\textcoquote\end{mdframed}}
-
+\renewcommand{\mkenddispquote}{\textcoquote\end{mdframed}\medskip}
 
 % Macros
 % A todo system that is turned off by enabling final mode.
