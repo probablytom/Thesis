@@ -896,6 +896,8 @@ REVIEWED
 ===
 
 
+
+keepit://link?item=37EE871B-B902-4127-8FEC-280FEB0AC122
 @article{kienzle2019unifying,
   title={A unifying framework for homogeneous model composition},
   author={Kienzle, J{\"o}rg and Mussbacher, Gunter and Combemale, Benoit and Deantoni, Julien},
@@ -909,6 +911,9 @@ REVIEWED
 
 ===
 
+
+
+keepit://link?item=B8873B55-901C-4865-9281-BB42F84E63C7
 @inproceedings{kienzle2016vcu,
   title={VCU: the three dimensions of reuse},
   author={Kienzle, J{\"o}rg and Mussbacher, Gunter and Alam, Omar and Sch{\"o}ttle, Matthias and Belloir, Nicolas and Collet, Philippe and Combemale, Benoit and Deantoni, Julien and Klein, Jacques and Rumpe, Bernhard},
@@ -923,6 +928,7 @@ REVIEWED
 ===
 
 SURPRISINGLY well-cited. MUST REVIEW.
+keepit://link?item=74F846E0-038D-452E-A10C-0C9AC022F41C
 @inproceedings{kienzle2009aspect,
   title={Aspect-oriented multi-view modeling},
   author={Kienzle, J{\"o}rg and Al Abed, Wisam and Klein, Jacques},
@@ -957,6 +963,7 @@ SURPRISINGLY well-cited. MUST REVIEW.
 
 
 
+keepit://link?item=D8318297-ACF8-41A4-B30F-F1F3756F6855
 @inproceedings{shugurov2014generation,
   title={Generation of a set of event logs with noise},
   author={Shugurov, Ivan and Mitsyuk, Alexey A},
@@ -965,3 +972,82 @@ SURPRISINGLY well-cited. MUST REVIEW.
   year={2014},
   organization={Федеральное государственное бюджетное учреждение науки Институт системного~…}
 }
+
+===
+
+\citeauthor{filman2000aspect} isolate properties of aspect orientation which
+they assert are definitive of the paradigm~\cite{filman2000aspect}. Specifically, they claim that aspect
+oriented programming should be considered ``quantification'' and
+``obliviousness'':
+
+\begin{blockquote}
+AOP can be understood as the desire to make quantified statements about the
+behaviour of programs, and to have these quantifications hold over programs
+written by oblivious programmers.~[\ldots{}]~We want to be able to say, ``This
+code realises his concern. Execute it whenever these circumstances hold.
+\end{blockquote}
+
+These concepts, alongside ``tangling'' and ``scattering'', became core
+concepts in aspect orientation literature. This is in spite of
+\citeauthor{filman2000aspect} giving no concrete definition of the terms in
+their original paper (nor citing a source for definition). For the purposes of
+this thesis, we therefore provide the following definitions of the terms:
+
+\begin{description}
+  \item[Quantification] is the property of specifying specific points in a
+  program in which that program should change;
+  \item[Obliviousness] is the property of a codebase that it contains no
+  lexical or conceptual reference to advice which might be applied to it, and of
+  the programmer of a target program that their code may be amended by an aspect programmer.
+\end{description}
+
+\citeauthor{filman2000aspect} write about aspect orientation \emph{``qua
+programming language''}, and so theorise around aspect orientation as a paradigm
+independent of a particular instantiation. They are therefore able to arrive at
+conclusions about the paradigm in the abstract, and can identify concerns for
+future investigation for researchers in the field and design goals for
+developers of aspect orientation tooling. They note:
+
+\begin{blockquote}
+Better AOP systems are more oblivious. They minimize the degree to which
+programmers (particularly the programmers of the primary functionality) have to
+change their behavior to realize the benefits of AOP. It's a really nice bumper
+sticker to be able to say, ``Just program like you always do, and we'll be able
+to add the aspects later.'' (And change your mind downstream about your
+policies, and we'll painlessly transform your code for that, too.)
+\end{blockquote}
+
+Whether obliviously designed aspect-oriented systems achieve their intended
+goals empirically is outside the scope of their work, and the lack of empirical
+evidence for this is discussed in \cref{subsec:aop-criticisms}. Claims made such
+as changing one's mind while developing or maintaining a program and having that
+``painlessly transformed'' --- an effect of the aforementioned programmer's
+obliviousness --- is incompatible with earlier writing on modularity.
+\citeauthor{yourdon1979structured} assert~\cite{yourdon1979structured}: 
+
+\begin{blockquote}
+The more that we must know of module B in order to understand module A, the more closely connected A is to B. The fact that we must know something about another module is a priori evidence of some degree of interconnection even if the form of the interconnection is not known. 
+\end{blockquote}
+
+Aspect orientation's critics describe similar incompatibilies with existing
+best-practices~\cite{przybylek2010wrong,Constantinides04aopconsidered}, as well
+as the lack of empirical evidence for the benefits of
+obliviousness~\cite{steimann06paradoxical}. Claims about ``better''
+aspect-oriented systems being more oblivious should therefore be regarded as
+\emph{suggestions} from the literature, and while obliviousness and
+quantification are useful concepts in discussing research in the field. They
+also given context for the research community's perspective that obliviousness
+and quantification are design goals for aspect oriented
+programmers~\cite{AspectCplusplusDesignImp,kell2008survey,aspect oriented
+workflow} (though other researchers suggest they may be best applied in
+moderation~\cite{leavens2007multiple}).
+
+
+
+keepit://link?item=469DC80F-1A7B-4B01-A785-CFAE6AB585F8
+@article{filman2000aspect,
+  title={Aspect-oriented programming is quantification and obliviousness},
+  author={Filman, Robert E and Friedman, Daniel P and Norvig, Peter},
+  year={2000}
+}
+

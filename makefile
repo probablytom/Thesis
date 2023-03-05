@@ -1,8 +1,27 @@
+LTX:=\\include{thesis.tex}
+ifdef nofonts
+LTX:=\\def\\nofonts{fontsdisabled}$(LTX)
+endif
+ifdef reviewnotes
+LTX:=\\def\\reviewnotesintable{reviewnotesincluded}$(LTX)
+endif
+ifdef todonotes
+LTX:=\\def\\todosintable{todosincluded}$(LTX)
+endif
+
 thesis:
-	lualatex thesis
+	echo $(LTX)
+	lualatex $(LTX)
 	biber thesis.bcf
-	lualatex thesis
-	lualatex thesis
+	lualatex $(LTX)
+	lualatex $(LTX)
+	echo $(LTX)
+
+normal:
+	lualatex "\def\nofonts{fontsdisabled}\include{thesis.tex}"
+	biber thesis.bcf 
+	lualatex "\def\nofonts{fontsdisabled}\include{thesis.tex}"
+	lualatex "\def\nofonts{fontsdisabled}\include{thesis.tex}"
 
 clean:
 	-rm *.aux *.bbl *.blg *.log *.gz *.toc */*.aux

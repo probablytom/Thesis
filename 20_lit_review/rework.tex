@@ -33,7 +33,7 @@ do not overlap significantly, meaning that this review must cover segments of
 several parly-related fields. The presented material is eclectic in nature as a
 result. We therefore present context for unfamiliar readers as well as a
 motivating case for the work to follow in three distinct areas, which are, in
-order:
+order\revnote{don't use a description list here, this should be a regular paragraph}:
 
 \begin{description}
 
@@ -140,6 +140,74 @@ definition of pointcuts in AspectJ. AspectJ is compared to other tools for
 aspect orientation and related decompositional paradigms, and the authors are
 explicit about their approach being distinct from metaprogramming in, say,
 Smalltalk or Clojure.
+
+
+\citeauthor{filman2000aspect} isolate properties of aspect orientation which
+they assert are definitive of the paradigm~\cite{filman2000aspect}. Specifically, they claim that aspect
+oriented programming should be considered ``quantification'' and
+``obliviousness'':
+
+\begin{blockquote}
+AOP can be understood as the desire to make quantified statements about the
+behaviour of programs, and to have these quantifications hold over programs
+written by oblivious programmers.~[\ldots{}]~We want to be able to say, ``This
+code realises his concern. Execute it whenever these circumstances hold.
+\end{blockquote}
+
+These concepts, alongside ``tangling'' and ``scattering'', became core
+concepts in aspect orientation literature. This is in spite of
+\citeauthor{filman2000aspect} giving no concrete definition of the terms in
+their original paper (nor citing a source for definition). For the purposes of
+this thesis, we therefore provide the following definitions of the terms:
+
+\begin{description}
+  \item[Quantification] is the property of specifying specific points in a
+  program in which that program should change;
+  \item[Obliviousness] is the property of a codebase that it contains no
+  lexical or conceptual reference to advice which might be applied to it, and of
+  the programmer of a target program that their code may be amended by an aspect programmer.
+\end{description}
+
+\citeauthor{filman2000aspect} write about aspect orientation \emph{``qua
+programming language''}, and so theorise around aspect orientation as a paradigm
+independent of a particular instantiation. They are therefore able to arrive at
+conclusions about the paradigm in the abstract, and can identify concerns for
+future investigation for researchers in the field and design goals for
+developers of aspect orientation tooling. They note:
+
+\begin{blockquote}
+Better AOP systems are more oblivious. They minimize the degree to which
+programmers (particularly the programmers of the primary functionality) have to
+change their behavior to realize the benefits of AOP. It's a really nice bumper
+sticker to be able to say, ``Just program like you always do, and we'll be able
+to add the aspects later.'' (And change your mind downstream about your
+policies, and we'll painlessly transform your code for that, too.)
+\end{blockquote}
+
+Whether obliviously designed aspect-oriented systems achieve their intended
+goals empirically is outside the scope of their work, and the lack of empirical
+evidence for this is discussed in \cref{subsec:aop-criticisms}. Claims made such
+as changing one's mind while developing or maintaining a program and having that
+``painlessly transformed'' --- an effect of the aforementioned programmer's
+obliviousness --- is incompatible with earlier writing on modularity.
+\citeauthor{yourdon1979structured} assert~\cite{yourdon1979structured}: 
+
+\begin{blockquote}
+The more that we must know of module B in order to understand module A, the more closely connected A is to B. The fact that we must know something about another module is a priori evidence of some degree of interconnection even if the form of the interconnection is not known. 
+\end{blockquote}
+
+Aspect orientation's critics describe similar incompatibilies with existing
+best-practices~\cite{przybylek2010wrong,Constantinides04aopconsidered}, as well
+as the lack of empirical evidence for the benefits of
+obliviousness~\cite{steimann06paradoxical}. Claims about ``better''
+aspect-oriented systems being more oblivious should therefore be regarded as
+\emph{suggestions} from the literature, and while obliviousness and
+quantification are useful concepts in discussing research in the field. They
+also given context for the research community's perspective that obliviousness
+and quantification are design goals for aspect oriented
+programmers~\cite{AspectCplusplusDesignImp,kell2008survey,aspect oriented
+workflow} (though other researchers suggest they may be best applied in
+moderation~\cite{leavens2007multiple}).
 
 \subsection{Alternative methods to Aspect Orientation}
 
@@ -268,28 +336,29 @@ existing techniques, specifically Dynamic Dispatch in OOP, provide similar
 benefits without the tradeoff in legibility of a program's intended execution.
 
 
-A similar, but more thorough critique of the aspect oriented paradigm is
-\citeauthor{steimann06paradoxical}'s work in \cite{steimann06paradoxical}. The
-concern in this paper is that the popularity of aspect oriented programming ---
-which was nearly 10 years old at time of publication --- was founded on a
-perception that it assisted in engineering more than it was proof that such
-assistance viable in practice. The author notes that most papers are theoretical
-in their discussion on tooling, that examples were typically repetitive, and
-that the community's discussion concerned more what aspect orientation is good
-for than what it actually is in practice. AOP is compared against OOP, AOP's
-claimed properties and principles are examined in detail, and the impact on
-software engineering is reasoned about from a skeptical perspective, comparing
-claims such as improved modularity against classic papers on the subjects (such
-as Parnas' work on the same). The paper presents a philosophical examination of
-aspect orientation, assessing the paradigm against its purported merits and
-discussing whether we should expect, rationally, that the claims made by the AOP
-research community would hold true. The paper ends noting some benefits of AOP
-that do hold true under rational scruitiny, and notes that the true utility of
-AOP may be very different to those purported by the community. Overall, the
-paper is a philosophical and critical reflection on the state of AOP research
-and the community's zeitgeist at the time, where what it is isn't necessarily
-consistent with claims around what it's useful for. In particular, the author
-sees AOP's promise of unprecedented modularisation as unfulfillable. 
+A similar and more thorough critique of the aspect oriented paradigm can be
+found in \citeauthor{steimann06paradoxical}'s
+\citetitle{steimann06paradoxical}~\cite{steimann06paradoxical}. The concern in
+this paper is that the popularity of aspect oriented programming --- which was
+nearly 10 years old at time of publication --- was founded on a perception that
+it assisted in engineering more than it was proof that such assistance viable in
+practice. The author notes that most papers are theoretical in their discussion
+on tooling, that examples were typically repetitive, and that the community's
+discussion concerned more what aspect orientation is good for than what it
+actually is in practice. AOP is compared against OOP, AOP's claimed properties
+and principles are examined in detail, and the impact on software engineering is
+reasoned about from a skeptical perspective, comparing claims such as improved
+modularity against classic papers on the subjects (such as Parnas' work on the
+same). The paper presents a philosophical examination of aspect orientation,
+assessing the paradigm against its purported merits and discussing whether we
+should expect, rationally, that the claims made by the AOP research community
+would hold true. The paper ends noting some benefits of AOP that do hold true
+under rational scruitiny, and notes that the true utility of AOP may be very
+different to those purported by the community. Overall, the paper is a
+philosophical and critical reflection on the state of AOP research and the
+community's zeitgeist at the time, where what it is isn't necessarily consistent
+with claims around what it's useful for. In particular, the author sees AOP's
+promise of unprecedented modularisation as unfulfillable. 
 
 Similar sentiments are shared by
 \citeauthor{przybylek2010wrong}~\cite{przybylek2010wrong}, who looks to examine aspect oriented
@@ -707,7 +776,8 @@ and simplify the composition of models~\cite{charfi2007ao4bpel}. As business
 processes are inherantly sociotechnical and this thesis presents tooling for and
 results in the modelling and simulation of \sociotechnical systems using
 aspect-oriented techniques, it is important to review this community's
-literature. This field is particularly relevant as work on this project prior to
+literature.\inline{Editing tip from Tim: don't call things "important", this
+implies other things aren't. Rework areas where I do this.} This field is particularly relevant as work on this project prior to
 this thesis' research models software engineering processes that are
 conceptually similar to business process modelling (see \cref{chap:prior_work}),
 and there also eists interest in modelling behavioural variance within the
@@ -1043,3 +1113,107 @@ evaluation in the HR domain. While we are unaware of any real-world evaluation
 undertaken by this research time to date, some formal proofs that the
 transformations their tool supports are always well-formed~\cite{machado2012formal}.
 
+
+% \labelledsec{Discussion}{lit_discussion}
+
+% Points to make here:
+
+% \begin{itemize}
+% \item Aspect orientation allows for a clean separation of concerns. There has
+% been a lot of promising research in the field. 
+% \item However, we lack empirical results which show the paradigm delivers what
+% its original proponents claim.
+% \item Criticism of aspect orientation notes that there is no clear application
+% area for the paradigm (and some areas where it _is_ applied seem unsuitable)
+% \item One promising area of application is in modelling, as demonstrated by its
+% use in business-process modelling literature.
+% \item in addition, in business-process modelling literature we find research
+% motivation for --- and research towards --- the modelling of \emph{variations}
+% on behaviour. These behavioural variations appear well-suited to modelling as
+% aspects, as they typically separate the variation from the domain model in which
+% variation is observed, and a given variation might occur in many areas of a
+% model. 
+% \item However, projects modelling these variations do not support contingently
+% applied behavioural variation.
+% \item Also lacking in the literature is a method for applying transformations
+% \emph{within} a process using aspects. Aspect orientation techniques apply
+% alterations before, after, or around their targets.
+% \item We therefore see a need for:
+%     \begin{enumerate}
+%         \item Behavioural variation modelled as aspects
+%         \item Tooling supporting a more ``natural'' representation of variation,
+%         i.e. a variation of a process applied to that process (rather than
+%         additional behaviour appended to its start or finish)
+%         \item Contingent behavioural variation, i.e. variations applied during
+%         simulation execution
+%         \item Empirical evidence that aspect oriented models:
+%         \begin{enumerate}
+%             \item Allow separation of behavioural variance into aspects
+%             \item Allow new modelling techniques, such as
+%             compositionally-defined hypothesised behaviour
+%             \item Provide the typically defined benefits of aspect orientation,
+%             i.e. reusable components in different modelling scenarios (i.e.
+%             aspects are ``oblivious'' to the codebase they are applied to)
+%         \end{enumerate}
+%         \item In addition, we must be certain that a model with variations
+%         applied still represent the originally specified model. That is to say,
+%         we want to fulfil the opportunities observed in the literature, while
+%         demonstrating that applying variation to a model in order to more
+%         realistically represent its domain (a model of human behaviour including
+%         varied behaviour the mistakes we'd expect to see exhibited by human
+%         actors is arguably more ``realistic'' than one without those mistakes)
+%         can be done in a ``safe'' way, i.e. modifying the model programmatically
+%         does not change the model in a way which makes it \emph{less} reflective
+%         of reality by mistake.
+%     \end{enumerate}
+% \end{itemize}
+
+% The underlying hypothesis is:
+
+% # Aspect orientation is well suited to modelling behavioural variations
+
+% In order to investigate this hypothesis, we must investigate:
+
+% ## Can we modify a model while keeping it at least as plausibly realistic as the
+% original (if not more so)?
+% ## Can aspect orientation provide the benefits claimed in the paradigm's
+% literature in the simulation and modelling domain?
+
+% To support those investigations, we need:
+
+% ## A suitable system to model in which we can assert the ``realism'' of a model
+% before and after the application of variance
+% ## Aspect oriented tooling which supports application of behavioural variation
+% ## Ideally also, aspect oriented tooling which addresses the shortcomings of
+% other aspect orientation frameworks (no ``inside'' join point, engineering
+% difficulties such as obliviousness' impact on legibility)
+
+
+
+% Old research questions were:
+
+% 1. Can we fit model details per-player to get realistic player behaviour?
+% 2. Can we cluster based on accuracy of different models for each player?
+% 3. Can we generate predictive data for unseen models?
+
+% The contributions we want to demonstrate are:
+
+% 1. Behavioural variation is well-represented by aspect orientation
+% 2. Tooling which makes modelling behavioural variation feasible using aspect
+% orientation
+% 3. Tooling which improves on aspect orientation's shortcomings
+%     (to make AOP more viable to apply to s&m in practice)
+% 4. Showing that data produced by aspects is model-specific 
+
+
+% First draft new research questions:
+
+% 1. Can we demonstrate that a model of human actors can be made realistic through
+% aspect oriented behavioural variation (rather than breaking the model's
+% representation of its domain)?
+% 2. Can we demonstrate that our aspects represent real-world variation? (by
+% clustering, we demonstrate that many people exhibit the _same_ changes, but not
+% everybody does, i.e. the aspect accurately represents a subset of our modelled
+% actors)
+% 3. Can aspects applied successfully to one model be expected to see the same
+% success when applied to other models?

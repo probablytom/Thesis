@@ -2,8 +2,16 @@
 \documentclass[12pt]{good_template}
 
 
-\include{fontwork}
+% \include{fontwork}
 \include{preamble}
+\newcommand{\fonts}{\include{fontwork}}
+
+\ifdefined\nofonts
+    \newcommand{\pointno}[1]{{#1.}}
+\else
+    \include{fontwork}
+\fi
+
 
 \begin{document}
 \maketitle

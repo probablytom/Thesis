@@ -35,11 +35,11 @@
 
 
 
-% For inline todos...nicked from https://tex.stackexchange.com/a/219354
-\makeatletter
-\usepackage{regexpatch}
-\xpatchcmd{\@todo}{\setkeys{todonotes}{#1}}{\setkeys{todonotes}{inline,#1}}{}{}
-\makeatother
+% % For inline todos...nicked from https://tex.stackexchange.com/a/219354
+% \makeatletter
+% \usepackage{regexpatch}
+% \xpatchcmd{\@todo}{\setkeys{todonotes}{#1}}{\setkeys{todonotes}{inline,#1}}{}{}
+% \makeatother
 
 % Some quote styling changes, modified from https://tex.stackexchange.com/a/468294
 \usepackage[%
@@ -85,8 +85,27 @@ skipbelow=0cm,
 \makeatletter
 \@ifclasswith{good_template}{final}
 {\newcommand{\inline}[1]{}}
-{\newcommand{\inline}[1]{{\color{red}{#1}}\addcontentsline{tdo}{todo}{#1}{}}}
+{\newcommand{\inline}[1]{
+  {\color{red}{#1}}
+  \ifdefined\todosintable
+    \addcontentsline{tdo}{todo}{\emph{Todo: }#1}{}
+  \fi
+}}
+
+\@ifclasswith{good_template}{final}
+{\newcommand{\revnote}[1]{}}
+{\newcommand{\revnote}[1]{
+  % {\color{blue}{#1}}
+  \todo[nolist,size=\normalsize]{#1}
+  \ifdefined\reviewnotesintable
+    \addcontentsline{tdo}{todo}{\color{blue}{\emph{Review: }#1}}{}
+  \fi
+}}
 \makeatother
+
+% Also, make sure todonotes don't fall off the margin
+\setlength{\marginparwidth}{2cm}
+
 
 \newcommand{\labelledsec}[2]{\section{#1}\label{sec:#2}}
 \newcommand{\labelledsubsec}[2]{\subsection{#1}\label{subsec:#2}}
