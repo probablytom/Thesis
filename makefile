@@ -2,10 +2,10 @@ LTX:=\\include{thesis.tex}
 ifdef nofonts
 LTX:=\\def\\nofonts{fontsdisabled}$(LTX)
 endif
-ifdef reviewnotes
+ifndef noreviewnotes 
 LTX:=\\def\\reviewnotesintable{reviewnotesincluded}$(LTX)
 endif
-ifdef todonotes
+ifndef notodonotes
 LTX:=\\def\\todosintable{todosincluded}$(LTX)
 endif
 
