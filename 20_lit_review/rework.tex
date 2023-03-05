@@ -1044,11 +1044,11 @@ Process mining can require many process logs, as does the benchmarking and
 evaluation of process mining techniques. Traces from business processes which
 are similar but not identical can produce log traces which reflect that
 similarity, but also reflect the variations in different instances of those
-processes. These log traces exhibiting can be used in the training and analysis
-of process mining tooling and techniques, which must contend with natural
-variation present in the execution of real-world traces. To support the field,
-log trace generation from a variety of process models is therefore required.
-Such logs are not in adequate supply, as explained in
+processes. These log traces exhibiting variation can be used in the training and
+analysis of process mining tooling and techniques, which must contend with
+natural variation present in the execution of real-world traces. To support the
+field, log trace generation from a variety of process models is therefore
+required. Such logs are not in adequate supply, as explained in
 \cref{subsec:variation_sm_motivations}. The authors' approach to the problem is
 to present an algorithm for the mutation of business processes, such that
 simulation against variations of the business process can produce process logs
@@ -1114,15 +1114,146 @@ undertaken by this research time to date, some formal proofs that the
 transformations their tool supports are always well-formed~\cite{machado2012formal}.
 
 
-% \labelledsec{Discussion}{lit_discussion}
+\labelledsec{Discussion}{lit_discussion}
 
 % Points to make here:
 
 % \begin{itemize}
 % \item Aspect orientation allows for a clean separation of concerns. There has
 % been a lot of promising research in the field. 
+Aspect orientated programming is designed to permit highly modular software
+engineering in scenarios where cross-cutting concerns are identified, by
+isolating them as separate modules~\cite{kiczales1997aspect}. The aim in
+employing aspect oriented programming is to reduce tangling, where a
+cross-cutting concern is intertwined within a program's main concern, and
+scattering, where the same cross-cutting concern is re-written at many points in
+a program's source. Aspects which modularise that concern can be written once,
+separately from a program's main concern, and re-introduced to each point in a
+program to which the aspect relates by way of weaving. An aspect-orientation
+framework must therefore be able to quantify the points at which the aspect
+applies~\cite{filman2000aspect}. Aspects specify both advice (the implementation
+of its associated cross-cutting concern) and the join point defining where in a
+target program that advice should be woven. Aspect orientation therefore implies
+that the source aspects are applied to are oblivious to their
+application~\cite{filman2000aspect}.
+
 % \item However, we lack empirical results which show the paradigm delivers what
 % its original proponents claim.
+In theory, the design of the paradigm is such that it should be expected to
+increase modularity in the software applying
+it~\cite{kiczales1997aspect,filman2000aspect}\inline{more citations}, and its
+proponents often claim this modularity as a benefit of the aspect-oriented
+approaches of their
+research~\cite{gilani2004family,charfi2007ao4bpel,Cappelli_AOBPM,jalali2012aspect,chibani2013toward}.
+However, its critics question the reasoning around these benefits, and note that
+there is little empirical study into whether aspect oriented programs truely
+benefit as a result of this
+modularity~\cite{Constantinides04aopconsidered,steimann06paradoxical,przybylek2010wrong}.
+
+% Lead into variance and why there's potential for aop to work, although we'd
+% need some kind of empirical proof that it did, partly becaue of aop's track
+% record and partly because we'd be automatically rewriting models so they might
+% not reflect what their authors intended anymore if we're not careful.
+One appropriate application area may be in the representation of behavioural
+variation in simulation and modelling. The application of aspects to models is
+already well-studied~\cite{DEVSaspectorientation2008aksu,chibani2013toward},
+particularly within aspect-oriented business process
+modelling~\cite{charfi2007ao4bpel,Cappelli_AOBPM,jalali2012aspect}, where
+modelling behavioural variation has also seen some prior
+research~\cite{Machado_2011,stocker2013secsy,pourmasoumi2015business,ExecutableBPMNMitsyuk}. 
+Outside of business process modelling, aspect orientation would reasonably be
+expected to support the development and observation of models
+themselves~\cite{gulyas1999use}. 
+
+Research opportunities at the intersection of aspect orientation and the
+modelling behavioural variation occur because behavioural variation is an
+example of a cross-cutting concern. Changes to expected behaviour such as
+laziness, boredom, confusion or misunderstanding can impact many parts of a
+process in a \sociotechnical system, but modelling the variation caused by any
+one of these requires similar alterations to behaviour in many
+disparate parts of the model the occur within. Behavioural variations are
+therefore both scattered and tangled, and constitute a cross-cutting concern
+which might be well suited to modularisation in aspects.
+
+% NEXT: note the weaknesses in existing work and what needs to be done to show
+% that AOP and behavioural variation in S&M do work well together.
+Existing aspect orientation techniques and behavioural variation modelling
+techniques are ill-equipped to take advantage of this alignment. That behaviour
+changes when it varies is tautological; however, changes supported by existing
+aspect orientation techniques weave advice before, after, or around their join
+points, and therefore do not alter the definition itself. In some systems, some
+variations may be repesentable as additions inserted before and/or after some
+other behaviours, but such techniques are unsuitable for representing
+modifications of the target behaviour itself, or behaviours which should be
+omitted instead of added. Additionally, join points available to an aspectual
+programmer may not be granular enough to permit representing the changes they
+require in such as system, and aspect orientation's principle of obliviousness
+opposes the modification of target code to make new join points available.
+Techniques which would directly rewrite target source are typically extremely
+low-level, and therefore ill-suited to most modelling
+applications~\cite{keller1998binary}. Other techniques which permit defining
+changes to processes at a high level may allow a modeller to \emph{describe}
+intended changes (such as the high-level annotations supported in
+AOPML~\cite{Cappelli_AOBPM}), but such techniques are intended for human
+interpretation, not machine execution for simulation purposes. These techniques
+permit describing behavioural variation within another process, but only by
+virtue of the flexibility of natural-language annotation, and are therefore
+unsuitable for simulation and modelling purposes.
+
+Such techniques also lack executable notion of ``state''. Real-world behavioural
+variance can often be contingent on the environment an actor exists within.
+While variations such as security breaches might be predictable (by identifying
+weaknesses in existing processes, for example), variance in \sociotechnical
+systems often occurs in the behaviour of human actors. This might be in response
+to a degraded mode~\cite{johnson2007degradedmodes}, where behaviour naturally
+drifts to a functional --- but undesirable --- state, or due to an individual
+making a mistake, forgetting procedure, or being in a state which alters their
+behaviour, such as tiredness or drunkenness~\cite{aranTheatreThesis}. A
+framework for modelling behavioural variation using aspects should therefore
+apply that aspect to a simulated system contingent on the state of that system
+at a given point in time. High-level modelling technologies such as BPMN and OPM
+are executable~\cite{ExecutableBPMNMitsyuk,opm_original} but it is not trivially
+evident that executable versions of these technologies are compatible with
+aspect-oriented modifications of their modelling
+language~\cite{charfi2010AO4BPMN,Cappelli_AOBPM}. As noted, low-level program
+transformation technologies are also unsuitable. Techniques for applying
+variations to models exist, but are unsuitable for simulation (and therefore
+cannot represent application based on temporal state)~\cite{stocker2013secsy},
+produce individual models representing each possible instance of a
+variation~\cite{pourmasoumi2015business}, do not support the dynamic weaving of
+aspects for contingent behaviour~\cite{Machado_2011}, or attempt to represent
+the changes one would expect in the output of a simulation by executing an
+unmodified simulation and amending its output
+directly~\cite{shugurov2014generation}. None of these techniques are suitable
+for representing a behavioural change which is applied contingent on state.
+Incidentally, these techniques for modelling behavioural variation also lack
+support for the alteration of a process definition, or changes ``inside'' a
+process definition, as discussed earlier, which also makes them unsuitable for
+simulated behavioural variation.
+
+Should a tool exist which dynamically weaves definitions of behavioural
+variations for contingent application and which is capable of expressing changes
+within a join point rather than before or after it, a challenge would arise as
+to demonstrating the benefits the tool achieves. Contingent application of
+behavioural variation, and the ability to define changes to processes
+specifically, would fulfil the opportunity in marrying aspect-orientation and
+modelling behavioural variation, but the benefit offered by such a tool is
+unclear. The introduction of oblivious modification to a model may break its
+representation of its real-world analogue, making such a model difficult to
+reason about. Added to this is the complexity of the tool's capacity to rewrite
+any join point's definition. Though aspect oriented literature often lacks case
+studies demonstrating the benefits of the approach, it is particularly important
+to investigate whether such a tool could produce realistic models, and whether
+the expected benefits of aspect orientation as applied to the model hold in
+practice. In particular, would engineers benefit from the modularity afforded
+by isolating behavioural variation into an aspect, and would the resulting
+aspectual modules be re-usable when modelling other systems?
+
+\labelledsubsec{Research Questions}{rqs}
+
+Not sure exactly how to write this. Eeep!
+
+
 % \item Criticism of aspect orientation notes that there is no clear application
 % area for the paradigm (and some areas where it _is_ applied seem unsuitable)
 % \item One promising area of application is in modelling, as demonstrated by its
@@ -1156,7 +1287,7 @@ transformations their tool supports are always well-formed~\cite{machado2012form
 %             aspects are ``oblivious'' to the codebase they are applied to)
 %         \end{enumerate}
 %         \item In addition, we must be certain that a model with variations
-%         applied still represent the originally specified model. That is to say,
+%         applied still represents the originally specified model. That is to say,
 %         we want to fulfil the opportunities observed in the literature, while
 %         demonstrating that applying variation to a model in order to more
 %         realistically represent its domain (a model of human behaviour including
