@@ -10,12 +10,10 @@ LTX:=\\def\\todosintable{todosincluded}$(LTX)
 endif
 
 thesis:
-	echo $(LTX)
 	lualatex $(LTX)
 	biber thesis.bcf
 	lualatex $(LTX)
 	lualatex $(LTX)
-	echo $(LTX)
 
 normal:
 	lualatex "\def\nofonts{fontsdisabled}\include{thesis.tex}"
