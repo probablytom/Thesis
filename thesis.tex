@@ -2,11 +2,10 @@
 \documentclass[12pt]{good_template}
 
 
-% \include{fontwork}
 \include{preamble}
-\newcommand{\fonts}{\include{fontwork}}
 
 \ifdefined\nofonts
+    % For enumerated lists, because we have no Concourse Index
     \newcommand{\pointno}[1]{{#1.}}
 \else
     \include{fontwork}

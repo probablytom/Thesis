@@ -1,6 +1,6 @@
 \contentsline {todo}{\emph {Todo: }Explain aspect orientation briefly.}{11}{section.1.1}%
 \contentsline {todo}{\emph {Todo: }find a citation for spring AOP}{11}{section.1.1}%
-\contentsline {todo}{\emph {Todo: }Write a section for the introduction describing the work done on pdsf before this, to delineate where we're starting from and avoid any claims of plagiarism. This can be short, the first sec of the lit review is a proper discussion, but the tool should be mentioned here. See \cref {sec:pdsf_early_work} for what already exists.}{12}{section.1.2}%
+\contentsline {todo}{\emph {Todo: }Write a section for the introduction describing the work done on pdsf before this, to delineate where we're starting from and avoid any claims of plagiarism. This can be short, the first sec of the lit review is a proper discussion, but the tool should be mentioned here. See \cref {sec:pdsf_early_work} for what already exists.}{11}{section.1.2}%
 \contentsline {todo}{\emph {Todo: }Complete the glossary in \cref {sec:glossary}.}{12}{section.1.3}%
 \contentsline {todo}{\emph {Todo: }Decide whether terms like BPMN, simulation \& modelling, etc also belong in the glossary\cref {sec:glossary}.}{12}{section.1.3}%
 \contentsline {todo}{\color {blue}{\emph {Review: }don't use a description list here, this should be a regular paragraph}}{13}{chapter.2}%
@@ -12,40 +12,41 @@
 \contentsline {todo}{\emph {Todo: }Remove the description of tangling and scattering from here and include in a review of more foundational AOP literature early in the lit review. They don't belong buried so far down in this chapter.}{26}{section.2.3}%
 \contentsline {todo}{\emph {Todo: }Editing tip from Tim: don't call things "important", this implies other things aren't. Rework areas where I do this.}{29}{subsection.2.3.1}%
 \contentsline {todo}{\emph {Todo: }Brief intro of the process variance section here}{32}{section.2.4}%
-\contentsline {todo}{\emph {Todo: }Find citation for empirical datasets being the only ones available to researchers, maybe for disaster prevention or similar?}{34}{subsection.2.4.1}%
-\contentsline {todo}{\emph {Todo: }find a citation for simulating different systems for finding an optimal one. Arguably Genetic programming \& hillclimbing do similar things?}{34}{subsection.2.4.1}%
+\contentsline {todo}{\emph {Todo: }Find citation for empirical datasets being the only ones available to researchers, maybe for disaster prevention or similar?}{33}{subsection.2.4.1}%
+\contentsline {todo}{\emph {Todo: }find a citation for simulating different systems for finding an optimal one. Arguably Genetic programming \& hillclimbing do similar things?}{33}{subsection.2.4.1}%
 \contentsline {todo}{\emph {Todo: }Find some nice way to round this subsec out, or refactor so there are no subsecs}{34}{subsection.2.4.1}%
 \contentsline {todo}{\emph {Todo: }Important to acknowledge somewhere in this subsec that synthetic data generation is a well-researched field, but that generating logs from simulations with variance is the specific area relevant to this thesis}{34}{subsection.2.4.1}%
 \contentsline {todo}{\emph {Todo: }Shugurov \& Mitsyuk's work should follow this. REVIEW IT.}{36}{subsection.2.4.2}%
-\contentsline {todo}{\emph {Todo: }more citations}{38}{section.2.5}%
+\contentsline {todo}{\emph {Todo: }more citations}{37}{section.2.5}%
 \contentsline {todo}{\emph {Todo: }Check the most up-to-date pdsf implementation --- is it actually on that backup drive?}{43}{chapter.4}%
 \contentsline {todo}{\emph {Todo: }Consider adding references to the sections through this PDSF chapter, depending on how beefy it becomes\ldots {}}{43}{chapter.4}%
 \contentsline {todo}{\emph {Todo: }Decide whether this needs to be more thoroughly broken up / structured\ldots {}}{47}{subsection.4.2.2}%
 \contentsline {todo}{\emph {Todo: }Include a discussion of \emph {what} gets hooks added using this method\ldots {}}{47}{subsection.4.2.2}%
-\contentsline {todo}{\emph {Todo: }Consider adding local namespace weaving to pdsf3: should be easy to implement as a cheeky little monkey-patch\ldots {}}{49}{subsection.4.2.4}%
+\contentsline {todo}{\emph {Todo: }Consider adding local namespace weaving to pdsf3: should be easy to implement as a cheeky little monkey-patch\ldots {}}{48}{subsection.4.2.4}%
 \contentsline {todo}{\emph {Todo: }Describe the improved process of weaving in PDSF3}{50}{subsection.4.2.5}%
 \contentsline {todo}{\emph {Todo: }Find the newest copy of PDSF3, make a repo for it, cite the new impl}{50}{subsection.4.2.5}%
-\contentsline {todo}{\emph {Todo: }maybe add more kavanagh citations early on!}{53}{chapter.5}%
-\contentsline {todo}{\emph {Todo: }Fix formatting and correct wording of William's hypothesis, and mine below.}{53}{chapter.5}%
-\contentsline {todo}{\emph {Todo: }The naive version \emph {does} do random play...right?}{53}{chapter.5}%
-\contentsline {todo}{\emph {Todo: }cref the chapters on specific experiments at the beginning of the RPGLite chapter.}{54}{chapter.5}%
-\contentsline {todo}{\emph {Todo: }Add an outline of the RPGLite chapter here.}{54}{chapter.5}%
-\contentsline {todo}{\emph {Todo: }Cite the correct paper for the game blaancing!}{55}{section.5.1}%
-\contentsline {todo}{\emph {Todo: }Cite William's PhD thesis for explaining RPGLite design.}{55}{section.5.1}%
-\contentsline {todo}{\emph {Todo: }Cite William's thesis here for client-side development notes}{59}{subsection.5.2.1}%
-\contentsline {todo}{\emph {Todo: }Insert client-side photos here, maybe William's photos of the design changing over time...?}{59}{subsection.5.2.1}%
-\contentsline {todo}{\emph {Todo: }MORE HERE?!}{60}{subsection.5.2.2}%
-\contentsline {todo}{\emph {Todo: }Find the exact number of games analysed}{60}{section.5.3}%
-\contentsline {todo}{\emph {Todo: }Confirm moves made includes timestamps, I'm sure it does}{60}{section.5.3}%
-\contentsline {todo}{\emph {Todo: }Confirm that games include both ELO before and after the game is played.}{60}{section.5.3}%
-\contentsline {todo}{\emph {Todo: }Cite William's PhD thesis}{61}{chapter.6}%
-\contentsline {todo}{\emph {Todo: }There must be tons of good citations for aspects being used to compose together a simulation / model}{61}{section.6.1}%
-\contentsline {todo}{\emph {Todo: }Add a cross-reference to the chapter on cross-cutting concern simulation accuracy when it exists}{62}{section.6.1}%
-\contentsline {todo}{\emph {Todo: }maybe cut this list of reasons PyDySoFu is fantastic...}{63}{subsection.6.1.1}%
-\contentsline {todo}{\emph {Todo: }TODO FINISH WRITING ABOUT THE NAIVE MODEL'S STEPS}{66}{section.6.2}%
-\contentsline {todo}{\emph {Todo: }Write about \emph {both} aspects so as to answer the hypothesis : Can aspects be used to generate models of alternative behaviours?}{67}{section.6.3}%
-\contentsline {todo}{\emph {Todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{71}{chapter.8}%
-\contentsline {todo}{\emph {Todo: }Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scapbook of ideas!}{71}{chapter.8}%
-\contentsline {todo}{\emph {Todo: }cite the thesis here of Jeremy's student who worked in Python. He was very nice --- can't remember his name for the life of me.}{72}{subsection.8.1.1}%
-\contentsline {todo}{\emph {Todo: }Would be nice to have a third reason as to why PyDySoFu introduces new research possibilities.}{72}{subsection.8.1.1}%
-\contentsline {todo}{\emph {Todo: }cite William's PhD here}{74}{section.8.2}%
+\contentsline {todo}{\emph {Todo: }maybe add more kavanagh citations early on!}{51}{chapter.5}%
+\contentsline {todo}{\emph {Todo: }Fix formatting and correct wording of William's hypothesis, and mine below.}{51}{chapter.5}%
+\contentsline {todo}{\emph {Todo: }The naive version \emph {does} do random play...right?}{51}{chapter.5}%
+\contentsline {todo}{\emph {Todo: }cref the chapters on specific experiments at the beginning of the RPGLite chapter.}{52}{chapter.5}%
+\contentsline {todo}{\emph {Todo: }Add an outline of the RPGLite chapter here.}{52}{chapter.5}%
+\contentsline {todo}{\emph {Todo: }Cite the correct paper for the game blaancing!}{53}{section.5.1}%
+\contentsline {todo}{\emph {Todo: }Cite William's PhD thesis for explaining RPGLite design.}{53}{section.5.1}%
+\contentsline {todo}{\emph {Todo: }Cite William's thesis here for client-side development notes}{56}{subsection.5.2.1}%
+\contentsline {todo}{\emph {Todo: }Insert client-side photos here, maybe William's photos of the design changing over time...?}{57}{subsection.5.2.1}%
+\contentsline {todo}{\emph {Todo: }MORE HERE?!}{57}{subsection.5.2.2}%
+\contentsline {todo}{\emph {Todo: }Find the exact number of games analysed}{58}{section.5.3}%
+\contentsline {todo}{\emph {Todo: }Confirm moves made includes timestamps, I'm sure it does}{58}{section.5.3}%
+\contentsline {todo}{\emph {Todo: }Confirm that games include both ELO before and after the game is played.}{58}{section.5.3}%
+\contentsline {todo}{\emph {Todo: }Cite William's PhD thesis}{59}{chapter.6}%
+\contentsline {todo}{\emph {Todo: }There must be tons of good citations for aspects being used to compose together a simulation / model}{59}{section.6.1}%
+\contentsline {todo}{\emph {Todo: }Add a cross-reference to the chapter on cross-cutting concern simulation accuracy when it exists}{60}{section.6.1}%
+\contentsline {todo}{\emph {Todo: }maybe cut this list of reasons PyDySoFu is fantastic...}{61}{subsection.6.1.1}%
+\contentsline {todo}{\emph {Todo: }TODO FINISH WRITING ABOUT THE NAIVE MODEL'S STEPS}{64}{section.6.2}%
+\contentsline {todo}{\emph {Todo: }Write about \emph {both} aspects so as to answer the hypothesis : Can aspects be used to generate models of alternative behaviours?}{65}{section.6.3}%
+\contentsline {todo}{\emph {Todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{69}{chapter.8}%
+\contentsline {todo}{\emph {Todo: }Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scapbook of ideas!}{69}{chapter.8}%
+\contentsline {todo}{\emph {Todo: }cite the thesis here of Jeremy's student who worked in Python. He was very nice --- can't remember his name for the life of me.}{70}{subsection.8.1.1}%
+\contentsline {todo}{\emph {Todo: }Would be nice to have a third reason as to why PyDySoFu introduces new research possibilities.}{70}{subsection.8.1.1}%
+\contentsline {todo}{\emph {Todo: }cite William's PhD here}{72}{section.8.2}%
+\contentsline {todo}{\emph {Todo: }Duplicate citation to clean up}{81}{chapter*.3}%
