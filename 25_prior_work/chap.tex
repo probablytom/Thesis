@@ -74,7 +74,19 @@ to a simple list of more granular behaviours, such as a behaviour with a looping
 quality. 
 
 With a mechanism to rewrite either an implementation of a behaviour or a
-collection of behaviours (in the less granular functions mentioned), the
+collection of behaviours (in the less granular functions mentioned), modelling
+in such a fashion could therefore lend itself to semantically simple
+metaprogramming that could represent real-world variations in behaviour.
+However, largely for reasons discussed in \cref{sec:variation_sm_motivations},
+metaprogramming for representing realistic behavioural variations in
+\sociotechnical simulations should be able to take advantage of system state.
+Many real-world behaviours are contingent on environmental state. Real-world
+actors in \sociotechnical systems might become tired after lots of work, or
+proportionally to time of day within a simulation. Therefore, the
+metaprogramming as described should be performed during runtime, for which no
+suitable candidate was available. \pdsf was developed to fulfil this
+requirement, so that behavioural variance in \sociotechnical simulation could be
+modelled as described and subsequently studied.
 
 \subsection{\pdsf{}'s Implementation and Features}
 
@@ -85,15 +97,99 @@ collection of behaviours (in the less granular functions mentioned), the
 % class' built-in \lstinline{__getattribute__()} method with a new one, which
 % calls the original to acquire the required attribute. 
 
-Core aspect orientation concepts include join points, aspects, and advice.
+Aspect orientation's core concepts include join points, aspects, and advice.
 \pdsf was not originally designed with aspect orientation in mind --- though its
 design aligned with aspect oriented design in many ways --- and implemented
-analogues of these concepts using fundamental Python concepts. In particular, it
-used Python's decorators to specify join points (and the advice to be applied to
-them).
-The intended use of \pdsf{}'s original implementation was that a decorator,
-\lstinline{@fuzz()}, could be used to annotate a function which might undergo
-variation at runtime.
+\emph{analogues} of these concepts using fundamental Python concepts. In
+particular, it used Python's decorators to specify join points (and the advice
+to be applied to them). The intended use of \pdsf{}'s original implementation
+was that a decorator, \lstinline{@fuzz()}, could be used to annotate a function
+which might undergo variation at runtime.
+
+Python decorators annotate function definitions. They are also
+functions\footnote{Decorators can also be defined in other ways, such as
+callable classes, but this is unimportant for the explanation at hand. While it
+is a simplification of the technical details of Python decorators, for the
+purpose of a clear example we will consider decorators to be functions
+specifically.}, which accept a function as an argument and return a function.
+Decorators transform the functions they annotate: any function with a decorator
+applied to its definition is passed to that decorator as an argument immediately
+after compilation. The function returned by the decorator is used as the final
+value of the original function's compilation, i.e. when compiling a function
+\lstinline{f} annotated by a decorator \lstinline{d}, the value referenced by
+the symbol ``\lstinline{f}'' is \lstinline{d(f)}.
+
+\begin{figure}[h]\label{decorator_simple_explanation}
+    \begin{center}
+        \begin{lstlisting}
+def example_decorator(annotated_func):
+    def _wrapped_func(*args, **kwargs):
+        print("Running a decorated function")
+        to_return = annotated_func(*args, **kwargs)
+        print("Decorated function has returned")
+        return to_return
+    return _wrapped_func
+
+@example_decorator
+def add(a, b):
+    return a + b
+
+print(add(5, 6))
+        \end{lstlisting}
+    \end{center}
+    \caption{Python code implementing a simple decorator.}
+\end{figure}
+
+
+\Cref{decorator_simple_explanation} contains a simple example, where the
+function \lstinline{add} is annotated by a decorator, called
+\lstinline{example_decorator}. The relevant compilation and execution steps of
+running the code outlined in the \cref{decorator_simple_explanation} is as
+follows:
+
+\begin{enumerate}
+    \item The first function definition, \lstinline{example_decorator}, is
+    compiled and the resulting function object is placed in the variable
+    namespace as ``\lstinline{example_decorator}''.
+    \item \lstinline{add} is compiled, producing a function object. However,
+    this function object is not the object which is eventually available in the
+    variable namespace as the symbol, ``\lstinline{add}'', because its
+    definition is annotated by \lstinline{@example_decorator}.
+    \item \lstinline{example_decorator} is invoked, and the argument it is
+    passed is the function object compiled in step \pointno{2}.
+    \item Executing \lstinline{example_decorator} produces another function
+    object, named ``\lstinline{_wrapped_func}'' in the local namespace, and
+    returned. When executed, this function will print
+    ``\lstinline{Running a decorated function}'',
+    executes the function ``\lstinline{annotated_func}''
+    (which is \lstinline{add} in this invocation), and finally prints
+    ``\lstinline{Decorated function has returned}'', preserving and returning
+    the values returned by the invocation to \lstinline{annotated_func} (here
+    \lstinline{add}). Note that all arguments to \lstinline{_wrapped_func} are
+    passed to \lstinline{annotated_func} (here \lstinline{add}), meaning that
+    the function object produced in this process is agnostic as to the arguments
+    it is invoked with.
+    \item When the decorator returns, the compilation of \lstinline{add} is
+    complete. The function object returned by the decorator,
+    \lstinline{_wrapped_func}, is added to the namespace as the symbol
+    ``\lstinline{add}''. Future references to ``\lstinline{add}'' will resolve
+    to this function object.
+    \item In the final line, when \lstinline{add} is called, the function
+    object \lstinline{_wrapped_func} is invoked with the arguments \lstinline{5}
+    and \lstinline{6}. It outputs: \begin{blockquote}
+    Running a decorated function
+    Decorated function has returned
+    11
+    \end{blockquote}
+\end{enumerate}
+
+Python decorators can be used to append functionality to the beginning or end of
+a function invocation by adding business logic in place of the first and second
+print statements within \lstinline{_wrapped_func} respectively. However, if the
+the function provided as an argument could be rewritten, and the rewritten
+function returned, then the returned function \inline{REWORK THIS PARA AND
+FINISH DISCUSSING PDSF's ORIGINAL TECHNICAL DEFINITION. EVERYTHING BELOW THIS IS
+FROM THE INITIAL DRAFT OF THE THESIS.}
 
 % The variation to be applied was represented as a function
 % which took a list of ``steps'' and returned a new list of those steps, represent
@@ -209,6 +305,8 @@ execution\footnote{Similarly to \cref{subsec:bca}, but in an aspect oriented
 manner.}. Moreover, because weaving is performed dynamically, every execution of
 a function may perform different operations.
 
+% change to a comparison between this and the lit, what are the limitations of
+% this approach, etc.
 \subsection{Opportunities presented by PyDySoFu}
 
 PyDySoFu presented several oppportunities for future research. Some salient
