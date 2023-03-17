@@ -1,0 +1,17 @@
+{"rule":"ADVERB_WORD_ORDER","sentence":"^\\QThey conclude that the benefits touted by AOP are a myth repeated often enough to be believed, but point to many papers which suggest improvements to the standard AOP approach which might reduce it's negative impact or make it more practically viable.\\E$"}
+{"rule":"THE_SENT_END","sentence":"^\\QNotably, the implementation discussed is a Java implementation, rather than the .\\E$"}
+{"rule":"SENTENCE_WHITESPACE","sentence":"^\\QNet implementation presented in \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QThe definition defines “AOBPMN”, a formalised dialect of BPMN supporting aspect orientation with precedence.\\E$"}
+{"rule":"SO_AS_TO","sentence":"^\\QProcess changes might describe attempts to circumvent security protocols, laziness or confusion in a human actor within the model, or random “noise” so as to produce synthetic log traces containing aberrations which mimic those found in noisy empirical datasets.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QDiscussion of Variation & Motivations for Variations in Process Models variation_sm_motivations\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QRepresenting Variations in Process Models and their Outputs variations_in_sm\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_RULE","sentence":"^\\QA weakness of the work is that model and trace modifications are relatively rudimentary: processes can be added or removed, but complex graph transformations are presumably only permissible when representable through the composition of the mutation primitives they provide, on which there are only three for processes: swapping AND and XOR definitions of process gateways, and swapping process order.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QResearch Questions rqs\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QEeep!\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QProcess Variance in Simulation & Data Generation dynamism_in_sm\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QAspect Orientation & Business Process Modelling ao_and_bpm_review\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QThey find that AOP provides an intuitive and straightforward method by which simulated experimental systems can be composed, and that MAML's simplicity and its philosophy on modelling are more “satisfactory” than Swarm's standard approach, though the paper betrays that its implementation was more complex than initially conceived: the patch unix tool was intended for use as their weaver, though the team eventually developed a transpiler from MAML to Swarm instead (which they name xmc.).\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QThey also call for more generally theoretical AOP research, which mirrors the requests some critics of aspect orientation reasearch make (as noted in \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q).\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QAspect Orientation in Simulation & Modelling ao_and_modelling\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QCriticisms of aspect-oriented programming aop-criticisms\\E$"}
+{"rule":"NON_STANDARD_WORD","sentence":"^\\QAn “aspect” is constructed by composing this advice with “point cut”s: sets of join points that define all moments in program execution where associated advice is intended to be invoked.\\E$"}

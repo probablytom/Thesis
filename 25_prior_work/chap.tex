@@ -88,7 +88,7 @@ suitable candidate was available. \pdsf was developed to fulfil this
 requirement, so that behavioural variance in \sociotechnical simulation could be
 modelled as described and subsequently studied.
 
-\subsection{\pdsf{}'s Implementation and Features}
+\section{\pdsf{}'s Implementation and Features}
 
 % The original implementation of \pdsf patched Python classes with
 % additional functionality. Attributes of Python objects are usually retrieved using
@@ -103,8 +103,10 @@ design aligned with aspect oriented design in many ways --- and implemented
 \emph{analogues} of these concepts using fundamental Python concepts. In
 particular, it used Python's decorators to specify join points (and the advice
 to be applied to them). The intended use of \pdsf{}'s original implementation
-was that a decorator, \lstinline{@fuzz()}, could be used to annotate a function
-which might undergo variation at runtime.
+was that a decorator, called \lstinline{@fuzz()}, could be used to annotate a
+function which might undergo variation at runtime.
+
+\labelledsubsec{Python Decorators}{decorators_explained}
 
 Python decorators annotate function definitions. They are also
 functions\footnote{Decorators can also be defined in other ways, such as
@@ -176,7 +178,7 @@ follows:
     to this function object.
     \item In the final line, when \lstinline{add} is called, the function
     object \lstinline{_wrapped_func} is invoked with the arguments \lstinline{5}
-    and \lstinline{6}. It outputs: \begin{blockquote}
+    and \lstinline{6}. It outputs:\inline{Fix blockquote formatting} \begin{blockquote}
     Running a decorated function
     Decorated function has returned
     11
@@ -186,10 +188,77 @@ follows:
 Python decorators can be used to append functionality to the beginning or end of
 a function invocation by adding business logic in place of the first and second
 print statements within \lstinline{_wrapped_func} respectively. However, if the
-the function provided as an argument could be rewritten, and the rewritten
-function returned, then the returned function \inline{REWORK THIS PARA AND
-FINISH DISCUSSING PDSF's ORIGINAL TECHNICAL DEFINITION. EVERYTHING BELOW THIS IS
-FROM THE INITIAL DRAFT OF THE THESIS.}
+function provided as an argument could be rewritten, and the rewritten function
+returned, then the returned function would literally be a variation of the one
+the decorator was applied to. Using this mechanism, the original incarnation of
+\pdsf can introduce \emph{procedural} variance into a program. When applied to a
+model of behaviour as previously described, procedures model behaviours, making
+procedural variance \emph{behavioural} variance also. 
+
+\labelledsubsec{The \atfuzz decorator}{early-pdsf-fuzz-decorator}
+
+To introduce behavioural variance with an effect that is contingent on model
+state at runtime, \atfuzz works with two more complex details about Python
+decorators.
+
+\inline{expand}
+First, \atfuzz is a function which \emph{generates} a decorator.
+
+\inline{expand}
+Second, the parameter \atfuzz accepts represents the variance to be applied, as
+previously mentioned.
+
+\inline{expand}
+The combination of these two factors allows for the introduction of procedural
+variance contingent on model state. Because this procedural variance can be
+applied to procedures representing behaviour in a structured and predictable
+manner, \atfuzz can also be used to represent behavioural variance in a model.
+
+
+\labelledsec{FuzziMoss: a library of behavioural variances in sociotechnical systems}{prior_work_fuzzimoss}
+
+\inline{expand}
+\atfuzz can accept any function with the correct signature as its representation
+of variance. A library of such variances is a good and cool thing to have.
+
+\inline{expand}
+Here are some examples of the variances included in FuzziMoss.
+
+\labelledsec{Theatre_ag: controlling the percieved time of \sociotechnical agents}{prior_work_theatreag}
+
+\expand
+The simulation and modelling environment \pdsf and its related software stack
+was built around involves representing tasks as procedures, but agents in
+\sociotechnical systems complete tasks concurrently in real-world time.
+
+\expand
+Without mechanisms for controlling the concurrent activity of such agents, race
+conditions between their actions might occur.
+
+\expand
+To demonstrate that behavioural variance was being introduced to a model in a
+controlled manner, and to experimentally demonstrate that it was having the
+expected effect on simulated behaviour, controlling for these race conditions
+was necessary.
+
+\expand
+Theatre_AG controls simulated behaviour by introducing the notion of a clock,
+where simulated behaviour is enacted in quantised units of time.
+
+\labelledsec{Demonstrating behavioural variations in \sociotechnical models}
+
+
+\labelledsec{Shared concepts with aspect-oriented programming}{aop-and-early-pdsf}
+
+
+\labelledsec{Weaknesses of the approach}{prior_work_weaknesses}
+
+
+%% ==== MARK
+%% Everything below this is from the original draft of the thesis. Leaving it
+% here to assist in redrafting. 
+
+
 
 % The variation to be applied was represented as a function
 % which took a list of ``steps'' and returned a new list of those steps, represent
