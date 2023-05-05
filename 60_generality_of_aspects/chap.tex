@@ -14,7 +14,25 @@ changes, can we expect that these aspects still apply to the new system? Is the
 representation of behavioural variance in this model separable from the system
 the behaviour occurs within?
 
+\subsection{Coupling of Model and Behaviour}
+Explaining the issues of behaviour coupled to models. Highly related to some of
+the reviewed literature --- I forget exactly what --- which discussed whether
+aspects which were designed to be applied to one system could feasibly be
+transferred to other systems, or whether they're inherently aware of the system
+they're originally designed for. The core concept is that to be making changes
+to some underlying codebase, you probably have to know what that codebase is, in
+most cases at least.
+
+\subsection{(Reword) Gaps/opportunities left by previous experiment}
+In the previous experiment we demonstrated that behavioural variance can be
+plausibly realistic. Are those variations separable from their underlying model,
+or --- when trained i.e. made realistic --- do they suffer from the coupling
+discussed in the previous subsection?
+
 \subsection{Research Question}
+Whatever the specific research question's wording for this was. Something about
+decoupling realistic aspects from a given model maybe? It should be in an
+earlier chapter somewhere.
 
 \section{Experimental Design}
 We took old player data and trained aspects on them, and in the previous
@@ -26,12 +44,26 @@ too. Do we have to re-train the aspects? How portable are they? This section
 lays out the design of this experiment.
 
 
+\subsection{Changes to RPGLite}
+What changes did we make to our system?
+
+
+\subsection{Applying Behavioural Variations to New System}
+Layout of new experiment, how it'll work, what's measured, why it should answer
+the RQ.
+
 
 \section{Applying Aspects from a Control System to a New System}
 Our implementation & results from the experiment described above. Discusses how
 the above experiment was realised, lays out the results we found, and relates
 those results to the research question we started with.
 
+\subsection{Implementation}
+Implementation of the experiment
+
+\subsection{Results}
+Presentation of the results of the experiment, analysis, some discussion (more
+in next section too)
 
 \section{Discussion}
 Some notes discussing the outcome of this research question (that trained
