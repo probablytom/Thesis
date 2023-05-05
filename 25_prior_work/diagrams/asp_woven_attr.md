@@ -1,0 +1,20 @@
+```mermaid
+flowchart LR
+    getAdvice(Retrieve advice applied to target attribute's\nunderlying class)
+    applyPreludeAdvice(Apply before advice, termed prelude)
+    wrapAttrInAround(Wrap attribute in any Around advice)
+    execAttr(Execute attribute, within around advice\nif applicable)
+    execAfterAdvice(Execute any applicable after steps,\ntermed encore)
+    handleExceptions(Handle any exceptions that arise with\nexception handling advice)
+    returnVal(Return any value returned by\nattr and relevant advice)
+    
+    getAdvice-->applyPreludeAdvice
+    subgraph ADVICE [ADVICE] 
+        direction TB
+        applyPreludeAdvice-->wrapAttrInAround
+        wrapAttrInAround-->execAttr
+        execAttr-->execAfterAdvice
+    end
+    execAfterAdvice-->returnVal
+    ADVICE-->handleExceptions
+```
