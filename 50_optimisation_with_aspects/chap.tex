@@ -225,22 +225,6 @@ Graphically, it would be represented as a flowchart like so:
 
 \inline{TODO FINISH WRITING ABOUT THE NAIVE MODEL'S STEPS}
 
-
-\labelledsec{Aspects Applied}{optimisation_with_aspects_aspectsdeveloped}
-
-Players can be expected to select stronger characters as they understand
-gameplay more. Aspects were therefore developed to track player experience with
-characters. As players became more familiar with the characters they play, we
-can hypothesise that they will better understand how to play with those
-characters, and more often select characters they have success with. 
-
-
-
-
-\inline{Write about \emph{both} aspects so as to answer the hypothesis : Can
-aspects be used to generate models of alternative behaviours?}
-
-
 \labelledsec{Experimental Design}{optimisation_with_aspects_experimental_design}
 
 Having discussed the aspects to apply above, this section describes how we'll
@@ -251,6 +235,75 @@ This likely won't need any subsections: we've already laid out the groundwork
 above as to what's involved technically, so this is statistical, explanation of
 our control, our model under test, and how they'll be compared in a rigorous and
 scientifically appropriate manner.
+
+However, this \emph{should} lay out the rationale behind simulating learning
+with our aspects; we'll discuss how our datasets are compared here, and how we
+measure similarity, which is done by proportion of classes picked over time.
+There are statistical and methodological requirements at play here --- we needed
+something we could compare in a statistically significant manner --- but also,
+we needed something which the dataset we had could support analysis of. We only
+had a few players with statistically significant numbers of games played.
+Character choice seemed a reasonable way to go, because the metagame introduces
+specific character combinations which are optimal, and we'd expect players to
+learn those over time. Players \emph{might} get stuck in local minima, but
+learning aspects would too, so simulated player data should still reflect that.
+Also, the choice of an ideal team composition is a well-understood aspect of
+metagame design \inline{Is team composition in metagame design something there's
+also literature on, or is this only within the gaming industry?}, so we can
+imagine players optimising team composition in RPGLite like they would in other
+trading card or RPG games.
+
+
+\labelledsec{Aspects Applied}{optimisation_with_aspects_aspectsdeveloped}
+
+% Players can be expected to select stronger characters as they understand
+% gameplay more. Aspects were therefore developed to track player experience with
+% characters. As players became more familiar with the characters they play, we
+% can hypothesise that they will better understand how to play with those
+% characters, and more often select characters they have success with. 
+
+\inline{Write about \emph{both} aspects so as to answer the hypothesis : Can
+aspects be used to generate models of alternative behaviours?}
+
+The aim of this experiment is to investigate whether a model with
+aspect-oriented behavioural variation can be realistic; the experiment therefore
+requires the development of aspects representing plausibly realistic behavioural
+variation. Traces from simulations affected by these aspects should produce
+synthetic data which can be compared to real-world data and to naive data,
+enabling the measurement of the datasets' similarity, as discussed
+in~\cref{sec:optimisation_with_aspects_aspectsdeveloped}. 
+
+To demonstrate that simulated players are plausibly realistic, and
+that a simulation's realism can be improved by the addition of behavioural
+variance as a cross-cutting concern, naive player behaviour is augmented by
+applying aspects which represent learning. Two methods of learning RPGLite's
+metagame were produced; this section will detail both.
+
+In each model of learning, players are assumed to have a draw towards choosing
+to play some characters, and less of a draw to others. This draw is informed by
+whether players have reason to believe they'll be successful after choosing a
+given character; players' future decisions are informed by the outcomes of their
+previous ones. The models of leaning presented in this section are
+differentiated by the manner in which future decisions are informed.
+
+\inline{Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}
+
+\labelledsubsec{Simple Model of Learning}{optimisation_with_aspects_basiclearningaspect}
+
+\inline{Describe probability updates by way of a simple PMF defined by previous outcomes}
+
+
+
+
+\labelledsubsec{Modelling Bias with Hyperbolic Decay}{optimisation_with_aspects_hyperbolicdecay}
+
+\inline{Find citations explaining hyperbolic decay}
+
+\inline{Describe probability updates affected by a hyperbolic decay bias}
+
+
+
+
 
 \labelledsec{Experimental Results}{optimisation_with_aspects_experimental_results}
 
