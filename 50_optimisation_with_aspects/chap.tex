@@ -131,12 +131,17 @@ tools).
 
 Aspect orientation's use as a composition tool for model components makes sense
 in principle, but it is unclear whether the addition of behaviours to a naive
-model would make the model more ``realistic''. It is unclear whether the changes
-made would properly represent what might be empirically observed, and while
-PyDySoFu's design makes understanding \emph{what} is being composed simpler than
-other aspect orientation frameworks, a composed model under this paradigm is
-still split across multiple areas of a codebase, making a visual assessment of
-whether a model accurately reflects the intended behaviour impractical. 
+model would make the model more ``realistic''. Furthermore, changes to a model
+could alter its representation so as to weaken its mimicry of the system it
+simulates; adding behaviours could make it \emph{less} realistic. The
+fundamental issue at play is that it is unclear whether the changes made would
+properly represent what might be empirically observed. While PyDySoFu's design
+makes understanding what is being composed simpler than other aspect orientation
+frameworks, a composed model under this paradigm is still split across multiple
+areas of a codebase, making a visual assessment of whether a model accurately
+reflects the intended behaviour impractical. It is therefore important to
+demonstrate the efficacy of PyDySoFu and the modelling paradigm it introduces,
+by confirming the realism of a model to which behavioural variation is applied.
 
 We can confirm whether aspects can realistically represent changes to a naive
 understanding of the real world by comparing their output against empirical
@@ -160,11 +165,11 @@ players. This can be used to answer the question:
     Can aspect-oriented models be said to exhibit realism?
 \end{researchquestion}
 
-To answer this question, we will produce a model of play, and develop aspects
-which encapsulate different play styles so as to compare the aspect-augmented
-datasets and naive datasets against the empirically sourced data. The following
-subsections detail the naive model developed and aspects applied to this model
-respectively.
+To answer this question, a model of play is produced, and aspects developed
+which encapsulate different play styles so as to compare empirically sourced
+datasets against both its aspect-augmented and unaltered counterparts. The
+following subsections detail the naive model developed and aspects applied to
+this model.
 
 
 \labelledsec{Naive Model}{optimisation_with_aspects_naivemodel}
@@ -219,11 +224,18 @@ the simulation.
 
 The naive model of RPGLite follows a simple workflow mimicking player
 interaction with the client-side application used by real-world players.
-Graphically, it would be represented as a flowchart like so:
+A graphical representation is provided in \cref{fig:naive_model}. \inline{Position this figure properly on the page.}
+\inline{Explain the diagram in prose.}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\columnwidth]{50_optimisation_with_aspects/diagrams/naive_model.png}
+  \caption{A flowchart diagramming a simple model of RPGLite play, without
+  aspects applied.}
+  \label{fig:naive_model}
+\end{figure}
 
 
-
-\inline{TODO FINISH WRITING ABOUT THE NAIVE MODEL'S STEPS}
 
 \labelledsec{Experimental Design}{optimisation_with_aspects_experimental_design}
 
