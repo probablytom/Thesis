@@ -165,27 +165,57 @@ players. This can be used to answer the question:
     Can aspect-oriented models be said to exhibit realism?
 \end{researchquestion}
 
-To answer this question, a model of play is produced, and aspects developed
-which encapsulate different play styles so as to compare empirically sourced
-datasets against both its aspect-augmented and unaltered counterparts. The
-following subsections detail the naive model developed and aspects applied to
-this model.
+% To answer this question, a naive model of play is produced, and aspects
+% developed which encapsulate different play styles so as to compare empirically
+% sourced datasets against both its aspect-augmented and unaltered counterparts.
+% The following subsections detail the naive model developed and aspects applied
+% to this model.
+
+To answer this question, a naive model of play is produced. Aspects are
+developed which model learning within the system defined by the naive system.
+The synthetic datasets produced by models with naive or aspect-applied models
+can be compared to an empirical dataset sourced from real-world players of the
+game, and their similarity compared. 
+
+``Naive'' is used here to describe a model which does not encode any
+understanding of the players of the game being modelled. Traits such as
+learning, distraction, or aptitude for similar games are irrelevant to the naive
+model. We need a naive model to demonstrate the effectiveness of an
+aspect-oriented alternative: we can measure how closely it reflects empirical
+data, and compare this against the same measurement drawn from another model
+with behavioural variations encoded using aspects. A closer match from our
+aspect-oriented model would demonstrate that the technique can enhance a model's
+realism. Our naive model also provides a null hypothesis: if no improved
+similarity is observed, the technique brought no improvement to the model's
+realism. No measurable difference indicates that weaving behavioural variations
+as aspects has no impact on a model's realism.
+
+\inline{Write a little here on the learning aspects.}
+
+\inline{Flesh this out as a brief wrap-up of our experimental technique. The end
+of our ``naive'' model explanation might be useful to move down here / rework
+into this para.} Contrasting the similarity of the empirical dataset to both
+naive and aspect-applied datasets\ldots{} This discussion is provided so as to
+provide context for the following sections; experimental design is discussed in
+more depth in \cref{sec:optimisation_with_aspects_experimental_design}. 
 
 
 \labelledsec{Naive Model}{optimisation_with_aspects_naivemodel}
 
 A naive model of play was developed by separating each stage of the actions
 taken by players in the client-side app, and separating them into individual
-procedures. To facilitate the retrieval of most information about a simulation
-in an applied aspect, the model was written so as to contain the entire
-simulation state as mutable function arguments. The model was written as a
-workflow, and state of workflow execution was separated into three components:
-the actor a function invocation (or ``step'') repesents activity from; the
-context of that step in the execution of a workflow; and the context of that
-workflow's execution in a broader environment. Incidentally, we found this
-structure to allow a flexible and natural implementation of a procedural
-simulation, which should translate easily to existing simulation frameworks such
-as SimPy\cite{simpy_intro}:
+procedures. 
+
+To facilitate the retrieval of information pertinent to a simulation in an
+applied aspect, the model was written so as to contain simulation state as
+mutable function arguments. The model was written as a workflow, and state of
+workflow execution was separated into three components: the actor that a
+function invocation (or ``step'') represents activity from; the context of that
+step in the execution of a workflow; and the context of that workflow's
+execution in a broader environment. Incidentally, we found this structure to
+allow a flexible and natural implementation of a procedural simulation, which
+should translate easily to existing simulation frameworks such as
+SimPy\cite{simpy_intro}:
 
 \begin{description}
   \item[Actor ---] allows the function to identify the actor performing the activity
@@ -218,14 +248,25 @@ as SimPy\cite{simpy_intro}:
     when using this particular pattern.}
 \end{description}
 
-Each simulation step suitable as a join point receives these three arguments at
-a minimum. Aspects applied to these therefore have access to the entire state of
-the simulation.
+Each simulation step receives these three arguments at a minimum. Because steps
+of the model are functions, and therefore valid join points, aspects applied to
+these have access to the entire state of the simulation.
 
 The naive model of RPGLite follows a simple workflow mimicking player
 interaction with the client-side application used by real-world players.
 A graphical representation is provided in \cref{fig:naive_model}. \inline{Position this figure properly on the page.}
-\inline{Explain the diagram in prose.}
+\inline{Maybe reword? Pretty verbose.} The model it describes produces synthetic data.
+It does so by simulating players interacting with each other in a broader
+RPGLite ecosystem. The large number of players is important: future behavioural
+variations introduce behaviours which guide future actions based on past
+experiences. Non-determinism early in the model can therefore cause different
+players to act in different ways. Simulating many players allows the system to
+represent a wide variety of early experiences, as would occur to real-world
+players, too. As the aspects being woven simulate learning, early experiences
+which cause players to learn maladaptive strategies --- or simply strategies
+less optimal than those learned by their peers --- should later contrast against
+winning strategies, so that players with less useful early inferences can learn
+from players who play more optimally.
 
 \begin{figure}
   \centering
@@ -234,6 +275,27 @@ A graphical representation is provided in \cref{fig:naive_model}. \inline{Positi
   aspects applied.}
   \label{fig:naive_model}
 \end{figure}
+
+
+\inline{Consider changing \cref{fig:naive_model} to only include details about
+the model of the game itself, leaving the steps about data analysis to the
+later aspect-applied version (which is the real experiment).}
+The stages of the naive model as laid out map to those encountered by real-world
+players. Two randomly-selected players repeatedly select characters to play
+(from the pool of 8 characters available in the real-world game), and a player
+is chosen to play first at random. That player selects a random valid move to
+make.\footnote{Many simulated decisions are random; this is because the model is
+designed to be naive, so it avoids informed decisions where possible. Informed
+decisions are expected to be woven later as aspects.} The active player alternates, and the process repeats, until
+such time as an active player starts their turn with both of their characters
+fully depleted of health. The player with remaining characters is the victor,
+and another game is started by picking random players and starting a game
+between them, until a predetermined number of games has been played.
+
+After a sufficient number of games are played, analysis of the various datasets
+collected can begin, although this is discussed in more detail in
+\cref{sec:optimisation_with_aspects_experimental_design}.
+
 
 
 
