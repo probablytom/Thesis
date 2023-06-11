@@ -8,7 +8,7 @@ further research. If we understand how players \emph{should} play, and we have
 data to indicate how they \emph{do} play, we can investigate how real-world
 players might be modelled. 
 
-\labelledsec{Aims}{aop_simulation_optimisation_aims}
+\section{Aims}\label{sec:aop_simulation_optimisation_aims}
 
 Aspect orientation's use in previous simulation and modelling efforts have
 typically focused on the use of aspects to compose model or simulation
@@ -87,7 +87,7 @@ of a codebase is not of interest in this use case. Instead, aspect orientation
 is treated as a composition mechanism with a reasonably low degree of technical
 knowledge required.
 
-\labelledsubsec{PyDySoFu Suitability}{optimisation_with_aspects_usingpdsf}
+\subsection{PyDySoFu Suitability}\label{subsec:optimisation_with_aspects_usingpdsf}
 Some aspect orientation frameworks do not adequately achieve this requirement.
 For example, the most influential framework, AspectJ, requires the use of
 language extensions to define integrate aspect
@@ -127,7 +127,7 @@ changes to Python as a language (thereby requiring users to specialise in fewer
 tools). 
 
 
-\labelledsubsec{Proposed Experiment}{optimisation_with_aspects_experiment}
+\subsection{Proposed Experiment}\label{subsec:optimisation_with_aspects_experiment}
 
 Aspect orientation's use as a composition tool for model components makes sense
 in principle, but it is unclear whether the addition of behaviours to a naive
@@ -200,7 +200,7 @@ provide context for the following sections; experimental design is discussed in
 more depth in \cref{sec:optimisation_with_aspects_experimental_design}. 
 
 
-\labelledsec{Naive Model}{optimisation_with_aspects_naivemodel}
+\section{Naive Model}\label{sec:optimisation_with_aspects_naivemodel}
 
 A naive model of play was developed by separating each stage of the actions
 taken by players in the client-side app, and separating them into individual
@@ -280,6 +280,7 @@ from players who play more optimally.
 \inline{Consider changing \cref{fig:naive_model} to only include details about
 the model of the game itself, leaving the steps about data analysis to the
 later aspect-applied version (which is the real experiment).}
+\inline{Move \cref{fig:naive_model} to .svg for fidelity}
 The stages of the naive model as laid out map to those encountered by real-world
 players. Two randomly-selected players repeatedly select characters to play
 (from the pool of 8 characters available in the real-world game), and a player
@@ -299,7 +300,7 @@ collected can begin, although this is discussed in more detail in
 
 
 
-\labelledsec{Experimental Design}{optimisation_with_aspects_experimental_design}
+\section{Experimental Design}\label{sec:optimisation_with_aspects_experimental_design}
 
 Having discussed the aspects to apply above, this section describes how we'll
 apply those aspects to compare simulations under variation to controlled
@@ -328,7 +329,7 @@ imagine players optimising team composition in RPGLite like they would in other
 trading card or RPG games.
 
 
-\labelledsec{Aspects Applied}{optimisation_with_aspects_aspectsdeveloped}
+\section{Aspects Applied}\label{sec:optimisation_with_aspects_aspectsdeveloped}
 
 % Players can be expected to select stronger characters as they understand
 % gameplay more. Aspects were therefore developed to track player experience with
@@ -362,14 +363,14 @@ differentiated by the manner in which future decisions are informed.
 
 \inline{Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}
 
-\labelledsubsec{Simple Model of Learning}{optimisation_with_aspects_basiclearningaspect}
+\subsection{Simple Model of Learning}\label{subsec:optimisation_with_aspects_basiclearningaspect}
 
 \inline{Describe probability updates by way of a simple PMF defined by previous outcomes}
 
 
 
 
-\labelledsubsec{Modelling Bias with Hyperbolic Decay}{optimisation_with_aspects_hyperbolicdecay}
+\subsection{Modelling Bias with Hyperbolic Decay}\label{subsec:optimisation_with_aspects_hyperbolicdecay}
 
 \inline{Find citations explaining hyperbolic decay}
 
@@ -379,7 +380,7 @@ differentiated by the manner in which future decisions are informed.
 
 
 
-\labelledsec{Experimental Results}{optimisation_with_aspects_experimental_results}
+\section{Experimental Results}\label{sec:optimisation_with_aspects_experimental_results}
 
 Presentation of the results owing from the experiment as described in
 \cref{sec:optimisation_with_aspects_experimental_design}, and evaluation of the
@@ -387,7 +388,7 @@ research question with respect to these findings.
 
 Again, no subsec likely required here.
 
-\labelledsec{Discussion}{optimisation_with_aspects_discussion}
+\section{Discussion}\label{sec:optimisation_with_aspects_discussion}
 
 A closing discussion on what we found, and how the research question was
 answered.
