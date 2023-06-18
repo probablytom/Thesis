@@ -337,29 +337,123 @@ trading card or RPG games.
 % can hypothesise that they will better understand how to play with those
 % characters, and more often select characters they have success with. 
 
-\inline{Write about \emph{both} aspects so as to answer the hypothesis : Can
-aspects be used to generate models of alternative behaviours?}
 
-The aim of this experiment is to investigate whether a model with
-aspect-oriented behavioural variation can be realistic; the experiment therefore
-requires the development of aspects representing plausibly realistic behavioural
-variation. Traces from simulations affected by these aspects should produce
-synthetic data which can be compared to real-world data and to naive data,
-enabling the measurement of the datasets' similarity, as discussed
-in~\cref{sec:optimisation_with_aspects_aspectsdeveloped}. 
 
-To demonstrate that simulated players are plausibly realistic, and
-that a simulation's realism can be improved by the addition of behavioural
-variance as a cross-cutting concern, naive player behaviour is augmented by
-applying aspects which represent learning. Two methods of learning RPGLite's
-metagame were produced; this section will detail both.
+% \inline{Write about \emph{both} aspects so as to answer the hypothesis : Can
+% aspects be used to generate models of alternative behaviours?}
 
-In each model of learning, players are assumed to have a draw towards choosing
-to play some characters, and less of a draw to others. This draw is informed by
-whether players have reason to believe they'll be successful after choosing a
-given character; players' future decisions are informed by the outcomes of their
-previous ones. The models of leaning presented in this section are
-differentiated by the manner in which future decisions are informed.
+% The aim of this experiment is to investigate whether a model with
+% aspect-oriented behavioural variation can be realistic; the experiment therefore
+% requires the development of aspects representing plausibly realistic behavioural
+% variation. Traces from simulations affected by these aspects should produce
+% synthetic data which can be compared to real-world data and to naive data,
+% enabling the measurement of the datasets' similarity, as discussed
+% in~\cref{sec:optimisation_with_aspects_aspectsdeveloped}. 
+
+% To demonstrate that simulated players are plausibly realistic, and
+% that a simulation's realism can be improved by the addition of behavioural
+% variance as a cross-cutting concern, naive player behaviour is augmented by
+% applying aspects which represent learning. Two methods of learning RPGLite's
+% metagame were produced; this section will detail both.
+
+% In each model of learning, players are assumed to have a draw towards choosing
+% to play some characters, and less of a draw to others. This draw is informed by
+% whether players have reason to believe they'll be successful after choosing a
+% given character; players' future decisions are informed by the outcomes of their
+% previous ones. The models of leaning presented in this section are
+% differentiated by the manner in which future decisions are informed.
+
+Having a naive model of player interaction in RPGLite allows for the generation
+of a control dataset, which can be compared to aspect-applied datasets to
+examine whether the aspect-applied models are provably ``closer'' to
+empirically-sourced data than the naive dataset\footnote{``Closer'' here refers
+to a similarity measurement which we will define later in this chapter.}. To
+generate the experimental dataset, the naive model producing our control is
+augmented through the application of aspects. These aspects fulfil different
+functions, and can broadly by grouped into three categories:
+
+\begin{enumerate}
+  \item Aspects instrumenting the naive model to perform observations necessary
+  for the implementation of behavioural models (such as models of learning) on
+  the naive model;
+  \item Aspects implementing behavioural models, changing the behaviour of
+  simulated players;
+  \item Aspects altering the behaviour of modelled players to simplify
+  experimental observation, and to handle exceptions introduced by changes
+  within the aspect-applied model.
+\end{enumerate}
+
+The second category implements the behavioural change we anticipate will produce
+datasets closer in similarity to empirically sourced data than that sourced by
+the naive model. The first category lays the foundation for the second. The
+third applies behavioural changes which experimental observations require.
+Necessary changes unrelated to our models of learning will first be explained,
+followed by an introduction of foundational observations for our models of
+learning. Finally the models of learning built on those foundations are then
+introduced.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\columnwidth]{50_optimisation_with_aspects/diagrams/aspect_applied_model.png}
+  \caption{A flowchart describing a simulated game of RPGLite, and all aspects woven into the game to implement the various models of learning. Some aspects should not be woven together in the same experimental run, as they implement different models of learning.}
+  \label{fig:all_aspects_applied}
+\end{figure}
+
+A diagram of a game of RPGLite with all possible aspects
+applied\footnote{Including aspects which should not be woven in the same
+experimental run: some aspects implement different models of learning and are
+therefore conceptually incompatible.} is
+presented in \cref{fig:all_aspects_applied}, by way of high-level overview of
+the aspects this section introduces.
+
+\subsection{Aspects for model improvement}
+
+\subsubsection{Ensure best move is played}\label{subsubsec:ensure_best_move}
+
+We make sure players always make the best moves, because it reduces the space of
+situations where randomness can skew our results. An analysis of how well this
+reflects real-world player interactions can be found in \inline{Cite William's
+thesis for realism of players making perfect moves.}
+
+\subsubsection{Handle game states with no viable moves}
+
+Using lookup tables provided by William's thesis (cite here!) means
+crossreferencing the game states in our simulation against game states in
+William's models. Turned out there were states they didn't track because it was
+not possible to make any move at all that could win, so the game's a foregone
+conclusion in those states. Because the aspect in
+\cref{subsubsec:ensure_best_move} aspect reads states from lookup tables which
+might not contain those states, our model can throw exceptions when performing
+lookups! Handle those scenarios and treat as an unwinnable game for the
+appropriate player.
+
+
+% TODO: Section / subsection for observational aspects
+\subsection{Aspects for Instrumentation}
+
+\subsubsection{Update Model of Confidence}
+
+\subsubsection{Record prior distribution of character preferences}
+\inline{Looks like aspect recording prior distribution might be applied to data
+generation; figure out how to fit it into \cref{fig:all_aspects_applied}.}
+
+\subsubsection{Record character choices}
+
+\subsubsection{Track outcomes of games}
+
+\subsubsection{Record winning pair seen by players on game end}
+
+
+% TODO: Section / subsection for models of learning
+\subsection{Aspects Implementing Models of Learning}
+
+\subsubsection{Character Selection from prior distribution}
+
+\subsubsection{Character Selection using confidence sigmoid}
+
+\subsubsection{Character Selection exhibiting hyperbolic decay}
+
+
 
 \inline{Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}
 
@@ -377,6 +471,7 @@ differentiated by the manner in which future decisions are informed.
 \inline{Describe probability updates affected by a hyperbolic decay bias}
 
 
+\section{Experimental setup}
 
 
 
