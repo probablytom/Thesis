@@ -2617,15 +2617,19 @@
     <bcf:citekey order="222" intorder="4">baker2002maya</bcf:citekey>
     <bcf:citekey order="223" intorder="1">simpy_intro</bcf:citekey>
     <bcf:citekey order="224" intorder="1">simpy_documentation</bcf:citekey>
-    <bcf:citekey order="225" intorder="1">lachman1997learning</bcf:citekey>
-    <bcf:citekey order="226" intorder="1">lachman1997learning</bcf:citekey>
+    <bcf:citekey order="225" intorder="1">kavanagh2021gameplay</bcf:citekey>
+    <bcf:citekey order="226" intorder="1">kavanagh2021gameplay</bcf:citekey>
     <bcf:citekey order="227" intorder="1">lachman1997learning</bcf:citekey>
     <bcf:citekey order="228" intorder="1">lachman1997learning</bcf:citekey>
-    <bcf:citekey order="229" intorder="1">de2013learning</bcf:citekey>
-    <bcf:citekey order="230" intorder="1">de2013learning</bcf:citekey>
+    <bcf:citekey order="229" intorder="1">lachman1997learning</bcf:citekey>
+    <bcf:citekey order="230" intorder="1">lachman1997learning</bcf:citekey>
     <bcf:citekey order="231" intorder="1">de2013learning</bcf:citekey>
-    <bcf:citekey order="232" intorder="1">lachman1997learning</bcf:citekey>
-    <bcf:citekey order="233" intorder="1">lachman1997learning</bcf:citekey>
+    <bcf:citekey order="232" intorder="1">de2013learning</bcf:citekey>
+    <bcf:citekey order="233" intorder="1">de2013learning</bcf:citekey>
+    <bcf:citekey order="234" intorder="1">lachman1997learning</bcf:citekey>
+    <bcf:citekey order="235" intorder="1">lachman1997learning</bcf:citekey>
+    <bcf:citekey order="236" intorder="1">de2013learning</bcf:citekey>
+    <bcf:citekey order="237" intorder="1">de2013learning</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="anyt">

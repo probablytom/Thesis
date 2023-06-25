@@ -300,7 +300,7 @@ collected can begin, although this is discussed in more detail in
 
 
 
-\section{Experimental Design}\label{sec:optimisation_with_aspects_experimental_design}
+\section{Experimental Design}\label{sec:optimisation_with_aspects_experimental_introduction}
 
 % Having discussed the naive model above, this section describes how we'll apply
 % aspects to set up an experiment, simulating players with variations to
@@ -367,9 +367,90 @@ The questions these simulations seek to answer are:
 
 \inline{These RQs are taken from an early outline of a thesis structure. Maybe they need rewording?}
 To investigate these, we produce models of learning which can be applied to the
-naive model to augment player behaviour.
+naive model to augment player behaviour. Simulated players will have their
+behaviour augmented in relation to the character pairs they choose to play.
+Real-world players could reasonably be expected to choose character pairs which
+are stronger together over time. In addition, it is possible to calculate
+objectively optimal character pair selections in RPGLite\inline{Cite William's
+thesis as a source for objectively optimal character pair selections.};
+therefore, players should be expected to gravitate toward more optimal character
+pairs and away from poorer choices as they become more experienced in the game.
 
-\subsection{Models of Learning}
+A few facets of gameplay are expected to be learned by players over time, and
+would theoretically also be suitable objects of simulated players' learning. One
+analog to character pair selection could be move selection: players would be
+expected to make increasingly optimal moves as they play. However, data can be
+muddied by players understanding the optimal use of some characters' moves
+better than others, as different characters invite different styles of play.
+Small changes to game states (the opposing team's composition, amount of health
+remaining, opponent play styles) could influence player behaviour also.
+Fundamentally, the state space of moves to be made and scenarios in which to
+make those moves is extremely large, making simulation computationally
+expensive. By comparison, character selection happens before gameplay starts,
+eliminating in-game factors which might influence player decisions.
+
+Modelling the learning of character pair selection allows for modelling of
+players learning the metagame, rather than the game itself. Modelling learning
+of the metagame allows us to model players learning about the game and other
+players' interactions with it, rather than learning the game itself. An example
+of the distinction is the difference between learning how optimally make moves
+with a Barbarian in a team, and learning the mistakes other players commonly
+make when playing a Barbarian to exploit their weakness. As RPGLite is
+``solvable'' --- there is a provably correct way to play the game --- players
+picking sub-optimal character pairs can be expected to observe that they are
+frequently beaten by better ones, increasingly favour pairings they identify as
+successful, and so converge on strong character pairs. Convergence en-masse
+would indicate a stable metagame. This was observed in practice in real-world
+RPGLite play~\cite{kavanagh2021gameplay}. However, while players made fewer
+mistakes over time when playing RPGLite, the average cost of a move to their
+probability of winning increased after many games (though decreased after a
+few).~\cite{kavanagh2021gameplay}. Player behaviour which converges on provably
+optimal play is simpler to represent than players' initial improvement followed
+by a seeming loss of performance. RPGLite Character selection is therefore a
+more convenient metric to model players' interaction with than move selection,
+as it presents a smaller state space for simulated players to explore while also
+providing a simpler expected end state for those simulated players to converge
+to.
+
+Models of learning are therefore applied to players' character selections. Our
+primary goal in applying models of learning is to demonstrate whether players
+can be accurately modelled by augmenting a naive model to represent them in
+particular, thereby answering the first research question. Different real-world
+players are expected to exhibit different styles of learning; thus, multiple
+models of learning will be applied. Different players might also learn
+differently, but in the same style; for example, two players might exhibit
+similar biases, but one could be quicker to learn from experience or another
+more cautious in the application of new knowledge.
+
+To identify models of learning and parameters for those models which most
+realistically represent real-world players, we look to optimise the parameters
+for each model, for each player, by running multiple simulations of players
+learning in a particular manner (with particular parameters), identifying their
+preferred character pairings, and calculating the similarity of the simulated
+character pairings to that of a player in the real world. By doing so, we can
+anneal to a parameter which represents the optimally realistic model of a player
+learning in a given style. If the data produced by this optimally parameterised
+model of learning is not similar to empirically sourced data with statistical
+significance, we determine that the model of learning applied does not represent
+how a player learned in the real world: even the closest dataset the model
+produced fit its target dataset poorly. However, if a parameter can be found for
+which the model reliably produces character pair preferences which align with
+the real-world players' with statistical significance, then the model can be
+said to realistically represent that player's learning of the character pair
+metagame.
+
+This section will first discuss models of learning generally in
+\cref{subsec:models_of_learning_discussed}, and will explain how aspects
+implementing these models can be produced in
+\cref{sec:optimisation_with_aspects_aspectsdeveloped}. The strategy used to
+implement these models of learning is discussed in
+\cref{subsec:defining_our_models_of_learning}. The design of experiments
+investigating the aforementioned research questions by applying these aspects is
+then described in \cref{sec:optimisation_with_aspects_experimental_design}.
+\inline{Rearrange either this paragraph of the sections it refers to so they're in order / make sense. At time of writing they refer to 6.3.1, then 6.4, then 6.3.2, then 6.5\ldots{}!}
+
+
+\subsection{Models of Learning}\label{subsec:models_of_learning_discussed}
 Different people learn in different ways. Indeed, no universally-accepted
 definition of learning appears to exist. This is presumably because it is
 convenient to define what it means to learn differently in the context of
@@ -446,15 +527,54 @@ introduces helpful concepts --- such as regularity and causality --- which the
 other definitions discussed do not. For the purposes of this thesis, we
 therefore adopt this definition as a basis for our model of learning.
 
-\subsection{Modelling Learning in RPGLite}
+\subsection{Modelling Learning in RPGLite}\label{subsec:defining_our_models_of_learning}
 % Describe our model of learning. Confidence introduces regularity, priors
 % introduce causal relationship, behavioural change is in selection of character
 % pairs.
 
 We use \citeauthor{de2013learning}'s definition of
 learning~\cite{de2013learning} to arrive at a model of learning which is
-encodable in aspects that can be applied to our naive model of RPGLite.
+encodable in aspects that can be applied to our naive model of RPGLite. We are
+interested in modelling players learning a preference for character pairs over
+time. The model should therefore account for: how player behaviour is influenced
+in accordance with their learning, in line with the definition's first
+criterion; repetition of experience in successive games influencing the
+direction of a player's learning, in accordance with the definition's second
+criterion; and do so in a causal manner, in accordance with the definition's
+third criterion. We therefore look to model a causal relationship between a
+player's observation of successful character pairs and their future choices of
+character pairs.
 
+To fulfil these requirements, a model might draw on previously successful
+character pairs to determine future ones. There are many ways in which this
+could be done. For example, we could model learning as consistently playing the
+character pair which most recently was observed to win a game. Any game ending
+naturally determines a winning pair, and we can select this pair when playing
+future games, until a different pair is observed to win instead. However, this
+does not align with our expectations around how players \emph{would} engage with
+a game in the real world. Having a strategy one is confident in and being
+unlucky with the game's random nature is unlikely to deter a player from what
+they believe is ideal. Indeed, we can expect players to understand
+that perfect play might not be winning play: in some games, the right moves
+might not lead to a successful outcome due to moves randomly missing opponent
+characters. Equally, players may take time to become confident in a strategy; we
+would expect a player to explore character choices before settling on a
+preferred pair early in their experience, and would expect very experienced
+players to choose characters based on what they have learned, rather than
+continuing to explore options for which they have sufficient information to
+reason about. We can infer that:
+
+\begin{itemize}
+  \item There are scenarios where players can be expected to observe wins/losses
+  without incurring behavioural change.
+  \item Players' confidence in what they have learned can affect their
+  inclination to draw on what they learn when making decisions.
+  \item What players learn in successive games would have a small impact in
+  their early experiences, but an increasingly significant impact proportional
+  to their experience in the game.
+\end{itemize}
+
+\inline{We've set the stage to explain and justify our own models of learning. Let's go!}
 
 
 \section{Aspects Applied}\label{sec:optimisation_with_aspects_aspectsdeveloped}
@@ -501,24 +621,27 @@ augmented through the application of aspects. These aspects fulfil different
 functions, and can broadly by grouped into three categories:
 
 \begin{enumerate}
+  \item Aspects implementing behavioural models, changing the behaviour of
+  simulated players;
   \item Aspects instrumenting the naive model to perform observations necessary
   for the implementation of behavioural models (such as models of learning) on
   the naive model;
-  \item Aspects implementing behavioural models, changing the behaviour of
-  simulated players;
   \item Aspects altering the behaviour of modelled players to simplify
   experimental observation, and to handle exceptions introduced by changes
   within the aspect-applied model.
 \end{enumerate}
 
-The second category implements the behavioural change we anticipate will produce
-datasets closer in similarity to empirically sourced data than that sourced by
-the naive model. The first category lays the foundation for the second. The
-third applies behavioural changes which experimental observations require.
-Necessary changes unrelated to our models of learning will first be explained,
-followed by an introduction of foundational observations for our models of
-learning. Finally the models of learning built on those foundations are then
-introduced.
+The first set of aspects implement the behavioural change we anticipate will
+produce datasets closer in similarity to empirically sourced data than that
+sourced by the naive model. The second set lays the foundation for applying
+these changes. The third applies behavioural changes which experimental
+observations require. Necessary changes unrelated to our models of learning will
+first be explained in \cref{subsec:aspects_improving_model}, followed by an
+introduction of foundational observations for our models of learning in
+\cref{subsec:aspects_modelling_learning}. Finally, the models of learning built
+on those foundations are introduced in
+\cref{subsec:aspects_instrumenting_model}.
+\inline{The ordering of this explanation of different uses of aspects is confusing; once the aspects are explained individually, reorder the sections, rework the introduction to the structure of this section, and ensure the outline of the section reflects the changes made.}
 
 \begin{figure}
   \centering
@@ -534,7 +657,7 @@ therefore conceptually incompatible.} is
 presented in \cref{fig:all_aspects_applied}, by way of high-level overview of
 the aspects this section introduces.
 
-\subsection{Aspects for model improvement}
+\subsection{Aspects for model improvement}\label{subsec:aspects_improving_model}
 
 \subsubsection{Ensuring the Best Move is Played}\label{subsubsec:ensure_best_move}
 
@@ -557,7 +680,7 @@ appropriate player.
 
 
 % TODO: Section / subsection for observational aspects
-\subsection{Aspects for Instrumentation}
+\subsection{Aspects for Instrumentation}\label{subsec:aspects_instrumenting_model}
 
 \subsubsection{Update Model of Confidence}
 
@@ -573,7 +696,7 @@ generation; figure out how to fit it into \cref{fig:all_aspects_applied}.}
 
 
 % TODO: Section / subsection for models of learning
-\subsection{Aspects Implementing Models of Learning}
+\subsection{Aspects Implementing Models of Learning}\cref{subsec:aspects_modelling_learning}
 
 \subsubsection{Character Selection from prior distribution}
 
@@ -599,7 +722,11 @@ generation; figure out how to fit it into \cref{fig:all_aspects_applied}.}
 \inline{Describe probability updates affected by a hyperbolic decay bias}
 
 
-\section{Experimental setup}
+\section{Experimental Design}\label{sec:optimisation_with_aspects_experimental_design}
+
+Specifics of how we intend to analyse our data, leading on from the brief
+discussion in \cref{sec:optimisation_with_aspects_experimental_introduction}.
+\inline{Discuss specifics of how we intend to analyse data, rather than high-level experimental overview presented in earlier chapters}
 
 
 
