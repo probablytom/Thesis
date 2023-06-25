@@ -302,31 +302,159 @@ collected can begin, although this is discussed in more detail in
 
 \section{Experimental Design}\label{sec:optimisation_with_aspects_experimental_design}
 
-Having discussed the aspects to apply above, this section describes how we'll
-apply those aspects to compare simulations under variation to controlled
-simulations, and how such an experiment answers our research question.
+% Having discussed the naive model above, this section describes how we'll apply
+% aspects to set up an experiment, simulating players with variations to
+% controlled simulations, and how such an experiment answers our research
+% question.
 
-This likely won't need any subsections: we've already laid out the groundwork
-above as to what's involved technically, so this is statistical, explanation of
-our control, our model under test, and how they'll be compared in a rigorous and
-scientifically appropriate manner.
+% This likely won't need any subsections: we've already laid out the groundwork
+% above as to what's involved technically, so this is statistical, explanation
+% of our control, our model under test, and how they'll be compared in a
+% rigorous and scientifically appropriate manner.
 
-However, this \emph{should} lay out the rationale behind simulating learning
-with our aspects; we'll discuss how our datasets are compared here, and how we
-measure similarity, which is done by proportion of classes picked over time.
-There are statistical and methodological requirements at play here --- we needed
-something we could compare in a statistically significant manner --- but also,
-we needed something which the dataset we had could support analysis of. We only
-had a few players with statistically significant numbers of games played.
-Character choice seemed a reasonable way to go, because the metagame introduces
-specific character combinations which are optimal, and we'd expect players to
-learn those over time. Players \emph{might} get stuck in local minima, but
-learning aspects would too, so simulated player data should still reflect that.
-Also, the choice of an ideal team composition is a well-understood aspect of
-metagame design \inline{Is team composition in metagame design something there's
-also literature on, or is this only within the gaming industry?}, so we can
-imagine players optimising team composition in RPGLite like they would in other
-trading card or RPG games.
+% However, this \emph{should} lay out the rationale behind simulating learning
+% with our aspects; we'll discuss how our datasets are compared here, and how we
+% measure similarity, which is done by proportion of classes picked over time.
+% There are statistical and methodological requirements at play here --- we
+% needed something we could compare in a statistically significant manner ---
+% but also, we needed something which the dataset we had could support analysis
+% of. We only had a few players with statistically significant numbers of games
+% played. Character choice seemed a reasonable way to go, because the metagame
+% introduces specific character combinations which are optimal, and we'd expect
+% players to learn those over time. Players \emph{might} get stuck in local
+% minima, but learning aspects would too, so simulated player data should still
+% reflect that. Also, the choice of an ideal team composition is a
+% well-understood aspect of metagame design \inline{Is team composition in
+% metagame design something there's also literature on, or is this only within
+% the gaming industry?}, so we can imagine players optimising team composition
+% in RPGLite like they would in other trading card or RPG games.
+
+The naive model above describes a simulation of RPGLite itself; however, the
+models exists to support investigation into research questions, and cannot do
+this alone. To answer our research questions, the model must be augmented so as
+to represent real-world play. This section describes the modifications made to
+the naive model (through aspects applied by PyDySoFu) and how data from those
+simulations can be analysed to arrive at answers to our research questions. 
+
+The questions these simulations seek to answer are:
+
+\begin{enumerate}
+  \item Can we fit model details per-player to get realistic player behaviour?
+  \item Can we cluster based on accuracy of different models for each player?
+  \item Can we generate predictive data for unknown models from known ones?
+\end{enumerate}
+% \begin{figure}[H]
+% \begin{researchquestion}
+%     Can we fit model details per-player to get realistic player behaviour?
+% \end{researchquestion}
+% \caption*{Research question 1}
+% \label{RQ1_experimental_chap}
+% \end{figure}
+% \begin{figure}[H]
+% \begin{researchquestion}
+%     Can we cluster based on accuracy of different models for each player?
+% \end{researchquestion}
+% \caption*{Research question 2}
+% \label{RQ1_experimental_chap}
+% \end{figure}
+% \begin{figure}[H]
+% \begin{researchquestion}
+%   Can we generate predictive data for unknown models from known ones?
+% \end{researchquestion}
+% \caption*{Research question 3}
+% \label{RQ1_experimental_chap}
+% \end{figure}
+
+\inline{These RQs are taken from an early outline of a thesis structure. Maybe they need rewording?}
+To investigate these, we produce models of learning which can be applied to the
+naive model to augment player behaviour.
+
+\subsection{Models of Learning}
+Different people learn in different ways. Indeed, no universally-accepted
+definition of learning appears to exist. This is presumably because it is
+convenient to define what it means to learn differently in the context of
+different pieces of work. Cognitive models of learning can be useful when
+considering mental processes specifically, for example, whereas functional
+models of learning could lend a more empirically applicable perspective. What it
+means to learn is clearly outwith the scope of this thesis; however, our
+experiments will include models of learning. To justify our model, we consider a
+functional approach to learning, as considering learning in this way appears
+more closely linked to the empirically focused work of modelling real-world
+behaviour than alternatives.
+
+\citeauthor{lachman1997learning} identify\cite{lachman1997learning} that
+standard definitions of learning along the lines of, ``Learning refers to a
+relatively permanent change in behavior as a result of practice or experience''
+have practical shortcomings such as a focus on behavioural change (as learning
+may not change behaviour) or conflating learning's process and its product (the
+process by which we learn is not obviously identical to its result, of which
+behavioural change is an example). They suggest learning might be better defined
+as:
+
+\begin{displayquote}
+[\ldots{}] the process by which a relatively stable modification in
+stimulus-response relations is developed as a consequence of functional
+environmental interaction via the senses [\ldots{}] rather than as a consequence
+of mere biological growth and development~\cite{lachman1997learning}.
+\end{displayquote}
+
+They note that their definition distinguishes learning from phenomena such as
+injury, changes to one's maturity, or sensory adaptation, incorporates
+stimulus-response relationships the research community consider as learned, and
+differentiates learning's process and product. Their model is inherently
+functional, making it useful for the purposes of simulation and modelling,
+although they offer only a definition of learning and a brief comparison to
+the standard textbook definition they introduce. The work presented is not
+intended to demonstrate its improved model of learning empirically, only to
+discuss its semantic merit. However, the models proposed in this thesis require
+only a theoretically informed, sound basis for their model of learning, and a
+lack of empirical justification is not a barrier to the relevance of the model
+\citeauthor{lachman1997learning} have proposed.
+
+\citeauthor{de2013learning} propose a functional definition of learning which is
+primarily concerned with providing a definition of learning which is both
+accurate and useful for the purposes of cognitive learning
+research~\cite{de2013learning}. Doing so attempts to provide a model around
+which some concensus can be reached; learning is a central concept in
+psychology, and they see their definition as supportive of cognitive work. They
+introduce their definition as follows:
+
+\begin{displayquote}
+Our definition consists of three components: (1) changes in the behavior of the
+organism, (2) a regularity in the environment of the organism, and (3) a causal
+relation between the regularity in the environment and the changes in behavior
+of the organism.
+\end{displayquote}
+
+This model of learning contains more nuance than the ``textbook definitions'' of
+learning they paraphrase as, ``a change in behavior that is due to experience'',
+but does not stray far from the core concept: some environmental stimulus
+impacts behaviour in a causal fashion. Their introduction of ``regularity'' to
+their definition refers to the presence of the stimulus with some form of
+repetition, whether this be multiple instances of a stimulus at different times,
+or the same stimulus occurring concurrently. \citeauthor{de2013learning} explain
+that such a model is straightforward without the sweeping inclusivity of the
+simple model mentioned earlier, and is easily verified (although, as in the work
+of \citeauthor{lachman1997learning}~\cite{lachman1997learning}, empirical
+verification is omitted in favour of semantic analysis).
+
+Aside from other benefits more particular to their research community, these
+benefits are especially useful from the perspective of modelling learning in our
+case. A simple, functional definition can be captured in a software model, and
+introduces few opportunities for misunderstanding or mis-application. It also
+introduces helpful concepts --- such as regularity and causality --- which the
+other definitions discussed do not. For the purposes of this thesis, we
+therefore adopt this definition as a basis for our model of learning.
+
+\subsection{Modelling Learning in RPGLite}
+% Describe our model of learning. Confidence introduces regularity, priors
+% introduce causal relationship, behavioural change is in selection of character
+% pairs.
+
+We use \citeauthor{de2013learning}'s definition of
+learning~\cite{de2013learning} to arrive at a model of learning which is
+encodable in aspects that can be applied to our naive model of RPGLite.
+
 
 
 \section{Aspects Applied}\label{sec:optimisation_with_aspects_aspectsdeveloped}
@@ -408,14 +536,14 @@ the aspects this section introduces.
 
 \subsection{Aspects for model improvement}
 
-\subsubsection{Ensure best move is played}\label{subsubsec:ensure_best_move}
+\subsubsection{Ensuring the Best Move is Played}\label{subsubsec:ensure_best_move}
 
 We make sure players always make the best moves, because it reduces the space of
 situations where randomness can skew our results. An analysis of how well this
 reflects real-world player interactions can be found in \inline{Cite William's
 thesis for realism of players making perfect moves.}
 
-\subsubsection{Handle game states with no viable moves}
+\subsubsection{Handle Game States with no Viable Moves}
 
 Using lookup tables provided by William's thesis (cite here!) means
 crossreferencing the game states in our simulation against game states in
@@ -433,15 +561,15 @@ appropriate player.
 
 \subsubsection{Update Model of Confidence}
 
-\subsubsection{Record prior distribution of character preferences}
+\subsubsection{Record Prior Distribution of Character Preferences}
 \inline{Looks like aspect recording prior distribution might be applied to data
 generation; figure out how to fit it into \cref{fig:all_aspects_applied}.}
 
-\subsubsection{Record character choices}
+\subsubsection{Record Character Choices}
 
-\subsubsection{Track outcomes of games}
+\subsubsection{Track Outcomes of Games}
 
-\subsubsection{Record winning pair seen by players on game end}
+\subsubsection{Record Winning Pair seen by Players on Game End}
 
 
 % TODO: Section / subsection for models of learning
