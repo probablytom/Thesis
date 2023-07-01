@@ -661,22 +661,65 @@ the aspects this section introduces.
 
 \subsubsection{Ensuring the Best Move is Played}\label{subsubsec:ensure_best_move}
 
-We make sure players always make the best moves, because it reduces the space of
-situations where randomness can skew our results. An analysis of how well this
-reflects real-world player interactions can be found in \inline{Cite William's
-thesis for realism of players making perfect moves.}
+% We make sure players always make the best moves, because it reduces the space of
+% situations where randomness can skew our results. An analysis of how well this
+% reflects real-world player interactions can be found in \inline{Cite William's
+% thesis for realism of players making perfect moves.}
+
+As discussed in \cref{sec:optimisation_with_aspects_experimental_introduction},
+the goal within this experiment is to build a model of players' learning of
+character selection rather than move selection. However, randomly selected moves
+are liable to place players in unrealistically weak positions, as players are
+unlikely to make obviously poor moves such as skipping a turn with no clear
+reason. It would be unexpected to see true randomness in players' moves. This is
+a concern for the modelling of players' character selection, because the model
+of learning defined requires a causal relationship between what is observed (in
+this case characters which most reliably win games) and behavioural change
+(players choosing character pairs proportionally to their estimated chance of
+winning a game); if selecting random moves cause simulated players to lose games
+when they would have realistically won them, this would affect character
+selection by definition.
+
+Character selection and move selection are therefore somewhat linked. However,
+move selection is most frequently optimal: in the majority of cases real-world
+players chose the best move available to them, as analysed by \citeauthor{kavanagh2021gameplay}~\cite{kavanagh2021gameplay}~:
+
+\begin{displayquote}
+  [\ldots{}] the majority of actions taken were optimal, with a cost of 0.0. In
+  total 73\% of the player’s season 1 actions and 77.8\% of their season 2
+  actions were optimal.\footnote{Different seasons of RPGLite are discussed in
+  more depth in \inline{Make a reference to the chapter(s) where I explain
+  different seasons of RPGLite.}}
+\end{displayquote}
+
+Therefore, a naive model of move selection which represents real-world move
+choices in \(\frac{3}{4}\) of cases is to select the best move at every
+opportunity. We therefore apply an aspect to the function responsible for move
+selection which performs a lookup on the dataset of action costs defined by
+\citeauthor{kavanagh2021gameplay}~\cite{kavanagh2021gameplay}, and select the
+known-optimal move in every case.
+
+A model of move selection more closely aligned with expectations of player
+behaviour is beyond the scope of this thesis: a demonstration that models of
+both move selection and character selection can be optimised concurrently to
+arrive at a realistic model of empirical play with multiple aspectually applied
+models of behavioural variance invites itself as future work.
+\inline{Do I need code snippets for notes on aspects?}
+
 
 \subsubsection{Handle Game States with no Viable Moves}
 
-Using lookup tables provided by William's thesis (cite here!) means
-crossreferencing the game states in our simulation against game states in
-William's models. Turned out there were states they didn't track because it was
-not possible to make any move at all that could win, so the game's a foregone
-conclusion in those states. Because the aspect in
-\cref{subsubsec:ensure_best_move} aspect reads states from lookup tables which
-might not contain those states, our model can throw exceptions when performing
-lookups! Handle those scenarios and treat as an unwinnable game for the
-appropriate player.
+% Using lookup tables provided by William's thesis (cite here!) means
+% crossreferencing the game states in our simulation against game states in
+% William's models. Turned out there were states they didn't track because it
+% was not possible to make any move at all that could win, so the game's a
+% foregone conclusion in those states. Because the aspect in
+% \cref{subsubsec:ensure_best_move} aspect reads states from lookup tables which
+% might not contain those states, our model can throw exceptions when performing
+% lookups! Handle those scenarios and treat as an unwinnable game for the
+% appropriate player.
+
+
 
 
 % TODO: Section / subsection for observational aspects

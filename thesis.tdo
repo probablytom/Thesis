@@ -55,12 +55,13 @@
 \contentsline {todo}{\emph {Todo: }Rearrange either this paragraph of the sections it refers to so they're in order / make sense. At time of writing they refer to 6.3.1, then 6.4, then 6.3.2, then 6.5\ldots {}!}{79}{Item.22}%
 \contentsline {todo}{\emph {Todo: }We've set the stage to explain and justify our own models of learning. Let's go!}{82}{subsection.6.3.2}%
 \contentsline {todo}{\emph {Todo: }The ordering of this explanation of different uses of aspects is confusing; once the aspects are explained individually, reorder the sections, rework the introduction to the structure of this section, and ensure the outline of the section reflects the changes made.}{83}{Item.25}%
-\contentsline {todo}{\emph {Todo: }Cite William's thesis for realism of players making perfect moves.}{85}{section*.6}%
-\contentsline {todo}{\emph {Todo: }Looks like aspect recording prior distribution might be applied to data generation; figure out how to fit it into \cref {fig:all_aspects_applied}.}{85}{section*.9}%
+\contentsline {todo}{\emph {Todo: }Make a reference to the chapter(s) where I explain different seasons of RPGLite.}{85}{section*.6}%
+\contentsline {todo}{\emph {Todo: }Do I need code snippets for notes on aspects?}{86}{section*.6}%
+\contentsline {todo}{\emph {Todo: }Looks like aspect recording prior distribution might be applied to data generation; figure out how to fit it into \cref {fig:all_aspects_applied}.}{86}{section*.9}%
 \contentsline {todo}{\emph {Todo: }Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}{86}{section*.15}%
-\contentsline {todo}{\emph {Todo: }Describe probability updates by way of a simple PMF defined by previous outcomes}{86}{subsection.6.4.4}%
-\contentsline {todo}{\emph {Todo: }Find citations explaining hyperbolic decay}{86}{subsection.6.4.5}%
-\contentsline {todo}{\emph {Todo: }Describe probability updates affected by a hyperbolic decay bias}{86}{subsection.6.4.5}%
+\contentsline {todo}{\emph {Todo: }Describe probability updates by way of a simple PMF defined by previous outcomes}{87}{subsection.6.4.4}%
+\contentsline {todo}{\emph {Todo: }Find citations explaining hyperbolic decay}{87}{subsection.6.4.5}%
+\contentsline {todo}{\emph {Todo: }Describe probability updates affected by a hyperbolic decay bias}{87}{subsection.6.4.5}%
 \contentsline {todo}{\emph {Todo: }Discuss specifics of how we intend to analyse data, rather than high-level experimental overview presented in earlier chapters}{87}{section.6.5}%
 \contentsline {todo}{\emph {Todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{93}{chapter.8}%
 \contentsline {todo}{\emph {Todo: }Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scapbook of ideas!}{93}{chapter.8}%
