@@ -719,6 +719,15 @@ models of behavioural variance invites itself as future work.
 % lookups! Handle those scenarios and treat as an unwinnable game for the
 % appropriate player.
 
+A consequence of playing games using only optimal moves was that unexpected
+states could occur. One might assume that, choosing moves optimally, with a
+dataset of available moves in every game state, it would be infeasible to arrive
+at states not present in this dataset. However: the dataset, produced through
+model checking, was produced for the purpose of identifying the cost of an
+action regards its impact on a player's chance of winning. If a loss is
+guaranteed, all moves have a 0\% chance of winning; the model checker producing
+the dataset of available moves therefore declared the game a foregone
+conclusion, and 
 
 
 
