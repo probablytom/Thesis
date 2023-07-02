@@ -574,7 +574,102 @@ reason about. We can infer that:
   to their experience in the game.
 \end{itemize}
 
-\inline{We've set the stage to explain and justify our own models of learning. Let's go!}
+% \inline{We've set the stage to explain and justify our own models of learning. Let's go!}
+The model of learning used to simulate players' improved play of RPGLite can be
+explained following a similar structure: a component pertaining to observations
+players make about winning characters; a component pertaining to their inclination
+to use that knowledge when choosing characters (rather than exploring their options);
+and a component pertaining to the strength of that inclination in proportion to their
+experience.
+
+The first --- that players should make observations about winning players --- can
+be implemented by modelling the choice as a probability mass function (PMF). The PMF
+maps character pairs to their chance of being selected by a player, and initially tracks
+all character pairs as having an equal chance of being selected. After every game, the chance
+of selecting the winning character pair increases, and the chance of selecting any other pair
+decreases. The sum of probabilities of being selected across all character pairs always sums
+to 1 (100\%). This can be implemented as a record of the winning character pairs observed by
+a player: many ways of producing a PMF from a sequence of wins exist, but for the purposes of
+explanation, one such method is to take the proportion of wins for every character pair as 
+their probability of being selected. This method produces a valid PMF because the probabilities
+must sum to 1 by virtue of the winning pairs being the sole determinant of the probabilities;
+every win contributing to the probability of a character pair being chosen means that
+100\% of character pairs are considered, and therefore the probabilities inferred from that data
+also sum to 1.
+
+A model of learning where prior belief as to optimal character pair is causally related to
+those which were previously successful fulfils the first criterion of the model of learning proposed
+by \citeauthor{lachman1997learning}~cite{lachman1997learning}; however, players would be expected to
+explore a state space in the early stages of their experience. The model proposed by
+\citeauthor{lachman1997learning} identifies that the experience of a learning agent draws from
+``regularity'' in their environment; we therefore require that an experience affects behaviour
+not when it originally surfaces, but after repeated exposure to it. This fulfils the intuitive
+understanding of learning discussed earlier --- players' confidence in what they have learned affecting
+their inclination to act based on experience --- our second criterion. We therefore require some model of
+confidence an agent has in what they have learned.
+
+The third inference --- that confidence should be low initially, and grow proportionally to experience ---
+explains the ``shape'' of the confidence model. We require a monotonically increasing function mapping
+experience, quantifiable as games played, to confidence, being a percentage chance between 0\% and 100\% that
+a player is to determine their character choice based on what was learned, rather than on an exploration of
+their space of possible choices.
+
+Such a model of confidence offers a model of learning when combined with a PMF representing historical
+observations of a character pair's success.
+If the model of confidence indicates that the player is to explore their space of possible choices, they
+select character pairs randomly; if they are modelled as confident enough that
+their behaviour is instead informed by their experience of their environment,
+they select a character pair according to the PMF their historical observations define.
+As the PMF affords higher probabilities to repeatedly winning character pairs, player behaviour
+is causally affected by the regularity of their experience, implementing a realistic model of learning
+in agreement with the functional model proposed by \citeauthor{lachman1997learning}~\cite{lachman1997learning}.
+
+Our model of learning is therefore complete, but a model of confidence remains to be defined.
+
+\subsection{Modelling Player Confidence in RPGLite}\label{subsec:confidence_model}
+
+To model learning, we must find some function mapping experience (quantified by a count of games played) to
+some probability between 0 and 1, and fitting the criteria described in \cref{subsec:defining_our_models_of_learning}.
+
+A sigmoid curve fulfils both the second and third inferences in \cref{subsec:defining_our_models_of_learning}.
+It also notionally conforms to expectations
+around ``confidence'' as an anthropomorphic trait: much like a sigmoid, confidence starts low, and remains so until
+it achieves some inflection point, after which it grows rapidly until tapering asymptotically toward some maximum.
+However, not all real-world players might express the same traits in their growth of confidence; the shape
+of their sigmoidal confidence may differ. In order to account for this while guaranteeing a monotonically
+increasing mapping of the number of games played to a player's confidence, we select a sigmoid which can
+be parameterised to alter their shape.
+
+A sigmoidal curve is suitable for this model of learning where other curves would not suffice, because we
+require a period where players lack confidence and explore their options. Sigmoid curves such as
+the logistic~\cite{verhulst1845loi} or Gompertz~\cite{gompertz1815curve} are widely used when modelling
+systems~\cite{werker1997modelling}, but while they fulfil the role of a monotonically increasing curve
+with asymptotically low and high initial and final states, the shape of such curves is not trivially modified
+to fit different players' learning styles.
+
+More flexible asymptotic curves were developed by
+\citeauthor{richards1959flexiblegrowth}~\cite{richards1959flexiblegrowth} drawing on growth curves developed by
+\citeauthor{von1938quantitative}~\cite{von1938quantitative}, which afford a natural pattern of growth;
+\citeauthor{richards1959flexiblegrowth} amends this curve to offer a parameterised growth rate. This curve
+can be made equivalent to other curves, including the logistic and Gompertz~\cite{france1984mathematical}.
+This curve allows for a parameterised rate of growth, but lacks parameters controlling the points at which
+growth occurs most rapidly. The relative rate of confidence gain is a separate concern to the point at which
+such growth occurs: a player might cautiously grow in their confidence until they are already very experienced, or
+might bullishly grow in confidence yet plateau early, taking longer to reach complete confidence in themselves
+than they did to garner an initial increase, regardless of their relative growth in confidence.
+
+The flexibility of a parameterised relative growth rate appeals to the notion that different players would
+gain confidence at different rates, but the point at which confidence accelerate most must also be controlled.
+We therefore employ the Birch curve, proposed by \citeauthor{birch1999new}~\cite{birch1999new} for
+its increased flexibility as compared to the Richards curve combined with its additional parameter used to control
+the curve's shape.
+\footnote{\citeauthor{birch1999new} refers to shape to mean the point of inflection of a curve. The point
+of inflection of an exponential rise to a limit is at its initial point; the point of inflection of the
+logistic curve is in the exact midpoint of the curve's growth.}
+Different players might exhibit different rates of growth in their confidence, and might grow maximally in their
+confidence at different points in their experience; the birch curve satisfies these properties as a model of
+confidence.
+\inline{Investigate: did we ever model confidence with anything other than c==1, i.e. a standard logistic curve?}
 
 
 \section{Aspects Applied}\label{sec:optimisation_with_aspects_aspectsdeveloped}
@@ -699,6 +794,24 @@ selection which performs a lookup on the dataset of action costs defined by
 \citeauthor{kavanagh2021gameplay}~\cite{kavanagh2021gameplay}, and select the
 known-optimal move in every case.
 
+One additional factor in move selection is handled by this aspect. As simulated
+players' behaviours are augmented to select universally optimal moves, an
+anomaly in the dataset was identified. In some games, optimal play would result
+in infinite loops: players would arrive in a state where they would skip turns
+mutually and indefinitely. This is because it is possible that, in RPGLite, to
+make any move is disadvantageous. \footnote{This is because barbarians deal more
+damage once they lose a sufficient number of hit points. As a result, to deal
+damage to a barbarian can result in their having an opportunity to win in one
+move rather than two in certain health states.} Both players can concurrently
+exist in this state. Therefore, both players' optimal move is to skip their
+turn. \citeauthor{kavanagh2021gameplay} note that such states were reached in 64
+cases in real-world play, but real-world players never skipped their turn;
+therefore, this scenario is also an example where suboptimal play can be
+re-introduced. This aspect therefore returns random moves if the previous two
+moves in a game were to skip. Such a state indicates that the game reached a
+stable point where neither player would optimally deal damage to the other.
+Random moves destabilise this state and return to ordinary play.
+
 A model of move selection more closely aligned with expectations of player
 behaviour is beyond the scope of this thesis: a demonstration that models of
 both move selection and character selection can be optimised concurrently to
@@ -720,21 +833,46 @@ models of behavioural variance invites itself as future work.
 % appropriate player.
 
 A consequence of playing games using only optimal moves was that unexpected
-states could occur. One might assume that, choosing moves optimally, with a
-dataset of available moves in every game state, it would be infeasible to arrive
-at states not present in this dataset. However: the dataset, produced through
-model checking, was produced for the purpose of identifying the cost of an
-action regards its impact on a player's chance of winning. If a loss is
-guaranteed, all moves have a 0\% chance of winning; the model checker producing
-the dataset of available moves therefore declared the game a foregone
-conclusion, and 
+states could occur. One might assume that, choosing moves optimally from a
+dataset of available moves in every game state it would be infeasible to arrive
+at states not present in this dataset. However: the dataset was produced through
+model checking, with the aim of identifying the cost of an action regards its
+impact on a player's chance of winning. If a loss is guaranteed, all moves have
+a 0\% chance of winning; the model checker producing the dataset of available
+moves therefore identifies that the game is a foregone conclusion, and contains
+no valid moves. 
 
+In such a situation, identifying the winning player is as simple as identifying
+the player who made the previous move. We therefore apply an aspect which handles
+exceptions raised by move selection (as lookups will fail due to the game's current
+move state not existing in the dataset of action costs) and, after identifying that
+the exception indicates that the state does not exist (in this case, a 
+\lstinline{KeyError}), the aspect handles the exception by assigning the losing player's
+characters 0 health and swapping active players so that the simulated game proceeds with
+the losing player taking the following turn. As this turn starts with the active player
+having 0 health, the game ends as expected.
 
 
 % TODO: Section / subsection for observational aspects
 \subsection{Aspects for Instrumentation}\label{subsec:aspects_instrumenting_model}
 
+As explained in \cref{sec:optimisation_with_aspects_aspectsdeveloped}, the experiment
+being discussed requires observational apparatus to be implemented in order to
+collect data about the experiment for later analysis. Ordinary experimental setups
+might require this apparatus to be tangled through the experimental codebase; however,
+aspect orientation provides a technique for augmenting the simulation to make observations
+before, during, or after any step of within the model. This demonstrates observational
+scaffolding as a cross-cutting concern as suggested by~\citeauthor{gulyas1999use}~\cite{gulyas1999use}.
+Aspects realising this concept and supplying observations and additional models in support of our
+model of learning are discussed here.
+
+
 \subsubsection{Update Model of Confidence}
+
+The models of learning described in \cref{subsec:aspects_modelling_learning} have players
+make observations as to the character pairs which most frequently win games, and
+have those players alter their behaviour in response to these observations. However,
+as discussed in 
 
 \subsubsection{Record Prior Distribution of Character Preferences}
 \inline{Looks like aspect recording prior distribution might be applied to data
