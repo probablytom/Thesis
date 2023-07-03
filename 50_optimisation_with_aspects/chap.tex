@@ -872,27 +872,105 @@ model of learning are discussed here.
 The models of learning described in \cref{subsec:aspects_modelling_learning} have players
 make observations as to the character pairs which most frequently win games, and
 have those players alter their behaviour in response to these observations. However,
-as discussed in 
+as discussed in \cref{subsec:confidence_model}, a model of confidence is required to complete
+our model of learning. This model of confidence is a sigmoid curve, and the Birch curve was selected
+for our model of confidence. The role of this aspect is to update the birch curve when a game ends.
+
+An aspect updating our model of confidence is applied to act after a game ends (an ``encore'' in
+PyDySoFu's parlance), and updates a value in the model's environment for confidence models. Confidence
+is represented as a mapping of player objects to floating point values between 0 and 1. The aspect supports
+modelling confidence in many ways, identified by a \lstinline{sigmoid_type} parameter within the model's environment.
+% However, the model was executed using a \lstinline{birch_c} logistic curve, which implemented the 
+\inline{OH NO. I just realised our models don't use birch at all, they use a logistic curve.
+They also use a relative growth rate on the logicstic curve that I'm unsure of — not sure why I implemented
+it the way I did.
+Getting increasingly close to just re-running my models. I could run them again using birch, and maybe anneal to
+a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXED ASAP.}
+
+\begin{enumerate}
+  \item A logistic curve
+\end{enumerate}
+
+
 
 \subsubsection{Record Prior Distribution of Character Preferences}
 \inline{Looks like aspect recording prior distribution might be applied to data
 generation; figure out how to fit it into \cref{fig:all_aspects_applied}.}
 
-\subsubsection{Record Character Choices}
+%% IMPORTANT NOTE TO SELF
+%%
+%% The reason we have a prior is because it's being calculated on TRAINING DATA.
+%% The training fold contains a bunch of data which we use as our prior when picking future
+%% character pairs under some models.
+%% I need to look more into this but I'm certain it's what's happening.
+%% I _definitely_ need to think more about why I did it this way, and find some notes / messages
+%% from around te time to load back up what my train of thought was vis-a-vis using the training fold
+%% in this way. I guess the idea was to use the training fold as a starting point for the model, and then show that
+%% we can use it to "fill in" gaps in the dataset by producing similar information to what's in the 
+%% testing fold, but it feels unusual; need to properly understand this.
+%%
+%% END IMPORTANT NOTE TO SELF
 
-\subsubsection{Track Outcomes of Games}
+\subsubsection{Record Character Pair Choices}
+It is important to keep track of the characters chosen by simulated players, as this data is
+required to analyse the outcome of the experiment~\inline{Do we describe an experiment singular or experiments plural in
+\cref{chap:exp1_simulation_optimisation}?} outlined in this chapter. However, the naive model makes
+no special accommodation for the collection of character choices made by players. Character choices could
+be calculated by iterating through the list of completed games after a simulation is complete, filtering
+for games relating to a specific player. However, the collection of character selection data can be simplified
+by tracking what was played at the end of a game.
+This is achieved with with an
+aspect which observes the character pairs played in a completed game, and appends each players' chosen pairs to their own list.
+This aspect is applied after
+its join point executes (an ``encore'' in PyDySoFu parlance\inline{reference pdsf's explanatory chapter
+/ re-engineering chapter here? unsure which is most appropriate / introduces the concepts first.}).
+
+There are many ways to collect this data, aspectually or otherwise; however, the simplicity of collecting information mid-process
+without requiring modification of a base model demonstrates the flexibility of an aspectual augmentation of models and simulations
+as an approach. Collection of chosen character pairs mid-simulation is an opportune example of this convenience.
+
+\subsubsection{Track Detailed Outcomes of Games}\label{subsubsec:detailed_game_outcome_tracking_aspect}
+Similarly to the recording of character pair choices, the outcomes of games must be tracked. This information
+is important as an input of our model of learning, as successes and failures observed by players for each character pair
+can inform their models of learning. Some models of learning implemented, such as one including a hyperbolic decay bias
+(to be explained later, in \cref{subsubsec:learning_with_hyperbolic_decay}), require not only knowledge of the proportion of wins
+each character pair has achieved, but also the history of wins and losses: players might be biased toward recent win/loss observations,
+discounting older experiences in favour of the new. Detailed historical win/loss information must therefore be recorded.
+
+As with character pair choices, the naive model was not engineered with the intention of providing this information specifically.
+However, the model is easily instrumented to collect such information at many suitable points. As with recording
+a player's chosen character pairs, an ``encore'' aspect was implemented which records wins and losses observed for character pairs
+on game end. Specifically, the aspect models players observing character pairs which won at the end of a game, lost at the end of
+a game, and also pairs which were uninvolved in the game. This requires a list of outcomes (wins, losses, and neither) for every player, for every character pair.
+The lists of observed outcomes for a given character pair record 
+\lstinline{True} for a winning pair, \lstinline{False} for a losing pair, and \lstinline{None} for a character which was not
+involved in the game's outcome. Each player observes the relevant state for every character at the end of any game they play. 
+Provisions were made in the implementation of this aspect for a player only paying attention to
+their own outcomes (i.e. only recording whether their own pair won or lost, without consideration for their opponent's outcome),
+though in practice all simulations were performed with players observing both their own outcomes and those of their opponents.
 
 \subsubsection{Record Winning Pair seen by Players on Game End}
+Unlike the detailed game outcome data recorded by the aspect described in \cref{subsubsec:detailed_game_outcome_tracking_aspect} and used
+in advanced learning models such as that of hyperbolic decay (to be explained later, in \cref{subsubsec:learning_with_hyperbolic_decay}),
+other learning models required only simple outcome data. The simpler model of learning making use of
+a distribution of winning teams to be explained in \cref{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}
+is more easily implemented against a simple list of winning teams. Rather than coalescing the more complex dataset collected as described in
+\cref{subsubsec:detailed_game_outcome_tracking_aspect} to achieve the desired format, another aspect can be applied
+to collect the data in a simpler format directly.
 
+An aspect was implemented which also models players observing winning character pairs on game end, but collects the data in a
+simple list of character pairs observed to win games, rather than a mapping of character pairs to game end states as described in
+\cref{subsubsec:detailed_game_outcome_tracking_aspect}. Character pairs which lose games or are not involved are not recorded for the purpose
+of the alternative model of learning.
 
 % TODO: Section / subsection for models of learning
 \subsection{Aspects Implementing Models of Learning}\cref{subsec:aspects_modelling_learning}
 
 \subsubsection{Character Selection from prior distribution}
 
-\subsubsection{Character Selection using confidence sigmoid}
+\subsubsection{Character Selection using confidence sigmoid}\label{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}
 
-\subsubsection{Character Selection exhibiting hyperbolic decay}
+\subsubsection{Character Selection exhibiting hyperbolic decay}\label{subsubsec:learning_with_hyperbolic_decay}
 
 
 

@@ -53,19 +53,22 @@
 \contentsline {todo}{\emph {Todo: }These RQs are taken from an early outline of a thesis structure. Maybe they need rewording?}{77}{Item.22}%
 \contentsline {todo}{\emph {Todo: }Cite William's thesis as a source for objectively optimal character pair selections.}{78}{Item.22}%
 \contentsline {todo}{\emph {Todo: }Rearrange either this paragraph of the sections it refers to so they're in order / make sense. At time of writing they refer to 6.3.1, then 6.4, then 6.3.2, then 6.5\ldots {}!}{79}{Item.22}%
-\contentsline {todo}{\emph {Todo: }We've set the stage to explain and justify our own models of learning. Let's go!}{82}{subsection.6.3.2}%
-\contentsline {todo}{\emph {Todo: }The ordering of this explanation of different uses of aspects is confusing; once the aspects are explained individually, reorder the sections, rework the introduction to the structure of this section, and ensure the outline of the section reflects the changes made.}{83}{Item.25}%
-\contentsline {todo}{\emph {Todo: }Make a reference to the chapter(s) where I explain different seasons of RPGLite.}{85}{section*.6}%
-\contentsline {todo}{\emph {Todo: }Do I need code snippets for notes on aspects?}{86}{section*.6}%
-\contentsline {todo}{\emph {Todo: }Looks like aspect recording prior distribution might be applied to data generation; figure out how to fit it into \cref {fig:all_aspects_applied}.}{86}{section*.9}%
-\contentsline {todo}{\emph {Todo: }Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}{86}{section*.15}%
-\contentsline {todo}{\emph {Todo: }Describe probability updates by way of a simple PMF defined by previous outcomes}{87}{subsection.6.4.4}%
-\contentsline {todo}{\emph {Todo: }Find citations explaining hyperbolic decay}{87}{subsection.6.4.5}%
-\contentsline {todo}{\emph {Todo: }Describe probability updates affected by a hyperbolic decay bias}{87}{subsection.6.4.5}%
-\contentsline {todo}{\emph {Todo: }Discuss specifics of how we intend to analyse data, rather than high-level experimental overview presented in earlier chapters}{87}{section.6.5}%
-\contentsline {todo}{\emph {Todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{93}{chapter.8}%
-\contentsline {todo}{\emph {Todo: }Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scapbook of ideas!}{93}{chapter.8}%
-\contentsline {todo}{\emph {Todo: }cite the thesis here of Jeremy's student who worked in Python. He was very nice --- can't remember his name for the life of me.}{94}{subsection.8.1.1}%
-\contentsline {todo}{\emph {Todo: }Would be nice to have a third reason as to why PyDySoFu\xspace introduces new research possibilities.}{94}{subsection.8.1.1}%
-\contentsline {todo}{\emph {Todo: }cite William's PhD here}{96}{section.8.2}%
-\contentsline {todo}{\emph {Todo: }Duplicate citation to clean up}{106}{chapter*.16}%
+\contentsline {todo}{\emph {Todo: }Investigate: did we ever model confidence with anything other than c==1, i.e. a standard logistic curve?}{85}{subsection.6.3.3}%
+\contentsline {todo}{\emph {Todo: }The ordering of this explanation of different uses of aspects is confusing; once the aspects are explained individually, reorder the sections, rework the introduction to the structure of this section, and ensure the outline of the section reflects the changes made.}{86}{Item.25}%
+\contentsline {todo}{\emph {Todo: }Make a reference to the chapter(s) where I explain different seasons of RPGLite.}{88}{section*.6}%
+\contentsline {todo}{\emph {Todo: }Do I need code snippets for notes on aspects?}{89}{section*.6}%
+\contentsline {todo}{\emph {Todo: }OH NO. I just realised our models don't use birch at all, they use a logistic curve. They also use a relative growth rate on the logicstic curve that I'm unsure of — not sure why I implemented it the way I did. Getting increasingly close to just re-running my models. I could run them again using birch, and maybe anneal to a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXED ASAP.}{90}{section*.8}%
+\contentsline {todo}{\emph {Todo: }Looks like aspect recording prior distribution might be applied to data generation; figure out how to fit it into \cref {fig:all_aspects_applied}.}{90}{section*.9}%
+\contentsline {todo}{\emph {Todo: }Experiment or experiments in \cref {chap:exp1_simulation_optimisation}?}{90}{section*.10}%
+\contentsline {todo}{\emph {Todo: }reference pdsf's explanatory chapter / re-engineering chapter here? unsure which is most appropriate / introduces the concepts first.}{91}{section*.10}%
+\contentsline {todo}{\emph {Todo: }Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}{93}{section*.15}%
+\contentsline {todo}{\emph {Todo: }Describe probability updates by way of a simple PMF defined by previous outcomes}{93}{subsection.6.4.4}%
+\contentsline {todo}{\emph {Todo: }Find citations explaining hyperbolic decay}{93}{subsection.6.4.5}%
+\contentsline {todo}{\emph {Todo: }Describe probability updates affected by a hyperbolic decay bias}{93}{subsection.6.4.5}%
+\contentsline {todo}{\emph {Todo: }Discuss specifics of how we intend to analyse data, rather than high-level experimental overview presented in earlier chapters}{93}{section.6.5}%
+\contentsline {todo}{\emph {Todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{99}{chapter.8}%
+\contentsline {todo}{\emph {Todo: }Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scapbook of ideas!}{99}{chapter.8}%
+\contentsline {todo}{\emph {Todo: }cite the thesis here of Jeremy's student who worked in Python. He was very nice --- can't remember his name for the life of me.}{100}{subsection.8.1.1}%
+\contentsline {todo}{\emph {Todo: }Would be nice to have a third reason as to why PyDySoFu\xspace introduces new research possibilities.}{100}{subsection.8.1.1}%
+\contentsline {todo}{\emph {Todo: }cite William's PhD here}{102}{section.8.2}%
+\contentsline {todo}{\emph {Todo: }Duplicate citation to clean up}{113}{chapter*.16}%
