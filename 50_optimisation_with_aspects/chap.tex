@@ -63,11 +63,10 @@ modelling player behaviour and accurately modelling different players:
     variables can be expected to be weighted differently by each player, adding
     complexity to the code which models this individualised play.
     \item A modeller might discover a new idea for a heuristic long after
-    developing an original concept for a model. The easiest methods for amending
-    the original model should require the least rewriting of original code. Due
+    developing an original concept for a model. Due
     to the impact of \pointno{2}, ideal architectures for an approach such as
-    this should require these heuristics to be defined entirely separately to
-    the base model.
+    this should allow these heuristics to be defined entirely separately to
+    the base model to maximise flexibility when maintaining experiments.
 \end{enumerate}
 
 Considering \pointno{1}, \pointno{2}, and \pointno{3}, architectures and
@@ -371,8 +370,7 @@ naive model to augment player behaviour. Simulated players will have their
 behaviour augmented in relation to the character pairs they choose to play.
 Real-world players could reasonably be expected to choose character pairs which
 are stronger together over time. In addition, it is possible to calculate
-objectively optimal character pair selections in RPGLite\inline{Cite William's
-thesis as a source for objectively optimal character pair selections.};
+objectively optimal character pair selections in RPGLite~\cite{kavanagh2021thesis};
 therefore, players should be expected to gravitate toward more optimal character
 pairs and away from poorer choices as they become more experienced in the game.
 
@@ -894,8 +892,8 @@ a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXE
 
 
 \subsubsection{Record Prior Distribution of Character Preferences}
-\inline{Looks like aspect recording prior distribution might be applied to data
-generation; figure out how to fit it into \cref{fig:all_aspects_applied}.}
+% \inline{Looks like aspect recording prior distribution might be applied to data
+% generation; figure out how to fit it into \cref{fig:all_aspects_applied}.}
 
 %% IMPORTANT NOTE TO SELF
 %%
@@ -910,6 +908,12 @@ generation; figure out how to fit it into \cref{fig:all_aspects_applied}.}
 %% testing fold, but it feels unusual; need to properly understand this.
 %%
 %% END IMPORTANT NOTE TO SELF
+
+\inline{Keeping this in because I might need to explain the aspect, but it's only
+used in the implementation of choosing based on prior distribution, which I don't
+believe is ever applied. So! Decide whether to get rid of the writeup of that model.
+If I \emph{am}, then get rid of this too. If not, add it to the learning models writeup
+below and explain it here.}
 
 \subsubsection{Record Character Pair Choices}
 It is important to keep track of the characters chosen by simulated players, as this data is
@@ -949,7 +953,7 @@ Provisions were made in the implementation of this aspect for a player only payi
 their own outcomes (i.e. only recording whether their own pair won or lost, without consideration for their opponent's outcome),
 though in practice all simulations were performed with players observing both their own outcomes and those of their opponents.
 
-\subsubsection{Record Winning Pair seen by Players on Game End}
+\subsubsection{Record Winning Pair observed by Players on Game End}\label{subsubsec:aspect_to_observe_winning_pair}
 Unlike the detailed game outcome data recorded by the aspect described in \cref{subsubsec:detailed_game_outcome_tracking_aspect} and used
 in advanced learning models such as that of hyperbolic decay (to be explained later, in \cref{subsubsec:learning_with_hyperbolic_decay}),
 other learning models required only simple outcome data. The simpler model of learning making use of
@@ -964,37 +968,250 @@ simple list of character pairs observed to win games, rather than a mapping of c
 of the alternative model of learning.
 
 % TODO: Section / subsection for models of learning
-\subsection{Aspects Implementing Models of Learning}\cref{subsec:aspects_modelling_learning}
+\subsection{Aspects Implementing Models of Learning}\label{subsec:aspects_modelling_learning}
 
-\subsubsection{Character Selection from prior distribution}
+% * The aspects already described explain how we set up the model for applying our learning implementations,
+%   both instrumenting it for observation and tweaking fundamental behaviours.
+% * Now we need to implement models of learning! We'll present two.
+% * First, a simple model of learning as described in \cref{subsec:models_of_learning_discussed}
+%   which uses a confidence sigmoid to discern between selecting character pairs based on what was 
+%   previously observed to win games, and random selections representing exploration of a player's options.
+% * Second, a more complex model of learning which applies the same concepts, but introduces a hyperbolic decay
+%   on the simulated player's learning, introducing a biased model of learning.
 
-\subsubsection{Character Selection using confidence sigmoid}\label{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}
+The aspects described above implement setup for the models of learning applied in this thesis,
+both instrumenting the underlying RPGLite model for observation and tweaking behaviours of the naive model.
+Two aspects remain unexplained, implementing the learning models themselves.
 
-\subsubsection{Character Selection exhibiting hyperbolic decay}\label{subsubsec:learning_with_hyperbolic_decay}
+The first model of learning left to be described is implemented as described in
+\cref{subsec:models_of_learning_discussed}, drawing from a record of character pairs observed to win
+in earlier games to select characters in future games, in accordance with a model of confidence which activates
+either this behaviour or a randomly selected pair. A detailed description follows in
+\cref{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}.
 
-
+The second model of learning left to be described
+implements a similar logic, but introduces a weighting on the history of winning pairs a player
+observes, introducing a hyperbolic discounting bias to historical observations. 
+In this model, players increasingly discount old observations in favour of recent ones. A model of learning with
+a hyperbolic discounting bias is described in
+\cref{sec:optimisation_with_aspects_experimental_design}.
 
 \inline{Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}
 
-\subsection{Simple Model of Learning}\label{subsec:optimisation_with_aspects_basiclearningaspect}
+% \subsubsection{Character Selection from prior distribution}
+% ==== NOTE: the above subsubsection references an aspect where characters are picked directly from
+%            the prior distribution from a training set, and doesn't contain a model of learning at all.
 
-\inline{Describe probability updates by way of a simple PMF defined by previous outcomes}
+\subsubsection{Character Selection using confidence sigmoid}\label{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}
+
+The first model of learning applied through aspect orientation draws on character pairs a 
+simulated player observed to have won games (as recorded by the relevant instrumenting aspect,
+discussed in \cref{subsubsec:aspect_to_observe_winning_pair}). The record of previously winning character
+pairs defines a probability mass function by selecting a character with equal probability to
+their rate of appearance in the history of winning characters.
+
+Selecting a character based on this
+distribution is gated by a confidence model as described in \cref{subsec:confidence_model}. If a
+simulated player's confidence model indicates insufficient experience to found decisions on, players
+will instead select characters randomly, effectively exploring their space of possible choices.
+By doing so, players have the time and opportunity to observe many matchups between different character pairs.
+Time to observe matchups is important because some character pairs may only present a strong choice
+if played against specific alternatives.
+We can imagine a character pair which is extremely effective against 50\% of pairs, but extremely likely
+to lose games played against the remaining 50\% of possible opponents. Without exploring possible matchups,
+a player may lack observations which would inform them about whether a character pair is effective in general, or
+in a narrow set of circumstances. A confidence model encouraging early exploration promotes the experience
+of a wide variety of matchups, avoiding this issue.
+
+Another concern early exploration mitigates is that simulated players need opportunities to build
+well-rounded priors: if a character pair is never selected by any player, experienced players basing their
+character pair choices on those which previously win games cannot include pairs which were never selected,
+because they will never have had the opportunity to win games at all.
+
+This aspect was implemented as an ``around'' aspect in PyDySoFu's parlance, allowing it to
+apply additional logic before and after its join point. It could equally appropriately have been
+implemented as an ``encore'', applying logic only after its join point had executed; the aspect
+discards the random selection made by the base model unless the simulated player lacks confidence.
+Either implementation can return a different character pair choice to the join point's caller, allowing
+the chosen character pair to effectively be overridden, and so allowing the aspect-applied RPGLite model to
+proceed executing as it would otherwise; the only difference being the pair of characters ``chosen'' by the
+simulated player whose behaviour was augmented.
+
+
+\subsubsection{Character Selection exhibiting hyperbolic decay}\label{subsubsec:learning_with_hyperbolic_decay}
+
+Character selection with hyperbolic decay works similarly to the simple model of learning
+as described in \cref{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}.
+Character pairs are selected randomly if a player lacks confidence or, if the confidence model applied
+to the player indicates that character pairs are to be chosen according to their historical observations of
+winning pairs, their record of winning pairs in previous games informs their choices instead. However,
+this model also applies a hyperbolic discounting bias which weights the player's historical observations
+when making choices.
+\inline{Maybe we should have also produced models of other discounting mechanisms, like exponential discounting
+(which I \emph{believe} is actually the logically sound way to discount). Would be interesting to see
+whether some players are well-modelled by other discounting mechanisms. Investigate this!}
+
+Hyperbolic discounting is a bias studied in behavioural economics.
+\inline{Find citations explaining hyperbolic discounting}
+
+A hyperbolically discounted score for an event after a delay \(D\) with discounting factor \(k\) is
+calculated by:
+
+\begin{figure}
+\[score(D) = \frac{1}{1 + kD}\]
+\caption{Hyperbolic discounting score calculation}
+\end{figure}
+
+This score can be applied to a history of games played with different character pairs to weight that history;
+this weighting can then be used to create a new PMF to draw character pair choices from, by allocating each pair
+a probability of being chosen according to its share of the weighted history of winning pairs.
+Where the previous method for selecting character pairs selected each pair with the frequency they appear
+in the record of winning pairs, this method weights the record of winning pairs; the sum weighted history of
+a character pair's wins as a proportion of the total weighted history for all pairs
+becomes the PMF for character pair selection.
+\inline{Maybe there's need here for a diagram or some extra equations to make this clearer\ldots{}?}
+
+With this scoring mechanism, our model of learning incorporates a behavioural bias which some real-world players
+may exhibit. Player character choices can now be modelled through different behavioural variations applied to the 
+naive model. The resulting behaviours from each model of learning can be compared to that exhibited by the naive model
+to discern which produces simulated RPGLite play more similar to a given real-world player's;
+methods for doing so are explored in the remainder of this chapter. 
+
+\section{Experimental Design using Aspectual Learning Models}\label{sec:optimisation_with_aspects_experimental_design}
+
+% Specifics of how we intend to analyse our data, leading on from the brief
+% discussion in \cref{sec:optimisation_with_aspects_experimental_introduction}.
+% \inline{Discuss specifics of how we intend to analyse data, rather than high-level experimental overview presented in earlier chapters}
+
+The models of learning described in \cref{subsec:aspects_modelling_learning} can be applied to augment the naive
+model described in \cref{sec:optimisation_with_aspects_naivemodel} with learning behaviours. However,
+answering the research questions proposed in this thesis requires assessing whether the aspect-applied model
+more closely resembles real-world play than the naive model. 
+
+This section presents the strategy for comparing simulated and real-world play, and discusses the 
+measures taken to ensure an integral analysis of the datasets produced, both in terms of mitigation of
+the impact of RPGLite's inherent randomness, and in terms of the statistical significance of the results obtained.
+
+\subsection{Quantifying Similarity of Character Pair Selection}
+
+% The research questions which these experiments aim to answer require a method for comparing the similarity
+% of character pair selection in a given instance of simulated play. Quantifying how similar a simulated
+% player's character pair selections are to their real-world counterpart allows such a comparison.
+% The goal of this comparison is to determine whether synthetic datasets of character pair choice data align
+% closely with empirically sourced datasets insofar as this comparison investigates whether real-world players
+% are more accurately modelled in one simulation than another; 
+
+% What do I want to say here?
+% 
+% * We need to compare distributions of choices rather than choice history because
+%   we'd expect natural variations, and what matters is whether
+%   players ended up choosing similarly as they learned
+% * A distribution gives us a ranking of choices; we can see preferences. We're therefore interested
+%   in whether players consistently ranked certain character pairs over others.
+% * There's lots of RNG in RPGLite, so the degree to which those character pairs are picked
+%   is a tricky thing to get right. It's also not necessarily a good measure of similarity: whether
+%   players learn can be measured in a bunch of ways, and similar _proportions_ is a harder bar
+%   to reach than similar rankings.
+% * It matters that we're not interested in similar proportions because it changes the correlation
+%   metrics we use to measure. Our aim is to show that the aspect-applied model is "more realistic".
+%   We can decide what that means. If players get the character pair preferences right, surely that's
+%   enough for us.
+% * We can't predict much about our data because different players might have different properties
+%   to their character pair choices, _but_ we can make zero assumptions about the data by using
+%   an appropriate technique to calculate similarity. Non-parametric rank coefficients tell us
+%   how closely associated two rankings are. Two major choices are Spearman and Kendall; we opt for
+%   Kendall because Spearman's is sensitive to discrepancies between rankings, rather than simply whether
+%   the rankings are concordant. Character pairs which aren't chosen often are likely to have large
+%   discrepancies in rank but small discrepancies in their rate of choice, and we shouldn't penalise
+%   a dataset for having similar rates of choice but dissimilar rankings in the tail of the distribution of
+%   character pair choice.
+% * We can get the pvalue of two datasets being associated directly from scipy's implementation of
+%   Kendall's Tau; so, we can use the pvalue of the datasets being associated as our similarity metric.
+
+% * We need to compare distributions of choices rather than choice history because
+%   we'd expect natural variations, and what matters is whether
+%   players ended up choosing similarly as they learned
+
+The experiments presented in this chapter make comparisons of many synthetic datasets to a single
+empirically sourced dataset; that of a player whose learning of RPGLite we aim to simulate.
+The comparisons are required to determine which of the synthetic datasets most closely matches the
+empirical dataset.
+We are specifically interested in determining whether players played with preference toward similar
+character pairs. The distribution of their choices describes a bias toward some pairs, and away from others.
+The distribution of the naive model, being randomly chosen, should exhibit no bias; a simple
+null hypothesis is therefore that a simulated dataset is as similar to real-world play as a randomly generated one;
+there exists no bias comparable to that exhibited by the empirical dataset in this case. Our hypothesis in answering
+the first research question posed is that, with models of learning applied through aspect orientation,
+the naive model can exhibit biases toward character pairs similar to that of a real-world dataset.
+The simulated play would therefore exhibit a more ``realistic'' behaviour in character selection
+than the naive model as a result of the aspects applied.
+
+% * There's lots of RNG in RPGLite, so the degree to which those character pairs are picked
+%   is a tricky thing to get right. It's also not necessarily a good measure of similarity: whether
+%   players learn can be measured in a bunch of ways, and similar _proportions_ is a harder bar
+% * A distribution gives us a ranking of choices; we can see preferences. We're therefore interested
+%   in whether players consistently ranked certain character pairs over others.
+
+We expect discrepancies in the specific character pairs selected in
+games (such as the order of character selection) because of the random nature of character selection.
+However, it is feasible to assess the similarity between
+the distribution of character pairs chosen by simulated and real-world players. The distribution
+of a player's chosen character pairs describes the preferences of that player by ranking their selections.
+We can therefore examine the similarities between a player's character pair preferences, assessed by
+their rankings, and the preferences of simulated players to arrive at a measurement of similarity between
+the datasets. We therefore seek to quantify similarity of character pair selection by measuring the
+distribution's rank correlation.\inline{Should I explain rank correlation more where it's first introduced\ldots{}?}
+
+Many rank correlation measurements exist; \inline{Briefly discuss the different rank correlation measurements
+I could have chosen.}
+
+% * There's lots of RNG in RPGLite, so the degree to which those character pairs are picked
+%   is a tricky thing to get right. It's also not necessarily a good measure of similarity: whether
+%   players learn can be measured in a bunch of ways, and similar _proportions_ is a harder bar
+%   to reach than similar rankings.
+% * It matters that we're not interested in similar proportions because it changes the correlation
+%   metrics we use to measure. Our aim is to show that the aspect-applied model is "more realistic".
+%   We can decide what that means. If players get the character pair preferences right, surely that's
+%   enough for us.
+
+The strength of a player's preference toward different character pairs is a less useful measure of
+similarity for the purposes of this experiment than the concordance of that ordering. Players having
+a strong preference for a subset of character pairs will leave others rarely played, if ever.
+With a degree of randomness to the choices of character pairs, this may mean that a random selection of
+a character pair slightly more frequently in one dataset than another might --- with a slight boost to its
+rate of choice --- significantly increase its ranking in the distribution of character pair choices.
+This is because rarely chosen pairs will have their rates of choice dwarfed by a player's preference, and
+so their relative rates of choice are likely to be similar. This impacts our choice of rank correlation.
+
+\inline{Stopped discussing rank correlation here because I may re-run my experiments; if I do, I don't want
+to have to re-write this, because frankly it's been pretty tricky to write so far and I'm keen not to have to
+redo it. Maybe there are other correlation metrics we could pick instead; Somers' D looks promising…? Are
+there citations I could use that compare different measurements, so I could justify my choice, and maybe pick
+one that's better than \tau if it exists?}
 
 
 
 
-\subsection{Modelling Bias with Hyperbolic Decay}\label{subsec:optimisation_with_aspects_hyperbolicdecay}
+% * We can't predict much about our data because different players might have different properties
+%   to their character pair choices, _but_ we can make zero assumptions about the data by using
+%   an appropriate technique to calculate similarity. Non-parametric rank coefficients tell us
+%   how closely associated two rankings are. Two major choices are Spearman and Kendall; we opt for
+%   Kendall because Spearman's is sensitive to discrepancies between rankings, rather than simply whether
+%   the rankings are concordant. Character pairs which aren't chosen often are likely to have large
+%   discrepancies in rank but small discrepancies in their rate of choice, and we shouldn't penalise
+%   a dataset for having similar rates of choice but dissimilar rankings in the tail of the distribution of
+%   character pair choice.
+% * We can get the pvalue of two datasets being associated directly from scipy's implementation of the
+%   metric, and use that to compare similarity directly; the pvalue will tell us the chance that two
+%   datasets are similar by chance, which is effectively what we want to minimise when fitting a model of
+%   learning to a given player.
 
-\inline{Find citations explaining hyperbolic decay}
 
-\inline{Describe probability updates affected by a hyperbolic decay bias}
+\subsection{Annealing toward Player-Specific Learning Parameters}
 
-
-\section{Experimental Design}\label{sec:optimisation_with_aspects_experimental_design}
-
-Specifics of how we intend to analyse our data, leading on from the brief
-discussion in \cref{sec:optimisation_with_aspects_experimental_introduction}.
-\inline{Discuss specifics of how we intend to analyse data, rather than high-level experimental overview presented in earlier chapters}
+\inline{Discussion required here around the mitigation of randomness --- it's required because of RPGLite's
+inherent RNG --- and also explaining how we make use of a grid search in combination with
+k-fold validation to anneal toward well-fitted parameters of our models of learning for each individual player.}
 
 
 
