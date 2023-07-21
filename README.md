@@ -1,5 +1,71 @@
 Repo for PhD thesis.
 
+## Current state
+
+### By chapter
+
+- Introduction
+  - [ ] Content decided
+  - [ ] Content complete
+  - [ ] Draft 1 complete
+  - [ ] Reviewed
+  - [ ] Draft 2 complete
+- Lit review
+  - [X] Content decided
+  - [X] Content complete
+  - [X] Draft 1 complete
+  - [ ] Reviewed
+  - [ ] Draft 2 complete
+- Prior work
+  - [X] Content decided
+  - [ ] Content complete
+  - [ ] Draft 1 complete
+  - [ ] Reviewed
+  - [ ] Draft 2 complete
+- PDSF rewrite
+  - [X] Content decided
+  - [X] Content complete
+  - [ ] Draft 1 complete
+  - [ ] Reviewed
+  - [ ] Draft 2 complete
+- RPGLite
+  - [X] Content decided
+  - [X] Content complete
+  - [ ] Draft 1 complete
+  - [ ] Reviewed
+  - [ ] Draft 2 complete
+- Optimising experiments with aspects
+  - [X] Content decided
+  - [ ] Content complete
+  - [ ] Draft 1 complete
+  - [ ] Reviewed
+  - [ ] Draft 2 complete
+- Applying realistic aspects to changed models
+  - [X] Content decided
+  - [ ] Content complete
+  - [ ] Draft 1 complete
+  - [ ] Reviewed
+  - [ ] Draft 2 complete
+- Future work
+  - [ ] Content decided
+  - [ ] Content complete
+  - [ ] Draft 1 complete
+  - [ ] Reviewed
+  - [ ] Draft 2 complete
+- Closing discussion
+  - [ ] Content decided
+  - [ ] Content complete
+  - [ ] Draft 1 complete
+  - [ ] Reviewed
+  - [ ] Draft 2 complete
+  
+### Other work to do
+
+- [ ] General copy editing 🫡 (consistency in voice, hyphenation, US vs UK english, etc)
+
+
+## Plan
+
 Gantt chart for planning PhD:
 
 ```mermaid

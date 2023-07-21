@@ -22,9 +22,14 @@
 \contentsline {todo}{\emph {Todo: }Add citation for pdsf, asp}{48}{Item.10}%
 \contentsline {todo}{\emph {Todo: }Check the most up-to-date pdsf implementation --- is it actually on that backup drive?}{51}{chapter.4}%
 \contentsline {todo}{\emph {Todo: }Consider adding references to the sections through this PDSF chapter, depending on how beefy it becomes\ldots {}}{51}{chapter.4}%
+\contentsline {todo}{\color {blue}{\emph {Review: }Too informal}}{51}{section.4.1}%
+\contentsline {todo}{\color {blue}{\emph {Review: }sloppily put}}{51}{section.4.1}%
+\contentsline {todo}{\color {blue}{\emph {Review: }Could be less sloppy}}{52}{section.4.1}%
+\contentsline {todo}{\color {blue}{\emph {Review: }Could be less sloppy}}{52}{section.4.1}%
 \contentsline {todo}{\emph {Todo: }Decide whether this needs to be more thoroughly broken up / structured\ldots {}}{55}{subsection.4.2.2}%
 \contentsline {todo}{\emph {Todo: }Include a discussion of \emph {what} gets hooks added using this method\ldots {}}{55}{subsection.4.2.2}%
 \contentsline {todo}{\emph {Todo: }Consider adding local namespace weaving to pdsf3: should be easy to implement as a cheeky little monkey-patch\ldots {}}{57}{subsection.4.2.4}%
+\contentsline {todo}{\color {blue}{\emph {Review: }is this true??? verify, I think not, if imported normally, but a 5 min test seemed to confirm. Putting it down to me being rusty with pdsf.}}{57}{subsection.4.2.4}%
 \contentsline {todo}{\emph {Todo: }Describe the improved process of weaving in PDSF3}{58}{subsection.4.2.5}%
 \contentsline {todo}{\emph {Todo: }Find the newest copy of PDSF3, make a repo for it, cite the new impl}{58}{subsection.4.2.5}%
 \contentsline {todo}{\emph {Todo: }maybe add more kavanagh citations early on!}{61}{chapter.5}%
@@ -49,22 +54,22 @@
 \contentsline {todo}{\emph {Todo: }Flesh this out as a brief wrap-up of our experimental technique. The end of our ``naive'' model explanation might be useful to move down here / rework into this para.}{74}{subsection.6.1.2}%
 \contentsline {todo}{\emph {Todo: }Position this figure properly on the page.}{75}{section.6.2}%
 \contentsline {todo}{\emph {Todo: }Maybe reword? Pretty verbose.}{75}{section.6.2}%
-\contentsline {todo}{\emph {Todo: }Consider changing \cref {fig:naive_model} to only include details about the model of the game itself, leaving the steps about data analysis to the later aspect-applied version (which is the real experiment).}{75}{figure.caption.4}%
-\contentsline {todo}{\emph {Todo: }Move \cref {fig:naive_model} to .svg for fidelity}{77}{figure.caption.4}%
+\contentsline {todo}{\emph {Todo: }Consider changing \cref {fig:naive_model} to only include details about the model of the game itself, leaving the steps about data analysis to the later aspect-applied version (which is the real experiment).}{75}{figure.caption.5}%
+\contentsline {todo}{\emph {Todo: }Move \cref {fig:naive_model} to .svg for fidelity}{77}{figure.caption.5}%
 \contentsline {todo}{\emph {Todo: }These RQs are taken from an early outline of a thesis structure. Maybe they need rewording?}{77}{Item.22}%
 \contentsline {todo}{\emph {Todo: }Rearrange either this paragraph of the sections it refers to so they're in order / make sense. At time of writing they refer to 6.3.1, then 6.4, then 6.3.2, then 6.5\ldots {}!}{79}{Item.22}%
 \contentsline {todo}{\emph {Todo: }Investigate: did we ever model confidence with anything other than c==1, i.e. a standard logistic curve?}{85}{subsection.6.3.3}%
 \contentsline {todo}{\emph {Todo: }The ordering of this explanation of different uses of aspects is confusing; once the aspects are explained individually, reorder the sections, rework the introduction to the structure of this section, and ensure the outline of the section reflects the changes made.}{86}{Item.25}%
-\contentsline {todo}{\emph {Todo: }Make a reference to the chapter(s) where I explain different seasons of RPGLite.}{88}{section*.6}%
-\contentsline {todo}{\emph {Todo: }Do I need code snippets for notes on aspects?}{89}{section*.6}%
-\contentsline {todo}{\emph {Todo: }OH NO. I just realised our models don't use birch at all, they use a logistic curve. They also use a relative growth rate on the logicstic curve that I'm unsure of — not sure why I implemented it the way I did. Getting increasingly close to just re-running my models. I could run them again using birch, and maybe anneal to a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXED ASAP.}{90}{section*.8}%
-\contentsline {todo}{\emph {Todo: }Keeping this in because I might need to explain the aspect, but it's only used in the implementation of choosing based on prior distribution, which I don't believe is ever applied. So! Decide whether to get rid of the writeup of that model. If I \emph {am}, then get rid of this too. If not, add it to the learning models writeup below and explain it here.}{90}{section*.9}%
-\contentsline {todo}{\emph {Todo: }Do we describe an experiment singular or experiments plural in \cref {chap:exp1_simulation_optimisation}?}{91}{section*.10}%
-\contentsline {todo}{\emph {Todo: }reference pdsf's explanatory chapter / re-engineering chapter here? unsure which is most appropriate / introduces the concepts first.}{91}{section*.10}%
+\contentsline {todo}{\emph {Todo: }Make a reference to the chapter(s) where I explain different seasons of RPGLite.}{88}{section*.7}%
+\contentsline {todo}{\emph {Todo: }Do I need code snippets for notes on aspects?}{89}{section*.7}%
+\contentsline {todo}{\emph {Todo: }OH NO. I just realised our models don't use birch at all, they use a logistic curve. They also use a relative growth rate on the logicstic curve that I'm unsure of — not sure why I implemented it the way I did. Getting increasingly close to just re-running my models. I could run them again using birch, and maybe anneal to a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXED ASAP.}{90}{section*.9}%
+\contentsline {todo}{\emph {Todo: }Keeping this in because I might need to explain the aspect, but it's only used in the implementation of choosing based on prior distribution, which I don't believe is ever applied. So! Decide whether to get rid of the writeup of that model. If I \emph {am}, then get rid of this too. If not, add it to the learning models writeup below and explain it here.}{90}{section*.10}%
+\contentsline {todo}{\emph {Todo: }Do we describe an experiment singular or experiments plural in \cref {chap:exp1_simulation_optimisation}?}{91}{section*.11}%
+\contentsline {todo}{\emph {Todo: }reference pdsf's explanatory chapter / re-engineering chapter here? unsure which is most appropriate / introduces the concepts first.}{91}{section*.11}%
 \contentsline {todo}{\emph {Todo: }Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}{93}{subsection.6.4.3}%
-\contentsline {todo}{\emph {Todo: }Maybe we should have also produced models of other discounting mechanisms, like exponential discounting (which I \emph {believe} is actually the logically sound way to discount). Would be interesting to see whether some players are well-modelled by other discounting mechanisms. Investigate this!}{94}{section*.14}%
-\contentsline {todo}{\emph {Todo: }Find citations explaining hyperbolic discounting}{94}{section*.14}%
-\contentsline {todo}{\emph {Todo: }Maybe there's need here for a diagram or some extra equations to make this clearer\ldots {}?}{95}{figure.caption.15}%
+\contentsline {todo}{\emph {Todo: }Maybe we should have also produced models of other discounting mechanisms, like exponential discounting (which I \emph {believe} is actually the logically sound way to discount). Would be interesting to see whether some players are well-modelled by other discounting mechanisms. Investigate this!}{94}{section*.15}%
+\contentsline {todo}{\emph {Todo: }Find citations explaining hyperbolic discounting}{94}{section*.15}%
+\contentsline {todo}{\emph {Todo: }Maybe there's need here for a diagram or some extra equations to make this clearer\ldots {}?}{95}{figure.caption.16}%
 \contentsline {todo}{\emph {Todo: }Should I explain rank correlation more where it's first introduced\ldots {}?}{96}{subsection.6.5.1}%
 \contentsline {todo}{\emph {Todo: }Briefly discuss the different rank correlation measurements I could have chosen.}{96}{subsection.6.5.1}%
 \contentsline {todo}{\emph {Todo: }Stopped discussing rank correlation here because I may re-run my experiments; if I do, I don't want to have to re-write this, because frankly it's been pretty tricky to write so far and I'm keen not to have to redo it. Maybe there are other correlation metrics we could pick instead; Somers' D looks promising…? Are there citations I could use that compare different measurements, so I could justify my choice, and maybe pick one that's better than \tau if it exists?}{97}{subsection.6.5.1}%
@@ -74,4 +79,4 @@
 \contentsline {todo}{\emph {Todo: }cite the thesis here of Jeremy's student who worked in Python. He was very nice --- can't remember his name for the life of me.}{104}{subsection.8.1.1}%
 \contentsline {todo}{\emph {Todo: }Would be nice to have a third reason as to why PyDySoFu\xspace introduces new research possibilities.}{104}{subsection.8.1.1}%
 \contentsline {todo}{\emph {Todo: }cite William's PhD here}{106}{section.8.2}%
-\contentsline {todo}{\emph {Todo: }Duplicate citation to clean up}{119}{chapter*.16}%
+\contentsline {todo}{\emph {Todo: }Duplicate citation to clean up}{119}{chapter*.17}%

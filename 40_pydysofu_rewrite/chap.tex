@@ -20,8 +20,8 @@ sections through this PDSF chapter, depending on how beefy it becomes\ldots{}}
 
 \labelledsec{Requirements for Change}{pdsf3requirements}
 
-As time wore on with PyDySoFu's original implementation, it became increasingly
-clear that a rewrite was required. PyDySoFu grew out of an undergraduate
+As time wore on\revnote{Too informal} with PyDySoFu's original implementation, it became increasingly
+clear that a rewrite was required\revnote{sloppily put}. PyDySoFu grew out of an undergraduate
 project, and accrued technical debt as a result of being written under extreme
 time constraints with little experience. On revisiting, and on reflecting on
 other aspect orientation frameworks (as discussed in
@@ -40,10 +40,10 @@ process of rewriting the tool:
     efficiency. It could be seen as the ``total weaving'' described by
     \citeauthor{dynamicAOchitchyan} in~\cite{dynamicAOchitchyan}, and it was not
     possible to provide additional options to ensure that aspects could be as
-    efficiently woven as possible at runtime given a particular use-case.
+    efficiently woven as possible at runtime given a particular use-case\revnote{Could be less sloppy}.
     \item The original \pdsf implementation wove onto a \emph{class}, meaning
     that even properties of the class which were not considered join points were
-    still affected by the weaving, even if in a minor way. Because
+    still affected by the weaving, even if in a minor way\revnote{Could be less sloppy}. Because
     \lstinline{__getattribute__} retrieves all attributes including special
     builtin attributes and non-callable attributes, these are also returned via
     the modified implementation of \lstinline{__getattribute__}, incurring an
@@ -71,8 +71,6 @@ implementation of PyDySoFu, a new implementation satisfying them was deemed
 necessary.
 
 
-
-
 \labelledsec{Python3 Specific Implementation}{pdsf3python3}
 
 Replacing \lstinline{__getattribute__} on the class of a targeted method was no
@@ -90,13 +88,13 @@ around a target which manages applied advice as \emph{aspect hooks}.
 
 \labelledsubsec{Abandoned techniques}{pdsf3badweaving}
 
-Rather than ``monkey-patching''\footnote{Making on-the-fly changes to object
-behaviours / definitions by taking advantage of scripting languages' typically
-flexible object structures, such as objects literally being maps from string
-attribute / method names to the associated underlying value. Monkey-patching
-makes use of these simple structures and changes object behaviour by replacing
+Rather than ``monkey-patching''\footnote{Monkey-patching is the practice of making on-the-fly changes to object
+behaviours / definitions by taking advantage of language properties such as
+flexible object structures. Common examples of these structures are objects literally being maps from string
+attribute / method names to the associated underlying value, as in Python and Javascript. Monkey-patching
+makes use of these simple structures by replacing
 values such as the function object mapped to by the original function's name in
-the dictionary. This is the method by which PyDySoFu originally replaced
+the dictionary, effectively changing its behaviour. This is the method by which PyDySoFu originally replaced
 \lstinline{_getattribute__} on a class object.} a new version of
 \lstinline{__getattribute__} with hooks for weaving aspects, the rewritten
 method could be patched to the object itself at a deeper level than used in the
@@ -117,7 +115,7 @@ technique depending on its use: weaving advice around a function would mean
 monkey-patching the built-in class of functions, which would incur an overhead
 from running aspect hooks on \emph{every function call}.
 
-Other approaches involved making use of existing Python functionality for
+Another approach involved making use of existing Python functionality for
 interrupting method calls. As PyDySoFu wraps method calls at execution time,
 what is required is to add functionality to the beginning and end of the
 execution of a method. Python has built-in functionality for implementing
@@ -142,19 +140,19 @@ orientation frameworks.
 A final available technique was to continue to monkey-patch hooks to discover
 and weave aspects, via an alternative method which did not make use of
 \lstinline{__getattribute__}. This approach would change the use of PyDySoFu
-slightly to make a comprimise between performance and obliviousness of aspect
-application: when \emph{importing} a module targeted for aspect weaving, methods
+slightly to make a compromise between performance and obliviousness of aspect
+application: when importing a module targeted for aspect weaving, methods
 which are potential weaving targets are invisibly monkey-patched with a wrapper
 method with a reference to the original\footnote{Necessary to run the originally
 targeted method.} and hooks to detect and run dynamically supplied advice.
 
 % \todo{Write an explanation of pdsf3's import hook mechanism}
 An important note for discussing the implementation of \pdsf is that almost all
-Python functionality operates by use of its ``magic methods''\footnote{``Magic
+Python functionality operates by use of its ``magic methods''. ``Magic
 methods'' are methods beginning and ending with two \lstinline{_} characters.
 The Python language documentation specifies sets of magic methods and their
 required function signatures which are used internally to implement
-functionality --- for example, any object with the method \lstinline{__eq__()}
+functionality; for example, any object with the method \lstinline{__eq__()}
 defined can be compared against using the \lstinline{==} operator, and the
 \lstinline{__eq__()} magic method is run to determine the outcome of the
 operator. Magic methods support more than operator overloading. For example,
@@ -162,11 +160,11 @@ anything which defines \lstinline{__len__()} and \lstinline{__getitem__()} is
 treated as an immutable container, and adding \lstinline{__setitem__()} and
 \lstinline{__delitem__()} makes that container mutable. Any class defining
 \lstinline{__call__()} is treated as a callable object (not unlike a function).
-More can be found in the Python documentation\cite{py3docs}, although more
-focused guides exist in the Python community~\cite{magicmethodguide}.}, which
-has the affect of making the language an ideal environment to implement dynamic
-aspect orientation. Our method of adding hooks to modules at import time is an
-example of this. Python's built in importing functionality is managed by
+More can be found in Python's documentation\cite{py3docs}, although more
+focused guides exist in the Python community~\cite{magicmethodguide}.
+For the purposes of implementing import-based aspect hook weaving,
+magic methods have the affect of making the language ideal, particularly as an environment to implement dynamic
+aspect orientation. Python's functionality for importing modules is managed by
 \lstinline{builtins.__import__}, which receives module names as strings and
 handles package resolution. By monkey-patching the import system, modules can be
 modified during the process of importing.
@@ -190,20 +188,16 @@ structured\ldots{}}
 
 This can be done through another use of magic methods in a manner which also
 makes clear to a modeller exactly where aspect hooks are being applied: making
-use of Python's \lstinline{with} keyword.
+use of Python's \lstinline{with} keyword. 
 
 \labelledsubsec{Implementing import hooks}{pdsf3implementingimporthooks}
 
 We are interested in manipulating \lstinline{builtins.__import__} only when
-imports are made which should have aspect hooks woven. We enable this new import
-behaviour with a syntax of the form:
-
-\begin{lstlisting}
-with AspectHooks():
-    import mymodule
-\end{lstlisting}
-
-\ldots{} which would weave aspect hooks into all functions and (non-builtin)
+imports are made which introduce modules containing prospective join points;
+a developer might import many modules, which do not all require aspect hooks to 
+be introduced. We enable this new import
+behaviour with a syntax of the form shown in \cref{fig:simple_aspect_hook_weaving_example},
+which weaves aspect hooks into all functions and (non-builtin)
 class methods within the \lstinline{mymodule} module object added to the local
 namespace of the importing stack\footnote{Python's use of the stack namespace in
 its importing system means that careless re-importing a module can lead to
@@ -212,7 +206,7 @@ resolution (such as resolving a class by its name in a module) might, after
 applying aspect hooks in PyDySoFu, change the behaviour of procedures depending
 on where they are called. Scenarios where this might arise are deemed unlikely
 enough that the risk of this design decision becoming troublesome are considered
-negligable. Still, it would be remiss not to make note of the fact.}. Less
+negligible. Still, it would be remiss not to make note of the fact.}. Less
 formally: importing \lstinline{with AspectHooks()} applies aspect hooks to all
 potential targets of advice in the \lstinline{mymodule} package. The behaviour
 of Python's \lstinline{with} keyword is defined by more magic methods: any
@@ -220,12 +214,25 @@ object with \lstinline{__enter__()} and \lstinline{__exit__()} defined can be
 used here, where \lstinline{__enter__()} is run at the beginning of the enclosed
 block, and \lstinline{__exit__()} when leaving the block.
 
+\begin{figure}\label{fig:simple_aspect_hook_weaving_example}
+\begin{lstlisting}
+with AspectHooks():
+    import mymodule
+\end{lstlisting}
+\caption{Example of importing a module, \lstinline{mymodule}, using \pdsf{}'s import hook design.}
+\end{figure}
+
+
 PyDySoFu caches the original \lstinline{builtins.__import__} object in an
 instance of the class, and replaces it with \lstinline{AspectHooks.__import__},
 in its \lstinline{__enter__()} method. This is reversed by replacing
 \lstinline{builtins.__import__()} with the cached object in its
-\lstinline{__exit__()} function. The resulting implementation for weaving aspect
-hooks is satisfyingly uncomplicated, as can be seen in \cref{fig:aspecthooksmagicmethodswith}.
+\lstinline{__exit__()} function. \lstinline{__enter__()} and \lstinline{__exit__()} are the
+magic methods corresponding to entering and exiting Python's \lstinline{with} blocks, meaning
+that this technique modifies Python's importing only when imports are made
+within a block such as that in \cref{fig:simple_aspect_hook_weaving_example}.
+The resulting implementation for weaving aspect
+hooks is uncomplicated, as can be seen in \cref{fig:aspecthooksmagicmethodswith}.
 
 \begin{figure}[t]
 \begin{lstlisting}
@@ -252,16 +259,20 @@ class AspectHooks:
 As a technique for weaving aspect hooks, this new method provides multiple
 benefits. Application of aspect hooks is straightforward from the perspective of
 a modeller using PyDySoFu, whose code clearly applies aspect hooks and does so
-in a legible way for future maintainers, i.e. there is no confusion as to where
-aspect hooks might be applied. Aspect hooks can be applied to specific modules
+in a legible way for future maintainers. Import hooks' explicit application of hooks to modules
+means that places where aspect hooks might be applied equally explicit, and thereby implements an
+interpretation of aspect-oriented programming's principle of ``obliviousness'' moderated by clarity.
+While join points are oblivious to potential aspect application, callers of join points can expect
+to be more aware, and signs for codebase maintainers are left directly within source code.
+Aspect hooks can be applied to specific modules
 or every module depending on the use of the supplied \lstinline{with} statement,
 allowing for total weaving or actual hook weaving~\cite{dynamicAOchitchyan}
-depending on their preferences. Further, performance is optimised at least in
+depending on their preferences. Further, performance is optimised in
 comparison to the previous implementation of PyDySoFu, as hooks are weave-able
-at a more granular level (on the level of procedures such as functions or
+at a more granular level (on the level of procedures such as functions and
 methods, rather than all attributes of a class).
 
-However, there are also caveats of this approach that are necessary to address.
+There are also caveats of this approach that are necessary to address.
 As aspect hooks are woven in the new implementation of PyDySoFu via Python's
 import functionality, any procedure not imported from a module cannot have
 aspect hooks attached.\inline{Consider adding local namespace weaving to pdsf3:
@@ -271,14 +282,14 @@ to software architecture, targets are expected to exist in other modules, and we
 do not consider this to be a significant limitation.
 
 A more significant limitation of the import hook approach is that the object
-with aspect hooks woven exists in the namespace of the function \emph{importing}
-the function. In other words, this method makes it impossible for a module to
-make use of aspect hooks that are woven in an unrelated piece of code. We
-therefore have a ``semi-oblivious'' property to our aspect orientation approach:
+with aspect hooks woven exists in the namespace of the module \emph{importing}
+the join point. In other words, this method makes it impossible for a module to
+make use of aspect hooks that are woven in an unrelated piece of code.\revnote{is this true??? verify, I think not, if imported normally, but a 5 min test seemed to confirm. Putting it down to me being rusty with pdsf.}
+We therefore have a ``semi-oblivious'' property to our aspect orientation approach:
 targets of advice are unaware of any adaptations made, but \emph{any code making
 use of those adaptations must be aware enough to at least apply aspect
-hooks}\footnote{Note that once aspect hooks are applied, advice can still be
-supplied from anywhere in the codebase.}.
+hooks}.\footnote{Note that once aspect hooks are applied, advice can still be
+supplied from anywhere in the codebase.}
 
 In a manner of speaking, this can be considered to alleviate some concerns with
 aspect orientation as a paradigm. Aspect Orientation is criticised for making
@@ -290,9 +301,9 @@ proposed \lstinline{come from}
 statement~\cite{clark73comefrom,Constantinides04aopconsidered} is a reminder
 that it can be effectively impossible to understand how a program will execute
 if the path of execution is not at least linear or clearly decipherable from
-source code. Aspect orientation as a paradigm inherantly violates this
-linearity. However, import hooks as implemented in
-\cref{fig:aspecthooksmagicmethodswith} present code which can be interpreted in
+source code. Aspect orientation as a paradigm violates this
+linearity by design. However, import hooks as implemented in
+\cref{fig:aspecthooksmagicmethodswith} allow for aspect-oriented code which can be interpreted in
 one of only two ways:
 
 \begin{enumerate}
@@ -304,18 +315,21 @@ one of only two ways:
     this case its behaviour is unknown --- falling prey to the design flaws
     discussed in the aspect orientation
     literature~\cref{Constantinides04aopconsidered,steimann06paradoxical,przybylek2010wrong}
-    --- but this unpredictability is at least highlighted to the
-    programmer.\footnote{It is worth noting that a third case technically
-    exists, where a procedure is imported from a module which imports that
-    procedure from another module. If the latter module contains the
-    implementation and the former applies aspect hooks when it imports, then any
-    program making use of the former module will be importing a procedure with
-    aspect hooks applied implicitly. However, these situations are still visible
-    through simple inspection of these chained imports, where other aspect
-    orientation frameworks might apply an aspect to any join point at any time,
-    without this being obviously discoverable by a programer.}
+    --- but this unpredictability is highlighted to the
+    programmer.
 \end{enumerate}
 
+%======== originally a footnote at the end of the second item above
+% \footnote{It is worth noting that a third case technically
+%     exists, where a procedure is imported from a module which imports that
+%     procedure from another module. If the latter module contains the
+%     implementation and the former applies aspect hooks when it imports, then any
+%     program making use of the former module will be importing a procedure with
+%     aspect hooks applied implicitly. However, these situations are still visible
+%     through simple inspection of these chained imports, where other aspect
+%     orientation frameworks might apply an aspect to any join point at any time,
+%     without this being obviously discoverable by a programer.}
+    
 As a result, while import hooks are somewhat limited in that they are applied
 specifically to imported code and break the traditional AOP concept of
 obliviousness in at least a weak manner, these two facts combine to arguably fix
