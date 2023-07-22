@@ -9,7 +9,7 @@ feasibly produce scientific simulations, but was implemented in a manner which
 was not optimised for speed (making it a burden for large simulations), lacked
 granularity in the application of its aspect hooks (hooks could only be applied
 to entire classes), and most importantly, did not work with Python3 (Python2
-support officially ended during this PhD). 
+support officially ended during this PhD).
 
 This chapter briefly outlines the new implementation of PyDySoFu, discusses
 improvements made to design and performance, and explains some contributions
@@ -18,7 +18,7 @@ issues raised with the paradigm. \inline{Consider adding references to the
 sections through this PDSF chapter, depending on how beefy it becomes\ldots{}}
 
 
-\labelledsec{Requirements for Change}{pdsf3requirements}
+\section{Requirements for Change}\label{sec:pdsf3requirements}
 
 As time wore on\revnote{Too informal} with PyDySoFu's original implementation, it became increasingly
 clear that a rewrite was required\revnote{sloppily put}. PyDySoFu grew out of an undergraduate
@@ -71,7 +71,7 @@ implementation of PyDySoFu, a new implementation satisfying them was deemed
 necessary.
 
 
-\labelledsec{Python3 Specific Implementation}{pdsf3python3}
+\section{Python3-compatible Weaving Techniques}\label{sec:pdsf3python3}
 
 Replacing \lstinline{__getattribute__} on the class of a targeted method was no
 longer viable in Python 3. A replacement method therefore had to be found. For
@@ -86,7 +86,7 @@ potential target, before that target is executed. We refer to code woven
 around a target which manages applied advice as \emph{aspect hooks}.
 
 
-\labelledsubsec{Abandoned techniques}{pdsf3badweaving}
+\subsection{Abandoned techniques}\label{subsec:pdsf3badweaving}
 
 Rather than ``monkey-patching''\footnote{Monkey-patching is the practice of making on-the-fly changes to object
 behaviours / definitions by taking advantage of language properties such as
@@ -135,7 +135,7 @@ multiple trace handlers being managed by \lstinline{settrace()}, this could
 provide an interesting approach when implementing future dynamic aspect
 orientation frameworks.
 
-\labelledsubsec{A viable technique: import hooks}{pdsf3importhookdiscussion}
+\subsection{A viable technique: import hooks}\label{subsec:pdsf3importhookdiscussion}
 
 A final available technique was to continue to monkey-patch hooks to discover
 and weave aspects, via an alternative method which did not make use of
@@ -167,30 +167,36 @@ magic methods have the affect of making the language ideal, particularly as an e
 aspect orientation. Python's functionality for importing modules is managed by
 \lstinline{builtins.__import__}, which receives module names as strings and
 handles package resolution. By monkey-patching the import system, modules can be
-modified during the process of importing.
+modified during the process of importing. As this technique allows for control
+over where aspect hooks are applied, \pdsf can target only function and method
+objects to apply aspect hooks to, avoiding the overhead its previous iteration
+introduced when applying hooks to all attribute lookups including
+non-callables, such as variables or \lstinline{Class} objects.
 
 Monkey-patching \lstinline{builtins.__import__} is as simple as replacing the
 function object with a new one, which has the effect of changing the behaviour
 of Python's \lstinline{import} keyword: because all Python functionality relies
 on magic methods implicitly, its behaviour can be altered in this way. However,
 our intent is not necessarily to manipulate \emph{all} modules, but a subset of
-imports specified by a modeller as suitable for manipulation. If all imported
-modules were affected, this would include all invocations of \lstinline{import},
-including those made recursively by package implementations, for example.
+imports specified by a modeller as suitable for manipulation. 
+If all invocations of \lstinline{import} wove hooks into modules, including
+those made in the process of importing packages, an unnecessary overhead would
+be introduced when invoking any callable in any module.
 Therefore, it is important to have a mechanism to enable and disable the weaving
-of aspect hooks on each import (effectively, to enable and disable PyDySoFu's
-modified import logic). 
+of aspect hooks for a given \lstinline{import} statement (effectively, to enable and disable PyDySoFu's
+modified import logic).
 
-\inline{Decide whether this needs to be more thoroughly broken up /
-structured\ldots{}}
-
-\inline{Include a discussion of \emph{what} gets hooks added using this method\ldots{}}
-
-This can be done through another use of magic methods in a manner which also
+This can be achieved through another use of magic methods in a manner which also
 makes clear to a modeller exactly where aspect hooks are being applied: making
-use of Python's \lstinline{with} keyword. 
+use of Python's \lstinline{with} keyword. A more technical discussion on the
+process of weaving, and the nature of the hooks applied, follows in
+\cref{sec:import_hooks}.
 
-\labelledsubsec{Implementing import hooks}{pdsf3implementingimporthooks}
+
+
+\section{Import Hooks}\label{sec:import_hooks}
+
+\subsection{Implementing import hooks}\label{subsec:pdsf3implementingimporthooks}
 
 We are interested in manipulating \lstinline{builtins.__import__} only when
 imports are made which introduce modules containing prospective join points;
@@ -254,7 +260,7 @@ class AspectHooks:
     \label{fig:aspecthooksmagicmethodswith}
 \end{figure}
 
-\labelledsubsec{Strengths and weaknesses of import hooks}{pdsf3importhooklimitations}
+\subsection{Strengths and weaknesses of import hooks}\label{subsec:pdsf3importhooklimitations}
 
 As a technique for weaving aspect hooks, this new method provides multiple
 benefits. Application of aspect hooks is straightforward from the perspective of
@@ -284,7 +290,9 @@ do not consider this to be a significant limitation.
 A more significant limitation of the import hook approach is that the object
 with aspect hooks woven exists in the namespace of the module \emph{importing}
 the join point. In other words, this method makes it impossible for a module to
-make use of aspect hooks that are woven in an unrelated piece of code.\revnote{is this true??? verify, I think not, if imported normally, but a 5 min test seemed to confirm. Putting it down to me being rusty with pdsf.}
+make use of aspect hooks that are woven in an unrelated piece of
+code.\inline{is this true??? verify, I think not, if imported normally. tested
+but didn't realise that pdsf won't fuzz functions with single-character IDs, so inconclusive.}
 We therefore have a ``semi-oblivious'' property to our aspect orientation approach:
 targets of advice are unaware of any adaptations made, but \emph{any code making
 use of those adaptations must be aware enough to at least apply aspect
@@ -341,23 +349,345 @@ tool, and a contribution to aspect orientation framework design.
 
 
 % \subsection{Improvements to supported aspects}
-\labelledsubsec{Weaving process}{pdsf3_weaving_process}
+\subsection{Weaving process}\label{subsec:pdsf3_weaving_process}
 
-\inline{Describe the improved process of weaving in PDSF3}
+% \inline{Describe the improved process of weaving in PDSF3}
 
-\inline{Find the newest copy of PDSF3, make a repo for it, cite the new impl}
+Weaving in \pdsf{}'s updated implementation takes place via monkey-patching of
+aspect hooks, as described in \cref{pdsf3implementingimporthooks}. Aspect hooks
+replace executable targets within a module at the moment the module is imported.
+When the target is invoked, the wrapping aspect hook is executed in lieu of the
+original target object. The wrapping aspect contains the target function within
+its closure, allowing it to execute the original target; however, it was also
+created by the \lstinline{AspectHooks} class, and so has reference to aspects
+registered against it. 
 
-% \labelledsec{}
+The process of weaving with this implementation of \pdsf is therefore as
+follows:
+
+\begin{enumerate}\label{urgency_mentioned_in_passing}
+    \item An aspect is imported using \lstinline{AspectHooks}, as shown in
+    \cref{fig:simple_aspect_hook_weaving_example}.
+    \item An aspect is registered against \lstinline{AspectHooks} as shown in
+    \cref{fig:registering_an_aspect_against_aspecthooks}, by providing a regular
+    expression matching the ID of any join points to apply an aspect to and the
+    aspect to apply. Specifically relevant to aspect registration:
+    \begin{itemize}
+        \item Methods permitting aspect application are:
+        \begin{enumerate}
+            \item \lstinline{AspectHooks.add_prelude(rule, aspect)}, which registers
+            advice to be run before a target is invoked
+            \item \lstinline{AspectHooks.add_encore(rule, aspect)}, which registers
+            advice to be run after a target is invoked
+            \item \lstinline{AspectHooks.add_around(rule, aspect)}, which registers
+            advice to wrap an aspect invocation, effectively providing the
+            functionality of \lstinline{prelude} and \lstinline{encore} advice with
+            a single aspect
+            \item \lstinline{AspectHooks.add_error_handler(rule, aspect)}, which
+            registers advice to catch and process exceptions raised by a join point
+            \item \lstinline{AspectHooks.add_fuzzer(rule, aspect)}, which registers
+            advice to modify a target before it is invoked, effectively providing
+            aspect application within a join point, and permits arbitrary ast-level
+            modifications of the target
+        \end{enumerate}
+        \item Each method described above also accepts an optional
+        \lstinline{urgency} integer parameter, enabling optional additional
+        features of \pdsf which are discussed in \cref{aspect_priority_support}.
+        \item Invoking the above aspect hook registration methods compiles and
+        caches the regular expression provided for efficiency when identifying
+        matching join points in later invocations of aspect hooks.
+        \item Each method outlined above returns a callback which de-registers
+        the aspect provided, to facilitate the ephemeral application of aspects.
+        This could be useful in experimental codebases where aspects represent
+        behavioural deviations, and a researcher looked to run simulations with
+        different deviations applied to compare datasets, for example.\revnote{A
+        bit clunky --- take the last sentence out in favour of notes in
+        discussion or rewrite.}
+    \end{itemize}
+    \item Invocations of executable objects within the module imported in
+    \pointno{1} are replaced with aspect hook wrappers of themselves; an
+    invocation of an executable object within that module therefore triggers
+    \pdsf{}'s aspect hooks, which seek aspects registered against the ID of the
+    target they wrap. Aspects registered against a join point identifying rule
+    which matches the ID of the wrapped target can therefore be identified, and
+    executed as appropriate.
+\end{enumerate}
+
+All aspects applied when registering advice are callable objects; however, they
+have different function signatures. The arguments expected by each type of
+advice is:
+
+\begin{description}
+    \item[prelude] advice takes \lstinline{target, *args, **kwargs}
+    \item[encore] advice takes \lstinline{target, original_return_val, *args, **kwargs}
+    \item[around] advice takes \lstinline{next_around, target, *args, **kwargs}
+    \item[error\_handler] advice takes \lstinline{target, handled_exception, *args, **kwargs}
+    \item[fuzzer] advice takes \lstinline{ast_steps_from_target, *args, **kwargs}
+\end{description}
+
+\ldots{}where \lstinline{target} is the target an aspect is applied to;
+\lstinline{original_return_value} is the value returned by a target after it was
+run; \lstinline{next_around} is what an \lstinline{around}-style advice runs
+when it has finished its pre-target component, and intends to run the target
+itself; \lstinline{ast_steps_from_target} is a list of AST objects representing
+the definition of the target a fuzzing aspect is applied to; and
+\lstinline{*args, **kwargs} is a Python idiom collecting arbitrary positional
+and keyword arguments passed to a function but not specified within its function
+signature, which are here employed to collect arguments passed to a target, and
+can be used by any aspect to inspect the expected behaviour of the target (or to
+pass into the target, if the aspect invokes it).
+
+\begin{figure}[t]
+    \begin{lstlisting}
+def log_invocations(target, *args, **kwargs):
+    '''
+    An aspect to print invocations of a target.
+    '''
+    print("Invoking " + target.__name__)
+    target(*args, **kwargs)
+    print("Invocation of " + target.__name__ + " finished.")
+
+from pdsf import AspectHooks
+with AspectHooks():
+    from some_module import some_func
+
+AspectHooks.add_around("some_func", log_invocations)
+    \end{lstlisting}
+    \caption{Registering an aspect against AspectHooks}
+    \label{fig:registering_an_aspect_against_aspecthooks}
+\end{figure}
+
+The execution of \lstinline{prelude}, \lstinline{encore}, and
+\lstinline{error_handler} aspects work predictably: \lstinline{prelude} aspects
+are executed before the wrapped target, \lstinline{encore} aspects after the
+wrapped target, and \lstinline{error_handler} aspects within a \lstinline{try}
+block encompassing the execution of all advice. Notably, the return values of
+\lstinline{around} aspects replace those of their target, and \lstinline{encore}
+aspects replace that of the target if they return any value which is not \lstinline{None}.
+By comparison, the implementations of \lstinline{around} and \lstinline{fuzzer}
+aspect weavers are non-trivial.
+
+As with all aspects, \lstinline{around}-style\revnote{Decide whether the
+``-style'' prefix I sometimes use should stay or go when copyediting. Or: when
+do I use it? Be consistent.} aspects are given the target being invoked
+alongside its supplied positional and keyword arguments. However, these aspects
+are also given the next \lstinline{around}-style aspect woven against the target
+to run. Each aspect should be provided its \lstinline{next_around} argument.
+However: with a series of many \lstinline{around}-style aspects to apply, and
+each calling the next in the series, a given aspect would need to know the
+\lstinline{next_around} parameter for the aspect it calls; the second could call
+a third, meaning it would need to know the \lstinline{next_around} parameter for
+its own successor, which could only come from the first in the series. The third
+could call a fourth, requiring another \lstinline{next_around} parameter, which
+the second would have to pass to the third, and the first to the second. The
+inelegance of this naive solution to the problem seems confusing and inelegant
+for modellers to interact with or understand.
+
+However, two alternatives present themselves. One is to use Python's generator
+pattern, which can be simply described as a callable which returns successive
+items from a series on each invocation. An alternative approach is to supply
+each \lstinline{around}-style aspect with its first argument (the next in the
+series) before the aspects are invoked, unburdening individual aspects with
+responsibility to retrieve and apply the next aspect successfully. This approach
+is employed by \pdsf{}. The first argument of every \lstinline{around}-style
+aspect is provided by constructing a partial function. Partial functions are a
+feature of many languages which allow for some arguments of a function to be
+provided, but for the function not to be invoked; instead, a new function is
+returned, with any remaining arguments left to be provided on invocation. With
+the first argument provided, the resulting partial function has the signature
+\lstinline{target, *args, **kwargs}, where all values are known and trivially
+supplied by any \lstinline{around}-style aspect.
+
+\begin{figure}
+    \begin{lstlisting}
+from functools import partial, reduce
+final_around = lambda target, *args, **kwargs: target(*args, **kwargs)
+nest_around_call = lambda nested_around, next_around: partial(next_around, nested_around)
+target_with_around = reduce(nest_around_call, around_advice, final_around)
+    \end{lstlisting}
+    \caption{Simplified example of weaving \lstinline{around} aspects in \pdsf}
+    \label{fig:around_aspect_weaving_codesnippet}
+\end{figure}
+
+The problem to solve is therefore the construction of the partially applied
+aspects in such a way that each refers to the next correctly. To solve this,
+each function is provided to its precursor; iterating through all
+\lstinline{around}-style aspects in this manner results in a single aspect which
+contains a reference to the second, the second a reference to the third, and so
+on until the final registered aspect. The final aspect has no successor it can
+reference however; to overcome this, a function which does nothing but execute
+the original target is provided, with the same signature as the
+partially-applied aspects. The final function terminates the chain, and is
+responsible for executing the target itself; every other aspect is simply
+responsible for the execution of the next \lstinline{around}-style aspect in its
+chain.\footnote{Note that this is technically optional; if it determined it was
+necessary, any \lstinline{around}-style aspect could break the chain by calling
+the target with its arguments directly.} In this way, \lstinline{around}-style
+aspects can be woven in a manner which simplifies a developer's interaction with
+the aspects. A simplified snippet of the source code of \pdsf which implements
+this process is shown in \cref{fig:around_aspect_weaving_codesnippet} to
+illustrate.
+
+% \inline{Describe how fuzzer aspects actually work. We get AST steps and pass to
+% fuzzers, which return a new set of steps, which are compiled to replace the
+% original target's underlying code object, and our patched object is replaced
+% after target \& advice execution with a cached copy.}
+
+The final kind of advice to apply are \lstinline{fuzzer}-style aspects, which
+\pdsf contributes to aspect orientation framework design. These aspects make
+modifications to the definition of the target they are applied to, allowing
+advice to be woven within a target. Arbitrary transformations of the target also
+allow removal or change of any part of the target definition. This is achieved
+by acquiring the original source of the function to modify using Python's
+built-in reflection library, \lstinline{inspect}. The source can be parsed into
+an abstract syntax tree using Python's built-in library, \lstinline{ast}, which
+contains a list of AST objects representing a target's original definition. This
+list of AST steps is then passed to a \lstinline{fuzzer} aspect as an argument,
+which returns a new list of AST steps if any changes are to be made. The new
+steps are compiled and the resulting Python \lstinline{code} object containing a
+modified function definition is monkey-patched into the original target,
+effectively changing its definition. The original code object is cached during
+aspect hook weaving, and is used to replace the modified \lstinline{code} object
+after target execution to avoid unexpected behaviours in future invocations of
+the target. A simplified example of the process of acquiring, modifiying,
+compiling, and monkey-patching a target's underlying definition is found in
+\cref{fig:simplified_fuzzer_application_example}~.
+
+\begin{figure}
+    \begin{lstlisting}
+if fuzzers is not None and fuzzers != []:
+    code = dedent(inspect.getsource(t))
+    target_ast = ast.parse(code)
+    funcbody_steps = target_ast.body[0].body
+    for fuzzer in fuzzers:
+        non_inline_changed_steps = fuzzer(funcbody_steps, *args, **kwargs)
+
+        if non_inline_changed_steps:
+            funcbody_steps = non_inline_changed_steps
+
+    target_ast.body[0].body = funcbody_steps
+    compiled_fuzzed_target = compile(target_ast, "<ast>", "exec")
+    if not isinstance(t, FunctionType):
+        t.__func__.__code__ =  compiled_fuzzed_target.co_consts[0]
+    else:
+        t.__code__ = compiled_fuzzed_target.co_consts[0]    \end{lstlisting}
+    \caption{A code snippet representing the process of modifying a target of an aspect application using a
+    \lstinline{fuzzer}-style aspect. \lstinline{t} refers to the target on which
+    modifiations are applied.}
+    \label{fig:simplified_fuzzer_application_example}
+\end{figure}
+
+\section{Optimisations}
+
+Additional features were implemented in the presented incarnation of \pdsf which
+improve its usability in the research software engineering context, and optimise
+performance where necessary: deep hook weaving, non-dynamic weaving, and aspect
+priority support.
+
+\subsection{Deep Hook Weaving}\label{deep_hook_weaving}
+
+Under ordianry circumstances, \pdsf weaves aspect hooks into an imported module,
+but not modules imported \emph{by} that module. 
+Deep hook weaving enables weaving of aspect hooks into all potential join points
+by applying hooks to functions and methods imported by the original module, but
+also any recursive imports. A code snippet enabling the feature is presented in
+\cref{fig:enabling_deep_apply}.
+
+\begin{figure}
+    \begin{lstlisting}
+from pdsf import AspectHooks
+AspectHooks.deep_apply = True
+    \end{lstlisting}
+    \caption{Code snippet enabling deep hook weaving}
+    \label{fig:enabling_deep_apply}
+\end{figure}
+
+Deep hook weaving introduces performance overhead due to additional checks for
+aspects which were woven dynamically. However, it is plausible that the modules
+within which desired join points reside are not imported directly by a
+developer, but are available to them indirectly through another package they
+make use of. It is also plausible that a developer may look to instrument the
+entirety of --- and investigate details of --- a call stack without attaching a
+debugger to a process. In both examples, \pdsf{}'s default behaviour is
+insufficient. Deep weaving is therefore provided to support these use cases.
+
+\subsection{Non-Dynamic Weaving}
+
+PyDySoFu's runtime weaving of aspects allows for aspects to be applied at any
+time. Aspects can be removed and re-applied during program execution. However,
+programs may be written with the intention of applying aspects once --- as
+program modifications to be introduced without direct manipulation of a codebase
+--- so that, once defined, the set of applied aspects would remain static. In
+this scenario, the dynamic weaving of \pdsf introduces unnecessary overhead.
+Weaving aspects dynamically means that every invocation of a prospective join
+point requires searching for aspects which \emph{presently} apply to it.
+
+\begin{figure}
+    \begin{lstlisting}
+from pdsf import AspectHooks
+AspectHooks.treat_rules_as_dynamic = True
+    \end{lstlisting}
+    \caption{Code snippet enabling dynamic weaving}
+    \label{fig:enabling_dynamic_weaving}
+\end{figure}
+
+To avoid this overhead in scenarios where it is unrequired, \pdsf can cache the
+aspects applied when any callable wrapped by an aspect hook is invoked for the
+first time. On its first execution in this mode, the aspect hook stores the set
+of aspects it matched to the invoked target, and future invocations retrieve the
+set of aspects to apply from the cache. This avoids expensive regular expression
+matches, which fail in all cases but those where an invoked target is to be
+augmented by the application of an individual aspect the regular expression is
+paired with.\revnote{Add metrics here on the performance implications; they're
+pretty significant, I actually added them because the regex matches slowed my
+own code down to a crawl. Our experiments make use of non-dynamic weaving for
+this reason.}
+
+For performance reasons, the default mode of \pdsf is to run with non-dynamic
+weaving. Dynamic weaving functionality is enabled by toggling the
+\lstinline{treat_rules_as_dynamic} flag on the \lstinline{AspectHook} class,
+similarly to deep hook weaving (see \cref{deep_hook_weaving}). A code snippet
+demonstrating this is shown in \cref{fig:enabling_dynamic_weaving}.
+
+
+\subsection{Priority Ordering of Aspect Application}\label{aspect_priority_support}
+
+As dynamic weaving allows for non-deterministic application of aspects, it may
+be that the order in which aspects are intended to be applied is not the aspect
+in which they are woven. To support these use cases, aspects may be sorted by
+priority during the lookup of aspects to apply when a join point is invoked.
+
+\begin{figure}
+    \begin{lstlisting}
+from pdsf import AspectHooks
+AspectHooks.manage_ordering = True
+    \end{lstlisting}
+    \caption{Code snippet enabling priority ordering of aspect application}
+    \label{fig:enabling_priority_sorting_of_aspects}
+\end{figure}
+
+As mentioned in \cref{urgency_mentioned_in_passing}, when aspects are registered
+against the \lstinline{AspectHooks} class, an optional \lstinline{urgency}
+parameter is available. The parameter takes an integer representation of
+priority of aspect application, with higher numbers representing more urgent
+application. Aspects with no urgency applied default to \lstinline{urgency=0}.
+High-urgency aspects are applied before low-urgency aspects. This feature is
+disabled by default, but can be enabled using the code snippet shown in
+\cref{fig:enabling_priority_sorting_of_aspects}.
+
+
 
 \section{Discussion}
 
-The new implementation of PyDySoFu makes a few contributions, particularly in
-comparison to the previous version:
+The new implementation of PyDySoFu makes a few
+contributions\revnote{contributions to what?}, particularly in comparison to the
+previous version\revnote{Is this list complete?}:
 
 \begin{itemize}
-    \item Its new technique of weaving aspect hooks on import, making use of
-    Python's \lstinline{with} keyword, improves aspect orientation framework
-    design by trading a degree of obliviousness for clarity
+    \item Introduces a new technique of weaving aspect hooks on import,
+    improving its design over a typical aspect orientation framework by making
+    use of Python's \lstinline{with} keyword when weaving hooks to trade a
+    degree of obliviousness for clarity
     \item Aspect hooks can be applied with more precision than the previous
     implementation of PyDySoFu, meaning:
         \begin{itemize}
@@ -366,23 +696,14 @@ comparison to the previous version:
         \item Unnecessary overheads from checking dynamically applied aspects at
         each join point are reduced.
         \end{itemize}
-    \item 
 \end{itemize}
 
-Despite this, there is room for improvement in the design of the framework:
-
-\begin{itemize}
-    \item Caching of applied aspects to join points could be implemented. If
-    between two invocations of a target no changes have been made to the applied
-    aspects, a function object containing the composed aspects from earlier
-    invocations should be run. This would permit runtime aspect weaving with
-    less overhead, as searching for applied aspects need not be performed at
-    every target invocation. Targets should have ``changedness'' flags which are
-    set every time an aspect is applied or removed from it.
-    \item Our intended use case for aspect orientation for simulation \&
-    modelling is in scientific codebases specifically; direct integration with
-    the scientific package ecosystem (which is vibrant in Python's community)
-    should be made. A good initial project would be integration of aspect
-    application in sciunit tests~\cite{sciunit_primer}.
-\end{itemize}
+\pdsf{}'s current incarnation also provides opportunities for improvements and
+for future work. Our intended use case for aspect orientation for simulation \&
+modelling is in scientific codebases specifically; direct integration with the
+scientific package ecosystem (which is vibrant in Python's community) should be
+made. A good initial project would be integration of aspect application in
+sciunit tests~\cite{sciunit_primer}~. A discussion on potential use cases of
+\pdsf together with existing research software engineering technologies is
+provided in \cref{sec:sciunits_for_unrealistic_states}~.
 
