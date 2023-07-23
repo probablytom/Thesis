@@ -4,6 +4,10 @@ Repo for PhD thesis.
 
 ### By chapter
 
+While technically `Draft 1 complete` should be marked before something's ready
+to review, once something's content complete I don't think there's a reason
+_not_ to review it; just might still shift a little on my end.
+
 - Introduction
   - [ ] Content decided
   - [ ] Content complete
