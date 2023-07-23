@@ -30,7 +30,7 @@ Repo for PhD thesis.
   - [ ] Draft 2 complete
 - RPGLite
   - [X] Content decided
-  - [X] Content complete
+  - [ ] Content complete
   - [ ] Draft 1 complete
   - [ ] Reviewed
   - [ ] Draft 2 complete
