@@ -25,7 +25,7 @@ Repo for PhD thesis.
 - PDSF rewrite
   - [X] Content decided
   - [X] Content complete
-  - [ ] Draft 1 complete
+  - [X] Draft 1 complete
   - [ ] Reviewed
   - [ ] Draft 2 complete
 - RPGLite
