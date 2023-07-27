@@ -1,81 +1,77 @@
-\contentsline {todo}{\emph {Todo: }Explain aspect orientation briefly.}{17}{section.1.1}%
-\contentsline {todo}{\emph {Todo: }find a citation for spring AOP}{17}{section.1.1}%
-\contentsline {todo}{\emph {Todo: }Write a section for the introduction describing the work done on pdsf before this, to delineate where we're starting from and avoid any claims of plagiarism. This can be short, the first sec of the lit review is a proper discussion, but the tool should be mentioned here. See \cref {sec:pdsf_early_work} for what already exists.}{18}{section.1.2}%
-\contentsline {todo}{\emph {Todo: }Complete the glossary in \cref {sec:glossary}.}{18}{section.1.3}%
-\contentsline {todo}{\emph {Todo: }Decide whether terms like BPMN, simulation \& modelling, etc also belong in the glossary\cref {sec:glossary}.}{18}{section.1.3}%
-\contentsline {todo}{\color {blue}{\emph {Review: }don't use a description list here, this should be a regular paragraph}}{19}{chapter.2}%
-\contentsline {todo}{\emph {Todo: }Citation needed?}{20}{section.2.1}%
-\contentsline {todo}{\emph {Todo: }Add a paragraph after this on subject-oriented programming.}{25}{subsection.2.1.1}%
-\contentsline {todo}{\emph {Todo: }Add notes on subject-oriented programming, bigraphs, maybe holons?}{25}{subsection.2.1.1}%
-\contentsline {todo}{\emph {Todo: }don't be fancy here}{29}{Item.7}%
-\contentsline {todo}{\emph {Todo: }Note from discussion with Tim to work into this: ``the anticipated benefits of aspect-oriented programs are not observed in practice''}{29}{Item.7}%
-\contentsline {todo}{\emph {Todo: }Both paragraphs on Gilani2004 need to be heavily edited.}{29}{Item.7}%
-\contentsline {todo}{\emph {Todo: }Remove the description of tangling and scattering from here and include in a review of more foundational AOP literature early in the lit review. They don't belong buried so far down in this chapter.}{32}{section.2.3}%
-\contentsline {todo}{\emph {Todo: }Editing tip from Tim: don't call things "important", this implies other things aren't. Rework areas where I do this.}{35}{subsection.2.3.1}%
-\contentsline {todo}{\emph {Todo: }Brief intro of the process variance section here}{38}{section.2.4}%
-\contentsline {todo}{\emph {Todo: }Find citation for empirical datasets being the only ones available to researchers, maybe for disaster prevention or similar?}{40}{subsection.2.4.1}%
-\contentsline {todo}{\emph {Todo: }find a citation for simulating different systems for finding an optimal one. Arguably Genetic programming \& hill climbing do similar things?}{40}{subsection.2.4.1}%
-\contentsline {todo}{\emph {Todo: }Find some nice way to round this subsection out, or refactor out subsections}{40}{subsection.2.4.1}%
-\contentsline {todo}{\emph {Todo: }Important to acknowledge somewhere in this subsection that synthetic data generation is a well-researched field, but that generating logs from simulations with variance is the specific area relevant to this thesis}{40}{subsection.2.4.1}%
-\contentsline {todo}{\emph {Todo: }Shugurov \& Mitsyuk's work should follow this. REVIEW IT.}{43}{subsection.2.4.2}%
-\contentsline {todo}{\emph {Todo: }more citations}{44}{section.2.5}%
-\contentsline {todo}{\emph {Todo: }Add citation for pdsf, asp}{50}{Item.10}%
-\contentsline {todo}{\emph {Todo: }Check the most up-to-date pdsf implementation --- is it actually on that backup drive?}{53}{chapter.4}%
-\contentsline {todo}{\color {blue}{\emph {Review: }Rewrite chapter outline after the structure of the chapter is known to be OK.}}{53}{chapter.4}%
-\contentsline {todo}{\emph {Todo: }Consider adding references to the sections through this PDSF chapter, depending on how beefy it becomes\ldots {}}{53}{chapter.4}%
-\contentsline {todo}{\color {blue}{\emph {Review: }Too informal}}{53}{section.4.1}%
-\contentsline {todo}{\color {blue}{\emph {Review: }sloppily put}}{53}{section.4.1}%
-\contentsline {todo}{\color {blue}{\emph {Review: }Could be less sloppy}}{54}{section.4.1}%
-\contentsline {todo}{\color {blue}{\emph {Review: }Could be less sloppy}}{54}{section.4.1}%
-\contentsline {todo}{\emph {Todo: }Consider adding local namespace weaving to pdsf3: should be easy to implement as a cheeky little monkey-patch\ldots {}}{59}{subsection.4.3.2}%
-\contentsline {todo}{\emph {Todo: }is this true??? verify, I think not, if imported normally. tested but didn't realise that pdsf won't fuzz functions with single-character IDs, so inconclusive.}{60}{subsection.4.3.2}%
-\contentsline {todo}{\color {blue}{\emph {Review: }A bit clunky --- take the last sentence out in favour of notes in discussion or rewrite.}}{62}{Item.19}%
-\contentsline {todo}{\color {blue}{\emph {Review: }Decide whether the ``-style'' prefix I sometimes use should stay or go when copyediting. Or: when do I use it? Be consistent.}}{63}{figure.caption.5}%
-\contentsline {todo}{\color {blue}{\emph {Review: }Add metrics here on the performance implications; they're pretty significant, I actually added them because the regex matches slowed my own code down to a crawl. Our experiments make use of non-dynamic weaving for this reason.}}{67}{figure.caption.9}%
-\contentsline {todo}{\color {blue}{\emph {Review: }contributions to what?}}{68}{section.4.5}%
-\contentsline {todo}{\color {blue}{\emph {Review: }Is this list complete?}}{68}{section.4.5}%
-\contentsline {todo}{\emph {Todo: }Fix formatting and correct wording of William's hypothesis, and mine below.}{69}{chapter.5}%
-\contentsline {todo}{\emph {Todo: }Make sure I'm \emph {crystal clear} about the contributions I'm claiming to make, and the contributions made within the scope of this thesis.}{69}{chapter.5}%
-\contentsline {todo}{\emph {Todo: }TODO INSERT RESEARCH QUESTION HERE}{69}{chapter.5}%
-\contentsline {todo}{\emph {Todo: }Add an outline of the RPGLite chapter here; at time of writing it might need some reworking.}{70}{chapter.5}%
-\contentsline {todo}{\color {blue}{\emph {Review: }Needs copy-editing}}{71}{section.5.1}%
-\contentsline {todo}{\color {blue}{\emph {Review: }Should a summary of the paper be a section here, or maybe an appendix? Keen not to plagarise, but it's also maybe worth including. William and I both spent a lot of time getting that paper out. I presented it at GameOn2020.}}{75}{section.5.2}%
-\contentsline {todo}{\emph {Todo: }Include notes \& screenshots here explaining that users were prompted in-app to accept their data being recorded and published for research purposes, and that the data collected was used \emph {only} for research purposes, that no personally identifying data was collected, and that data collection was signed off by the University of Glasgow ethics committee. Users could not create an account without accepting that their play data would be collected and published for research purposes, and users could withdraw that consent at any time. Further information was also made available at \url {rpglite.app}}{75}{subsection.5.2.1}%
-\contentsline {todo}{\emph {Todo: }Find the exact number of games analysed}{79}{section.5.3}%
-\contentsline {todo}{\emph {Todo: }Confirm moves made includes timestamps, I'm sure it does}{79}{section.5.3}%
-\contentsline {todo}{\emph {Todo: }Confirm that games include both ELO before and after the game is played.}{79}{section.5.3}%
-\contentsline {todo}{\emph {Todo: }Cite William's PhD thesis}{81}{chapter.6}%
-\contentsline {todo}{\emph {Todo: }There must be tons of good citations for aspects being used to compose together a simulation / model}{81}{section.6.1}%
-\contentsline {todo}{\color {blue}{\emph {Review: }We don't think this is the case --- those citations just don't exist! Rework to discuss use of AOP in business process modelling, and note that nobody made those models in practice, just tooling.}}{81}{section.6.1}%
-\contentsline {todo}{\emph {Todo: }Add a cross-reference to the chapter on cross-cutting concern simulation accuracy when it exists}{82}{section.6.1}%
-\contentsline {todo}{\emph {Todo: }maybe cut this list of reasons PyDySoFu is fantastic...}{83}{subsection.6.1.1}%
-\contentsline {todo}{\emph {Todo: }Write a little here on the learning aspects.}{86}{subsection.6.1.2}%
-\contentsline {todo}{\emph {Todo: }Flesh this out as a brief wrap-up of our experimental technique. The end of our ``naive'' model explanation might be useful to move down here / rework into this para.}{86}{subsection.6.1.2}%
-\contentsline {todo}{\emph {Todo: }Position this figure properly on the page.}{87}{section.6.2}%
-\contentsline {todo}{\emph {Todo: }Maybe reword? Pretty verbose.}{87}{section.6.2}%
-\contentsline {todo}{\emph {Todo: }Consider changing \cref {fig:naive_model} to only include details about the model of the game itself, leaving the steps about data analysis to the later aspect-applied version (which is the real experiment).}{87}{figure.caption.14}%
-\contentsline {todo}{\emph {Todo: }Move \cref {fig:naive_model} to .svg for fidelity}{89}{figure.caption.14}%
-\contentsline {todo}{\emph {Todo: }These RQs are taken from an early outline of a thesis structure. Maybe they need rewording?}{89}{Item.30}%
-\contentsline {todo}{\emph {Todo: }Rearrange either this paragraph of the sections it refers to so they're in order / make sense. At time of writing they refer to 6.3.1, then 6.4, then 6.3.2, then 6.5\ldots {}!}{91}{Item.30}%
-\contentsline {todo}{\emph {Todo: }Investigate: did we ever model confidence with anything other than c==1, i.e. a standard logistic curve?}{97}{subsection.6.3.3}%
-\contentsline {todo}{\emph {Todo: }The ordering of this explanation of different uses of aspects is confusing; once the aspects are explained individually, reorder the sections, rework the introduction to the structure of this section, and ensure the outline of the section reflects the changes made.}{98}{Item.33}%
-\contentsline {todo}{\emph {Todo: }Make a reference to the chapter(s) where I explain different seasons of RPGLite.}{100}{section*.16}%
-\contentsline {todo}{\emph {Todo: }Do I need code snippets for notes on aspects?}{101}{section*.16}%
-\contentsline {todo}{\emph {Todo: }OH NO. I just realised our models don't use birch at all, they use a logistic curve. They also use a relative growth rate on the logicstic curve that I'm unsure of — not sure why I implemented it the way I did. Getting increasingly close to just re-running my models. I could run them again using birch, and maybe anneal to a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXED ASAP.}{102}{section*.18}%
-\contentsline {todo}{\emph {Todo: }Keeping this in because I might need to explain the aspect, but it's only used in the implementation of choosing based on prior distribution, which I don't believe is ever applied. So! Decide whether to get rid of the writeup of that model. If I \emph {am}, then get rid of this too. If not, add it to the learning models writeup below and explain it here.}{102}{section*.19}%
-\contentsline {todo}{\emph {Todo: }Do we describe an experiment singular or experiments plural in \cref {chap:exp1_simulation_optimisation}?}{103}{section*.20}%
-\contentsline {todo}{\emph {Todo: }reference pdsf's explanatory chapter / re-engineering chapter here? unsure which is most appropriate / introduces the concepts first.}{103}{section*.20}%
-\contentsline {todo}{\emph {Todo: }Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}{105}{subsection.6.4.3}%
-\contentsline {todo}{\emph {Todo: }Maybe we should have also produced models of other discounting mechanisms, like exponential discounting (which I \emph {believe} is actually the logically sound way to discount). Would be interesting to see whether some players are well-modelled by other discounting mechanisms. Investigate this!}{106}{section*.24}%
-\contentsline {todo}{\emph {Todo: }Find citations explaining hyperbolic discounting}{106}{section*.24}%
-\contentsline {todo}{\emph {Todo: }Maybe there's need here for a diagram or some extra equations to make this clearer\ldots {}?}{107}{figure.caption.25}%
-\contentsline {todo}{\emph {Todo: }Should I explain rank correlation more where it's first introduced\ldots {}?}{108}{subsection.6.5.1}%
-\contentsline {todo}{\emph {Todo: }Briefly discuss the different rank correlation measurements I could have chosen.}{108}{subsection.6.5.1}%
-\contentsline {todo}{\emph {Todo: }Stopped discussing rank correlation here because I may re-run my experiments; if I do, I don't want to have to re-write this, because frankly it's been pretty tricky to write so far and I'm keen not to have to redo it. Maybe there are other correlation metrics we could pick instead; Somers' D looks promising…? Are there citations I could use that compare different measurements, so I could justify my choice, and maybe pick one that's better than \tau if it exists?}{109}{subsection.6.5.1}%
-\contentsline {todo}{\emph {Todo: }Discussion required here around the mitigation of randomness --- it's required because of RPGLite's inherent RNG --- and also explaining how we make use of a grid search in combination with k-fold validation to anneal toward well-fitted parameters of our models of learning for each individual player.}{109}{subsection.6.5.2}%
-\contentsline {todo}{\emph {Todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{115}{chapter.8}%
-\contentsline {todo}{\emph {Todo: }Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scapbook of ideas!}{115}{chapter.8}%
-\contentsline {todo}{\emph {Todo: }cite the thesis here of Jeremy's student who worked in Python. He was very nice --- can't remember his name for the life of me.}{116}{subsection.8.1.1}%
-\contentsline {todo}{\emph {Todo: }Would be nice to have a third reason as to why PyDySoFu\xspace introduces new research possibilities.}{116}{subsection.8.1.1}%
-\contentsline {todo}{\emph {Todo: }cite William's PhD here}{118}{section.8.2}%
-\contentsline {todo}{\emph {Todo: }Duplicate citation to clean up}{131}{chapter*.26}%
+\contentsline {todo}{\emph {[C1{}] todo: }Explain aspect orientation briefly.}{15}{section.1.1}%
+\contentsline {todo}{\emph {[C1{}] todo: }find a citation for spring AOP}{15}{section.1.1}%
+\contentsline {todo}{\emph {[C1{}] todo: }Write a section for the introduction describing the work done on pdsf before this, to delineate where we're starting from and avoid any claims of plagiarism. This can be short, the first sec of the lit review is a proper discussion, but the tool should be mentioned here. See \cref {sec:pdsf_early_work} for what already exists.}{16}{section.1.2}%
+\contentsline {todo}{\emph {[C1{}] todo: }Complete the glossary in \cref {sec:glossary}.}{16}{section.1.3}%
+\contentsline {todo}{\emph {[C1{}] todo: }Decide whether terms like BPMN, simulation \& modelling, etc also belong in the glossary\cref {sec:glossary}.}{16}{section.1.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }don't use a description list here, this should be a regular paragraph}}{17}{chapter.2}%
+\contentsline {todo}{\emph {[C2{}] todo: }Citation needed?}{18}{section.2.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Add a paragraph after this on subject-oriented programming.}{23}{subsection.2.1.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Add notes on subject-oriented programming, bigraphs, maybe holons?}{23}{subsection.2.1.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }don't be fancy here}{27}{Item.7}%
+\contentsline {todo}{\emph {[C2{}] todo: }Note from discussion with Tim to work into this: ``the anticipated benefits of aspect-oriented programs are not observed in practice''}{27}{Item.7}%
+\contentsline {todo}{\emph {[C2{}] todo: }Both paragraphs on Gilani2004 need to be heavily edited.}{27}{Item.7}%
+\contentsline {todo}{\emph {[C2{}] todo: }Remove the description of tangling and scattering from here and include in a review of more foundational AOP literature early in the lit review. They don't belong buried so far down in this chapter.}{30}{section.2.3}%
+\contentsline {todo}{\emph {[C2{}] todo: }Editing tip from Tim: don't call things "important", this implies other things aren't. Rework areas where I do this.}{33}{subsection.2.3.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Brief intro of the process variance section here}{36}{section.2.4}%
+\contentsline {todo}{\emph {[C2{}] todo: }Find citation for empirical datasets being the only ones available to researchers, maybe for disaster prevention or similar?}{38}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }find a citation for simulating different systems for finding an optimal one. Arguably Genetic programming \& hill climbing do similar things?}{38}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Find some nice way to round this subsection out, or refactor out subsections}{38}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Important to acknowledge somewhere in this subsection that synthetic data generation is a well-researched field, but that generating logs from simulations with variance is the specific area relevant to this thesis}{38}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Shugurov \& Mitsyuk's work should follow this. REVIEW IT.}{41}{subsection.2.4.2}%
+\contentsline {todo}{\emph {[C2{}] todo: }more citations}{42}{section.2.5}%
+\contentsline {todo}{\emph {[C3{}] todo: }Add citation for pdsf, asp}{48}{Item.10}%
+\contentsline {todo}{\emph {[C4{}] todo: }Check the most up-to-date pdsf implementation --- is it actually on that backup drive?}{51}{chapter.4}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Rewrite chapter outline after the structure of the chapter is known to be OK.}}{51}{chapter.4}%
+\contentsline {todo}{\emph {[C4{}] todo: }Consider adding references to the sections through this PDSF chapter, depending on how beefy it becomes\ldots {}}{51}{chapter.4}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Too informal}}{51}{section.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }sloppily put}}{51}{section.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Could be less sloppy}}{52}{section.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Could be less sloppy}}{52}{section.4.1}%
+\contentsline {todo}{\emph {[C4{}] todo: }Consider adding local namespace weaving to pdsf3: should be easy to implement as a cheeky little monkey-patch\ldots {}}{57}{subsection.4.3.2}%
+\contentsline {todo}{\emph {[C4{}] todo: }is this true??? verify, I think not, if imported normally. tested but didn't realise that pdsf won't fuzz functions with single-character IDs, so inconclusive.}{58}{subsection.4.3.2}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }A bit clunky --- take the last sentence out in favour of notes in discussion or rewrite.}}{60}{Item.19}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Decide whether the ``-style'' prefix I sometimes use should stay or go when copyediting. Or: when do I use it? Be consistent.}}{61}{figure.caption.5}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Add metrics here on the performance implications; they're pretty significant, I actually added them because the regex matches slowed my own code down to a crawl. Our experiments make use of non-dynamic weaving for this reason.}}{65}{figure.caption.9}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }contributions to what?}}{66}{section.4.5}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Is this list complete?}}{66}{section.4.5}%
+\contentsline {todo}{\emph {[C5{}] todo: }Fix formatting and correct wording of William's hypothesis.}{67}{chapter.5}%
+\contentsline {todo}{\emph {[C5{}] todo: }Insert my own research question here}{67}{chapter.5}%
+\contentsline {todo}{\emph {[C5{}] todo: }TODO INSERT RESEARCH QUESTION HERE}{67}{chapter.5}%
+\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Needs copy-editing}}{69}{section.5.1}%
+\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Should a summary of the paper be a section here, or maybe an appendix? Keen not to plagarise, but it's also maybe worth including. William and I both spent a lot of time getting that paper out. I presented it at GameOn2020.}}{73}{section.5.2}%
+\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Should info sheet / consent form be cited, instead of linked as in this footnote\ldots {}?}}{73}{subsection.5.2.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }Cite William's PhD thesis}{79}{chapter.6}%
+\contentsline {todo}{\emph {[C6{}] todo: }There must be tons of good citations for aspects being used to compose together a simulation / model}{79}{section.6.1}%
+\contentsline {todo}{\color {blue}{\emph {[C6{}] review: }We don't think this is the case --- those citations just don't exist! Rework to discuss use of AOP in business process modelling, and note that nobody made those models in practice, just tooling.}}{79}{section.6.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }Add a cross-reference to the chapter on cross-cutting concern simulation accuracy when it exists}{80}{section.6.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }maybe cut this list of reasons PyDySoFu is fantastic...}{81}{subsection.6.1.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }Write a little here on the learning aspects.}{84}{subsection.6.1.2}%
+\contentsline {todo}{\emph {[C6{}] todo: }Flesh this out as a brief wrap-up of our experimental technique. The end of our ``naive'' model explanation might be useful to move down here / rework into this para.}{84}{subsection.6.1.2}%
+\contentsline {todo}{\emph {[C6{}] todo: }Position this figure properly on the page.}{85}{section.6.2}%
+\contentsline {todo}{\emph {[C6{}] todo: }Maybe reword? Pretty verbose.}{85}{section.6.2}%
+\contentsline {todo}{\emph {[C6{}] todo: }Consider changing \cref {fig:naive_model} to only include details about the model of the game itself, leaving the steps about data analysis to the later aspect-applied version (which is the real experiment).}{85}{figure.caption.14}%
+\contentsline {todo}{\emph {[C6{}] todo: }Move \cref {fig:naive_model} to .svg for fidelity}{87}{figure.caption.14}%
+\contentsline {todo}{\emph {[C6{}] todo: }These RQs are taken from an early outline of a thesis structure. Maybe they need rewording?}{87}{Item.30}%
+\contentsline {todo}{\emph {[C6{}] todo: }Rearrange either this paragraph of the sections it refers to so they're in order / make sense. At time of writing they refer to 6.3.1, then 6.4, then 6.3.2, then 6.5\ldots {}!}{89}{Item.30}%
+\contentsline {todo}{\emph {[C6{}] todo: }Investigate: did we ever model confidence with anything other than c==1, i.e. a standard logistic curve?}{95}{subsection.6.3.3}%
+\contentsline {todo}{\emph {[C6{}] todo: }The ordering of this explanation of different uses of aspects is confusing; once the aspects are explained individually, reorder the sections, rework the introduction to the structure of this section, and ensure the outline of the section reflects the changes made.}{96}{Item.33}%
+\contentsline {todo}{\emph {[C6{}] todo: }Make a reference to the chapter(s) where I explain different seasons of RPGLite.}{98}{section*.16}%
+\contentsline {todo}{\emph {[C6{}] todo: }Do I need code snippets for notes on aspects?}{99}{section*.16}%
+\contentsline {todo}{\emph {[C6{}] todo: }OH NO. I just realised our models don't use birch at all, they use a logistic curve. They also use a relative growth rate on the logicstic curve that I'm unsure of — not sure why I implemented it the way I did. Getting increasingly close to just re-running my models. I could run them again using birch, and maybe anneal to a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXED ASAP.}{100}{section*.18}%
+\contentsline {todo}{\emph {[C6{}] todo: }Keeping this in because I might need to explain the aspect, but it's only used in the implementation of choosing based on prior distribution, which I don't believe is ever applied. So! Decide whether to get rid of the writeup of that model. If I \emph {am}, then get rid of this too. If not, add it to the learning models writeup below and explain it here.}{100}{section*.19}%
+\contentsline {todo}{\emph {[C6{}] todo: }Do we describe an experiment singular or experiments plural in \cref {chap:exp1_simulation_optimisation}?}{101}{section*.20}%
+\contentsline {todo}{\emph {[C6{}] todo: }reference pdsf's explanatory chapter / re-engineering chapter here? unsure which is most appropriate / introduces the concepts first.}{101}{section*.20}%
+\contentsline {todo}{\emph {[C6{}] todo: }Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}{103}{subsection.6.4.3}%
+\contentsline {todo}{\emph {[C6{}] todo: }Maybe we should have also produced models of other discounting mechanisms, like exponential discounting (which I \emph {believe} is actually the logically sound way to discount). Would be interesting to see whether some players are well-modelled by other discounting mechanisms. Investigate this!}{104}{section*.24}%
+\contentsline {todo}{\emph {[C6{}] todo: }Find citations explaining hyperbolic discounting}{104}{section*.24}%
+\contentsline {todo}{\emph {[C6{}] todo: }Maybe there's need here for a diagram or some extra equations to make this clearer\ldots {}?}{105}{figure.caption.25}%
+\contentsline {todo}{\emph {[C6{}] todo: }Should I explain rank correlation more where it's first introduced\ldots {}?}{106}{subsection.6.5.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }Briefly discuss the different rank correlation measurements I could have chosen.}{106}{subsection.6.5.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }Stopped discussing rank correlation here because I may re-run my experiments; if I do, I don't want to have to re-write this, because frankly it's been pretty tricky to write so far and I'm keen not to have to redo it. Maybe there are other correlation metrics we could pick instead; Somers' D looks promising…? Are there citations I could use that compare different measurements, so I could justify my choice, and maybe pick one that's better than \tau if it exists?}{107}{subsection.6.5.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }Discussion required here around the mitigation of randomness --- it's required because of RPGLite's inherent RNG --- and also explaining how we make use of a grid search in combination with k-fold validation to anneal toward well-fitted parameters of our models of learning for each individual player.}{107}{subsection.6.5.2}%
+\contentsline {todo}{\emph {[C8{}] todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{113}{chapter.8}%
+\contentsline {todo}{\emph {[C8{}] todo: }Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scapbook of ideas!}{113}{chapter.8}%
+\contentsline {todo}{\emph {[C8{}] todo: }cite the thesis here of Jeremy's student who worked in Python. He was very nice --- can't remember his name for the life of me.}{114}{subsection.8.1.1}%
+\contentsline {todo}{\emph {[C8{}] todo: }Would be nice to have a third reason as to why PyDySoFu\xspace introduces new research possibilities.}{114}{subsection.8.1.1}%
+\contentsline {todo}{\emph {[C8{}] todo: }cite William's PhD here}{116}{section.8.2}%
+\contentsline {todo}{\emph {[C9{}] todo: }Duplicate citation to clean up}{129}{chapter*.26}%

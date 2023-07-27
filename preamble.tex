@@ -92,7 +92,7 @@ skipbelow=0cm,
 {\newcommand{\inline}[1]{
   {\color{red}{#1}}
   \ifdefined\todosintable
-    \addcontentsline{tdo}{todo}{\emph{Todo: }#1}{}
+    \addcontentsline{tdo}{todo}{\emph{[C\thechapter{}] todo: }#1}{}
   \fi
 }}
 
@@ -102,7 +102,7 @@ skipbelow=0cm,
   % {\color{blue}{#1}}
   \todo[nolist,size=\footnotesize]{#1}
   \ifdefined\reviewnotesintable
-    \addcontentsline{tdo}{todo}{\color{blue}{\emph{Review: }#1}}{}
+    \addcontentsline{tdo}{todo}{\color{blue}{\emph{[C\thechapter{}] review: }#1}}{}
   \fi
 }}
 \makeatother

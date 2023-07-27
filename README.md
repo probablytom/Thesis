@@ -34,8 +34,8 @@ _not_ to review it; just might still shift a little on my end.
   - [ ] Draft 2 complete
 - RPGLite
   - [X] Content decided
-  - [ ] Content complete
-  - [ ] Draft 1 complete
+  - [X] Content complete
+  - [X] Draft 1 complete
   - [ ] Reviewed
   - [ ] Draft 2 complete
 - Optimising experiments with aspects

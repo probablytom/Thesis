@@ -6,9 +6,8 @@ structured to permit exploring all game states via formal methods;
 to identify ideal play strategies in all game states~\cite{kavanagh2020}. Some
 experiments were conducted around RPGLite to answer the question: ``Over time,
 do players converge on an ideal strategy of play?''\inline{Fix formatting and
-correct wording of William's hypothesis, and mine below.}\inline{Make sure I'm
-\emph{crystal clear} about the contributions I'm claiming to make, and the
-contributions made within the scope of this thesis.}
+correct wording of William's hypothesis.}\inline{Insert my own research question
+here}
 
 Real-world play of the game invites many research questions. For example, an
 alternative question to answer would be, ``what strategy of play do players
@@ -62,15 +61,19 @@ play, and no aspectual augmentation), we can dismiss naive play as
 ``realistic'', and understand the aspectually augmented behaviour as ``more
 realistic''. Many aspects can be written representing different styles of play,
 which might be adopted by different players, a concrete benefit of aspect
-orientation in modelling \& simulation. These research opportunities are
-realised in \cref{chap:exp1_simulation_optimisation} and
+orientation in modelling \& simulation.
+
+The modelling \& simulation research opportunities RPGLite presents are realised
+in \cref{chap:exp1_simulation_optimisation} and
 \cref{chap:exp2_old_aspects_new_systems}; this chapter focuses only on the
-design and development of RPGLite as a mobile game, and the dataset produced and
-released by real-world play~\cite{wallis_game_on_2020,RPGLiteLessonsLearned}.
+design and development of RPGLite as a mobile game, and the dataset collected
+from real-world play and released
+~\cite{wallis_game_on_2020,RPGLiteLessonsLearned}. It starts with an overview of
+RPGLite itself in \cref{sec:rpglite_overview}, and progresses to a discussion of
+the game's implementation in \cref{sec:rpglite_implementation} before concluding
+with a discussion around the empirical data collected using the game in \cref{sec:rpglite_data_discussed}.
 
-\inline{Add an outline of the RPGLite chapter here; at time of writing it might need some reworking.}
-
-\section{An Overview of RPGLite}\revnote{Needs copy-editing}
+\section{An Overview of RPGLite}\label{sec:rpglite_overview}\revnote{Needs copy-editing}
 
 RPGLite is a simple two-player game played in turns. Each player selects
 characters independent of the other, with each character having a unique set of
@@ -238,7 +241,7 @@ help to assess whether aspect orientation is suitable for realistic simulation.
 % player data can be compared against simulation data with biases repre to
 % identify 
 
-\section{Implementation of RPGLite}
+\section{Implementation of RPGLite}\label{sec:rpglite_implementation}
 
 Knowing ideal play is useful. However, to understand how real-world players
 would interact with RPGLite, empirical data needed to be collected. To produce
@@ -258,16 +261,33 @@ here, or maybe an appendix? Keen not to plagarise, but it's also maybe worth
 including. William and I both spent a lot of time getting that paper out. I
 presented it at GameOn2020.}.
 
-\subsection{Consent to participation}
+\subsection{Consent to participation}\label{subsec:consent_to_participation}
 
-\inline{Include notes \& screenshots here explaining that users were prompted
-in-app to accept their data being recorded and published for research purposes,
-and that the data collected was used \emph{only} for research purposes, that no
-personally identifying data was collected, and that data collection was signed
-off by the University of Glasgow ethics committee. Users could not create an
-account without accepting that their play data would be collected and published
-for research purposes, and users could withdraw that consent at any time.
-Further information was also made available at \url{rpglite.app}}
+% \inline{Include notes \& screenshots here explaining that users were prompted
+% in-app to accept their data being recorded and published for research
+% purposes, and that the data collected was used \emph{only} for research
+% purposes, that no personally identifying data was collected, and that data
+% collection was signed off by the University of Glasgow ethics committee. Users
+% could not create an account without accepting that their play data would be
+% collected and published for research purposes, and users could withdraw that
+% consent at any time. Further information was also made available at
+% \url{rpglite.app}}
+
+Players gave consent to participate in a scientific study as a part of creating
+an account to play RPGLite. Players were required to explicitly scroll through
+an information sheet and consent agreement and agree to both to make an account.
+Copies of both were made available to download for player reference in both the
+game and RPGLite's website\footnote{RPGLite's website is available at
+\href{https://rpglite.app/}{https://rpglite.app/}, where copies of the consent
+form and information sheet are linked.}\revnote{Should info sheet / consent form
+be cited, instead of linked as in this footnote\ldots{}?}. Players were instructed to
+contact the involved researchers to withdraw participation, and were instructed
+that they could do so at any time. Email addresses to contact were noted in both
+the app and the website.
+
+The study, information sheet, consent form, and data collected were reviewed by
+the University of Glasgow Science \& Engineering ethics committee before the
+game was publicly released.
 
 \subsection{Mobile app}
 
@@ -374,29 +394,40 @@ was uncompromised. Reflections on the suitability of this approach made after
 the game's launch have been published separately~\cite{GameOn2020}.
 
 
-\section{Empirical Play and Data Collected}
+\section{Empirical Play and Data Collected}\label{sec:rpglite_data_discussed}
 
-In total, players produced a dataset used in this PhD comprising around 4,000
-games\inline{Find the exact number of games analysed} entirely
-completed\footnote{``Entirely completed'' here means games that ended in a win
-or lose, not abandoned by players or left unfinished by a player who abandoned
-the app.}. It also includes around 1,000,000 datapoints generated by gameplay or
-player interaction with the client, such as players checking their history or
-rolling a dice, although these datapoints are not used in the simulations
-presented in this simulation. The data is drawn directly from the MongoDB
-database used to run the game.
+In total, players produced a dataset comprising around $9,693$
+games. It also includes
+$1,105,065$ datapoints generated by gameplay or player interaction with the
+client, such as players checking their position on a leaderboard, searching
+their game history, or rolling to hit as part of an attack. The data is drawn
+directly from the MongoDB database used to run the game. With player consent on
+signup (see \cref{subsec:consent_to_participation}) this data is published and
+available for all researchers to analyse in the format of a JSON object~\cite{rpglite_dataset}.
 
-Completed games drawn from the MongoDB instance contain many fields, including: 
+Completed games drawn from the MongoDB instance contain many fields, and the in
+particular the breadth of datapoints logged by player interaction with the
+RPGLite app means there are an extremely broad range of datapoints available to
+curious researchers. A full list of available data is available in
+a text document within the dataset~\cref{rpglite_dataset}; in brief, some of
+particular interest include: 
 
-\begin{itemize} \item The history of moves made, and the times those moves were
-made \inline{Confirm moves made includes timestamps, I'm sure it does} \item The
-players involved (by username), and the winning player \item The ELO scores of
-the players before and after playing the game \inline{Confirm that games include
-both ELO before and after the game is played.} \item The characters chosen by
-each player \item The ``score'' of each player\footnote{RPGLite's mobile app
-presented users with a naive scoring mechanism used to rank users on a
-leaderboard, which some users then used to identify other players of a similar
-notional skill.} \end{itemize}
+\begin{itemize}
+    \item The history of moves made, and the times those moves were
+made
+\item The players involved and the winning player of each game (by username as
+no personally identifying data was collected)
+\item The ELO scores of players in each game
+\item The characters chosen by each player
+\item The ``score'' of each player\footnote{RPGLite's mobile app presented users
+with a naive scoring mechanism used to rank users on a leaderboard which some
+users then used to identify other players of a similar notional skill.}
+\end{itemize}
 
-
-
+RPGLite was played through two ``seasons'': after an initial $3,000$ games
+played in a first configuration of RPGLite, a second configuration was released.
+This meant that, having learned a strategy to play with the initial
+configuration (a preference of characters, for example), changes were made which
+may invalidate what players had learned. The dataset therefore contains two
+conceptual subsets: data collected from a system with the same mechanics but
+slightly tweaked
