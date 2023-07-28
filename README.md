@@ -65,7 +65,9 @@ _not_ to review it; just might still shift a little on my end.
   
 ### Other work to do
 
-- [ ] General copy editing 🫡 (consistency in voice, hyphenation, US vs UK english, etc)
+- [ ] General copy editing 🫡 (consistency in voice, hyphenation, US vs UK
+  english, etc)
+- [ ] Acknowledgements
 
 
 ## Plan
@@ -83,13 +85,13 @@ gantt
     
     section Content Drafting
     Re-Review Papers           :w1, 01-27, active, 14d
-    Redraft Lit Review     : litReviewFinalDraft, after w1 , 14d
-    Prior Work working draft : priorWorkStart, after litReviewFinalDraft, 14d
+    Redraft Lit Review     :litReviewFinalDraft, after w1 , 14d
+    Prior Work working draft :priorWorkStart, after litReviewFinalDraft, 14d
     Prior Work cleanup & final Draft :priorFinish , after priorWorkStart, 14d 
-    Contextual work & lit-focused writing draft complete : milestone, after priorFinish
+    Contextual work & lit-focused writing draft complete :milestone, after priorFinish
     
     
-    Draft final sections of tools chapter      : toolsStart, after litReviewFinalDraft, 21d
+    Draft final sections of tools chapter      :toolsStart, after litReviewFinalDraft, 21d
     Tools final draft      :toolsFinish, after priorFinish, 7d
     RPGLite Sim Technical background redraft :rpgLiteTechnicalNotes, after toolsFinish, 14d
     Tooling & Technical writing draft complete : milestone, after rpgLiteTechnicalNotes

@@ -114,7 +114,7 @@ work, and attempts proved challenging, indicating that this would also be
 complicated to maintain over time. There are also efficiency concerns with this
 technique depending on its use: weaving advice around a function would mean
 monkey-patching the built-in class of functions, which would incur an overhead
-from running aspect hooks on \emph{every function call}.
+from running aspect hooks on every invocation of every function.
 
 Another approach involved making use of existing Python functionality for
 interrupting method calls. As PyDySoFu wraps method calls at execution time,
@@ -675,7 +675,6 @@ application. Aspects with no urgency applied default to \lstinline{urgency=0}.
 High-urgency aspects are applied before low-urgency aspects. This feature is
 disabled by default, but can be enabled using the code snippet shown in
 \cref{fig:enabling_priority_sorting_of_aspects}.
-
 
 
 \section{Discussion}

@@ -468,7 +468,7 @@ description of the research undertaken using these tools in
 variance using aspect orientation were found using these tools which predate
 this thesis and offer important background for the research undertaken in it.
 
-\labelledsec{Motivations in originally implementing \pdsf}{pdsf_motivations}
+\section{Motivations in originally implementing \pdsf}\label{sec:pdsf_motivations}
 
 The original incarnation of \pdsf{} was developed with different motivations
 than those outlined in \cref{chap:lit_review}. It is therefore important to
@@ -526,7 +526,7 @@ modelled as described and subsequently studied.
 
 
 
-\labelledsec{Original \pdsf Implementation}{prior_work_pdsf}
+\section{Original \pdsf Implementation}\label{sec:prior_work_pdsf}
 
 To disambiguate the improvements made to the original \pdsf implementation
 in the tooling contributions of this thesis --- and to explain the fundamental
@@ -536,7 +536,7 @@ the application of behavioural variance --- the implementation of the original
 
 
 
-\labelledsubsec{Weaving mechanism}{prior_work_weaving}
+\subsection{Weaving mechanism}\label{subsec:prior_work_weaving}
 The original \pdsf implementation made use of a weaving mechanism which could be
 categorised as ``total weaving'' in the parlance of
 \citeauthor{dynamicAOchitchyan}~\cite{dynamicAOchitchyan}: hooks to apply advice
@@ -583,29 +583,277 @@ Hooks are applied to a class by way of an invocation to a function,
 hooks into that class. \inline{Add citation for pdsf, asp}
 \lstinline{fuzz_clazz} replaces the \lstinline{__getattribute__()} method of the
 class with a new function object which it constructs. The replacement function
-object operates 
+object operates \inline{This sentence was left half-finished --- no idea why,
+but the para needs wrapping up.}
 
 More specifically, the replacement \lstinline{__getattribute__()} method makes a
-call to the class' original \lstinline{__getattribute__()} method to retrieve
-an attribute when required. If this attribute is not a function or method, it
-is returned by the woven \lstinline{__getattribute__()} function and the program
-affected class behaves as if it was never altered. If an attribute to be
-retrieved is a method or function, however, a new function is constructed to be
-returned. This function 
+call to the class' original \lstinline{__getattribute__()} method to retrieve an
+attribute when required. If this attribute is not a function or method, it is
+returned by the woven \lstinline{__getattribute__()} function and the program
+affected class behaves as if it was never altered. However: if an attribute to
+be retrieved is a method or function, a new function is constructed and
+returned. This function looks up and applies advice to the attribute originally
+retrieved by the program, and contains a reference to the original aspect to
+enable its execution. This wrapping function is therefore the core of the
+weaving process: a replaced \lstinline{__getattribute__()} method injects the
+aspect hooks which constitute the aspect-orientation framework. Advice to be run
+before, around, and after a join point were implemented as invocations of advice
+functions before a target was executed for ``before'' advice, after a target was
+executed for ``after'' advice, and with an around function being run with a
+reference to the advice's to invoke at its own discretion.
 
-% All methods on an affected class are therefore
-% retrieved through this codepath when executed. 
+\subsection{Applying Process Mutations}\label{subsec:prior_work_mutations}
+The development of \pdsf{} was intended to support simulation \& modelling
+research by providing a way of applying program modifications at runtime. It
+sought to fulfil the needs of a program which determined that a (potentially
+non-deterministic) change to the behaviour it modelled was required, and enable
+the program to apply that change mid-process in an aspect-oriented fashion.
+Aspect orientation libraries typically support advice woven before, around, or
+after a join point; modifying the join point itself essentially allows changes
+inside its definition, introducing a fourth type of weaving. \pdsf achieves this
+through a special type of ``before''-style aspect, which it calls a ``fuzzer''.
+
+Fuzzers implement transformations on abstract syntax trees. They are implemented
+as functions which receive a list of AST objects representing the definition of
+a function which satisfies a fuzzing advice's join point, and return another
+list of AST objects, which replace the target function's definition. Any
+transformation resulting in a valid AST is permitted. A code snippet
+demonstrating the implementation of this process is shown in
+\cref{fig:v1_pdsf_fuzzing_impl_codesnippet}.
+
+\begin{figure}
+\begin{lstlisting}
+class FuzzingAspect(IdentityAspect):
+
+    def __init__(self, fuzzing_advice):
+        self.fuzzing_advice = fuzzing_advice
+
+    def prelude(self, attribute, context, *args, **kwargs):
+        self.apply_fuzzing(attribute, context)
+
+    def apply_fuzzing(self, attribute, context):
+        # Ensure that advice key is unbound method for instance methods.
+        if inspect.ismethod(attribute):
+            reference_function = attribute.im_func
+            advice_key = getattr(attribute.im_class, attribute.func_name)
+        else:
+            reference_function = attribute
+            advice_key = reference_function
+
+        fuzzer = self.fuzzing_advice.get(advice_key, identity)
+        fuzz_function(reference_function, fuzzer, context)
 
 
-\labelledsubsec{Applying Process Mutations}{prior_work_mutations}
+def fuzz_function(reference_function, fuzzer=identity, context=None):
+    reference_syntax_tree = get_reference_syntax_tree(reference_function)
+
+    fuzzed_syntax_tree = copy.deepcopy(reference_syntax_tree)
+    workflow_transformer = WorkflowTransformer(fuzzer=fuzzer, context=context)
+    workflow_transformer.visit(fuzzed_syntax_tree)
+
+    # Compile the newly mutated function into a module, extract the mutated function code object and replace the
+    # reference function's code object for this call.
+    compiled_module = compile(fuzzed_syntax_tree, inspect.getsourcefile(reference_function), 'exec')
+
+    reference_function.func_code = compiled_module.co_consts[0]
+\end{lstlisting}
+\caption{A code snippet from the original \pdsf implementation, implementing
+\lstinline{Fuzzing} aspects and applying fuzzing to a function definition.}
+\label{fig:v1_pdsf_fuzzing_impl_codesnippet}
+\end{figure}
+
+As can be seen in \cref{fig:v1_pdsf_fuzzing_impl_codesnippet}, fuzzing aspects
+are implemented by way of ``prelude'' advice (\pdsf{} nomenclature for advice
+run \emph{before} a target invocation, inspired by early work on TheatreAG,
+which is discussed in \cref{subsec:prior_work_theatre}). Prior to the target
+being run, the fuzzer replaces its underlying code object with one produced by
+compiling a fuzzing aspect's returned AST objects. Replacing the underlying code
+object with a modified one allows the fuzzer to define arbitrary modifications
+to the definition of the function, thereby achieving runtime metaprogramming.
+
+
+\subsection{Limitations}
+
+The original implementation of \pdsf was intended to demonstrate the feasibility
+of runtime metaprogramming and its potential in simulation and modelling.
+However, its design presents limitations.
+
+There is an overhead involved in running
+the wrapped function for every invocation of \lstinline{__getattribute__()}, and
+also in running aspect hooks for all possible join points, even when those hooks
+are not targets of advice at a given moment.
+When an attribute is the target of advice, aspects are discovered and applied.
+However, aspects are discovered by lookup within the scope of the function
+creating a replacement \lstinline{__getattribute__()} method. This design
+requires multiple instances of advice weaving to create multiple replacement
+\lstinline{__getattribute__()} calls, all of which are invoked on any attribute
+lookup. A single target of advice which has multiple pieces of advice woven
+therefore incurs a performance penalty for every piece of advice applied, which
+must be incurred when any attribute is looked up on the target's class. If the
+join point defining the target may apply to many classes, each class must incur
+the same penalty, even if none of their attributes are targets of advice in
+practice. The original library was developed to demonstrate the feasibility of
+the idea underlying \pdsf{} (runtime metaprogramming), but the weaving mechanism
+implemented left room for improvement. A robust implementation with attention
+paid to reducing this overhead is introduced in \cref{chap:pdsf_rewrite}.
+
+Similarly, an additional overhead is incurred by a lack of caching of the
+modifications fuzzers make to function definitions. One can envisage a need for
+runtime metaprogramming which produces different function definitions at
+different times: an example could be modelling different degrees of degraded
+modes introduced to an actor's behaviour in safety-critical systems
+research~\cite{johnson2007degradedmodes}. One can also envisage no such need: an
+example could be minor temporary modifications otherwise permanently made in
+program maintenance, such as to constants within a function definition, to the
+format of a function's return value, or adding control flow which exits a
+function early on a termination condition. The requirement is a product of the
+tool's use case in different scenarios. In scenarios where the same modification
+is to be made every invocation, a fuzzer need only be run once; optimisations
+enabling the caching of fuzzing aspects' effects would provide better
+performance in use cases where such a feature is appropriate.
+
+Other aspect orientation frameworks offer support for other types of advice.
+Handi-wrap and AspectJ both support features related to the processing of
+exceptions thrown by a program~\cite{Baker_2002,aspectj_intro} and these
+features have inspired work into improved exception handling in object-oriented
+systems~\cite{millham2011aopandoopsecurity}. However, this version of \pdsf
+offers no direct support for exception handling. Opportunities to support the
+feature were therefore available for future revisions of the library to
+capitalise on; such a revision is also presented in \cref{chap:pdsf_rewrite}.
+
+A final limitation is that the weaving technique this early of \pdsf used is
+incompatible with Python3, as replacing \lstinline{__getattribute__()} is not
+possible in Python's newer version. It was determined that a tool which was of
+practical use to the simulation and modelling community should be produced which
+would remain useful to future researchers making modern models; as the existing
+weaving technique lacked performance, an opportunity presented itself for a
+complete redesign. The resulting new design is presented in
+\cref{chap:pdsf_rewrite} which makes use of a new weaving technique.
 
 
 
-\labelledsec{Additional Simulation Machinery}{prior_work_machinery}
+\section{Additional Simulation Machinery}\label{sec:prior_work_machinery}
 
-\labelledsec{FuzziMoss}{prior_work_fm}
+Other related projects developed tooling for sociotechnical simulation \&
+modelling. Fuzzi-Moss was a project collecting a library of standardised
+behavioural modifications for use in sociotechnical simulation \& modelling;
+Theatre\_AG was a project offering a model of time against which actors within
+sociotechnical simulations \& models could act. While these projects ultimately
+were not used in producing the contributions of this thesis, they are outlined
+here as relevant to the original \pdsf project as they were originally
+developed as a suite of simulation \& modelling tools to be employed together.
 
-\labelledsec{Theatre\_AG}{prior_work_theatre}
+\subsection{Fuzzi-Moss}\label{subsec:prior_work_fm}
+
+Fuzzi-Moss\footnote{A backronym for ``Fuzzing Models of sociotechnical
+simulations''} was a library of standard behavioural variations written as
+fuzzers to be applied by \pdsf{}~\cite{fuzzimoss_repo}. It was primarily created
+for use in a model of the impact of inconsistency in teams' executions of
+software engineering methodology, which is discussed further in
+\cref{sec:caise_paper}.
+
+\begin{figure}
+    \begin{lstlisting}
+def missed_target(random, pmf=default_distracted_pmf(2)):
+    """
+    Creates a fuzzer that causes a workflow containing a while loop to be prematurely terminated before the condition
+    in the reference function is satisfied.  The binary probability distribution for continuing work is a function of
+    the duration of the workflow, as measured by the supplied turn based clock.
+    :param random: a random value source.
+    :param pmf: a function that accepts a duration and returns a probability threshold for an
+    actor to be distracted from a target.
+    :return: the insufficient effort fuzz function.
+    """
+
+    def _insufficient_effort(steps, context):
+
+        break_insertion = \
+            'if not self.is_distracted() : break'
+
+        context.is_distracted = IsDistracted(context.actor.clock, random, pmf)
+
+        fuzzer = \
+            recurse_into_nested_steps(
+                fuzzer=filter_steps(
+                    fuzz_filter=include_control_structures(target={ast.While}),
+                    fuzzer=recurse_into_nested_steps(
+                        target_structures={ast.While},
+                        fuzzer=insert_steps(0, break_insertion),
+                        min_depth=1
+                    )
+                ),
+                min_depth=1
+            )
+
+        return fuzzer(steps, context)
+
+    return _insufficient_effort
+    \end{lstlisting}
+\end{figure}
+
+Fuzzi-Moss contained utilities and fuzzers such as:
+
+\begin{itemize}
+    \item Several probability mass functions representing chance of
+    unexpected behaviour given a length of time and an actor's\ldots{}:
+    \begin{itemize}
+        \item conscientiousness, a lack of which would increase chance of behavioural adaptation due to lack
+    of effort;
+        \item concentration, a lack of which would increase chance of behavioural
+    adaptation due to distraction
+    \end{itemize}
+    \item A \lstinline{missed_target} fuzzer, which terminated a
+    \lstinline{while} loop early if activated via a probability mass function of
+    an actor's propensity for negligence. As an example of a Fuzzi-Moss fuzzer,
+    this is shown in \cref{fig:fuzzimoss_missed_target_fuzzer}.\revnote{Consider
+    moving some code snippets like those of Fuzzi-Moss, which aren't necessarily
+    that important in the grand scope of the thesis, to an appendix.}
+    \item An \lstinline{incomplete_procedure} fuzzer, which truncated the
+    steps\footnote{Represented by lines of code} taken by an actor if activated
+    via a probability mass function representing an actor's propensity for
+    distraction
+\end{itemize}
+
+Plans were also made for fuzzers representing an actor ``becoming
+muddled''\footnote{A behavioural variation caused by confusion.} and making
+mistakes in decision-making, but neither have been completed at time of writing.
+A discussion around the revival of this project in the context of the \pdsf
+rewrite presented in \cref{chap:pdsf_rewrite} is given in
+\cref{sec:future_work_reviving_fuzzimoss}. 
 
 
-\labelledsec{Using \pdsf for sociotechnical simulation}{caise_paper}
+\subsection{Theatre\_Ag}\label{subsec:prior_work_theatre}
+
+Theatre\_Ag (``Theatre'') is a project defining a model of time against which actors in
+sociotechnical models \& simulations can act~\cite{theatre_ag_repo}. In the
+project's overview, it describes itself as\ldots{}:
+
+\begin{blockquote}
+Theatre\_Ag is a workflow oriented agent based simulation environment.
+Theatre\_Ag is designed to enable experimenters to specify readable workflows
+directly as collections of related methods organised into Plain Old Python
+Classes that are executed by the agents in the simulation. All other simulation
+machinery (critically task duration and clock synchronization) is handled
+internally by the simulation environment.
+\end{blockquote}
+
+The central metaphor underlying Theatre's model of timing is theatrical: actors
+in a simulation or model are members of a ``cast'' (a collection of actors) who
+enact a ``workflow'' (simulation steps) in a ``scene'' (domain model within
+which the actors interact). Central to the library is its clock: tasks are given
+durations, and a clock which synchronises all agents' position in time ticks to
+complete different tasks. The theatrical model theatre introduces is the context
+for \pdsf{}'s nomenclature for its types of advice: ``prelude'' advice happens
+before a task and ``encore'' advice is invoked afterward, as a prelude and
+encore would be in a literal theatre.
+
+Theatre has been used as the environment in models of TCP/IP, algorithmic
+trading, the spread of disease~\cite{aranTheatreThesis}, and the impact of
+behavioural variation in software engineering methodologies as described in
+\cref{sec:caise_paper}.
+
+
+\section{Using \pdsf for sociotechnical simulation}\label{sec:caise_paper}
+
+Something about CAiSE here.\revnote{Maybe I should include something on Aran's
+masters dissertation too?}
