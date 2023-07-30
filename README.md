@@ -23,7 +23,7 @@ _not_ to review it; just might still shift a little on my end.
 - Prior work
   - [X] Content decided
   - [X] Content complete
-  - [ ] Draft 1 complete
+  - [X] Draft 1 complete
   - [ ] Reviewed
   - [ ] Draft 2 complete
 - PDSF rewrite

@@ -542,7 +542,10 @@ categorised as ``total weaving'' in the parlance of
 \citeauthor{dynamicAOchitchyan}~\cite{dynamicAOchitchyan}: hooks to apply advice
 are woven into every possible join point. The library was implemented in Python,
 which offers a flexible object model \pdsf is able to take advantage of in order
-to weave its hooks.
+to weave its hooks.\footnote{The weaving mechanism of \pdsf was eventually
+factored out into another library, Asp~\cite{asp_repo}; as \pdsf was mostly used
+before this refactoring, particularly in case studies (see \cref{sec:caise_paper}), the weaving mechanism will here be described
+within the context of \pdsf specifically.}
 
 Python's object model has three key properties which the original implementation
 of \pdsf takes advantage of:
@@ -580,27 +583,28 @@ performing these lookups, and applies any advice it finds. The replacement
 
 Hooks are applied to a class by way of an invocation to a function,
 \lstinline{fuzz_clazz}, which takes a class as a parameter and weaves aspect
-hooks into that class. \inline{Add citation for pdsf, asp}
-\lstinline{fuzz_clazz} replaces the \lstinline{__getattribute__()} method of the
-class with a new function object which it constructs. The replacement function
-object operates \inline{This sentence was left half-finished --- no idea why,
-but the para needs wrapping up.}
+hooks into that class~\cite{pdsf_repo,asp_repo}. \lstinline{fuzz_clazz} replaces
+the \lstinline{__getattribute__()} method of the class with a new function
+object which it constructs. The replacement function object injects aspect hooks
+to callable attributes, thereby discovering aspects, applying them, and invoking
+an attribute which is the target of advice within a wrapper of the attribute
+itself.
 
-More specifically, the replacement \lstinline{__getattribute__()} method makes a
-call to the class' original \lstinline{__getattribute__()} method to retrieve an
-attribute when required. If this attribute is not a function or method, it is
-returned by the woven \lstinline{__getattribute__()} function and the program
-affected class behaves as if it was never altered. However: if an attribute to
-be retrieved is a method or function, a new function is constructed and
-returned. This function looks up and applies advice to the attribute originally
-retrieved by the program, and contains a reference to the original aspect to
-enable its execution. This wrapping function is therefore the core of the
-weaving process: a replaced \lstinline{__getattribute__()} method injects the
-aspect hooks which constitute the aspect-orientation framework. Advice to be run
-before, around, and after a join point were implemented as invocations of advice
-functions before a target was executed for ``before'' advice, after a target was
-executed for ``after'' advice, and with an around function being run with a
-reference to the advice's to invoke at its own discretion.
+The replacement \lstinline{__getattribute__()} method makes a call to the class'
+original \lstinline{__getattribute__()} method to retrieve an attribute when
+required. If this attribute is not a function or method, it is returned by the
+woven \lstinline{__getattribute__()} function and the program affected class
+behaves as if it was never altered. However: if an attribute to be retrieved is
+a method or function, a new function is constructed and returned. This function
+looks up and applies advice to the attribute originally retrieved by the
+program, and contains a reference to the original aspect to enable its
+execution. This wrapping function is therefore the core of the weaving process:
+a replaced \lstinline{__getattribute__()} method injects the aspect hooks which
+constitute the aspect-orientation framework. Advice to be run before, around,
+and after a join point were implemented as invocations of advice functions
+before a target was executed for ``before'' advice, after a target was executed
+for ``after'' advice, and with an around function being run with a reference to
+the advice's to invoke at its own discretion.
 
 \subsection{Applying Process Mutations}\label{subsec:prior_work_mutations}
 The development of \pdsf{} was intended to support simulation \& modelling
