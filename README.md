@@ -22,7 +22,7 @@ _not_ to review it; just might still shift a little on my end.
   - [ ] Draft 2 complete
 - Prior work
   - [X] Content decided
-  - [ ] Content complete
+  - [X] Content complete
   - [ ] Draft 1 complete
   - [ ] Reviewed
   - [ ] Draft 2 complete

@@ -672,7 +672,7 @@ object with a modified one allows the fuzzer to define arbitrary modifications
 to the definition of the function, thereby achieving runtime metaprogramming.
 
 
-\subsection{Limitations}
+\subsection{Limitations}\label{subsec:prior_work_pdsf_limitations}
 
 The original implementation of \pdsf was intended to demonstrate the feasibility
 of runtime metaprogramming and its potential in simulation and modelling.
@@ -853,7 +853,93 @@ behavioural variation in software engineering methodologies as described in
 \cref{sec:caise_paper}.
 
 
-\section{Using \pdsf for sociotechnical simulation}\label{sec:caise_paper}
+\section{Example Studies using \pdsf for Behavioural Simulation}\label{sec:caise_paper}
 
-Something about CAiSE here.\revnote{Maybe I should include something on Aran's
-masters dissertation too?}
+The viability of encoding behavioural variations as aspects using \pdsf has been
+demonstrated in earlier studies~\cite{wallis2018caise,aranTheatreThesis}.
+\revnote{Maybe I should include something on Aran's masters dissertation too,
+rather than just citing it?} The study modelled software engineers working to
+different methodologies of software engineering: waterfall, in which
+requirements are gathered, software is developed to meet requirements, quality
+assurance steps are undertaken, and the resulting software is delivered to
+customers; and TDD, where the development of tests for quality assurance
+precedes the development of features. The study sought to investigate whether,
+when software engineers were working suboptimally, there was a difference in the
+rate of bugs introduced to a program developed under each methodology.
+
+The study began with a ``naive'' model of software engineers following each
+paradigm, devleoped in Python using \pdsf, Theatre, and Fuzzi-Moss. Engineers
+would produce ``chunks'' of code, which could contain bugs. In quality
+assurance, engineers were modelled as attempting to identify bugs in different
+areas of the codebase, fixing them if they were discovered. Developers could
+commit chunks of code toward features identified through requirement
+engineering, which were eventually completed, but could potentially contain
+undiscovered bugs within chunks of code.
+
+This model was then augmented aspectually using \pdsf. Distraction was
+represented through the truncation of functions representing workflow steps.
+Developers were modelled with different levels of distraction, affecting a
+probability mass function (PMF) which would activate when a developer was
+modelled as being distracted in a given moment. If the PMF activated, the
+workflow step invoked at that moment was truncated using \pdsf. The model showed
+that developers following the TDD methodology could successfully complete a
+larger number of features on average than those following waterfall, concurring
+with the prevailing consensus on the two methodologies.\revnote{Add a citation
+for TDD vs agile! Citations are missing from the copy of the CAiSE paper I can
+find, but I'd like to use the same one.}
+
+In replicating the community understanding of the model, the paper demonstrated
+the feasibility of aspectually augmenting modelled behaviour: the simulation
+took a naive model with no capacity for analysing errors, and introduced new
+features of the model supporting an avenue of investigation otherwise
+impossible with the methodologies represented by the naive model. That the
+resulting simulation matched the expectations existing within the community gave
+confidence that the tool could be used to build realistic simulations where
+some features of a model could be separated from its core codebase.
+
+\section{Discussion}\label{sec:prior_work_discussion}
+
+The existing case study employing \pdsf demonstrated that realistic model
+features could be separated from their core codebase, and gave credence to
+\pdsf{}'s use as a tool for aspectually augmenting models with behavioural
+variance. It also left many research questions unanswered and tooling
+flaws unsatisfied, however:\revnote{Does this want to be a list? Consider
+reworking to a paragraph.}
+
+\begin{itemize}
+    \item Aspects were believed to be ``realistic'' as they represented the
+    expected outcomes of the simulation. However, no real-world data was used to
+    corroborate the claim, and it was unclear that aspectually augmented
+    behaviour could capture the variations present in real-world human
+    behaviour.
+    \item These aspects also demonstrated variations which were identifiable in
+    the emergent properties of a system (for example, mean time to failure of a
+    software system under development, or successfully completed features). The
+    variations applied to individual developers might have poorly modelled
+    individual behaviour, but produced accurate emergent properties of the
+    system individual developers acted within.
+    \item As discussed in \cref{subsec:prior_work_pdsf_limitations}, \pdsf's
+    implementation at the time was a proof-of-concept which, while successfully
+    demonstrating the potential of aspect-oriented runtime metaprogramming, was
+    also inefficient, feature-incomplete, and lacked compatibility with modern
+    software engineering tooling.
+    \item Models of distraction were adopted from the common library provided by
+    Fuzzi-Moss. However, this model was not applied to other codebases. It
+    remains unclear that Fuzzi-Moss' model of distraction is broadly applicable
+    in other projects: different models of distraction might be required by
+    different researchers. Further, a model of distraction which realistically
+    represents the behaviour of an individual (rather than the emergent
+    properties of the system that individual acts within) might not apply to
+    other systems the individual acts within. Briefly put, The portability of
+    aspectually modelled behavioural simulation has not been investigated, and
+    literature within the aspect orientation community lacks evidence to support
+    a belief in their portability~\cite{przybylek2010wrong,Constantinides04aopconsidered,steimann06paradoxical}.
+\end{itemize}
+
+This left opportunities to improve both the tooling offered for aspect-oriented
+runtime metaprogramming, and the evidence supporting its use to encode
+behavioural variations in sociotechnical systems. Improvements to the tooling
+follow in \cref{chap:pdsf_rewrite}; later chapters propose --- and discuss the
+implementation of --- real-world systems which are suitable for modelling using
+\pdsf{} in \cref{chap:rpglite}, and a study of those systems using aspectually
+augmented models in \cref{chap:exp1_simulation_optimisation} and \cref{chap:exp2_old_aspects_new_systems}.
