@@ -19,8 +19,6 @@
 \contentsline {todo}{\emph {[C2{}] todo: }Important to acknowledge somewhere in this subsection that synthetic data generation is a well-researched field, but that generating logs from simulations with variance is the specific area relevant to this thesis}{40}{subsection.2.4.1}%
 \contentsline {todo}{\emph {[C2{}] todo: }Shugurov \& Mitsyuk's work should follow this. REVIEW IT.}{43}{subsection.2.4.2}%
 \contentsline {todo}{\emph {[C2{}] todo: }more citations}{44}{section.2.5}%
-\contentsline {todo}{\emph {[C3{}] todo: }Add citation for pdsf, asp}{50}{Item.10}%
-\contentsline {todo}{\emph {[C3{}] todo: }This sentence was left half-finished --- no idea why, but the para needs wrapping up.}{50}{Item.10}%
 \contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Consider moving some code snippets like those of Fuzzi-Moss, which aren't necessarily that important in the grand scope of the thesis, to an appendix.}}{56}{lstnumber.-2.34}%
 \contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Maybe I should include something on Aran's masters dissertation too, rather than just citing it?}}{57}{section.3.4}%
 \contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Add a citation for TDD vs agile! Citations are missing from the copy of the CAiSE paper I can find, but I'd like to use the same one.}}{57}{section.3.4}%
