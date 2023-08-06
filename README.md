@@ -67,7 +67,16 @@ _not_ to review it; just might still shift a little on my end.
 
 - [ ] General copy editing 🫡 (consistency in voice, hyphenation, US vs UK
   english, etc)
-- [ ] Acknowledgements
+- [ ] Acknowledgements / Dedication
+- [ ] Create list of copy-editing tasks below
+
+
+### Copy-editing tasks
+
+- [ ] Are words hyphenated correctly?
+- [ ] UK English used throughout?
+- [ ] Are footnotes always placed after periods, and before commas?
+- [ ] 
 
 
 ## Plan

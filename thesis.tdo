@@ -39,6 +39,7 @@
 \contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Is this list complete?}}{76}{section.4.5}%
 \contentsline {todo}{\emph {[C5{}] todo: }Fix formatting and correct wording of William's hypothesis.}{77}{chapter.5}%
 \contentsline {todo}{\emph {[C5{}] todo: }Insert my own research question here}{77}{chapter.5}%
+\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Lift screenshots in this chapter from game-on paper source where possible}}{77}{chapter.5}%
 \contentsline {todo}{\emph {[C5{}] todo: }TODO INSERT RESEARCH QUESTION HERE}{77}{chapter.5}%
 \contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Needs copy-editing}}{79}{section.5.1}%
 \contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Should a summary of the paper be a section here, or maybe an appendix? Keen not to plagarise, but it's also maybe worth including. William and I both spent a lot of time getting that paper out. I presented it at GameOn2020. He's included some in his thesis, so I guess it's a precedent for me to do the same. And why not?}}{83}{section.5.2}%
@@ -74,8 +75,11 @@
 \contentsline {todo}{\emph {[C6{}] todo: }Stopped discussing rank correlation here because I may re-run my experiments; if I do, I don't want to have to re-write this, because frankly it's been pretty tricky to write so far and I'm keen not to have to redo it. Maybe there are other correlation metrics we could pick instead; Somers' D looks promising…? Are there citations I could use that compare different measurements, so I could justify my choice, and maybe pick one that's better than \tau if it exists?}{117}{subsection.6.5.1}%
 \contentsline {todo}{\emph {[C6{}] todo: }Discussion required here around the mitigation of randomness --- it's required because of RPGLite's inherent RNG --- and also explaining how we make use of a grid search in combination with k-fold validation to anneal toward well-fitted parameters of our models of learning for each individual player.}{117}{subsection.6.5.2}%
 \contentsline {todo}{\emph {[C8{}] todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{123}{chapter.8}%
-\contentsline {todo}{\emph {[C8{}] todo: }Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scapbook of ideas!}{123}{chapter.8}%
-\contentsline {todo}{\emph {[C8{}] todo: }cite the thesis here of Jeremy's student who worked in Python. He was very nice --- can't remember his name for the life of me.}{124}{subsection.8.1.1}%
-\contentsline {todo}{\emph {[C8{}] todo: }Would be nice to have a third reason as to why PyDySoFu\xspace introduces new research possibilities.}{124}{subsection.8.1.1}%
-\contentsline {todo}{\emph {[C8{}] todo: }cite William's PhD here}{126}{section.8.2}%
-\contentsline {todo}{\emph {[C9{}] todo: }Duplicate citation to clean up}{139}{chapter*.28}%
+\contentsline {todo}{\emph {[C8{}] todo: }Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scrapbook of ideas!}{123}{chapter.8}%
+\contentsline {todo}{\emph {[C8{}] todo: }These were originally written as separate points, but they shouldn't be. Rework the preceding and following paragraphs so they read like a series of points as to the opportunities aomp \& PyDySoFu\xspace make available.}{124}{subsection.8.0.1}%
+\contentsline {todo}{\emph {[C8{}] todo: }Maybe this whole thing's just one subsection? Maybe it should live under a single [section] heading?}{124}{subsection.8.0.1}%
+\contentsline {todo}{\emph {[C8{}] todo: }Find citations for World3 model}{125}{subsection.8.1.1}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }If I've got time, I'd love to push my codebase augmenting a World3 model to achieve just this with predictive implications for the 2008 financial crisis and the covid pandemic.}}{126}{subsection.8.1.1}%
+\contentsline {todo}{\emph {[C8{}] todo: }rework; it's not anticipated future states, it's making long-term predictions based on small but discrete changes to existing dynamics, which can be quantised as aspects.}{129}{subsection.8.2.2}%
+\contentsline {todo}{\emph {[C8{}] todo: }cite William's PhD here}{132}{subsection.8.3.4}%
+\contentsline {todo}{\emph {[C9{}] todo: }Duplicate citation to clean up}{143}{chapter*.28}%
