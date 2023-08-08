@@ -149,6 +149,42 @@ to improve their accuracy can follow in the community.
 model to achieve just this with predictive implications for the 2008 financial
 crisis and the covid pandemic.}
     
+% ==== also wrote the below in another section and realised it's acutally about
+% this point. I'd already finished this subsec, but leaving below in case I want
+% to use it later.
+
+
+% Relatedly, model features can be added as extensions through aspect
+% orientation with the possibility of lower maintenance cost and increased
+% flexibility. By way of illustration, consider researchers investigating a
+% car's structural integrity in a collision, and suppose that they can create
+% models of physical objects interacting. A scenario might arise where the
+% precise mechanics of a car's structural change under impact may be poorly
+% understood; many hypotheses may exist as how crumple zones made of a certain
+% material absorb an impact and morph under its force. In this scenario, the
+% task of the researchers might be to investigate different designs of their car
+% to optimise crumple zone performance. Many models could be produced; one for
+% each crumple zone. A model could also be constructed with parameterised
+% properties of the car, allowing one codebase to consolidate several models.
+% However, these parameters are likely to relate to the research at hand; to
+% parameterise unnecessary components of the model adds complexity and spends
+% development time for no clear gain. Future research projects may investigate
+% model components which were not parameterised in the model's initial design.
+% This raises a problem: how can the development team work to re-use the model
+% while minimising maintenance cost?
+
+% A solution is to add additional parameters as aspects. As aspect orientation
+% frameworks supporting within-style changes can make arbitrary changes to the
+% codebase, modifications can be made which leave the original model intact, but
+% produce an additional model by using aspect orientation as to ``patch'' the
+% original. If, in the future, extensions are required for either the original
+% model or its extended version, aspects can be added to either. The logical
+% conclusion of the design is that all model features could be implemented as
+% sets of aspects adding functionality to a simple base model, and a model
+% suitable for any piece of work can be constructed by composing relevant model
+% components (weaving relevant aspects), extending functionality by adding a new
+% behaviour to the set of available models if required. 
+    
 
 
 
@@ -157,8 +193,9 @@ crisis and the covid pandemic.}
 
 
 
-% ======= mark: above written, below yet to write (only stubs).
-% ======= 230806
+% ======= mark: above written, below yet to write (only stubs, but Hypothesising
+%                             Possible System Dynamics via Aspects is complete).
+% ======= 230808
 
 
 
@@ -166,7 +203,9 @@ crisis and the covid pandemic.}
 
 
 
-\subsection{Aspects to make Predictions with Uncertain System Dynamics}
+\subsection{Aspects to Nudge System State}
+\label{future_work_using_aspects_to_correct_simulated_state}
+\revnote{Title too informal? Can't find a good title for this\ldots{}}
 
 % Relatedly, aspects can represent anticipated future states\inline{rework; it's
 % not anticipated future states, it's making long-term predictions based on
@@ -190,9 +229,111 @@ crisis and the covid pandemic.}
 %% TODO: start the below describing the _problem_, then move to the pdsf
 %        solution
 
-Similarly to augmenting models with aspects representing unpredictable events,
-aspects might be used as hypotheses as to parts of a system's dynamics which are
-unclear to researchers at time of modelling. 
+
+
+\subsection{Hypothesising Possible System Dynamics via Aspects}
+
+% In the above section we claim that we can augment models to keep them relevant
+% in the face of unpredictable events; we can also investigate uncertain present
+% properties of systems by modelling them in a naive manner and encoding
+% hypothesised behaviour as aspects; we can correlate real-world data to
+% data produced by aspectually agumented simulations to discover which
+% hypothesised system is most similar to the real world. We can also use this as
+% a benchmark to judge improvements made by improved hypotheses in the future.
+
+Unpredictable events can cause discrepancies between simulated system state at a
+given time and the real-world system it models, as discussed in
+\cref{future_work_using_aspects_to_correct_simulated_state}. While this
+technique presents promising research opportunities, researchers face other kind
+of model uncertainty which aspect orientation could also counter.
+
+In some scenarios, it is difficult or impossible to make predictions about a
+system's future states because its dynamics are actively being researched.
+Standard scientific practice is to create a model --- mathematical,
+computational, or otherwise --- to create synthetic datasets which indicate
+accuracy if their predictions align with what is empirically observed.
+\inline{Cite popper, any point including studies that do this too? It's fairly
+table stakes as a concept\ldots{}} Some aspects of the system under study may be
+well-understood.
+
+Rather than creating models of an existing system which encode its hypothesised
+behaviour, a naive model can be created which operates as the scientific
+consensus understands it. Hypothesised behaviour takes the form of aspects
+altering behaviour in any manner the hypothesis requires. Within-style aspects
+allow arbitrary modifications, to simulated behaviour, increasing the
+flexibility of the technique. Data produced by each model can be compared to
+empirically sourced data, and their similarity quantified, as demonstrated in
+\cref{chap:exp1_simulation_optimisation} and
+\cref{chap:exp2_old_aspects_new_systems}. Our null hypothesis is that the naive
+model's similarity to empirically sourced data is greater than that of the
+aspectually augmented model; our experiment's hypothesis is that the behavioural
+change applied as aspects is more representative of the system under study than
+that of the community consensus.
+
+This technique has a satisfying\revnote{Maybe too informal, but I don't know,
+maybe live a little\ldots{}?} property: the hypothesis in a given experiment is
+clearly described by its aspectual representation, and if an experiment is
+successful --- meaning its hypothesised behaviour accurately represents the
+real-world system --- then the model adopted in future research as that of the
+community consensus can be the aspectually-augmented one produced by the
+original study. In this way, the scientific process is directly represented in
+the structure of the codebase, and the community's progression to increasingly
+accurate models of a system is represented by the progressive adoption of
+``patches'' to an original theory.
+
+Hypotheses can also be created compositionally in this model. Researchers might
+develop a series of potential system properties or behaviours, but are unable to
+investigate all reasonable combinations in a timely manner. However, sets of
+aspects representing each can be composed to produce, for $N$ hypothesised
+behaviours, $2^N$ potential behaviours which can be compared to empirical
+datasets to identify which combination of possible behaviours most closely
+resembles that of the real-world system under study. The technique is similar to
+modern pharmacutical development, where a series of algorithmically identified
+compounds can be produced and tested to identify which are most suitable to
+treat a medical issue\inline{find a citation for modern algorithmic / robotic
+drug development}, but can be applied to any models where aspectual augmentation
+is appropriate.
+
+This technique for developing experimental model codebases has another desirable
+property: it unifies seemingly incompatible philosophies of the scientific
+process. Kuhn\inline{Replace with a citeauthor and cite} explains the scientific
+process as inherently social: it starts with a paradigm which is accepted as
+broadly true, and accumulates an increasing number of exceptions until the
+paradigm itself is deemed unfit, and a new basis for a field's research is
+adopted. Popper\inline{Replace with a citeauthor and cite} explains the
+scientific process as an incremental movement towards truth with each subsequent
+result achieved by a research community. The proposed technique for developing
+experimental model codebases demonstrates features of both. Consider the
+original model a paradigm initially selected by community consensus, and the
+application of aspects Popper's incremental movements toward truth (as
+successful experiments are conducted) or Kuhn's exceptions to the agreed model
+(as experiments identify weaknesses in the original model). In this case, each
+successive new model adopted by a community is adopted in a Popplarian manner:
+improvements are objectively measured, incremental, and would trend towards
+truth as a model's behaviour fits empirical observations increasingly closely.
+However: over a sufficient period of time, the incremental patching of an
+original model would produce an accepted community model which contains a
+relatively large amount of discovery and complexity encoded in aspects, as
+compared to the original model they are applied to. One would expect the
+research community to rewrite the base model to simplify future aspect
+application and to more elegantly encode recent research findings; effectively
+discarding the original paradigm in favour of a new one. This process is Kuhn's
+``paradigm shift'', where paradigms are dropped once a generation of researchers
+determine that an originally accepted theory on a topic is unfit for purpose as
+evidenced by mounting exceptions in the literature; a new paradigm is to be
+accepted by the community, as a new base model would have to be written and
+adopted. 
+
+The relevant philosophy of science is more nuanced than is presented in this
+brief discussion, and the suitability of the approach for the development of
+research codebases is to be investigated; the work involved is outwith the scope
+of this thesis, but is suggested as future work. A basis for the incremental
+improvement of models via aspects is effectively demonstrated in
+\cref{chap:exp1_simulation_optimisation} and
+\cref{chap:exp2_old_aspects_new_systems}, but the feasibility of the approach as
+a basis of a community's scientific process --- and its relation to philosophy
+of science --- warrants further investigation.
+
 
 
 \subsection{FuzziMoss-style libraries of sociotechnical
