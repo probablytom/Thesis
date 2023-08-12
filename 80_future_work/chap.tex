@@ -49,33 +49,33 @@ points as to the opportunities aomp \& \pdsf make available.}\inline{Maybe this
 whole thing's just one subsection? Maybe it should live under a single [section]
 heading?}
 
-Another example of this technique's applicability in a variety of real-world
-situations is that traditional aspects cannot make decisions based on reflection
-on specific properties of the code they are being applied to. This could include
-calculations made, data accessed, or computational complexity as examples. A
-concrete example would be the compilation of Python code for efficient
-performance on a GPU (redirected from the CPU)~\cite{dejice2020thesis}, which is
-achieved via a JIT compiler which optimises looping logic for parallel execution
-on a GPU. Similar optimisations could be made through the analysis of common
-codepaths and profiling of expensive parts of those codepaths, and the automated
-optimisation of them. Research projects are also enabled which do not require
-any optimisation heuristics or logic: as \pdsf makes both the target of aspect
-application and the arguments passed to that target visible, it enables
-instrumentation of programs\footnote{In a similar manner to the instrumentation
-of RPGLite mdoels in \cref{subsec:aspects_instrumenting_model}.} to identify ---
-for example --- whether arguments with certain properties cause slowdowns on a
-codebase. In a hypothetical situation where a codebase was extremely performant
-on a dataset except when processing frames of the dataset containing prime
-numbers, isolating data causing worst-case performance and either automatically
-analysing it or presenting it for a researcher's analysis could be a useful
-feature for resource-constrained RSE teams, or as a built-in feature of
-profilers.
+% Another example of this technique's applicability in a variety of real-world
+% situations is that traditional aspects cannot make decisions based on reflection
+% on specific properties of the code they are being applied to. This could include
+% calculations made, data accessed, or computational complexity as examples. A
+% concrete example would be the compilation of Python code for efficient
+% performance on a GPU (redirected from the CPU)~\cite{dejice2020thesis}, which is
+% achieved via a JIT compiler which optimises looping logic for parallel execution
+% on a GPU. Similar optimisations could be made through the analysis of common
+% codepaths and profiling of expensive parts of those codepaths, and the automated
+% optimisation of them. Research projects are also enabled which do not require
+% any optimisation heuristics or logic: as \pdsf makes both the target of aspect
+% application and the arguments passed to that target visible, it enables
+% instrumentation of programs\footnote{In a similar manner to the instrumentation
+% of RPGLite mdoels in \cref{subsec:aspects_instrumenting_model}.} to identify ---
+% for example --- whether arguments with certain properties cause slowdowns on a
+% codebase. In a hypothetical situation where a codebase was extremely performant
+% on a dataset except when processing frames of the dataset containing prime
+% numbers, isolating data causing worst-case performance and either automatically
+% analysing it or presenting it for a researcher's analysis could be a useful
+% feature for resource-constrained RSE teams, or as a built-in feature of
+% profilers.
 
-Aspects with metaprogramming directly support reflection, as access to the
-target's AST is provided as a feature of the technique, and allow transformed
-code to be compiled just-in-time, which directly enables research projects such
-as these. A study of the utility of the aspect-oriented metaprogramming approach
-would support the development of these tools and techniques.
+% Aspects with metaprogramming directly support reflection, as access to the
+% target's AST is provided as a feature of the technique, and allow transformed
+% code to be compiled just-in-time, which directly enables research projects such
+% as these. A study of the utility of the aspect-oriented metaprogramming approach
+% would support the development of these tools and techniques.
 
 
 \section{Future Work pertaining to Aspect-Oriented
@@ -90,7 +90,7 @@ metaprogramming present new opportunities in the field. This section discussed
 avenues for future research which \pdsf enables.
 
 
-\subsection{Augmentation of pre-existing models}
+\subsection{Augmentation of pre-existing models}\label{future_work_nudge_model_state}
 
 Myriad models exist which have been provided accurate results in past research,
 but where unexpected events such as financial collapses, pandemics, or
@@ -103,9 +103,9 @@ which has provided accurate predictions for decades\inline{Find citations for
 World3 model}, but could not account for unexpected incidents when constructed.
 
 Models are often initialised with data describing a system's initial state,
-which may lead to correct predictions prior to a large event. Future predictions
-could only represent the impact of a large, unpredictable event within the
-system as changes to data or process; changing either for the entire model risks
+which a model computes on to produce predictions. Any output produced could only
+represent the impact of a large, unpredictable event within the system as
+changes to data or process; changing either for the entire model risks
 compromising a model's predictive quality for the timespan prior to an event.
 The modification must therefore be represented as a special case within the
 model, leading to ancillary code inline with the model's core logic in a similar
@@ -115,7 +115,10 @@ to alleviate. It therefore has similar properties to a cross-cutting
 concern~\cite{kiczales1997aspect} and may be suitable for factoring out of a
 model's logic and into advice.
 
-A relevant research question which future work could address is:
+Intuitively, this research would aim to show that an aspect could ``nudge'' a
+system's state in-line with real-world data when exceptional real-world
+circumstances affect a model, but cannot elegantly be represented within the
+model's logic. A relevant research question for future work to investigate is:
 
 \begin{researchquestion}
 Can aspect orientation be used to introduce special cases to real-world systems
@@ -129,8 +132,20 @@ to replace it with.} ipsum
 
 \subsection{Aspect Orientation's utility for Research Software Engineers}
 
+As a corollary of the research opportunities for aspect orientation's use in
+software engineering discussed in \cref{subsec:aspect_oriented_metaprogramming},
+there is an opportunity for research software engineers to also benefit from the
+adoption of aspect oriented programming. However, while aspect orientation's use
+in industrial software engineering has drawn
+criticism~\cite{steimann06paradoxical,przybylek2010wrong,Constantinides04aopconsidered}\footnote{A
+review of aspect orientation's critique is presented in
+\cref{subsec:aop-criticisms}.} its use within research codebases is a special
+case where it may be more suitable, particularly considering the possibilities
+discussed through the rest of this chapter.\inline{Revisit this paragraph. Is this too wordy /
+rambly / unclear? Can I tighten it up at all?}
+
 The resource constraints and stringent requirements for accuracy in research
-codebases also present challenges which augmentation through aspects could
+codebases present challenges which augmentation through aspects could
 assist with. Compensating for a special case in a pre-existing model would
 require maintenance of the codebase, which takes time and could inadvertently
 alter its behaviour. Time is a scarce resource in research environments, and
@@ -208,24 +223,13 @@ pandemic.}
 
 
 
-
-
-
-
-
-% ======= mark: above written, below yet to write (only stubs, but Hypothesising
-%                             Possible System Dynamics via Aspects is complete).
-%                             ======= 230808
-
-
-
-
-
-
-
-\subsection{Aspects to Nudge System State}
-\label{future_work_using_aspects_to_correct_simulated_state}
-\revnote{Title too informal? Can't find a good title for this\ldots{}}
+%% === Explainer for future Tom: I removed the below because it's included in 
+%%     \cref{future_work_nudge_model_state}, but left the below here on the
+%      offchance I wanted to come back to it when editing. If you don't care,
+%      just delete it.
+% \subsection{Aspects to Nudge System State}
+% \label{future_work_using_aspects_to_correct_simulated_state}
+% \revnote{Title too informal? Can't find a good title for this\ldots{}}
 
 % Relatedly, aspects can represent anticipated future states\inline{rework; it's
 % not anticipated future states, it's making long-term predictions based on
@@ -360,7 +364,23 @@ science warrants further investigation.
 
 
 
-\subsection{Standards for Model Features}\label{subsec:standard_aosm_techniques}
+
+
+
+
+
+% ======= mark: above written, below yet to write.
+% ======= 230812
+
+
+
+
+
+
+
+\subsection{Standards for Aspect Orientation in Research
+Codebases}
+\label{subsec:standard_aosm_techniques}
 % The above makes the case that aspects might be shared between different
 % research groups' experiments, and also makes the case that models with
 % different aspects applied should be comparable. To do that, and to encourage a
@@ -368,35 +388,127 @@ science warrants further investigation.
 % developing aspectual model features. 
 
 
-How can we make a more ``principled'' approach to adopting features for
-modelling? PDSF's approach to adding things to a model is powerful and flexible.
-A technique that would work for broad applications could allow for a standard in
-the RSE community for simulations, at least for sociotechnical simulation. What
-are the best practices around the modification of scientific models in this way,
-that could encourage collaboration and the sharing of models across groups?
+% How can we make a more ``principled'' approach to adopting features for
+% modelling? PDSF's approach to adding things to a model is powerful and
+% flexible. A technique that would work for broad applications could allow for a
+% standard in the RSE community for simulations, at least for sociotechnical
+% simulation. What are the best practices around the modification of scientific
+% models in this way, that could encourage collaboration and the sharing of
+% models across groups?
 
 
+The possibility of a research community sharing models containing aspectual
+augmentation and possibly developing additional aspects to augment a model
+further involves a considerable amount of model logic written within as advice.
+The community developing these aspects have the responsibilities of maintaining
+a codebase, but the added complexity that research software engineering
+introduces. These codebases may be used for many years, and may be iterated in
+in a series of future experiments. The legibility of these codebases and their
+long-term maintenance are areas of criticism in the software engineering
+community~\cite{steimann06paradoxical,przybylek2010wrong,Constantinides04aopconsidered}.
+The research community must therefore mitigate these weaknesses of the
+aspect-oriented paradigm when adopting the techniques discussed in this chapter
+for simulation and modelling.
+
+To address the concern of the visibility of advice being woven, researchers may
+already take advantage of\revnote{I've made this an enumerated list; is it
+better as a paragraph?}:
+
+\begin{enumerate}
+    \item Improvements to tooling produced by the aspect orientation research
+    community, including IDE integration~\cite{clement2003eclipseAJDT} and
+    runtime inspection~\cite{mehner2002towards}, should make clear to engineers
+    what advice is being woven in a codebase and assist with debugging
+    aspect-oriented programs respectively.
+    \item Aspect-orientation frameworks specifically designed to clarify to an
+    engineer the aspects being woven should allow for less friction on the part
+    of a maintainer who inherits a codebase and must reason about its behaviour.
+    This is particularly important if the maintainer aims to weave more aspects
+    into the codebase, and so must understand its existing behaviour before
+    augmenting it further. Adopting weaving patterns such as import hook weaving
+    --- described in \cref{chap:pdsf_rewrite} --- should make a program clearer
+    to a developer regardless of the tooling they have access to.
+\end{enumerate}
+
+The impact of framework design on a codebase's maintenance should assist a
+developer even in the absence of tooling, but the success of import hook weaving
+in this regard is untested. An appropriate research question which arises is
+therefore:
+
+\begin{researchquestion}
+Do aspect orientation frameworks with weaving techniques designed to simplify a
+developer's understanding of a program affect a codebase's long-term
+maintainability?
+\end{researchquestion}
 
 
-\subsection{FuzziMoss-style libraries of sociotechnical
-fuzzers}\label{future_work_revive_fuzzimoss}
-
-
+\subsection{Standard Aspect-Oriented Model
+Features}
+\label{standard_aosm_model_features}
 % The above makes the case for creating standards for model features, motivated
 % by the possibility that aspects can be shared between research groups or the
 % application of different aspects applied. A step toward creating that standard
 % could be to create a fuzzimoss-style library of either fundamental fuzzers,
 % tooling to simplify common fuzzing operations, or…??
 
+Researchers who build aspect-oriented models and extend others' aspect-oriented
+codebases must be able to collaborate at least as easily as they currently do in
+a culture without aspect orientation. One way aspect orientation might improve
+researchers' ease of collaboration is with standardised libraries for aspect
+construction. Similar libraries were developed when developing a case study for
+\pdsf{}'s viability~\cite{wallis2018caise,fuzzimoss_repo}, but development was
+left incomplete as discussed in \cref{subsec:prior_work_fm}.
 
-We could try to revive FuzziMoss and implement a broader range of behaviourally
-varying aspects. The final result of this research might be mis-interpreted as
-indicating that this is a non-starter, but standard operations could still be
-useful \emph{if not fitted to real-world data and re-used}, providing to
-researchers standard variations which are fitted to specific use-cases, or
-treated as building blocks to produce more complex models of behavioural
-variation, either to apply to a system under study or to validate a theory about
-the variation itself.
+The original library with this aim, Fuzzi-Moss, was originally designed to
+provide standardised aspects to represent behavioural variance in
+\sociotechnical systems. The aspects developed in Fuzzi-Moss have no notion of
+being fitted to real-world data. Instead, they are simple models of behavioural
+variances such as distraction, which are parameterised to allow users of the
+library to use these simple models in whatever manner is appropriate for their
+use-case. A broader collection of these behavioural variations could simplify
+the use of aspect-oriented behavioural variation in the research community writ
+large, by removing researchers' burden to develop these themselves. Early
+construction of a library with Fuzzi-Moss' goals would also support researchers
+in sharing models or extending others', as they would be familiar with a common
+set of tools. The development of such a library and the production of case
+studies demonstrating its effectiveness would answer the research question:
+
+\begin{researchquestion}
+    Can researchers using aspect-oriented behavioural variance share a common
+    set of tools to support and simplify the use of the technique in their
+    codebases?
+\end{researchquestion}
+
+Other tooling to support researchers in the development of aspectually augmented
+simulations and models could also be developed. For example, a library of
+fuzzers which make changes to an abstract syntax tree could be constructed. Such
+a library would not model specific behaviours, but would allow researchers to
+build models performing within-style aspect weaving without writing code which
+contained no metaprogramming logic. Instead, this logic would be encapsulated in
+utility functions provided by the proposed library. This would also reduce the
+work required of researchers looking to use the techniques demonstrated in this
+thesis. The library could also support the development of a Fuzzi-Moss-like set
+of \sociotechnical behavioural variances. However, such a library does not
+currently exist. A summary the contribution to the research community which the
+proposed library would make is:
+
+\begin{researchquestion}
+    The development of a library of metaprogramming operations which simplify
+    the construction of within-style aspects, supporting its research use and
+    demonstrated in case studies.
+\end{researchquestion}
+
+The proposed library need not be a separate codebase to the aspect orientation
+framework it is designed alongside. \pdsf{} could contain this collection of
+metaprogramming operations; however, there is no obvious\revnote{``obvious'' is
+a little too informal, not sure what to replace it with here.} requirement for
+the library to be contained within \pdsf{}, and separating the proposed library
+from the framework it is built to interact with removes any dependancy on a
+particular aspect orientation framework; future researchers could develop
+alternative frameworks with within-style aspects which the proposed library
+could also be compatible with. We therefore suggest that the development of this
+library is a separate project from the development of \pdsf{} itself.
+
 
 
 \subsection{Testing Frameworks to detect Unrealistic Behavioural
