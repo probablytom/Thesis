@@ -17,9 +17,7 @@ opportunities for research outwith this thesis' scope present themselves.
 This chapter describes some possibilities for the presented research to be
 extended in the future.
 
-\inline{Rewrite the chunks in each future work section for this chapter, into their own
-subsecs with proper explorations, citations, and so on. This chapter is
-currently a scrapbook of ideas!}
+\inline{Add a RQ at the end of each research opportunity; this can and should be a contribution of the thesis, and the RQs would help to sell it as such.}
 
 \subsection{Aspect-Oriented Metaprogramming in real-world Software Engineering}
 \label{subsec:aspect_oriented_metaprogramming}
@@ -101,12 +99,30 @@ Models are often initialised with data describing a system's initial state,
 which may lead to correct predictions prior to a large event. Future predictions
 could only represent the impact of a large, unpredictable event within the
 system as changes to data or process; changing either for the entire model risks
-compromising a model's predictive quality prior to an event. The modification
-must therefore be represented as a special case within the model, which
-distracts from the model's core logic in a manner not unlike the scattering and
-tangling discussed in \cref{lit_review_AOP_explainer}. It therefore has similar
-properties to a cross-cutting concern~\cite{kiczales1997aspect} and may be
-suitable for factoring out of a model's logic and into advice.
+compromising a model's predictive quality for the timespan prior to an event.
+The modification must therefore be represented as a special case within the
+model, leading to ancillary code inline with the model's core logic in a similar
+manner to the scattered and tangled code discussed in
+\cref{lit_review_AOP_explainer}, which aspect orientation was initially designed
+to alleviate. It therefore has similar properties to a cross-cutting
+concern~\cite{kiczales1997aspect} and may be suitable for factoring out of a
+model's logic and into advice.
+
+A relevant research question which future work could address is:
+
+\begin{researchquestion}
+Can aspect orientation be used to introduce special cases to real-world systems
+to correct a model's predictions in when a system under research is altered by a
+freak event?
+\end{researchquestion}
+
+lorum 
+\revnote{``Freak event'' might be too informal here but I'm not sure
+what to replace it with.}
+ipsum
+
+
+\subsection{Aspect Orientation's utility for Research Software Engineers}
 
 The resource constraints and stringent requirements for accuracy in research
 codebases also present challenges which augmentation through aspects could
@@ -294,50 +310,80 @@ treat a medical issue\inline{find a citation for modern algorithmic / robotic
 drug development}, but can be applied to any models where aspectual augmentation
 is appropriate.
 
-This technique for developing experimental model codebases has another desirable
-property: it unifies seemingly incompatible philosophies of the scientific
-process. Kuhn\inline{Replace with a citeauthor and cite} explains the scientific
-process as inherently social: it starts with a paradigm which is accepted as
-broadly true, and accumulates an increasing number of exceptions until the
-paradigm itself is deemed unfit, and a new basis for a field's research is
-adopted. Popper\inline{Replace with a citeauthor and cite} explains the
-scientific process as an incremental movement towards truth with each subsequent
-result achieved by a research community. The proposed technique for developing
-experimental model codebases demonstrates features of both. Consider the
-original model a paradigm initially selected by community consensus, and the
-application of aspects Popper's incremental movements toward truth (as
-successful experiments are conducted) or Kuhn's exceptions to the agreed model
-(as experiments identify weaknesses in the original model). In this case, each
-successive new model adopted by a community is adopted in a Popplarian manner:
-improvements are objectively measured, incremental, and would trend towards
-truth as a model's behaviour fits empirical observations increasingly closely.
-However: over a sufficient period of time, the incremental patching of an
-original model would produce an accepted community model which contains a
-relatively large amount of discovery and complexity encoded in aspects, as
-compared to the original model they are applied to. One would expect the
-research community to rewrite the base model to simplify future aspect
+\revnote{This subsec is already quite long, and including this point makes it
+significantly longer. Maybe that's not a prob; maybe this should be a separate
+point / subsubsec; maybe it can live in a footnote; maybe it should be omitted
+completely.}This technique for developing experimental model codebases has
+another desirable property: it unifies seemingly incompatible philosophies of
+the scientific process. \citeauthor{kuhn2012structure}~\cite{kuhn2012structure}
+explains the scientific process as inherently social: it starts with a paradigm
+which is accepted as broadly true, and accumulates an increasing number of
+exceptions until the paradigm itself is deemed unfit, and a new basis for a
+field's research is adopted.
+\citeauthor{popper1972theoryevolution}~\cite{popper1972theoryevolution} explains
+the scientific process as an approximation towards truth, with incremental
+progress made with each result achieved by a research community. The proposed
+technique for developing experimental model codebases demonstrates features of
+both. Consider the original model a paradigm initially selected by community
+consensus, and the application of aspects Popper's incremental movements toward
+truth (as successful experiments are conducted) or Kuhn's exceptions to the
+agreed model (as experiments identify weaknesses in the original model). In this
+case, each successive new model adopted by a community is adopted in a
+Popplarian manner: improvements are objectively measured, incremental, and would
+trend towards truth as a model's behaviour fits empirical observations
+increasingly closely. However: over a sufficient period of time, the incremental
+patching of an original model would produce an accepted community model which
+contains a relatively large amount of discovery and complexity encoded in
+aspects, as compared to the original model they are applied to. One would expect
+the research community to rewrite the base model to simplify future aspect
 application and to more elegantly encode recent research findings; effectively
 discarding the original paradigm in favour of a new one. This process is Kuhn's
 ``paradigm shift'', where paradigms are dropped once a generation of researchers
 determine that an originally accepted theory on a topic is unfit for purpose as
 evidenced by mounting exceptions in the literature; a new paradigm is to be
 accepted by the community, as a new base model would have to be written and
-adopted. 
+adopted.
 
-The relevant philosophy of science is more nuanced than is presented in this
-brief discussion, and the suitability of the approach for the development of
-research codebases is to be investigated; the work involved is outwith the scope
-of this thesis, but is suggested as future work. A basis for the incremental
-improvement of models via aspects is effectively demonstrated in
+The relevant philosophy of science is more nuanced than its brief explanation
+here, and the suitability of the approach for the development of research
+codebases is to be investigated; the work involved is outwith the scope of this
+thesis, but is suggested as future work. A basis for the incremental improvement
+of models via aspects is effectively demonstrated in
 \cref{chap:exp1_simulation_optimisation} and
 \cref{chap:exp2_old_aspects_new_systems}, but the feasibility of the approach as
-a basis of a community's scientific process --- and its relation to philosophy
-of science --- warrants further investigation.
+a basis of a community's scientific process and relation to philosophy of
+science warrants further investigation.
+
+
+
+\subsection{Standards for Model Features}\label{subsec:standard_aosm_techniques}
+% The above makes the case that aspects might be shared between different
+% research groups' experiments, and also makes the case that models with
+% different aspects applied should be comparable. To do that, and to encourage a
+% community to blossom, there should be guidelines and/or stnadards around
+% developing aspectual model features. 
+
+
+How can we make a more ``principled'' approach to adopting features for
+modelling? PDSF's approach to adding things to a model is powerful and flexible.
+A technique that would work for broad applications could allow for a standard in
+the RSE community for simulations, at least for sociotechnical simulation. What
+are the best practices around the modification of scientific models in this way,
+that could encourage collaboration and the sharing of models across groups?
+
 
 
 
 \subsection{FuzziMoss-style libraries of sociotechnical
 fuzzers}\label{future_work_revive_fuzzimoss}
+
+
+% The above makes the case for creating standards for model features, motivated
+% by the possibility that aspects can be shared between research groups or
+% the application of different aspects applied. A step toward creating that
+% standard could be to create a fuzzimoss-style library of either fundamental
+% fuzzers, tooling to simplify common fuzzing operations, or…??
+
 
 We could try to revive FuzziMoss and implement a broader range of behaviourally
 varying aspects. The final result of this research might be mis-interpreted as
@@ -347,111 +393,6 @@ researchers standard variations which are fitted to specific use-cases, or
 treated as building blocks to produce more complex models of behavioural
 variation, either to apply to a system under study or to validate a theory about
 the variation itself.
-
-
-\subsection{Standards for Model Features}\label{subsec:standard_aosm_techniques}
-
-How can we make a more "principled" approach to adopting features for modelling?
-PDSF's approach to adding things to a model is powerful and flexible. A
-technique that would work for broad applications could allow for a standard in
-the RSE community for simulations, at least for sociotechnical simulation. What
-are the best practices around the modification of scientific models in this way,
-that could encourage collaboration and the sharing of models across groups?
-
-
-\subsection{Testing Frameworks to detect Unrealistic Behavioural Variances}\label{sciunits_for_unrealistic_states}
-
-Given we don't know the impact of variances exactly, something like sciunits
-could give us "bounds" on realism in our model, i.e. the sciunit should encode
-limits on what the real-world system does, and let us know whether those limits
-are broken when applying variances (or combinations of them)
-
-
-\subsection{Optimisation of multiple models}\label{many_aspectual_models_to_optimise}
-
-An explanation of the future work in \cref{subsubsec:ensure_best_move}, where we
-suggest that it'd be interesting future work for somebody to anneal to multiple
-models of aspectually applied behavioural variance. 
-
-The work to do on this point is relatively trivial --- just a grid search on
-many dimensions really --- but we've not done it and it'd risk detracting from
-our goal anyway, which is to show that we can optimise a model (so we should
-keep things from being unnecessarily complicated!) so worth leaving for an
-honours / masters dissertation.
-
-
-
-\section{Future Work pertaining to Aspect-Oriented Simulation}\label{sec:future_work_simulations}
-
-Aspect-orientation's goal of separation of concerns, and the possibility of
-using its trait of obliviousness to augment naive models in ways the original
-creator did not anticipate, presents research opportunities that are also
-outwith the scope of this thesis.
-
-\subsection{Augmentation of pre-existing models}
-
-Myriad models exist which have been provided accurate results in past research,
-but could not account for unforseen modern situations. For example, models of
-world health over time could not account for the Covid19 pandemic, and models of
-the world economy could not incorporate real-world data from the recession
-caused by responses to the pandemic, or the 2008 financial crisis. The World3
-model is an example of one which has provided accurate predictions for decades,
-but could not account for incidents in modern times when constructed. Models
-such as these work from prior data which requires some adjustment as simulated
-time progresses to account for events of a large enough scale to disrupt their
-simulated system (here, global population, industry, food, resources, and
-pollution). An alternative to adjusting the models directly --- adding cases at
-the relevant points in time to introduce ``blips'' in simulated data --- is to
-construct aspects which represent global events such as pandemics, economic
-crises, and others such as war or famine. These can be modelled on real-world
-data, which we have shown in this research to produce realistic simulations. A
-proof-of-concept of the approach as applied to pre-existing models would start
-this work, and the augmentation of existing models to improve their accuracy can
-follow.
-    
-
-\subsection{Aspects to make Predictions with Uncertain System Dynamics}
-
-Relatedly, aspects can represent anticipated future states\inline{rework; it's
-not anticipated future states, it's making long-term predictions based on small
-but discrete changes to existing dynamics, which can be quantised as aspects.}
-to model their potential impact without modifying a known-good model of the
-world today. Future health and economic crises can be constructed as prospective
-changes to a model in an aspect, and applied to investigate the possible
-effects. A potential benefit of this approach as opposed to the simple
-modification of an existing model would be that many potential crises can be
-applied in any combination. For example, 10 aspects representing unpredictable
-future events yield 1024 possible combinations: there are \(2^{10}\) possible
-combinations of these aspects being applied or omitted from an execution of a
-simulation. Work to develop aspect-oriented models of speculative futures
-therefore gives an exponential number of predicted futures, which one could
-analyse to predict possible future trends. With a successful proof-of-concept of
-the augmentation of existing models to represent past events, this further step
-could anticipate future events and take advantage of aspect orientation's unique
-properties as a tool for simulation and modelling.
-
-
-\subsection{FuzziMoss-style libraries of sociotechnical
-fuzzers}\label{future_work_revive_fuzzimoss}
-
-We could try to revive FuzziMoss and implement a broader range of behaviourally
-varying aspects. The final result of this research might be mis-interpreted as
-indicating that this is a non-starter, but standard operations could still be
-useful \emph{if not fitted to real-world data and re-used}, providing to
-researchers standard variations which are fitted to specific use-cases, or
-treated as building blocks to produce more complex models of behavioural
-variation, either to apply to a system under study or to validate a theory about
-the variation itself.
-
-
-\subsection{Standards for Model Features}\label{subsec:standard_aosm_techniques}
-
-How can we make a more "principled" approach to adopting features for modelling?
-PDSF's approach to adding things to a model is powerful and flexible. A
-technique that would work for broad applications could allow for a standard in
-the RSE community for simulations, at least for sociotechnical simulation. What
-are the best practices around the modification of scientific models in this way,
-that could encourage collaboration and the sharing of models across groups?
 
 
 \subsection{Testing Frameworks to detect Unrealistic Behavioural Variances}\label{sciunits_for_unrealistic_states}

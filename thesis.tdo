@@ -75,17 +75,16 @@
 \contentsline {todo}{\emph {[C6{}] todo: }Stopped discussing rank correlation here because I may re-run my experiments; if I do, I don't want to have to re-write this, because frankly it's been pretty tricky to write so far and I'm keen not to have to redo it. Maybe there are other correlation metrics we could pick instead; Somers' D looks promising…? Are there citations I could use that compare different measurements, so I could justify my choice, and maybe pick one that's better than \tau if it exists?}{117}{subsection.6.5.1}%
 \contentsline {todo}{\emph {[C6{}] todo: }Discussion required here around the mitigation of randomness --- it's required because of RPGLite's inherent RNG --- and also explaining how we make use of a grid search in combination with k-fold validation to anneal toward well-fitted parameters of our models of learning for each individual player.}{117}{subsection.6.5.2}%
 \contentsline {todo}{\emph {[C8{}] todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{123}{chapter.8}%
-\contentsline {todo}{\emph {[C8{}] todo: }Rewrite the chunks in each future work section for this chapter, into their own subsecs with proper explorations, citations, and so on. This chapter is currently a scrapbook of ideas!}{123}{chapter.8}%
+\contentsline {todo}{\emph {[C8{}] todo: }Add a RQ at the end of each research opportunity; this can and should be a contribution of the thesis, and the RQs would help to sell it as such.}{123}{chapter.8}%
 \contentsline {todo}{\emph {[C8{}] todo: }These were originally written as separate points, but they shouldn't be. Rework the preceding and following paragraphs so they read like a series of points as to the opportunities aomp \& PyDySoFu\xspace make available.}{124}{subsection.8.0.1}%
 \contentsline {todo}{\emph {[C8{}] todo: }Maybe this whole thing's just one subsection? Maybe it should live under a single [section] heading?}{124}{subsection.8.0.1}%
 \contentsline {todo}{\emph {[C8{}] todo: }Find citations for World3 model}{125}{subsection.8.1.1}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }If I've got time, I'd love to push my codebase augmenting a World3 model to achieve just this with predictive implications for the 2008 financial crisis and the covid pandemic.}}{126}{subsection.8.1.1}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Title too informal? Can't find a good title for this\ldots {}}}{127}{subsection.8.1.2}%
-\contentsline {todo}{\emph {[C8{}] todo: }Cite popper, any point including studies that do this too? It's fairly table stakes as a concept\ldots {}}{127}{subsection.8.1.3}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Maybe too informal, but I don't know, maybe live a little\ldots {}?}}{127}{subsection.8.1.3}%
-\contentsline {todo}{\emph {[C8{}] todo: }find a citation for modern algorithmic / robotic drug development}{128}{subsection.8.1.3}%
-\contentsline {todo}{\emph {[C8{}] todo: }Replace with a citeauthor and cite}{128}{subsection.8.1.3}%
-\contentsline {todo}{\emph {[C8{}] todo: }Replace with a citeauthor and cite}{128}{subsection.8.1.3}%
-\contentsline {todo}{\emph {[C8{}] todo: }rework; it's not anticipated future states, it's making long-term predictions based on small but discrete changes to existing dynamics, which can be quantised as aspects.}{131}{subsection.8.2.2}%
-\contentsline {todo}{\emph {[C8{}] todo: }cite William's PhD here}{134}{subsection.8.3.4}%
-\contentsline {todo}{\emph {[C9{}] todo: }Duplicate citation to clean up}{145}{chapter*.28}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }``Freak event'' might be too informal here but I'm not sure what to replace it with.}}{126}{subsection.8.1.1}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }If I've got time, I'd love to push my codebase augmenting a World3 model to achieve just this with predictive implications for the 2008 financial crisis and the covid pandemic.}}{127}{subsection.8.1.2}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Title too informal? Can't find a good title for this\ldots {}}}{127}{subsection.8.1.3}%
+\contentsline {todo}{\emph {[C8{}] todo: }Cite popper, any point including studies that do this too? It's fairly table stakes as a concept\ldots {}}{127}{subsection.8.1.4}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Maybe too informal, but I don't know, maybe live a little\ldots {}?}}{128}{subsection.8.1.4}%
+\contentsline {todo}{\emph {[C8{}] todo: }find a citation for modern algorithmic / robotic drug development}{128}{subsection.8.1.4}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }This subsec is already quite long, and including this point makes it significantly longer. Maybe that's not a prob; maybe this should be a separate point / subsubsec; maybe it can live in a footnote; maybe it should be omitted completely.}}{128}{subsection.8.1.4}%
+\contentsline {todo}{\emph {[C8{}] todo: }cite William's PhD here}{132}{subsection.8.2.4}%
+\contentsline {todo}{\emph {[C9{}] todo: }Duplicate citation to clean up}{143}{chapter*.28}%

@@ -2693,6 +2693,10 @@
     <bcf:citekey order="290" intorder="1">gulyas1999use</bcf:citekey>
     <bcf:citekey order="291" intorder="1">kiczales1997aspect</bcf:citekey>
     <bcf:citekey order="292" intorder="1">wallis2018caise</bcf:citekey>
+    <bcf:citekey order="293" intorder="1">kuhn2012structure</bcf:citekey>
+    <bcf:citekey order="294" intorder="1">kuhn2012structure</bcf:citekey>
+    <bcf:citekey order="295" intorder="1">popper1972theoryevolution</bcf:citekey>
+    <bcf:citekey order="296" intorder="1">popper1972theoryevolution</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="anyt">
