@@ -17,7 +17,8 @@ opportunities for research outwith this thesis' scope present themselves.
 This chapter describes some possibilities for the presented research to be
 extended in the future.
 
-\inline{Add a RQ at the end of each research opportunity; this can and should be a contribution of the thesis, and the RQs would help to sell it as such.}
+\inline{Add a RQ at the end of each research opportunity; this can and should be
+a contribution of the thesis, and the RQs would help to sell it as such.}
 
 \subsection{Aspect-Oriented Metaprogramming in real-world Software Engineering}
 \label{subsec:aspect_oriented_metaprogramming}
@@ -25,7 +26,8 @@ extended in the future.
 The combination of metaprogramming and aspect-orientation introduces powerful
 new possibilities in the realm of aspect-orientation. In traditional
 aspect-oriented work, aspects treat their targets as black boxes; this leads to
-some limitations, which aspect-oriented metaprogramming is well positioned to address.
+some limitations, which aspect-oriented metaprogramming is well positioned to
+address.
 
 Traditional aspects cannot add their behavioural modifications interspersed
 within the work being done by their target. The ``textbook'' use-case for
@@ -41,7 +43,11 @@ breaks the ``obliviousness'' property of the aspect orientated philosophy as
 discussed in \cref{chap:lit_review}.
 
 
-\inline{These were originally written as separate points, but they shouldn't be. Rework the preceding and following paragraphs so they read like a series of points as to the opportunities aomp \& \pdsf make available.}\inline{Maybe this whole thing's just one subsection? Maybe it should live under a single [section] heading?}    
+\inline{These were originally written as separate points, but they shouldn't be.
+Rework the preceding and following paragraphs so they read like a series of
+points as to the opportunities aomp \& \pdsf make available.}\inline{Maybe this
+whole thing's just one subsection? Maybe it should live under a single [section]
+heading?}
 
 Another example of this technique's applicability in a variety of real-world
 situations is that traditional aspects cannot make decisions based on reflection
@@ -72,7 +78,8 @@ as these. A study of the utility of the aspect-oriented metaprogramming approach
 would support the development of these tools and techniques.
 
 
-\section{Future Work pertaining to Aspect-Oriented Simulation}\label{sec:future_work_simulations}
+\section{Future Work pertaining to Aspect-Oriented
+Simulation}\label{sec:future_work_simulations}
 
 This thesis has described novel techniques augmenting models with new features
 and behaviours, and does so in an aspect-oriented manner. The potential for
@@ -116,10 +123,8 @@ to correct a model's predictions in when a system under research is altered by a
 freak event?
 \end{researchquestion}
 
-lorum 
-\revnote{``Freak event'' might be too informal here but I'm not sure
-what to replace it with.}
-ipsum
+lorum \revnote{``Freak event'' might be too informal here but I'm not sure what
+to replace it with.} ipsum
 
 
 \subsection{Aspect Orientation's utility for Research Software Engineers}
@@ -138,10 +143,9 @@ demonstrates. This use of aspect orientation in simulation and modelling can be
 investigated by creating a proof-of-concept of the approach as applied to
 pre-existing models.\footnote{This approach is similar to \pdsf{}'s initial
 proof-of-concept study~\cite{wallis2018caise} as discussed in
-\cref{chap:prior_work}.} Studies can also be conducted to investigate
-whether an aspectually-augmented model is quicker to construct and easier to
-maintain in future than a codebase with ``patches'' written into its original
-logic.
+\cref{chap:prior_work}.} Studies can also be conducted to investigate whether an
+aspectually-augmented model is quicker to construct and easier to maintain in
+future than a codebase with ``patches'' written into its original logic.
 
 Researchers investigating this technique's application to existing models could
 also investigate the difficulties of augmenting a model created with no
@@ -160,10 +164,10 @@ applicable; this possibility requires future investigation.
 If the research described successfully shows that aspectually-augmented
 simulations are easier and quicker for an RSE to maintain and deliver than
 direct maintenance of the model's codebase, then augmentation of existing models
-to improve their accuracy can follow in the community.
-\revnote{If I've got time, I'd love to push my codebase augmenting a World3
-model to achieve just this with predictive implications for the 2008 financial
-crisis and the covid pandemic.}
+to improve their accuracy can follow in the community. \revnote{If I've got
+time, I'd love to push my codebase augmenting a World3 model to achieve just
+this with predictive implications for the 2008 financial crisis and the covid
+pandemic.}
     
 % ==== also wrote the below in another section and realised it's acutally about
 % this point. I'd already finished this subsec, but leaving below in case I want
@@ -211,7 +215,7 @@ crisis and the covid pandemic.}
 
 % ======= mark: above written, below yet to write (only stubs, but Hypothesising
 %                             Possible System Dynamics via Aspects is complete).
-% ======= 230808
+%                             ======= 230808
 
 
 
@@ -252,10 +256,10 @@ crisis and the covid pandemic.}
 % In the above section we claim that we can augment models to keep them relevant
 % in the face of unpredictable events; we can also investigate uncertain present
 % properties of systems by modelling them in a naive manner and encoding
-% hypothesised behaviour as aspects; we can correlate real-world data to
-% data produced by aspectually agumented simulations to discover which
-% hypothesised system is most similar to the real world. We can also use this as
-% a benchmark to judge improvements made by improved hypotheses in the future.
+% hypothesised behaviour as aspects; we can correlate real-world data to data
+% produced by aspectually agumented simulations to discover which hypothesised
+% system is most similar to the real world. We can also use this as a benchmark
+% to judge improvements made by improved hypotheses in the future.
 
 Unpredictable events can cause discrepancies between simulated system state at a
 given time and the real-world system it models, as discussed in
@@ -379,10 +383,10 @@ fuzzers}\label{future_work_revive_fuzzimoss}
 
 
 % The above makes the case for creating standards for model features, motivated
-% by the possibility that aspects can be shared between research groups or
-% the application of different aspects applied. A step toward creating that
-% standard could be to create a fuzzimoss-style library of either fundamental
-% fuzzers, tooling to simplify common fuzzing operations, or…??
+% by the possibility that aspects can be shared between research groups or the
+% application of different aspects applied. A step toward creating that standard
+% could be to create a fuzzimoss-style library of either fundamental fuzzers,
+% tooling to simplify common fuzzing operations, or…??
 
 
 We could try to revive FuzziMoss and implement a broader range of behaviourally
@@ -395,7 +399,8 @@ variation, either to apply to a system under study or to validate a theory about
 the variation itself.
 
 
-\subsection{Testing Frameworks to detect Unrealistic Behavioural Variances}\label{sciunits_for_unrealistic_states}
+\subsection{Testing Frameworks to detect Unrealistic Behavioural
+Variances}\label{sciunits_for_unrealistic_states}
 
 Given we don't know the impact of variances exactly, something like sciunits
 could give us "bounds" on realism in our model, i.e. the sciunit should encode
@@ -403,7 +408,8 @@ limits on what the real-world system does, and let us know whether those limits
 are broken when applying variances (or combinations of them)
 
 
-\subsection{Optimisation of multiple models}\label{many_aspectual_models_to_optimise}
+\subsection{Optimisation of multiple
+models}\label{many_aspectual_models_to_optimise}
 
 An explanation of the future work in \cref{subsubsec:ensure_best_move}, where we
 suggest that it'd be interesting future work for somebody to anneal to multiple
@@ -424,8 +430,8 @@ thesis: to aid in the realistic simulation of a well-controlled \sociotechnical
 system. However, many analyses are yet to be explored:
 
 \subsection{Causes of Game Abandonment}
-Why were games abandoned? Are there patterns that can be identified
-which lead players to abandon games?
+Why were games abandoned? Are there patterns that can be identified which lead
+players to abandon games?
     
 \subsection{Patterns of Play within Cliques of Players}
 Players likely formed cliques, where they would play against people they knew
