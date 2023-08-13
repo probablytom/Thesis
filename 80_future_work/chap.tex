@@ -507,17 +507,123 @@ from the framework it is built to interact with removes any dependancy on a
 particular aspect orientation framework; future researchers could develop
 alternative frameworks with within-style aspects which the proposed library
 could also be compatible with. We therefore suggest that the development of this
-library is a separate project from the development of \pdsf{} itself.
+library is a separate project from the development of \pdsf{}
+itself.\revnote{This might be a little rambly --- consider omitting, rewording,
+or factoring into a footnote.}
 
 
 
 \subsection{Testing Frameworks to detect Unrealistic Behavioural
 Variances}\label{sciunits_for_unrealistic_states}
 
-Given we don't know the impact of variances exactly, something like sciunits
-could give us "bounds" on realism in our model, i.e. the sciunit should encode
-limits on what the real-world system does, and let us know whether those limits
-are broken when applying variances (or combinations of them)
+Many of the uses of aspect orientation in simulation \& modelling research
+discussed in this chapter affect the construction and maintenance of a codebase,
+aspect orientation also has potential in the instrumentation of an
+experiment, as discussed in \cref{ao_and_modelling}.\footnote{In particular,  
+see relevant notes on \citetitle{gulyas1999use}~\cite{gulyas1999use}.}
+Experimental instrumentation was demonstrated for data collection in this
+thesis' experiments, as discussed in \cref{chap:exp1_simulation_optimisation}
+and \cref{chap:exp2_old_aspects_new_systems}.\inline{We can get more precise
+than chapter references; find the sections / subsections.} Instrumentation also
+has potential in other aspects of research software engineering; one possibility
+to be investigated is the use of aspects to alert researchers to impossible
+states visited by a model during runtime.
+
+Many models construct a version of a real-world system which cannot achieve
+certain states. For example, a model of collisions might never be expected to
+see an increase in the total energy present across all modelled entities;
+simulations of \sociotechnical systems might expect bounds on the hours worked
+by a simulated workforce, or the amount of output the workforce creates;
+researchers might study a system to observe a n emergent property which is
+bounded by laws around its growth (for example, a linear increase in some
+property over time as opposed to exponential growth). It is important that any
+model of a real-world system accurately reflects the system's physical limits
+and underlying mechanics. Models may fail to reflect these mechanics for many
+reasons, including\revnote{Are there any other reasons as to why models might be
+incorrect (and instrumentation could identify this by boundary checking)?}:
+
+\begin{itemize}
+    \item The model may be developed with bugs which are not detected, i.e. it is
+    conceptually incorrect;
+    \item The model may be verified as correct but later maintenance introduces
+    undetected errors, i.e. it contains bugs;
+    \item The model may be correctly written, but given unexpected inputs.
+\end{itemize}
+
+Software engineering practices such as unit testing are common practice and may
+catch these bugs through identifying incorrect behaviour in components.
+Thorough test suites may also include integration tests which observe the
+behaviour of many model components working together. However, there are
+limitations of both testing techniques:
+
+\begin{itemize}
+    \item Test suites as described may fail to identify non-deterministic errors
+    in a model, which arise only in a small number of cases;
+    \item Traditional test suites also may fail to identify emergent state
+    errors, where individual components operate correctly but their repeated
+    integration results in an incorrect emergent property of the system
+    \footnote{Emergent properties are often the state under study, as in \pdsf's original
+    case study~\cite{wallis2018caise}};
+    \item Test suites usually fix values such as random seeds or input data,
+    which may hide non-deterministic state errors or may not exhibit the
+    properties of real-world data (and so exhibit different behaviour under test
+    than when an experiment is conducted).
+\end{itemize}
+
+We propose the use of aspects to instrument models to assert a system state
+within expected bounds, both as components of a test suite and as assurance that
+a model was correct at any time it is used as part of an experiment. All of
+these limitations can be alleviated by a test suite which is able assert the
+correctness of model state at different points in a program's execution. Models
+which non-deterministically reach erroneous states are primarily an issue during
+the execution of a model; aspectual state assertions need not alter a model's
+program flow, so are appropriate for use during its experimental use should any
+unexpected state arise. These states may also be deterministically caused by
+experimental input data which is not reflected by the inputs in a test suite;
+weaving these aspects during experimental use also addresses this limitation.
+Emergent properties of a system may also be tracked over time, and aspects may
+measure emergent properties to ensure they are within appropriate bounds at all
+times in an experiment and have correct properties of their own (for example,
+these aspects could ensure correct growth curves for the property in question).
+
+Aspects can also be used as a regression test to detect the recurrence of bugs
+after they have been identified and fixed. If a simulated system enters an
+incorrect state during development, and the underlying bug is fixed, an aspect
+observing the system's erroneous property can be constructed which alerts
+developers if the bug is re-introduced.
+
+Aspects instrumenting a model throughout its use in an experiment would also
+serve to guarantee peer reviewers of a study that the model was correct
+regarding the properties observed by the aspects. A suite of aspects which
+observe bounds on and characteristics of system properties is, functionally
+speaking, a declarative set of known-good behaviours of a model. Peer reviewers
+who sought to check that a model was correct should be able to extend this list
+of properties and observe any assertions during reproduction of a study's
+findings.
+
+Within-style aspects are particularly appropriate for this task, as the
+measurement desired of a program might exist inside an existing function or
+block of code. It is conceivable that observing system state before and after a
+function executes would not be sufficiently granular to assert correct system
+state in some cases. Aspectual instrumentation of research codebases is
+therefore particularly useful in light of new weaving techniques in \pdsf,
+traditional aspect orientation frameworks would be sufficient in instrumenting
+at least some models for observation.
+
+To demonstrate the efficacy of this approach, a library of tools to observe
+boundaries on system states could be developed, similarly to the library of
+tools suggested in \cref{standard_aosm_model_features}. Case studies augmenting
+research codebases using either this observational tooling or ordinary aspects
+can then be constructed. These should include new codebases, to demonstrate the
+technique's utility during development, but should also include the
+instrumentation of old models and the detection of any irregularities in
+existing, published work. Such a project would answer the research question:
+
+\begin{researchquestion}
+    Can aspect orientation be used to instrument a model and assert correctness
+    by observing that the model's properties remain within expected bounds?
+\end{researchquestion}
+
 
 
 \subsection{Optimisation of multiple
