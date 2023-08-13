@@ -373,19 +373,6 @@ science warrants further investigation.
 
 
 
-
-
-
-
-% ======= mark: above written, below yet to write.
-% ======= 230812
-
-
-
-
-
-
-
 \section{Standards for Aspect Orientation in Research
 Codebases}
 \label{future_work_standard_aosm_techniques}
@@ -669,9 +656,51 @@ system. However, some pieces of analysis have not been completed; this section
 discusses future work enabled by the dataset of real-world play which this
 thesis contributes.
 
-\subsection{Causes of Game Abandonment}
-Why were games abandoned? Are there patterns that can be identified which lead
-players to abandon games?
+\subsection{Causes of Game Abandonment}\label{future_work_rpglite_abandonment_reasons}
+
+The games included in the dataset produced by RPGLite finish in varying states:
+some are incomplete (as some games were ongoing when the snapshot of the game's
+database was taken), and others are finished. A third category of games are ones
+where a player opted to abandon a game they were participating in. This feature
+of RPGLite was developed to allow players who were playing inactive opponents to
+free a game slot. It also allowed players who felt they had no hope of winning,
+or were bored with a particular game to forfeit.
+
+As many datapoints are included in the published dataset, it is possible to
+observe how active players were (by measuring the frequency with which they
+would open RPGLite), and engagement with the app might be quantified by players'
+exploration of (or frequent use of) leaderboards and customisation features.
+Correlations might exist between players' activity, engagement, or experience
+with their propensity to abandon a game in different states. For example, one
+hypothesis could be that particularly active players frequently forfeited games
+against inactive players out of boredom, or that players who were unlikely to
+win a game (or were inexperienced players of RPGLite paired against competent
+players) might be more likely to forfeit. These results might be of interest to
+the broader game design community. Research investigating reasons for
+abandonment would answer the research question:
+
+\begin{researchquestion}
+    Can players who are likely to forfeit a game be identified through patterns
+    of RPGLite play?
+\end{researchquestion}
+
+
+
+
+
+
+
+
+% ======= mark: above written, below yet to write.
+% ======= 230813
+
+
+
+
+
+
+
+
     
 \subsection{Patterns of Play within Cliques of Players}
 Players likely formed cliques, where they would play against people they knew
@@ -709,6 +738,13 @@ than it does game design. There are many opportunities available for the game
 design research community to investigate. Publications in the field from
 co-creators of RPGLite reflect further on the design and future improvements of
 the game; see \inline{cite William's PhD here}.
+
+A large-scale user study of RPGLite could also be used to verify other research
+questions suggested in this section. For example, during data collection,
+players could be classified by their likelihood of abandoning games using the
+patterns identified in \cref{future_work_rpglite_abandonment_reasons} to verify
+the patterns empirically.
+
 
 
 \section{Discussion}\label{sec:future_work_conclusion}
