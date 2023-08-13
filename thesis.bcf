@@ -2688,27 +2688,25 @@
     <bcf:citekey order="285" intorder="1">kavanagh2021gameplay</bcf:citekey>
     <bcf:citekey order="286" intorder="1">gulyas1999use</bcf:citekey>
     <bcf:citekey order="287" intorder="1">gulyas1999use</bcf:citekey>
-    <bcf:citekey order="288" intorder="1">gulyas1999use</bcf:citekey>
-    <bcf:citekey order="289" intorder="1">gulyas1999use</bcf:citekey>
-    <bcf:citekey order="290" intorder="1">kiczales1997aspect</bcf:citekey>
-    <bcf:citekey order="291" intorder="1">steimann06paradoxical</bcf:citekey>
-    <bcf:citekey order="291" intorder="2">przybylek2010wrong</bcf:citekey>
-    <bcf:citekey order="291" intorder="3">Constantinides04aopconsidered</bcf:citekey>
-    <bcf:citekey order="292" intorder="1">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="293" intorder="1">kuhn2012structure</bcf:citekey>
-    <bcf:citekey order="294" intorder="1">kuhn2012structure</bcf:citekey>
-    <bcf:citekey order="295" intorder="1">popper1972theoryevolution</bcf:citekey>
-    <bcf:citekey order="296" intorder="1">popper1972theoryevolution</bcf:citekey>
-    <bcf:citekey order="297" intorder="1">steimann06paradoxical</bcf:citekey>
-    <bcf:citekey order="297" intorder="2">przybylek2010wrong</bcf:citekey>
-    <bcf:citekey order="297" intorder="3">Constantinides04aopconsidered</bcf:citekey>
-    <bcf:citekey order="298" intorder="1">clement2003eclipseAJDT</bcf:citekey>
-    <bcf:citekey order="299" intorder="1">mehner2002towards</bcf:citekey>
-    <bcf:citekey order="300" intorder="1">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="300" intorder="2">fuzzimoss_repo</bcf:citekey>
-    <bcf:citekey order="301" intorder="1">gulyas1999use</bcf:citekey>
-    <bcf:citekey order="302" intorder="1">gulyas1999use</bcf:citekey>
-    <bcf:citekey order="303" intorder="1">wallis2018caise</bcf:citekey>
+    <bcf:citekey order="288" intorder="1">kiczales1997aspect</bcf:citekey>
+    <bcf:citekey order="289" intorder="1">steimann06paradoxical</bcf:citekey>
+    <bcf:citekey order="289" intorder="2">przybylek2010wrong</bcf:citekey>
+    <bcf:citekey order="289" intorder="3">Constantinides04aopconsidered</bcf:citekey>
+    <bcf:citekey order="290" intorder="1">wallis2018caise</bcf:citekey>
+    <bcf:citekey order="291" intorder="1">kuhn2012structure</bcf:citekey>
+    <bcf:citekey order="292" intorder="1">kuhn2012structure</bcf:citekey>
+    <bcf:citekey order="293" intorder="1">popper1972theoryevolution</bcf:citekey>
+    <bcf:citekey order="294" intorder="1">popper1972theoryevolution</bcf:citekey>
+    <bcf:citekey order="295" intorder="1">steimann06paradoxical</bcf:citekey>
+    <bcf:citekey order="295" intorder="2">przybylek2010wrong</bcf:citekey>
+    <bcf:citekey order="295" intorder="3">Constantinides04aopconsidered</bcf:citekey>
+    <bcf:citekey order="296" intorder="1">clement2003eclipseAJDT</bcf:citekey>
+    <bcf:citekey order="297" intorder="1">mehner2002towards</bcf:citekey>
+    <bcf:citekey order="298" intorder="1">wallis2018caise</bcf:citekey>
+    <bcf:citekey order="298" intorder="2">fuzzimoss_repo</bcf:citekey>
+    <bcf:citekey order="299" intorder="1">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="300" intorder="1">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="301" intorder="1">wallis2018caise</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="anyt">
