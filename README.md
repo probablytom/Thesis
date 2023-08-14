@@ -51,8 +51,8 @@ _not_ to review it; just might still shift a little on my end.
   - [ ] Reviewed
   - [ ] Draft 2 complete
 - Future work
-  - [ ] Content decided
-  - [ ] Content complete
+  - [X] Content decided
+  - [X] Content complete
   - [ ] Draft 1 complete
   - [ ] Reviewed
   - [ ] Draft 2 complete
