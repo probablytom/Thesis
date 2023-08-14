@@ -620,6 +620,20 @@ existing, published work. Such a project would answer the research question:
 \end{researchquestion}
 
 
+\section{Discovery of System Features by Fitting Aspect Parameters}
+\label{future_work_feature_discovery}
+
+
+% In the experiments in this thesis we build some aspects of behaviours we know
+% exist in the system (such as players learning to play better / changing play
+% styles with long-term exposure to RPGLite). Could we build aspects as
+% hypothesised system behaviour, attempt to fit them, and so discover things
+% about the real-world system?
+
+% This might be better related to sections above on hypothesised behaviour being
+% tested by RPGLite, and it's well explored in an RPGLite future work section
+% below, so maybe this section isn't required.
+
 
 \section{Optimisation of Multiple
 Aspects}\label{many_aspectual_models_to_optimise}
@@ -703,12 +717,64 @@ abandonment would answer the research question:
 
     
 \subsection{Patterns of Play within Cliques of Players}
-Players likely formed cliques, where they would play against people they knew
-(perhaps in person) rather than relying on RPGLite's matchmaking features to
-find new opponents. The existence of cliques of players may have implications
-for the playstyles of players, how they learned ``better'' strategies over time,
-and the players' general dedication to playing RPGLite (and therefore producing
-a greater wealth of data for analysis and dissemination to the community)
+
+RPGLite's application implemented matchmaking systems which allowed players to
+advertise themselves as open to new games, challenge players discovered on a
+leaderboard, or rematch against players they had previously played against
+through a game history. However, two factors might have impacted how players
+chose their opponents:
+
+\begin{enumerate}
+    \item Recruiting methods means people might have known each other
+    \item Players who find others they are well-matched against might repeatedly
+    re-match rather than continuing to discover players they might have less
+    satisfying games with
+\end{enumerate}
+
+These factors would imply the formation of cliques of players: small groups who
+often created games against each other much more frequently than they did with
+the game's broader community. If so, this could have implications for uses of
+the PRGLite play dataset. For example, in the experiments discussed in
+\cref{chap:exp1_simulation_optimisation} and
+\cref{chap:exp2_old_aspects_new_systems} no structure is imposed on the matching
+of simulated players, so that players would be uniformly exposed to the game's
+community. As these experiments simulate learning from the outcomes of games,
+exposure to the entire community would expose players to learnings from all
+games played; cliques of players have a limited set of games to learn from, and
+so could affect what is learned by that clique. The broader community would also
+be insulated from what was learned within the clique, meaning that a loss of
+information affects all players.
+
+Future research making use of the RPGLite dataset should be aware of any
+underlying patterns which could affect the dataset's emergent properties, such
+as learning styles. Clique formation is an example of such a pattern; others
+might yet present themselves. Future research making use of the dataset of
+RPGLite play may look to address research questions such as:
+
+\begin{researchquestion}
+    Are patterns such as cliques of players present in the RPGLite dataset? If
+    so, what patterns exist, and what is likely to have driven the formation of
+    those patterns?
+\end{researchquestion}
+
+Relatedly, the dataset presents opportunities for resesarch in aspectually
+augmented simulation \& modelling. A research question presents itself related
+to the future work described in \cref{future_work_feature_discovery} related to
+the discovery of system features:
+
+\begin{researchquestion}
+    Can an aspectually augmented model be trained to identify features of
+    RPGLite play in an explainable manner?
+\end{researchquestion}
+
+
+
+% Players likely formed cliques, where they would play against people they knew
+% (perhaps in person) rather than relying on RPGLite's matchmaking features to
+% find new opponents. The existence of cliques of players may have implications
+% for the playstyles of players, how they learned ``better'' strategies over time,
+% and the players' general dedication to playing RPGLite (and therefore producing
+% a greater wealth of data for analysis and dissemination to the community)
     
 \subsection{Additional Game Features Driving Engagement}
 RPGLite's dataset contains information about players' interactions with the
