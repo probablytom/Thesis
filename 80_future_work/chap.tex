@@ -139,6 +139,7 @@ to replace it with.} ipsum
 
 
 \section{Aspect Orientation's utility for Research Software Engineers}
+\label{future_work_aop_for_rses}
 
 As a corollary of the research opportunities for aspect orientation's use in
 software engineering discussed in \cref{future_work_aspect_oriented_metaprogramming},
@@ -264,6 +265,7 @@ pandemic.}
 
 
 \section{Hypothesising Possible System Dynamics via Aspects}
+\label{future_work_hypothesising_system_states}
 
 % In the above section we claim that we can augment models to keep them relevant
 % in the face of unpredictable events; we can also investigate uncertain present
@@ -370,6 +372,14 @@ of models via aspects is effectively demonstrated in
 a basis of a community's scientific process and relation to philosophy of
 science warrants further investigation.
 
+Finally: hypothesised properties of a system might interact, meaning their
+discovery could involve the fitting of multiple models of possible behaviours to
+discover the properties of a real-world system. The use of aspects to encode ---
+and
+discover the presence of --- hypothesised behaviour is discussed in
+\cref{future_work_discovering_emergent_properties} as the RPGLite dataset
+presents convenient opportunities for doing so. The optimisation of multiple
+aspectual models of behaviour is discussed in \cref{future_work_many_aspectual_models_to_optimise}.
 
 
 
@@ -508,8 +518,8 @@ or factoring into a footnote.}
 
 
 
-\section{Testing Frameworks to detect Unrealistic Behavioural
-Variances}\label{sciunits_for_unrealistic_states}
+\section{Testing Frameworks to detect Model Incorrectness}
+\label{sciunits_for_unrealistic_states}
 
 Many of the uses of aspect orientation in simulation \& modelling research
 discussed in this chapter affect the construction and maintenance of a codebase,
@@ -620,9 +630,9 @@ existing, published work. Such a project would answer the research question:
 \end{researchquestion}
 
 
-\section{Discovery of System Features by Fitting Aspect Parameters}
-\label{future_work_feature_discovery}
 
+% \section{Discovery of System Features by Fitting Aspect Parameters}
+% \label{future_work_feature_discovery}
 
 % In the experiments in this thesis we build some aspects of behaviours we know
 % exist in the system (such as players learning to play better / changing play
@@ -632,11 +642,14 @@ existing, published work. Such a project would answer the research question:
 
 % This might be better related to sections above on hypothesised behaviour being
 % tested by RPGLite, and it's well explored in an RPGLite future work section
-% below, so maybe this section isn't required.
+% below, so maybe this section isn't required. I've commented it out as I don't
+% think it adds anything that \cref{future_work_hypothesising_system_states}
+% doens't already add.
+
 
 
 \section{Optimisation of Multiple
-Aspects}\label{many_aspectual_models_to_optimise}
+Aspects}\label{future_work_many_aspectual_models_to_optimise}
 
 Experiments in \cref{chap:exp1_simulation_optimisation} and
 \cref{chap:exp2_old_aspects_new_systems} made use of models which were fitted to
@@ -717,6 +730,7 @@ abandonment would answer the research question:
 
     
 \subsection{Patterns of Play within Cliques of Players}
+\label{future_work_rpglite_playerbase_clique_discovery}
 
 RPGLite's application implemented matchmaking systems which allowed players to
 advertise themselves as open to new games, challenge players discovered on a
@@ -757,63 +771,212 @@ RPGLite play may look to address research questions such as:
     those patterns?
 \end{researchquestion}
 
-Relatedly, the dataset presents opportunities for resesarch in aspectually
-augmented simulation \& modelling. A research question presents itself related
-to the future work described in \cref{future_work_feature_discovery} related to
-the discovery of system features:
+
+\subsection{Aspect Oriented Discovery of Dataset Properties}
+\label{future_work_discovering_emergent_properties}
+
+Relatedly, the dataset presents opportunities for research in aspectually
+augmented simulation \& modelling related to the future work described in
+\cref{future_work_hypothesising_system_states}.\revnote{Consider refactoring
+this into a subsection of that sec.} In
+\cref{future_work_hypothesising_system_states}, the use of aspect orientation to
+encode hypothesised behaviour was discussed. However, in some scenarios, the
+expected behaviour may be unknown: it is currently unknown whether cliques were
+formed by RPGLite players; the behavioural impact of player interaction with
+ancillary game features such as leaderboards or profile customisation is
+unknown; players' early aptitude for RPGLite may cause them to lose interest
+relatively quickly due to a lack of challenge or spur them to climb leaderboards
+or continue to win games; players more likely to challenge others with more
+experience might learn and be more likely to continue playing RPGLite, or might
+quickly lose interest due to repeated loss.
+
+These behaviours can be hypothesised, but many might have an impact on each
+other: players might find experienced peers through the leaderboard, so their
+progression in or engagement with the game could be due to their propensity to
+explore (by using the leaderboard) or their exposure to more advanced play
+(through games with experienced peers). This can be investigated through aspects
+fitted to real-world data, used to discover parameters for multiple hypothesised
+concerns in the player data by fitting them simultaneously.\footnote{Research into
+relevant techniques is proposed in
+\cref{future_work_many_aspectual_models_to_optimise}.} The relative importance
+of each concern could be discovered by inferring parameters controlling the
+strength of each concern which were fitted to real-world data. This would allow
+the existance and relative impact of real-world behaviours to be discovered. 
+
+This proposal is an extension of the research discussed in
+\cref{future_work_hypothesising_system_states}, but the RPGLite dataset is a
+suitable testing ground for the technique which already exists. Larger-scale
+data collection described later in this chapter (see
+\label{future_work_rpglite_large_scale_data_collection}) could provide
+opportunities to test this more rigorously, as the discovery of nuanced emergent
+properties of RPGLite play might require a considerably larger dataset than this
+thesis had the scope to contribute.
+
+Research into this technique would contribute answers to the research question:
 
 \begin{researchquestion}
-    Can an aspectually augmented model be trained to identify features of
-    RPGLite play in an explainable manner?
+    Can potentially interacting emergent properties in a real-world system by
+    identified through the fitting of aspectual models representing hypothesised
+    properties to empirical datasets which may exhibit them?
 \end{researchquestion}
 
-
-
-% Players likely formed cliques, where they would play against people they knew
-% (perhaps in person) rather than relying on RPGLite's matchmaking features to
-% find new opponents. The existence of cliques of players may have implications
-% for the playstyles of players, how they learned ``better'' strategies over time,
-% and the players' general dedication to playing RPGLite (and therefore producing
-% a greater wealth of data for analysis and dissemination to the community)
     
-\subsection{Additional Game Features Driving Engagement}
+
+\subsection{Larger-scale Data
+Collection}
+\label{future_work_rpglite_large_scale_data_collection}
+
+RPGLite's playerbase was recruited informally. Only two seasons of gameplay were
+run, and the game was not heavily advertised to prospective players,
+particularly once it was clear that sufficient data would be collected for the
+research that required it. As a result, there is scope for a larger and
+longer-term data collection effort to be made. A re-release of the application
+in major mobile app stores with a concerted effort to release new seasons of the
+game and maintain player interest for an extended period of time --- perhaps
+with additional features, such as in-game chat, favourites lists of previous
+opponents, or match replay and analysis (with suggestions for improved play
+backed by the formal methods inherant in RPGLite's design) --- would enable a
+richer analysis, and broader utility to the games research community.
+
 RPGLite's dataset contains information about players' interactions with the
-application itself; as the game made available some features typical of modern
-games (leaderboards, matchmaking, achievements, graphical customisation), an
-analysis of the features most commonly used can shed light on the more effective
-aspects of modern game design in both the general playerbase and more dedicated
-players\footnote{For example, are some features heavily used, but only by a
-dedicated subset? Do all players use other features a moderate amount, showing
-mild but general appeal?}\footnote{Find related research on engagement in mobile
-games, which must be \emph{plentiful}.}.
-    
-
-\subsection{Larger-scale Data Collection}
-RPGLite's playerbase was recruited informally and there is scope for a larger
-and longer-term data collection effort to be made. A re-release of the
-application in major mobile app stores with a concerted effort to release new
-seasons of the game and maintain player interest for an extended period of time
---- perhaps with additional features, such as in-game chat, favourites lists
---of previous opponents, or match replay and analysis (with suggestions for
-improved play backed by the formal methods inherant in RPGLite's design) would
-enable a richer analysis, and broader utility to the games research community.
-
-While investigations into these questions warrant further study, they remain
+application itself. As the game made available some features typical of modern
+games such as leaderboards, matchmaking, achievements, and graphical
+customisation, player data containing interaction data on features which are
+used commercially could be used to shed light on
+the more effective aspects of modern game design for engagement purposes. 
+There are many opportunities available for the game
+design research community to investigate.\footnote{Unfortunately, they remain
 outwith the scope of this thesis, which focuses on simulation technologies more
-than it does game design. There are many opportunities available for the game
-design research community to investigate. Publications in the field from
+than it does game design.} Publications in the field from
 co-creators of RPGLite reflect further on the design and future improvements of
-the game; see \inline{cite William's PhD here}.
+the game~\cite{GameOn2020,kavanagh2020,kavanagh2021thesis,kavanagh2019balancing,kavanagh2021gameplay}.
 
-A large-scale user study of RPGLite could also be used to verify other research
-questions suggested in this section. For example, during data collection,
-players could be classified by their likelihood of abandoning games using the
-patterns identified in \cref{future_work_rpglite_abandonment_reasons} to verify
-the patterns empirically.
+A large-scale user study of RPGLite could also be used in pursuit of other
+research questions suggested in this chapter. Players could be classified by
+their likelihood of abandoning games using the patterns identified in
+\cref{future_work_rpglite_abandonment_reasons} to verify the patterns
+empirically. A larger dataset might be useful in testing the discovery of system
+behaviours using hypothesised behaviours encoded in aspects. This could be used
+for both the aspectual encoding of an experimental setup, as discussed in
+\cref{future_work_hypothesising_system_states}, the discovery of features of
+player behaviour suggested in
+\cref{future_work_discovering_emergent_properties}, the discovery of dataset
+properties such as player cliques including the real-time prediction of clique
+formation to during data collection for experimental verification of a clique
+classification process discussed in
+\cref{future_work_rpglite_playerbase_clique_discovery}, or the fitting of
+multiple aspects to models as described in
+\cref{future_work_many_aspectual_models_to_optimise}. Relevant research
+questions are discussed in their respective sections of this chapter.
 
 
 
 \section{Discussion}\label{sec:future_work_conclusion}
 
-This section is not intentionally left blank.
+% Kuhn notes that research results aren't just facts in the landscape in which
+% researchers operate, but shed light on a field in a manner which can influence
+% the field and the manner in which research is created. \pdsf{} and the
+% aspectually augmented modelling it has been used to demonstrate are effective
+% in modelling concerns in a model in a cross-cutting manner, but the
+% research and tooling created to conduct that research offer alternative ways
+% to conduct simulation and modelling research, and demonstrate a use case of
+% aspect oriented programming which has seen some tooling development but little
+% real-world use. The benefits of the technology's use in research software
+% engineering and in experimental design and development requires further study,
+% and there exists potential for myriad use cases. Tooling can be improved, the
+% potential capabilities of the technology can be explored, and its use in
+% future simulation and modelling research can be explored in a variety of
+% fields.
+
+The\revnote{Possibly too grandiose? I don't think so really, but I
+wouldn't want to present it as being more than it is, and worry I oversell here.
+Maybe some references to literature discussing the expected scope of PhD theses
+(which exists! I have it in KeepIt, Tim sent me some early in the PhD) and an
+explanation that it's not outside the realm of a normal thesis to make
+contributions with theoretical implications --- see REST
+thesis or computational trust --- it does warrant a beefy future work chapter
+and an exploration of the research this enables (because it \emph{does} enable
+lots of future research) is a contribution in its own right. Which isn't
+necessarily grandiose, but can be oversold as grandiose. Maybe comparisons to
+REST don't help that case, actually...} research presented in earlier chapters motivates a research effort spanning
+multiple fields, and has implications for experimental design as well as
+software engineering and simulation \& modelling techniques. Earlier
+contributions add to the corpus of knowledge in their fields, but also carry
+implications for our understanding of and research practice in those fields.
+This chapter contributes an investigation into these implications by exploring
+the possibilities these techniques make possible, and by explaining their
+potential impact.
+
+In \citetitle{kuhn2012structure}~\cite{kuhn2012structure},
+\citeauthor{kuhn2012structure} notes:
+
+\begin{displayquote}
+   [\ldots{}] new inventions of theory [are not] the only scientific events that have
+   revolutionary impact upon the specialists in whose domain they occur. The
+   commitments that govern normal science specify not only what sorts of
+   entities the universe does contain, but also, by implication, those that it
+   does not. It follows, though the point will require extended discussion, that
+   a discovery like that of oxygen or X-rays does not simply add one more item
+   to the population of the scientist's world. Ultimately it has that effect,
+   but not until the professional community has re-evaluated traditional
+   experimental procedures, altered its conception of entities with which it has
+   long been familiar, and, in the process, shifted the network of theory
+   through which it deals with the world. Scientific fact and theory are not
+   categorically separable, except perhaps within a single tradition of
+   normal-scientific practice. That is why the unexpected discovery is not
+   simply factual in its import and why the scientist's world is qualitatively
+   transformed as well as quantitatively enriched by fundamental novelties of
+   either fact or theory. 
+\end{displayquote}
+
+The ideas presented in this thesis --- in particular aspectually augmented
+simulations and models and aspect-oriented runtime metaprogramming --- are not
+new ``theories'' in the relevant fields which contribute any profound or
+revolutionary new paradigms. However, they do present a new approach in
+simulation and modelling, and do so through new aspect orientation techniques.
+There are therefore contributions in both fields in which the ``scientific fact
+and theory'' Kuhn refers to are affected: in both fields new research
+opportunities and experimental practices are made feasible, with implications
+for both the research facts in the fields (for example, the contribution of the
+concept of aspect-oriented runtime metaprogramming, for example) and the theory
+of the fields (for example, the use of new aspect orientation technologies in
+experimental design).
+
+New capabilities of aspect orientation frameworks are suggested, built, and
+demonstrated in experimental case studies through \pdsf{}. Their design and the
+extension of the tooling around these concepts present opportunities for future
+work as discussed in \cref{future_work_standard_aosm_techniques} and in
+\cref{standard_aosm_model_features}, but the implications of their use in
+software engineering requires further study, as discussed in
+\cref{future_work_aspect_oriented_metaprogramming}, as well as in research
+software engineering specifically, as discussed in
+\cref{future_work_nudge_model_state}, \cref{future_work_aop_for_rses},
+\cref{sciunits_for_unrealistic_states} and
+\cref{future_work_many_aspectual_models_to_optimise}; further, the possibilities
+investigated in this research have implications for research in the practice of
+research itself, as discussed in \cref{future_work_hypothesising_system_states},
+\cref{sciunits_for_unrealistic_states},
+\cref{future_work_many_aspectual_models_to_optimise} and
+\cref{future_work_discovering_emergent_properties}. For this reason, the work
+presented in earlier chapters motivates further research in many areas. This
+thesis contributes not only the exploration of the ideas presented in earlier
+chapters, but a discussion of their implication for Kuhn's ``scientific fact[s]
+and theor[ies]'' in their relevant fields.\revnote{Maybe go into more detail on
+what was mentioned in specific cross-referenced sections here? A long list of
+sections this chapter contains without any extra explanation isn't very
+satisfying, even if it's useful within this framing of exploring what Kuhn meant
+and how it relates to this thesis.}
+
+
+The dataset produced by RPGLite also offers opportunities for further study.
+Research opportunities presented by the game design and formal methods are
+explored by \citeauthor{kavanagh2021thesis}~\cite{kavanagh2021thesis}, but the
+dataset this thesis helped to contribute also offers opportunities in the
+mining of player behaviour and the dataset's use in future aspectually
+augmented modelling research, particularly if a large-scale data collection
+study is undertaken. These possibilities were discussed in
+\cref{sec:future_work_rpglite}, in particular in
+\cref{future_work_rpglite_abandonment_reasons},
+\cref{future_work_rpglite_playerbase_clique_discovery}, and \cref{future_work_rpglite_large_scale_data_collection}.
+
 

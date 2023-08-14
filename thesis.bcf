@@ -2707,6 +2707,16 @@
     <bcf:citekey order="299" intorder="1">gulyas1999use</bcf:citekey>
     <bcf:citekey order="300" intorder="1">gulyas1999use</bcf:citekey>
     <bcf:citekey order="301" intorder="1">wallis2018caise</bcf:citekey>
+    <bcf:citekey order="302" intorder="1">GameOn2020</bcf:citekey>
+    <bcf:citekey order="302" intorder="2">kavanagh2020</bcf:citekey>
+    <bcf:citekey order="302" intorder="3">kavanagh2021thesis</bcf:citekey>
+    <bcf:citekey order="302" intorder="4">kavanagh2019balancing</bcf:citekey>
+    <bcf:citekey order="302" intorder="5">kavanagh2021gameplay</bcf:citekey>
+    <bcf:citekey order="303" intorder="1">kuhn2012structure</bcf:citekey>
+    <bcf:citekey order="304" intorder="1">kuhn2012structure</bcf:citekey>
+    <bcf:citekey order="305" intorder="1">kuhn2012structure</bcf:citekey>
+    <bcf:citekey order="306" intorder="1">kavanagh2021thesis</bcf:citekey>
+    <bcf:citekey order="307" intorder="1">kavanagh2021thesis</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="anyt">
