@@ -33,7 +33,7 @@ do not overlap significantly, meaning that this review must cover segments of
 several partly related fields. The presented material is eclectic in nature as a
 result. We therefore present context for unfamiliar readers as well as a
 motivating case for the work to follow in three distinct areas, which are, in
-order~\revnote{don't use a description list here, this should be a regular paragraph}:
+order~\revnote{don't use a description list here, this should be a regular paragraph and also explain \emph{why} each section is included.}:
 
 \begin{description}
 
@@ -51,6 +51,8 @@ order~\revnote{don't use a description list here, this should be a regular parag
 
 \section{Aspect Orientation}\label{lit_review_AOP_explainer}
 
+\revote{Would suggest the following flow here: 1. modularity is considered important for maintainability. 2. Common approaches such as OO do not address cross cutting concerns such as authentication and logging well. Once you've done that you can then combine some of the arguments as second sentence of second paragraph otherwise feels somewhat repetitious.}
+
 Often, software engineers have to repetitively handle an issue in some codebase,
 where the issue is pervasive across many parts of the codebase and is
 necessarily interwoven through its core functionality. Common examples of this
@@ -59,7 +61,7 @@ Modularity is considered a key trait of maintainable, flexible and legible
 programs~\cite{Parnas_1972}. Modern design techniques often centre around the
 structure of a program to increase its modularity, with object-oriented
 programming being the standard approach to designing with modularity in mind in
-many industrially-relevant languages today. \inline{Citation needed?}
+many industrially-relevant languages today. \inline{Citation needed?}\revnote{Suggest citing some languages that are OO}
 
 Approaches to modularity typically section codebases into units of
 functionality. Concerns such as logging and memory management happen in
@@ -88,7 +90,7 @@ described through their component parts:
 \begin{itemize}
     \item A \emph{``join point''} defines some point in a program's execution
 (usually the moment of invocation or return of some function or method).
-    \item \emph{``Advice''} defines some behaviour, such as emitting a logline, which
+    \item \emph{``Advice''} defines some behaviour, such as emitting a logline, which \revnote{Do you mean outputting a log message}
     can conceptually happen anywhere in program execution (i.e. what's defined
     would typically represent behaviour which cuts across many parts of a
     codebase).
@@ -147,6 +149,7 @@ they assert are definitive of the paradigm~\cite{filman2000aspect}. Specifically
 oriented programming should be considered ``quantification'' and
 ``obliviousness'':
 
+\revnote{The blockquote environment appears broken as it only quotes the first character.}
 \begin{blockquote}
 AOP can be understood as the desire to make quantified statements about the
 behaviour of programs, and to have these quantifications hold over programs
@@ -184,6 +187,7 @@ to add the aspects later.'' (And change your mind downstream about your
 policies, and we'll painlessly transform your code for that, too.)
 \end{blockquote}
 
+\revnote{Tighten the phrasing here: say it is unclear from the existing literature whether aspect-oriented approaches really do achieve these goals as there is a general lack of empirical evidence or even case studies in order to make the assessment cite, cite. However, to do so is not in the scope of the current work. }
 Whether obliviously designed aspect-oriented systems achieve their intended
 goals empirically is outside the scope of their work, and the lack of empirical
 evidence for this is discussed in \cref{subsec:aop-criticisms}. Claims made such
@@ -209,6 +213,8 @@ programmers~\cite{AspectCplusplusDesignImp,kell2008survey,aspect oriented
 workflow} (though other researchers suggest they may be best applied in
 moderation~\cite{leavens2007multiple}).
 
+\revnote{Feels like the full literature on AOP is missing here.  What is the available evidence that it works, if any? What has it been used for? Some sort of survey of AOP tech might also be useful for talking about alternatives?}
+
 \subsection{Alternative methods in Aspect Orientation}
 
 Aspect-oriented programming's goal of modularising cross-cutting concerns is
@@ -217,6 +223,10 @@ similarities to use of reflection, metaprogramming \& program transformation,
 and subject-oriented programming~\cite{kiczales1997aspect,aspectj_intro}. They
 also observe that other disciplines have introduced ``aspectual decomposition''
 independently.
+
+\revnotes{ citet command is a neater way of achieving citeauthor/cite}
+
+\revnote{this needs more explanation.  What were Kiczales et al. trying to do, what was the context, what did they demonstrate?}
 
 The example of pre-existing aspectual decomposition by way of diagramming given
 by \citeauthor{kiczales1997aspect}~\cite{kiczales1997aspect} is in physical
@@ -249,6 +259,8 @@ aspect orientation which were designed for simplicity and
 comprehension\cite{obashimethodology,seow2011obashi}, but trade this for
 domain-specificity.
 
+\revnote{Wouldn't the paragraph below fit better in the section on program mutation?}
+
 Research conducted by \Citeauthor{keller1998binary}~\cite{keller1998binary}
 investigates solutions to the difficulties involved in the integration of
 software components and their evolution over time, where those components are
@@ -269,7 +281,7 @@ For example, metaobject protocols describe the properties of an object's class
 (including, for example, its position within a class hierarchy) in an adaptable
 manner~\cite{kiczales1991art}. These can be used to implement aspect
 orientation~\cite{espakaspect}, therefore providing at a minimum the same
-functionality, though they achieve this through their reflective qualities and
+functionality, though they achieve this through their reflective qualities and \revnote{reflective qualities?  perhaps reflective programming techniques?}
 are designed with metaprogramming as a primary goal as opposed to modularisation
 of cross-cutting concerns~\cite{kiczales1991art,sullivan2001aspect}.
 Multiple-dispatch, where methods on objects are chosen to be run based on the
@@ -282,25 +294,27 @@ dispatch. However, they might instead want their program to exhibit some
 additional behaviour whenever a method is invoked, such as logging, but might
 not want to implement logging alongside the rest of their method implementation
 for clarity or length reasons. Multiple dispatch therefore offers comparable but
-different functionality to a software engineer. Engineering patterns such as
+different functionality to a software engineer. Engineering patterns such as \revnote{feels like a new paragraph on decorators}.
 decorators provide similar functionality to
 aspects~\cite{friesel2017annotations}, in that cross-cutting concerns can be
 separated into their own module, but they differ in their approach to
 obliviousness: decorators annotate areas of a codebase they are applied to, and
 therefore do not offer obliviousness as aspects do. \inline{Add a paragraph
-after this on subject-oriented programming.}
+  after this on subject-oriented programming.}
+
+\revnote{Would some illustrative examples of these different approaches help}?
 
 More notes~\inline{Add notes on subject-oriented programming, bigraphs, maybe holons?}
 %% subject oriented programming
 
-\labelledsubsec{Criticisms of aspect-oriented programming}{aop-criticisms}
+\labelledsubsec{Criticisms of aspect-oriented programming}{aop-criticisms} \revnote{does this come before the other approaches section.}
 
 The growing aspect-oriented programming research community collected both
 proponents and detractors of the paradigm. The developments in
 aspect orientation pertinent to the research presented in this thesis are
 discussed in later sections of this literature review. However, common
 criticisms of aspect-oriented programming are important to present in two
-regards:
+regards: \revnote{not sure this needs enumerating}
 
 \begin{enumerate}
     \item Discussions of advancements in the field pertinent to the work
@@ -312,6 +326,10 @@ regards:
     properties of work published in awareness of those weaknesses will motivate
     some research presented in later chapters.
 \end{enumerate}
+
+
+\revnote{I would rephrase the opening of this as direct report of voice to make it more succinct.  \cite{Constantinides04aopconsidered} offered an early critique of AOP, making unfavourable comparisons with criticisms of GOTO statements.}
+
 
 An early piece of scepticism in the aspect orientation community is
 \cite{Constantinides04aopconsidered}, in which
@@ -335,6 +353,9 @@ they've found an improvement over Go To statements. The authors conclude that
 existing techniques, specifically Dynamic Dispatch in OOP, provide similar
 benefits without the trade-off in legibility of a program's intended execution.
 
+\revnote{Again, direct active report of voice is more succinct. \citeauthor{steimann06paradoxical} makes a similar, but more thorough critique of AOP.}
+
+\revnote{Generally, avoid referring to a ``paper'' refer to the authors.}
 
 A similar and more thorough critique of the aspect oriented paradigm can be
 found in \citeauthor{steimann06paradoxical}'s
@@ -358,7 +379,9 @@ different to those purported by the community. Overall, the paper is a
 philosophical and critical reflection on the state of AOP research and the
 community's zeitgeist at the time, claims around which are not well-evidenced in
 literature. In particular, the author sees AOP's promise of unprecedented
-modularisation as unfulfillable. 
+modularisation as unfulfillable.
+
+\revnote{The style in the below is what I'm suggesting}
 
 Similar sentiments are shared by
 \citeauthor{przybylek2010wrong}~\cite{przybylek2010wrong}, who looks to examine aspect oriented
@@ -405,6 +428,8 @@ literature, but often hints at others' solutions to the problems identified too.
 %% NOTE: MOVE THIS TO A REGULAR SECTION FILE
 \section{Dynamic Aspect Weaving}\label{sec:dynamic_aop_review}
 
+\revnote{I think this comes before the critique section perhaps?  Need a general introduction to AOP techniques and techs, including this?}
+
 One implementation of dynamic weaving is
 PROSE~\cite{popovici2002PROSE,popovici2003JITaspects}, a library which achieves
 dynamic weaving by use of a Just-In-Time compiler for Java. The authors saw
@@ -431,6 +456,8 @@ to simulation contexts, or others where software making use of aspects does not
 constitute a product.
 
 % MARK: dynamicAOchitchyan
+
+\revnote{Need citations to these technologies}
 
 The performance issues noted by \citeauthor{popovici2003JITaspects} are explored
 in more detail by \citeauthor{dynamicAOchitchyan} in \cite{dynamicAOchitchyan}.
@@ -481,6 +508,8 @@ of \citeauthor{dynamicAOchitchyan} (see \citep{dynamicAOchitchyan}), would be
 meaningfully less efficient than static weaving in all but the extreme
 application areas outlined in the paper (embedded systems with resources in the
 range of 30kb memory).
+
+\revnote{My worry in below is that it feels like you are teasing the reader - well WHAT environments/contexts then, huh?}
 
 Aspect oriented programming's criticism can often be that it doesn't know what
 it ``aims to be good for'', and its application in such extreme environments is
@@ -543,7 +572,7 @@ orientation directly in a language's virtual machine, and work towards general
 models of aspect oriented programming (models which can represent a variety of
 existing approaches). Their approach is flexible and considered enough to
 warrant impact in the introduction of aspect orientation within virtual machines
-(because they require no direct support), and in their ability to represent
+(because they require no direct support), and in their ability to represent \revnote{Long sentence and not sure what you are trying to say exactly}
 different weaving approaches, arguably \emph{because} their approach is general
 enough in design to approach the general model worked towards, which qualifies
 their satisfaction of their motivation to provide a model distinct to the
