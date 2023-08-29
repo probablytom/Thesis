@@ -629,24 +629,29 @@ Our model of learning is therefore complete, but a model of confidence remains t
 
 \subsection{Modelling Player Confidence in RPGLite}\label{subsec:confidence_model}
 
-To model learning, we must find some function mapping experience (quantified by a count of games played) to
-some probability between 0 and 1, and fitting the criteria described in \cref{subsec:defining_our_models_of_learning}.
+To model learning, we must find some function mapping experience (quantified by
+a count of games played) to some probability between 0 and 1, and fitting the
+criteria described in \cref{subsec:defining_our_models_of_learning}.
 
-A sigmoid curve fulfils both the second and third inferences in \cref{subsec:defining_our_models_of_learning}.
-It also notionally conforms to expectations
-around ``confidence'' as an anthropomorphic trait: much like a sigmoid, confidence starts low, and remains so until
-it achieves some inflection point, after which it grows rapidly until tapering asymptotically toward some maximum.
-However, not all real-world players might express the same traits in their growth of confidence; the shape
-of their sigmoidal confidence may differ. In order to account for this while guaranteeing a monotonically
-increasing mapping of the number of games played to a player's confidence, we select a sigmoid which can
-be parameterised to alter their shape.
+A sigmoid curve fulfils both the second and third inferences in
+\cref{subsec:defining_our_models_of_learning}. It also notionally conforms to
+expectations around ``confidence'' as an anthropomorphic trait: much like a
+sigmoid, confidence starts low, and remains so until it achieves some inflection
+point, after which it grows rapidly until tapering asymptotically toward some
+maximum. However, not all real-world players might express the same traits in
+their growth of confidence; the shape of their sigmoidal confidence may differ.
+In order to account for this while guaranteeing a monotonically increasing
+mapping of the number of games played to a player's confidence, we select a
+sigmoid which can be parameterised to alter their shape.
 
-A sigmoidal curve is suitable for this model of learning where other curves would not suffice, because we
-require a period where players lack confidence and explore their options. Sigmoid curves such as
-the logistic~\cite{verhulst1845loi} or Gompertz~\cite{gompertz1815curve} are widely used when modelling
-systems~\cite{werker1997modelling}, but while they fulfil the role of a monotonically increasing curve
-with asymptotically low and high initial and final states, the shape of such curves is not trivially modified
-to fit different players' learning styles.
+A sigmoid curve is suitable for this model of learning where other curves would
+not suffice, because we require a period where players lack confidence and
+explore their options. Sigmoid curves such as the
+logistic~\cite{verhulst1845loi} or Gompertz~\cite{gompertz1815curve} are widely
+used when modelling systems~\cite{werker1997modelling}, but while they fulfil
+the role of a monotonically increasing curve with asymptotically low and high
+initial and final states, the shape of such curves is not trivially modified to
+fit different players' learning styles.
 
 More flexible asymptotic curves were developed by
 \citeauthor{richards1959flexiblegrowth}~\cite{richards1959flexiblegrowth} drawing on growth curves developed by
@@ -1080,145 +1085,216 @@ naive model. The resulting behaviours from each model of learning can be compare
 to discern which produces simulated RPGLite play more similar to a given real-world player's;
 methods for doing so are explored in the remainder of this chapter. 
 
-\section{Experimental Design using Aspectual Learning Models}\label{sec:optimisation_with_aspects_experimental_design}
+\section{Experimental Design using Aspectual Learning Models}
+\label{sec:optimisation_with_aspects_experimental_design}
 
 % Specifics of how we intend to analyse our data, leading on from the brief
 % discussion in \cref{sec:optimisation_with_aspects_experimental_introduction}.
 % \inline{Discuss specifics of how we intend to analyse data, rather than high-level experimental overview presented in earlier chapters}
 
-The models of learning described in \cref{subsec:aspects_modelling_learning} can be applied to augment the naive
-model described in \cref{sec:optimisation_with_aspects_naivemodel} with learning behaviours. However,
-answering the research questions proposed in this thesis requires assessing whether the aspect-applied model
-more closely resembles real-world play than the naive model. 
+The models of learning described in \cref{subsec:aspects_modelling_learning} can
+be applied to augment the naive model described in
+\cref{sec:optimisation_with_aspects_naivemodel} and introduce change in player
+behaviour over time. The remaining challenge is to demonstrate that augmenting
+the naive model can make it more realistic in practice. To that end, the
+remainder of this chapter details an experiment which compares synthetic
+datasets produced by the model to empirically sourced data, and shows that this
+synthetic data is quantifiably more similar to its empirical counterpart than
+that produced by a naive model with no aspects applied.
 
-This section presents the strategy for comparing simulated and real-world play, and discusses the 
-measures taken to ensure an integral analysis of the datasets produced, both in terms of mitigation of
-the impact of RPGLite's inherent randomness, and in terms of the statistical significance of the results obtained.
+This section presents the strategy for generating synthetic datasets with
+aspects applied, comparing simulated and real-world play, and describes the
+strategy used to analyse results.
 
 \subsection{Quantifying Similarity of Character Pair Selection}
 
-% The research questions which these experiments aim to answer require a method for comparing the similarity
-% of character pair selection in a given instance of simulated play. Quantifying how similar a simulated
-% player's character pair selections are to their real-world counterpart allows such a comparison.
-% The goal of this comparison is to determine whether synthetic datasets of character pair choice data align
-% closely with empirically sourced datasets insofar as this comparison investigates whether real-world players
-% are more accurately modelled in one simulation than another; 
+% The research questions which these experiments aim to answer require a method
+% for comparing the similarity of character pair selection in a given instance
+% of simulated play. Quantifying how similar a simulated player's character pair
+% selections are to their real-world counterpart allows such a comparison. The
+% goal of this comparison is to determine whether synthetic datasets of
+% character pair choice data align closely with empirically sourced datasets
+% insofar as this comparison investigates whether real-world players are more
+% accurately modelled in one simulation than another; 
 
 % What do I want to say here?
-% 
-% * We need to compare distributions of choices rather than choice history because
-%   we'd expect natural variations, and what matters is whether
-%   players ended up choosing similarly as they learned
-% * A distribution gives us a ranking of choices; we can see preferences. We're therefore interested
-%   in whether players consistently ranked certain character pairs over others.
-% * There's lots of RNG in RPGLite, so the degree to which those character pairs are picked
-%   is a tricky thing to get right. It's also not necessarily a good measure of similarity: whether
-%   players learn can be measured in a bunch of ways, and similar _proportions_ is a harder bar
-%   to reach than similar rankings.
-% * It matters that we're not interested in similar proportions because it changes the correlation
-%   metrics we use to measure. Our aim is to show that the aspect-applied model is "more realistic".
-%   We can decide what that means. If players get the character pair preferences right, surely that's
-%   enough for us.
-% * We can't predict much about our data because different players might have different properties
-%   to their character pair choices, _but_ we can make zero assumptions about the data by using
-%   an appropriate technique to calculate similarity. Non-parametric rank coefficients tell us
-%   how closely associated two rankings are. Two major choices are Spearman and Kendall; we opt for
-%   Kendall because Spearman's is sensitive to discrepancies between rankings, rather than simply whether
-%   the rankings are concordant. Character pairs which aren't chosen often are likely to have large
-%   discrepancies in rank but small discrepancies in their rate of choice, and we shouldn't penalise
-%   a dataset for having similar rates of choice but dissimilar rankings in the tail of the distribution of
-%   character pair choice.
-% * We can get the pvalue of two datasets being associated directly from scipy's implementation of
-%   Kendall's Tau; so, we can use the pvalue of the datasets being associated as our similarity metric.
+%
+% * We need to compare distributions of choices rather than choice history
+%   because we'd expect natural variations, and what matters is whether players
+%   ended up choosing similarly as they learned
+% * A distribution gives us a ranking of choices; we can see preferences. We're
+%   therefore interested in whether players consistently ranked certain
+%   character pairs over others.
+% * There's lots of RNG in RPGLite, so the degree to which those character pairs
+%   are picked is a tricky thing to get right. It's also not necessarily a good
+%   measure of similarity: whether players learn can be measured in a bunch of
+%   ways, and similar _proportions_ is a harder bar to reach than similar
+%   rankings.
+% * It matters that we're not interested in similar proportions because it
+%   changes the correlation metrics we use to measure. Our aim is to show that
+%   the aspect-applied model is "more realistic". We can decide what that means.
+%   If players get the character pair preferences right, surely that's enough
+%   for us.
+% * We can't predict much about our data because different players might have
+%   different properties to their character pair choices, _but_ we can make zero
+%   assumptions about the data by using an appropriate technique to calculate
+%   similarity. Non-parametric rank coefficients tell us how closely associated
+%   two rankings are. Two major choices are Spearman and Kendall; we opt for
+%   Kendall because Spearman's is sensitive to discrepancies between rankings,
+%   rather than simply whether the rankings are concordant. Character pairs
+%   which aren't chosen often are likely to have large discrepancies in rank but
+%   small discrepancies in their rate of choice, and we shouldn't penalise a
+%   dataset for having similar rates of choice but dissimilar rankings in the
+%   tail of the distribution of character pair choice.
+% * We can get the pvalue of two datasets being associated directly from scipy's
+%   implementation of Kendall's Tau; so, we can use the pvalue of the datasets
+%   being associated as our similarity metric.
 
-% * We need to compare distributions of choices rather than choice history because
-%   we'd expect natural variations, and what matters is whether
-%   players ended up choosing similarly as they learned
+% * We need to compare distributions of choices rather than choice history
+%   because we'd expect natural variations, and what matters is whether players
+%   ended up choosing similarly as they learned
 
-The experiments presented in this chapter make comparisons of many synthetic datasets to a single
-empirically sourced dataset; that of a player whose learning of RPGLite we aim to simulate.
-The comparisons are required to determine which of the synthetic datasets most closely matches the
-empirical dataset.
-We are specifically interested in determining whether players played with preference toward similar
-character pairs. The distribution of their choices describes a bias toward some pairs, and away from others.
-The distribution of the naive model, being randomly chosen, should exhibit no bias; a simple
-null hypothesis is therefore that a simulated dataset is as similar to real-world play as a randomly generated one;
-there exists no bias comparable to that exhibited by the empirical dataset in this case. Our hypothesis in answering
-the first research question posed is that, with models of learning applied through aspect orientation,
-the naive model can exhibit biases toward character pairs similar to that of a real-world dataset.
-The simulated play would therefore exhibit a more ``realistic'' behaviour in character selection
+The experiments presented in this chapter make comparisons of many synthetic
+datasets to a single empirically sourced dataset. The latter contains all games
+completed by a player whose learning of RPGLite we aim to simulate, and is drawn
+from the published RPGLite dataset~\cite{rpglite_dataset}. The comparisons are
+required to determine which of the synthetic datasets most closely matches the
+empirical dataset. We are specifically interested in determining whether players
+played with preference toward similar character pairs. The distribution of their
+choices describes a bias toward some pairs, and away from others. The
+distribution of the naive model, being randomly chosen, should exhibit no bias;
+a simple null hypothesis is therefore that a simulated dataset is as similar to
+real-world play as a randomly generated one; there exists no bias comparable to
+that exhibited by the empirical dataset in this case. Our hypothesis in
+answering the first research question posed is that, with models of learning
+applied through aspect orientation, the naive model can exhibit biases toward
+character pairs similar to that of a real-world dataset. The simulated play
+would therefore exhibit a more ``realistic'' behaviour in character selection
 than the naive model as a result of the aspects applied.
 
-% * There's lots of RNG in RPGLite, so the degree to which those character pairs are picked
-%   is a tricky thing to get right. It's also not necessarily a good measure of similarity: whether
-%   players learn can be measured in a bunch of ways, and similar _proportions_ is a harder bar
-% * A distribution gives us a ranking of choices; we can see preferences. We're therefore interested
-%   in whether players consistently ranked certain character pairs over others.
+% * There's lots of RNG in RPGLite, so the degree to which those character pairs
+%   are picked is a tricky thing to get right. It's also not necessarily a good
+%   measure of similarity: whether players learn can be measured in a bunch of
+%   ways, and similar _proportions_ is a harder bar
+% * A distribution gives us a ranking of choices; we can see preferences. We're
+%   therefore interested in whether players consistently ranked certain
+%   character pairs over others.
 
-We expect discrepancies in the specific character pairs selected in
-games (such as the order of character selection) because of the random nature of character selection.
-However, it is feasible to assess the similarity between
-the distribution of character pairs chosen by simulated and real-world players. The distribution
-of a player's chosen character pairs describes the preferences of that player by ranking their selections.
-We can therefore examine the similarities between a player's character pair preferences, assessed by
-their rankings, and the preferences of simulated players to arrive at a measurement of similarity between
-the datasets. We therefore seek to quantify similarity of character pair selection by measuring the
-distribution's rank correlation.\inline{Should I explain rank correlation more where it's first introduced\ldots{}?}
+We expect discrepancies in the specific character pairs selected in games (such
+as the order of character selection) because of the random nature of character
+selection. However, it is feasible to assess the similarity between the
+distribution of character pairs chosen by simulated and real-world players. The
+distribution of a player's chosen character pairs describes the preferences of
+that player, as it allows their selections to be ranked. We can examine the
+similarities between a player's character pair preferences and the preferences
+of simulated players by ranking and correlating their preferences to arrive at a
+measurement of similarity between the datasets; this is achieved through
+rank correlation.
 
-Many rank correlation measurements exist; \inline{Briefly discuss the different rank correlation measurements
-I could have chosen.}
+Many rank correlation measurements exist. For the purpose of comparing lists of
+character pairs, we require a non-parametric measurement. Some methods for
+calculating correlation assume a distribution of data, or require data to be
+distributed in a consistent manner; as nothing is known about the distribution
+of character choice preferences (and this distribution could vary between
+players), a measurement which is independent of the underlying distribution is
+required. Two common options are Spearman's \rho and Kendall's \tau.
+\inline{Find citations for each correlation coefficient, and also for justifying choosing between these two specifically (if required).}
 
-% * There's lots of RNG in RPGLite, so the degree to which those character pairs are picked
-%   is a tricky thing to get right. It's also not necessarily a good measure of similarity: whether
-%   players learn can be measured in a bunch of ways, and similar _proportions_ is a harder bar
-%   to reach than similar rankings.
-% * It matters that we're not interested in similar proportions because it changes the correlation
-%   metrics we use to measure. Our aim is to show that the aspect-applied model is "more realistic".
-%   We can decide what that means. If players get the character pair preferences right, surely that's
-%   enough for us.
-
-The strength of a player's preference toward different character pairs is a less useful measure of
-similarity for the purposes of this experiment than the concordance of that ordering. Players having
-a strong preference for a subset of character pairs will leave others rarely played, if ever.
-With a degree of randomness to the choices of character pairs, this may mean that a random selection of
-a character pair slightly more frequently in one dataset than another might --- with a slight boost to its
-rate of choice --- significantly increase its ranking in the distribution of character pair choices.
-This is because rarely chosen pairs will have their rates of choice dwarfed by a player's preference, and
-so their relative rates of choice are likely to be similar. This impacts our choice of rank correlation.
-
-\inline{Stopped discussing rank correlation here because I may re-run my experiments; if I do, I don't want
-to have to re-write this, because frankly it's been pretty tricky to write so far and I'm keen not to have to
-redo it. Maybe there are other correlation metrics we could pick instead; Somers' D looks promising…? Are
-there citations I could use that compare different measurements, so I could justify my choice, and maybe pick
-one that's better than \tau if it exists?}
+These measurements assess correlation in different ways, which can affect how
+they measure correlation of character pair preference. Spearman's \rho accounts
+for the magnitude of difference between ranks, and is calculated as $\rho = 1 -
+\frac{6 \sum (R(X_{i}) - R(Y_{i})^{2})}{n(n^{2}-1)}$, where $R$ is the rank of a
+datapoint, $X_{i}$ and $Y_{i}$ are the datapoints at position $i$ in two
+datasets $X$ and $Y$, and $n$ is the total number of datapoints in a dataset.
+Kendall's \tau{} accounts only for their ordering. It can be calculated as $\tau
+= \frac{C - D}{C + D}$, where $C$ is the count of concordant pairs, and $D$ the
+count of discordant pairs. As we expect many character pairs to be infrequently
+picked (if at all), a slight increase in selecting uncommon character pairs
+could incur a significant difference in rank, which would have a more
+significant impact on \rho{} than on \tau{}, as the larger difference in rank is
+squared in the calculation. More than how far apart a character pair's ranks are
+in each dataset, we care that the relative preference of character pairs is
+preserved, i.e. that both datasets demonstrate a preference of a given character
+pair over another. Kendall's \tau{} better measures this, as it is purely
+concerned with whether ranks are concordant between datasets, meaning that
+discrepancies in relative ordering impact correlation, but the degree of that
+discrepancy is not considered. In the case of character pair correlation,
+Kendall's \tau{} is therefore the more appropriate correlation metric, and the
+one selected to compare datasets in these experiments. 
 
 
+% * There's lots of RNG in RPGLite, so the degree to which those character pairs
+%   are picked is a tricky thing to get right. It's also not necessarily a good
+%   measure of similarity: whether players learn can be measured in a bunch of
+%   ways, and similar _proportions_ is a harder bar to reach than similar
+%   rankings.
+% * It matters that we're not interested in similar proportions because it
+%   changes the correlation metrics we use to measure. Our aim is to show that
+%   the aspect-applied model is "more realistic". We can decide what that means.
+%   If players get the character pair preferences right, surely that's enough
+%   for us.
+
+\inline{I haven't copy-edited below here at time of writing (230828)}
+The strength of a player's preference toward different character pairs is a less
+useful measure of similarity for the purposes of this experiment than the
+concordance of that ordering. Players having a strong preference for a subset of
+character pairs will leave others rarely played, if ever. With a degree of
+randomness to the choices of character pairs, this may mean that a character
+pair chosen slightly more frequently in one dataset than another might
+significantly increase its ranking in the distribution of character pair
+choices. This is because rarely chosen pairs will have their rates of choice
+dwarfed by a player's preference, and so their relative rates of choice are
+likely to be similar. This impacts our choice of rank correlation.
+
+\inline{Stopped discussing rank correlation here because I may re-run my
+experiments; if I do, I don't want to have to re-write this, because frankly
+it's been pretty tricky to write so far and I'm keen not to have to redo it.
+Maybe there are other correlation metrics we could pick instead; Somers' D looks
+promising…? Are there citations I could use that compare different measurements,
+so I could justify my choice, and maybe pick one that's better than \tau if it
+exists?}
 
 
-% * We can't predict much about our data because different players might have different properties
-%   to their character pair choices, _but_ we can make zero assumptions about the data by using
-%   an appropriate technique to calculate similarity. Non-parametric rank coefficients tell us
-%   how closely associated two rankings are. Two major choices are Spearman and Kendall; we opt for
-%   Kendall because Spearman's is sensitive to discrepancies between rankings, rather than simply whether
-%   the rankings are concordant. Character pairs which aren't chosen often are likely to have large
-%   discrepancies in rank but small discrepancies in their rate of choice, and we shouldn't penalise
-%   a dataset for having similar rates of choice but dissimilar rankings in the tail of the distribution of
-%   character pair choice.
-% * We can get the pvalue of two datasets being associated directly from scipy's implementation of the
-%   metric, and use that to compare similarity directly; the pvalue will tell us the chance that two
-%   datasets are similar by chance, which is effectively what we want to minimise when fitting a model of
+
+
+% * We can't predict much about our data because different players might have
+%   different properties to their character pair choices, _but_ we can make zero
+%   assumptions about the data by using an appropriate technique to calculate
+%   similarity. Non-parametric rank coefficients tell us how closely associated
+%   two rankings are. Two major choices are Spearman and Kendall; we opt for
+%   Kendall because Spearman's is sensitive to discrepancies between rankings,
+%   rather than simply whether the rankings are concordant. Character pairs
+%   which aren't chosen often are likely to have large discrepancies in rank but
+%   small discrepancies in their rate of choice, and we shouldn't penalise a
+%   dataset for having similar rates of choice but dissimilar rankings in the
+%   tail of the distribution of character pair choice.
+% * We can get the pvalue of two datasets being associated directly from scipy's
+%   implementation of the metric, and use that to compare similarity directly;
+%   the pvalue will tell us the chance that two datasets are similar by chance,
+%   which is effectively what we want to minimise when fitting a model of
 %   learning to a given player.
 
 
 \subsection{Annealing toward Player-Specific Learning Parameters}
 
-\inline{Discussion required here around the mitigation of randomness --- it's required because of RPGLite's
-inherent RNG --- and also explaining how we make use of a grid search in combination with
-k-fold validation to anneal toward well-fitted parameters of our models of learning for each individual player.}
+\inline{Discussion required here around the mitigation of randomness --- it's
+required because of RPGLite's inherent RNG --- and also explaining how we make
+use of a grid search in combination with k-fold validation to anneal toward
+well-fitted parameters of our models of learning for each individual player.}
+
+\inline{TODO make a diagram of this.}
+
+To mention here:
+\begin{itemize}
+  \item Boredom. We rotate players to make sure we've got a constant stream of
+  new players being introduced into the game, and to maximise the number of
+  times a simulated player is able to explore the state space.
+\end{itemize}
 
 
 
-\section{Experimental Results}\label{sec:optimisation_with_aspects_experimental_results}
+\section{Experimental Results}
+\label{sec:optimisation_with_aspects_experimental_results}
 
 Presentation of the results owing from the experiment as described in
 \cref{sec:optimisation_with_aspects_experimental_design}, and evaluation of the
@@ -1226,7 +1302,8 @@ research question with respect to these findings.
 
 Again, no subsec likely required here.
 
-\section{Discussion}\label{sec:optimisation_with_aspects_discussion}
+\section{Discussion}
+\label{sec:optimisation_with_aspects_discussion}
 
 A closing discussion on what we found, and how the research question was
 answered.
