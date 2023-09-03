@@ -1154,6 +1154,7 @@ strategy used to analyse results.
 %   because we'd expect natural variations, and what matters is whether players
 %   ended up choosing similarly as they learned
 
+\inline{This subsection most likely needs to be condensed.}
 The experiments presented in this chapter make comparisons of many synthetic
 datasets to a single empirically sourced dataset. The latter contains all games
 completed by a player whose learning of RPGLite we aim to simulate, and is drawn
@@ -1199,80 +1200,85 @@ of character choice preferences (and this distribution could vary between
 players), a measurement which is independent of the underlying distribution is
 required. Two common options are Spearman's \rho and Kendall's \tau.
 \inline{Find citations for each correlation coefficient, and also for justifying choosing between these two specifically (if required).}
+These measurements assess correlation in different ways, which can affect
+measurements of character pair preference. Spearman's \rho accounts for the
+magnitude of difference between ranks, and is calculated as $\rho = 1 - \frac{6
+\sum (d^{2}_{i}}{n(n^{2}-1)}$, where $d^{2}_{i}$ is the difference in the rank
+of the $i^{th}$ observation in each dataset and $n$ is the total number of
+datapoints in a dataset. Kendall's \tau{} accounts only for their ordering. It
+can be calculated as $\tau = \frac{C - D}{C + D}$, where $C$ is the count of
+concordant pairs, and $D$ the count of discordant pairs.
 
-These measurements assess correlation in different ways, which can affect how
-they measure correlation of character pair preference. Spearman's \rho accounts
-for the magnitude of difference between ranks, and is calculated as $\rho = 1 -
-\frac{6 \sum (R(X_{i}) - R(Y_{i})^{2})}{n(n^{2}-1)}$, where $R$ is the rank of a
-datapoint, $X_{i}$ and $Y_{i}$ are the datapoints at position $i$ in two
-datasets $X$ and $Y$, and $n$ is the total number of datapoints in a dataset.
-Kendall's \tau{} accounts only for their ordering. It can be calculated as $\tau
-= \frac{C - D}{C + D}$, where $C$ is the count of concordant pairs, and $D$ the
-count of discordant pairs. As we expect many character pairs to be infrequently
-picked (if at all), a slight increase in selecting uncommon character pairs
-could incur a significant difference in rank, which would have a more
-significant impact on \rho{} than on \tau{}, as the larger difference in rank is
-squared in the calculation. More than how far apart a character pair's ranks are
-in each dataset, we care that the relative preference of character pairs is
-preserved, i.e. that both datasets demonstrate a preference of a given character
-pair over another. Kendall's \tau{} better measures this, as it is purely
-concerned with whether ranks are concordant between datasets, meaning that
-discrepancies in relative ordering impact correlation, but the degree of that
-discrepancy is not considered. In the case of character pair correlation,
-Kendall's \tau{} is therefore the more appropriate correlation metric, and the
-one selected to compare datasets in these experiments. 
+To choose an appropriate measure, we relate them to potential patterns in our
+datasets. As we expect many character pairs to be infrequently picked (if at
+all) once players develop preferences, a slight increase in selecting uncommon
+character pairs within a simulation could incur a significant increase in rank.
+This would have a more significant impact on \rho{} than on \tau{}, as the
+larger difference in rank is squared in the calculation. The simulated dataset
+might also produce a distribution where rankings between empirically sourced and
+synthetic datasets had small differences, but were similarly positioned
+throughout the dataset. This would have an outsized impact on \tau{}, as
+relative positioning affects concordance, but the square of a small difference
+in rank remains relatively small, meaning that \rho{} would be less affected by
+this pattern. A choice of correlation metric is thus a choice of what
+correlation means: should correlation more closely reflect preference of
+character pairs relative to each other, or ``forgive'' small relative preference
+deviations but impose a greater cost on the scale of disagreement on a given
+rank?
 
+% We choose to prioritise the preservation of rank order over the minimisation
+% of rank difference. This is because character pairs which are infrequently
+% chosen may have significant differences in rank as they are likely to have
+% similar, extremely low rates of selection. Differences in the rank of
+% unfavoured character pairs might be In addition, preserving the ordering of
+% frequently chosen character pairs' preferences would indicate similar choices
+% for the majority of games played when players exhibit strong preference for a
+% small subset of available pairs, and would also punish 
 
-% * There's lots of RNG in RPGLite, so the degree to which those character pairs
-%   are picked is a tricky thing to get right. It's also not necessarily a good
-%   measure of similarity: whether players learn can be measured in a bunch of
-%   ways, and similar _proportions_ is a harder bar to reach than similar
-%   rankings.
-% * It matters that we're not interested in similar proportions because it
-%   changes the correlation metrics we use to measure. Our aim is to show that
-%   the aspect-applied model is "more realistic". We can decide what that means.
-%   If players get the character pair preferences right, surely that's enough
-%   for us.
+We choose to prioritise the preservation of rank order~(\tau{}) over the
+minimisation of rank difference~(\rho{}). Unfavoured character pairs' ranks
+might be affected greatly by a small difference in the number of games played,
+because unfavoured character pairs play few games by definition. A small
+difference in selection count is therefore more likely affect rank; however, the
+character pairs would still be unfavoured relative to a players' preferred
+pairs, which are expected to have a disproportionately high number of games,
+also by definition. Minimising rank difference is therefore sensitive to
+RPGLite's random nature. Preserving the ordering of character pair selection is
+also important when considering favoured pairs, as differences might indicate a
+difference in patterns of play; however, small differences in the ranks of
+favoured pairs with \rho{} would have a less signifiant impact than when
+measuring rank ordering with \tau{}: \rho{} accounts for the square of the
+difference in rank, which remains small for small differences.
 
-\inline{I haven't copy-edited below here at time of writing (230828)}
-The strength of a player's preference toward different character pairs is a less
-useful measure of similarity for the purposes of this experiment than the
-concordance of that ordering. Players having a strong preference for a subset of
-character pairs will leave others rarely played, if ever. With a degree of
-randomness to the choices of character pairs, this may mean that a character
-pair chosen slightly more frequently in one dataset than another might
-significantly increase its ranking in the distribution of character pair
-choices. This is because rarely chosen pairs will have their rates of choice
-dwarfed by a player's preference, and so their relative rates of choice are
-likely to be similar. This impacts our choice of rank correlation.
-
-\inline{Stopped discussing rank correlation here because I may re-run my
-experiments; if I do, I don't want to have to re-write this, because frankly
-it's been pretty tricky to write so far and I'm keen not to have to redo it.
-Maybe there are other correlation metrics we could pick instead; Somers' D looks
-promising…? Are there citations I could use that compare different measurements,
-so I could justify my choice, and maybe pick one that's better than \tau if it
-exists?}
-
-
+For these reasons, we quantify similar character pair preferences by
+representing preference as an ordered list of string-represented character
+pairs, and measuring their correlation using \tau{}.
+\inline{I'm not sure I've defined how I represent (or calculate) the ordered list of preferences yet. If not, that should live somewhere, I suppose.}
 
 
-% * We can't predict much about our data because different players might have
-%   different properties to their character pair choices, _but_ we can make zero
-%   assumptions about the data by using an appropriate technique to calculate
-%   similarity. Non-parametric rank coefficients tell us how closely associated
-%   two rankings are. Two major choices are Spearman and Kendall; we opt for
-%   Kendall because Spearman's is sensitive to discrepancies between rankings,
-%   rather than simply whether the rankings are concordant. Character pairs
-%   which aren't chosen often are likely to have large discrepancies in rank but
-%   small discrepancies in their rate of choice, and we shouldn't penalise a
-%   dataset for having similar rates of choice but dissimilar rankings in the
-%   tail of the distribution of character pair choice.
-% * We can get the pvalue of two datasets being associated directly from scipy's
-%   implementation of the metric, and use that to compare similarity directly;
-%   the pvalue will tell us the chance that two datasets are similar by chance,
-%   which is effectively what we want to minimise when fitting a model of
-%   learning to a given player.
+\inline{230829: I'm here at time of writing.}
+
+\subsection{Producing Datasets}
+
+% A brief explanation of `generate_synthetic_data`, to separate it from the
+% annealing below.
+% It's responsible for:
+% - Setting up special vals consumed by aspects in the games' environment dict
+% - weaving aspects (and un-weaving them)
+% - matching players together and kicking off games
+% - Recycling players when they get ``bored''
+
+Our goal is to produce datasets of simulated player behaviour with aspects
+applied. This is achieved through the naive model's \lstinline{play_game}
+function. Related work also exists to manage the environment games are played
+within, manage the simulated playerbase, and weave \& remove any aspects. The
+experimental codebase contains a function, \lstinline{generate_synthetic_data},
+which is responsible for this related work. 
+
+% Special vals in environment for different aspects we might apply
+% Weaving aspects, unweaving at the end
+% creating and matching synthetic players
+% Model of boredom (which can be switched off, importantly)
 
 
 \subsection{Annealing toward Player-Specific Learning Parameters}
@@ -1284,12 +1290,23 @@ well-fitted parameters of our models of learning for each individual player.}
 
 \inline{TODO make a diagram of this.}
 
-To mention here:
-\begin{itemize}
-  \item Boredom. We rotate players to make sure we've got a constant stream of
-  new players being introduced into the game, and to maximise the number of
-  times a simulated player is able to explore the state space.
-\end{itemize}
+% To mention here:
+% \begin{itemize}
+%   \item Data generation specifically: \begin{itemize}
+%     \item Boredom. We rotate players to make sure we've got a constant stream of
+%     new players being introduced into the game, and to maximise the number of
+%     times a simulated player is able to explore the state space.
+%     \item Data generation
+%     \item normalisation.
+%     \item Calculation of preference distribution lists
+%   \end{itemize}
+%   \item Actual annealing: \begin{itemize}
+%   \item Identify the different parameters to fit, and briefly explain them and
+%   their significance to the model.
+%   \item Testing combinations of different parameters. Compare grid search on RGR
+%   to current combine-lots-of-parameters technique.
+%   \end{itemize}
+% \end{itemize}
 
 
 
