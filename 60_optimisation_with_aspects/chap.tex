@@ -1085,12 +1085,14 @@ naive model. The resulting behaviours from each model of learning can be compare
 to discern which produces simulated RPGLite play more similar to a given real-world player's;
 methods for doing so are explored in the remainder of this chapter. 
 
+
+
+
+
+
+
 \section{Experimental Design using Aspectual Learning Models}
 \label{sec:optimisation_with_aspects_experimental_design}
-
-% Specifics of how we intend to analyse our data, leading on from the brief
-% discussion in \cref{sec:optimisation_with_aspects_experimental_introduction}.
-% \inline{Discuss specifics of how we intend to analyse data, rather than high-level experimental overview presented in earlier chapters}
 
 The models of learning described in \cref{subsec:aspects_modelling_learning} can
 be applied to augment the naive model described in
@@ -1106,59 +1108,147 @@ This section presents the strategy for generating synthetic datasets with
 aspects applied, comparing simulated and real-world play, and describes the
 strategy used to analyse results.
 
+
+\subsection{Optimising the Model to Simulate a Real-World Player}
+
+
+\subsection{Model parameters}
+\label{subsec:exp1_model_parameters}
+
+Many parameters are used to control simulated play of RPGLite. Their use in
+modelling learning or running simulations for data generation is explained in
+following subsections; however, parameters which control an experimental run are
+collected in a class, \lstinline{ModelParameters}. Defining these values in a
+class helps to identify them in the codebase, and defines all variables which
+are used when optimising the model.\inline{These parameters are required because
+we run with different parameters for different folds. This subsec should be
+preceded by another on our strategy for optimmising, so we can introduce k-fold
+validation and clean up the wordinng in this sec so it makes more sense.}
+
+\begin{figure}
+  \begin{center}
+    \begin{lstlisting}
+from dataclasses import dataclass
+import birch_curve_calculation_utilities as curveutils # utils for RGR calculation
+
+@dataclass
+class ModelParameters:
+    c: float
+    curve_inflection_relative_to_numgames: float
+    prob_bored: float
+    boredom_enabled: bool
+    training_data: list
+    testing_data: list
+    assumed_confidence_plateau: float
+    starting_confidence: float
+    iteration_base: int
+    number_simulated_players: int
+    advice: list[tuple[str, str, str|callable]]
+    players:list[str]
+    args:list[any]
+    kwargs:dict[str:any]
+
+    @property
+    def boredom_period(self) -> int:
+        '''
+        Number of games to play before checking player boredom.
+        Attempts to allow every player combo to play each other once on average before checking again.
+        '''
+        return int(self.number_simulated_players**2)/2
+
+    def active_dataset(self, testing) -> list:
+        return self.testing_data if testing else self.training_data
+
+    def iterations(self, testing) -> int:
+        '''
+        The number of games to play when generating a synthetic dataset
+        '''
+        if self.boredom_enabled:
+            return self.iteration_base
+        return int(self.number_simulated_players**2 * len(self.active_dataset(testing)) / 2)
+
+    def rgr(self, testing) -> float:
+        '''
+        RGR for the parameterised c value, number of games to play, and start/end confidences.
+        '''
+        if not hasattr(self, '_rgr_cache'):
+            self._rgr_cache = dict()
+        if self._rgr_cache.get(testing) is None:
+            num_games_to_confidence = len(self.active_dataset(testing)) * self.curve_inflection_relative_to_numgames
+            self._rgr_cache[testing] = \
+                curveutils.rgr_yielding_num_games_for_c(
+                    num_games_to_confidence,
+                    self.c,
+                    start=self.starting_confidence,
+                    limit=self.assumed_confidence_plateau)
+        return self._rgr_cache[testing]
+    \end{lstlisting}
+  \end{center}
+  \caption{A class defining the parameters of the model of learning RPGLite which vary when optimising for a given player. For layout \& space reasons, some methods of minor significance are removed.}
+  \label{fig:model_parameters_class}
+\end{figure}
+
+The \lstinline{ModelParameters} class is shown in
+\cref{fig:model_parameters_class}. The parameters it defines, briefly explained,
+are:\inline{IIRC Tim doesn't love the description list formatting. Probably
+means I should avoid; consider other ways of laying this out that avoids a big
+wall of text}
+
+\begin{description}
+  \item[starting\_confidence] The initial value of the model's confidence curve.
+  \item[assumed\_confidence\_plateau] A corresponding high value for the model's
+  confidence curve. As the curve's growth rate is calculated to align with the
+  number of games completed by the real-world player being simulated, and the
+  curve asymptotically approaches 1, a high value is required which represents
+  the expected confidence of a real-world player having played a significant
+  number of games.
+  \item[curve\_inflection\_relative\_to\_numgames] The proportion of games played by
+  the real-world player being simulated at which the player's confidence
+  curve should reach the parameter \lstinline{assumed_confidence_plateau}. This
+  allows for control over the growth rate of the curve while linking the rate of
+  growth to the number of games played by the real-world player being simulated;
+  \item[C] The curve parameter of the confidence model's underlying birch curve;
+  \item[prob\_bored] The probability that a player with confidence above
+  \lstinline{assumed_confidence_plateau} becomes ``bored'' and stops playing
+  RPGLite. These players are removed from the simulated playerbase and replaced
+  with new players. This mechanism is discussed in further detail in
+  \cref{subsec:controlling_state_space_exploration}.
+  \item[boredom\_enabled] Whether the boredom mechanism discussed in
+  \cref{subsec:controlling_state_space_exploration} is to be enabled.
+  \item[training\_data] The set of real-world games used as a training fold when
+  optimising parameters for simulating a player.
+  \item[testing\_data] The set of real-world games used as a testing fold when
+  optimising parameters for simulating a player.
+  \item[iteration\_base] The number of games to play when generating a synthetic
+  dataset. If \lstinline{boredom_enabled==False}, the number of games is instead
+  calculated to ensure that all synthetic players play the same number of games
+  as were completed by the played being simulated, (calculated from the training
+  or testing fold as appropriate).
+  \item[number\_simulated\_players] The size of the simulated playerbase.
+  \item[advice] A list of tuples defining advice to weave when generating data.
+  Pieces of advice are uniquely defined by a tuple containing the type of aspect
+  to weave (such as \lstinline{"prelude"} or \lstinline{"error_handler"}), a
+  string-represented regular expression defining the join point of the advice,
+  and a \lstinline{callable} to use as an aspect when weaving the advice. As
+  \lstinline{ModelParameters} instances are serialised to disk to persist
+  experiment results and Python functions are not seralisable, this may also be
+  a string value; strings are IDs of aspects, and are replaced with their
+  corresponding aspect on deserialisation.
+  \item[players] The player being simulated. This parameter is a list of player
+  usernames to support annealing to multiple real-world player behaviours if required.
+  \item[args] Any additional arguments to pass when running a simulation.
+  \item[kwargs] Any additional keyword arguments to pass when running a simulation.
+\end{description}
+
+
+
 \subsection{Quantifying Similarity of Character Pair Selection}
-
-% The research questions which these experiments aim to answer require a method
-% for comparing the similarity of character pair selection in a given instance
-% of simulated play. Quantifying how similar a simulated player's character pair
-% selections are to their real-world counterpart allows such a comparison. The
-% goal of this comparison is to determine whether synthetic datasets of
-% character pair choice data align closely with empirically sourced datasets
-% insofar as this comparison investigates whether real-world players are more
-% accurately modelled in one simulation than another; 
-
-% What do I want to say here?
-%
-% * We need to compare distributions of choices rather than choice history
-%   because we'd expect natural variations, and what matters is whether players
-%   ended up choosing similarly as they learned
-% * A distribution gives us a ranking of choices; we can see preferences. We're
-%   therefore interested in whether players consistently ranked certain
-%   character pairs over others.
-% * There's lots of RNG in RPGLite, so the degree to which those character pairs
-%   are picked is a tricky thing to get right. It's also not necessarily a good
-%   measure of similarity: whether players learn can be measured in a bunch of
-%   ways, and similar _proportions_ is a harder bar to reach than similar
-%   rankings.
-% * It matters that we're not interested in similar proportions because it
-%   changes the correlation metrics we use to measure. Our aim is to show that
-%   the aspect-applied model is "more realistic". We can decide what that means.
-%   If players get the character pair preferences right, surely that's enough
-%   for us.
-% * We can't predict much about our data because different players might have
-%   different properties to their character pair choices, _but_ we can make zero
-%   assumptions about the data by using an appropriate technique to calculate
-%   similarity. Non-parametric rank coefficients tell us how closely associated
-%   two rankings are. Two major choices are Spearman and Kendall; we opt for
-%   Kendall because Spearman's is sensitive to discrepancies between rankings,
-%   rather than simply whether the rankings are concordant. Character pairs
-%   which aren't chosen often are likely to have large discrepancies in rank but
-%   small discrepancies in their rate of choice, and we shouldn't penalise a
-%   dataset for having similar rates of choice but dissimilar rankings in the
-%   tail of the distribution of character pair choice.
-% * We can get the pvalue of two datasets being associated directly from scipy's
-%   implementation of Kendall's Tau; so, we can use the pvalue of the datasets
-%   being associated as our similarity metric.
-
-% * We need to compare distributions of choices rather than choice history
-%   because we'd expect natural variations, and what matters is whether players
-%   ended up choosing similarly as they learned
 
 \inline{This subsection most likely needs to be condensed.}
 The experiments presented in this chapter make comparisons of many synthetic
-datasets to a single empirically sourced dataset. The latter contains all games
+datasets against a single empirically sourced dataset. The latter contains all games
 completed by a player whose learning of RPGLite we aim to simulate, and is drawn
-from the published RPGLite dataset~\cite{rpglite_dataset}. The comparisons are
+from the published RPGLite dataset~\cite{rpglite_dataset}. Comparisons are
 required to determine which of the synthetic datasets most closely matches the
 empirical dataset. We are specifically interested in determining whether players
 played with preference toward similar character pairs. The distribution of their
@@ -1173,14 +1263,6 @@ character pairs similar to that of a real-world dataset. The simulated play
 would therefore exhibit a more ``realistic'' behaviour in character selection
 than the naive model as a result of the aspects applied.
 
-% * There's lots of RNG in RPGLite, so the degree to which those character pairs
-%   are picked is a tricky thing to get right. It's also not necessarily a good
-%   measure of similarity: whether players learn can be measured in a bunch of
-%   ways, and similar _proportions_ is a harder bar
-% * A distribution gives us a ranking of choices; we can see preferences. We're
-%   therefore interested in whether players consistently ranked certain
-%   character pairs over others.
-
 We expect discrepancies in the specific character pairs selected in games (such
 as the order of character selection) because of the random nature of character
 selection. However, it is feasible to assess the similarity between the
@@ -1191,6 +1273,7 @@ similarities between a player's character pair preferences and the preferences
 of simulated players by ranking and correlating their preferences to arrive at a
 measurement of similarity between the datasets; this is achieved through
 rank correlation.
+
 
 Many rank correlation measurements exist. For the purpose of comparing lists of
 character pairs, we require a non-parametric measurement. Some methods for
@@ -1226,15 +1309,6 @@ character pairs relative to each other, or ``forgive'' small relative preference
 deviations but impose a greater cost on the scale of disagreement on a given
 rank?
 
-% We choose to prioritise the preservation of rank order over the minimisation
-% of rank difference. This is because character pairs which are infrequently
-% chosen may have significant differences in rank as they are likely to have
-% similar, extremely low rates of selection. Differences in the rank of
-% unfavoured character pairs might be In addition, preserving the ordering of
-% frequently chosen character pairs' preferences would indicate similar choices
-% for the majority of games played when players exhibit strong preference for a
-% small subset of available pairs, and would also punish 
-
 We choose to prioritise the preservation of rank order~(\tau{}) over the
 minimisation of rank difference~(\rho{}). Unfavoured character pairs' ranks
 might be affected greatly by a small difference in the number of games played,
@@ -1256,9 +1330,66 @@ pairs, and measuring their correlation using \tau{}.
 \inline{I'm not sure I've defined how I represent (or calculate) the ordered list of preferences yet. If not, that should live somewhere, I suppose.}
 
 
-\inline{230829: I'm here at time of writing.}
 
-\subsection{Producing Datasets}
+\subsection{Controlling State Space Exploration}
+\label{subsec:controlling_state_space_exploration}
+
+The model of confidence used grows monotonically as described in
+\cref{subsec:defining_our_models_of_learning}, which affects simulated players'
+exploration of possible character pairs. Models of learning use confidence as a
+probability that their alternative behaviour is to be encoded; therefore, when
+confidence is high, players are likely to select character pairs to play which
+were observed to be likely to win historically. As character pairs which are not
+played cannot win games, pairs which are not selected for play cannot be chosen
+by models of learning which rely on a players' historical observations, which
+could lead to inaccurate simulation. To counter this possibility, two mechanisms
+are introduced to control state space exploration: ``initial exploration'' and
+``boredom''.
+
+\inline{A little clumsy --- reword this para? Is it suffient? } Initial
+exploration is a threshold number of games a simulated player must complete
+before models of learning make changes. Learning models' impact in player
+behaviour is gated on both a player's level of confidence and the number of
+games played. This allows players to observe enough win/loss data in their early
+games that later decisions directed by the learning model have sufficient
+historical observations to have explored the state space make ``informed''
+decisions. The length of the initial exploration phase for any player is given
+as an integer number of games by the \lstinline{initial_exploration} parameter
+when generating data, as mentioned in \cref{subsec:exp1_model_parameters}; use
+of the parameter when generating data is discussed in
+\cref{subsec:exp1_producing_datasets}.
+
+Boredom is a mechanism which solves a problem introduced by some combinations of
+model parameters: if the confidence model's growth rate and curve parameter are
+high, player confidence raises sharply, with the effect that simulated players
+are unlikely to explore the state space. A situation can arise where the
+simulation's metagame\revnote{At time of writing metagame is not defined, but
+this should be introduced in \cref{chap:rpglite}; there's a corresponding
+revision note there.} falls into a local optimum, where the entire playerbase
+collectively observe many historical wins for some character pairs because of a
+disproportionately high rate of random selection when players explore the space
+of possible character pairs. This can be overcome by introducing new players
+into the playerbase over time. New players are guaranteed to explore the state
+space due to the initial exploration phase, and will continue to do so while
+their confidence grows. The randomly selected character pairs played in this
+time means veteran players will play games which would not be selected
+otherwise. This reinforces existing preferences when novel character pairs are
+weaker than veteran players' preferences, and weakens existing preferences if
+veteran players are exposed to novel character pairs which are likely to win
+games played against their preferred pairs. In disrupting a locally-optimal
+search of the space of character pairs, boredom mitigates potential issues with
+random play, while allowing simulated players to learn over time.
+
+Boredom is implemented using several parameters. Players are eligible to be
+removed from the playerbase when their model of confidence reaches a threshold,
+defined by \lstinline{assumed_confidence_plateau} as mentioned in
+\cref{subsec:exp1_model_parameters}. \inline{RETURN TO FINISH DISCUSSING PARAMS
+USED BY BOREDOM MODEL AFTER WRITING ABOUT MODEL PARAMETERS}
+
+
+
+
+\subsection{Producing Datasets}\label{subsec:exp1_producing_datasets}
 
 % A brief explanation of `generate_synthetic_data`, to separate it from the
 % annealing below.
@@ -1272,10 +1403,37 @@ Our goal is to produce datasets of simulated player behaviour with aspects
 applied. This is achieved through the naive model's \lstinline{play_game}
 function. Related work also exists to manage the environment games are played
 within, manage the simulated playerbase, and weave \& remove any aspects. The
-experimental codebase contains a function, \lstinline{generate_synthetic_data},
-which is responsible for this related work. 
+experimental codebase contains a function which is responsible for these tasks,
+\lstinline{generate_synthetic_data}.
 
 % Special vals in environment for different aspects we might apply
+\lstinline{generate_synthetic_data} is given several parameters which control
+experimental behaviour, and are determined by experimental machinery to be
+described shortly. These parameters are\inline{RETURN TO COMPLETE AFTER WRITING
+ABOUT ModelParams CLASS}:
+\begin{itemize}
+  \item \lstinline{rgr_control:float}, the relative growth rate of the birch curves
+  applied by aspect-oriented models of learning;
+  \item \lstinline{environment:dict[str:any]}, the environment simulated players play within;
+  \item \lstinline{print_progress:bool = False}, a parameter to print debug loglines;
+  \item \lstinline{advice : list[tuple[str, str, callable]] = list()}, a list of
+  tuples defining advice to weave when generating data. Pieces of advice are
+  uniquely defined by a tuple containing the type of aspect to weave (such as
+  \lstinline{prelude} or \lstinline{error_handler}), a string-represented
+  regular expression defining the join point of the advice, and a
+  \lstinline{callable} to use as an aspect when weaving;
+  \item \lstinline{num_synthetic_players:int=15}, the number of players to
+  produce in a pool. 
+  \item \lstinline{sigmoid_initial_confidence=0.1}
+  \item \lstinline{initial_exploration=28}
+  \item \lstinline{boredom_confidence=0.9}
+  \item \lstinline{prob_bored=0.25}
+  \item \lstinline{sigmoid_used="birch controlled"}
+  \item \lstinline{boredom_period=25}
+  \item \lstinline{birch_c=1}
+\end{itemize}
+
+
 % Weaving aspects, unweaving at the end
 % creating and matching synthetic players
 % Model of boredom (which can be switched off, importantly)
