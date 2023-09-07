@@ -36,12 +36,22 @@ _not_ to review it; just might still shift a little on my end.
   - [X] Content decided
   - [X] Content complete
   - [X] Draft 1 complete
-  - [ ] Reviewed
+  - [X] Reviewed
   - [ ] Draft 2 complete
 - Optimising experiments with aspects
   - [X] Content decided
   - [ ] Content complete
   - [ ] Draft 1 complete
+    - Yet to write:
+      - [ ] K-fold validation strategy
+      - [ ] Experimental run comparison strategy
+      - [ ] Actual results from different models
+      - [ ] Produce data from hyperbolic decay model
+      - [ ] Write up prior distribution aspect
+        - Note that this will require a few changes.
+        - Obviously another section explaining how it works
+        - Also changes to references to aspects where I claim there are two learning models (although arguably there are only two that learn)
+      - [ ] Code snippets for aspects, experimental setup
   - [ ] Reviewed
   - [ ] Draft 2 complete
 - Applying realistic aspects to changed models
