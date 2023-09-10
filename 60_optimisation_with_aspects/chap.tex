@@ -1091,7 +1091,7 @@ methods for doing so are explored in the remainder of this chapter.
 
 
 
-\section{Experimental Design using Aspectual Learning Models}
+\section{Experimental Design}
 \label{sec:optimisation_with_aspects_experimental_design}
 
 The models of learning described in \cref{subsec:aspects_modelling_learning} can
@@ -1101,15 +1101,55 @@ behaviour over time. The remaining challenge is to demonstrate that augmenting
 the naive model can make it more realistic in practice. To that end, the
 remainder of this chapter details an experiment which compares synthetic
 datasets produced by the model to empirically sourced data, and shows that this
-synthetic data is quantifiably more similar to its empirical counterpart than
-that produced by a naive model with no aspects applied.
+synthetic data is more similar to its empirical counterpart than that produced
+by a naive model with no aspects applied.\inline{Some reference to the research
+question is required here.}
 
-This section presents the strategy for generating synthetic datasets with
-aspects applied, comparing simulated and real-world play, and describes the
-strategy used to analyse results.
+This section presents classes used in the design and implementation of
+experiments, as they constitute the foundation of the execution and evaluation
+of synthetic datasets. This is followed by documentation of the strategy for
+generating synthetic datasets, and a description of the technique used to
+compare them to select optimal parameters for player simulation. This design is
+used in the experiment itself, described later in
+\cref{sec:optimisation_with_aspects_experimental_results}.
 
 
 \subsection{Optimising the Model to Simulate a Real-World Player}
+\label{exp1:optimisation_strategy}
+
+\inline{I need to write up the strat for using k-fold validation.
+Should include the parameters selected, evaluation of ``best'' result, etc.}
+
+%% OLD NOTES FROM WHEN THIS LIVED TOWARD THE END
+%% TODO: DECIDE WHETHER I CAN NUKE THEM (CURRENTLY ON TUBE, DIFFICULT TO EVALUATE)
+
+\inline{Discussion required here around the mitigation of randomness --- it's
+required because of RPGLite's inherent RNG --- and also explaining how we make
+use of a grid search in combination with k-fold validation to anneal toward
+well-fitted parameters of our models of learning for each individual player.}
+
+\inline{TODO make a diagram of this.}
+
+% To mention here:
+% \begin{itemize}
+%   \item Data generation specifically: \begin{itemize}
+%     \item Boredom. We rotate players to make sure we've got a constant stream of
+%     new players being introduced into the game, and to maximise the number of
+%     times a simulated player is able to explore the state space.
+%     \item Data generation
+%     \item normalisation.
+%     \item Calculation of preference distribution lists
+%   \end{itemize}
+%   \item Actual annealing: \begin{itemize}
+%   \item Identify the different parameters to fit, and briefly explain them and
+%   their significance to the model.
+%   \item Testing combinations of different parameters. Compare grid search on RGR
+%   to current combine-lots-of-parameters technique.
+%   \end{itemize}
+% \end{itemize}
+
+
+
 
 
 \subsection{Model parameters}
@@ -1129,7 +1169,6 @@ validation and clean up the wordinng in this sec so it makes more sense.}
   \begin{center}
     \begin{lstlisting}
 from dataclasses import dataclass
-import birch_curve_calculation_utilities as curveutils # utils for RGR calculation
 
 @dataclass
 class ModelParameters:
@@ -1147,6 +1186,8 @@ class ModelParameters:
     players:list[str]
     args:list[any]
     kwargs:dict[str:any]
+    boredom_period: int = 25
+    initial_exploration: int = 28
 
     @property
     def boredom_period(self) -> int:
@@ -1190,7 +1231,7 @@ class ModelParameters:
 
 The \lstinline{ModelParameters} class is shown in
 \cref{fig:model_parameters_class}. The parameters it defines, briefly explained,
-are:\inline{IIRC Tim doesn't love the description list formatting. Probably
+are:\label{list_of_model_parameter_attributes}\inline{IIRC Tim doesn't love the description list formatting. Probably
 means I should avoid; consider other ways of laying this out that avoids a big
 wall of text}
 
@@ -1238,8 +1279,109 @@ wall of text}
   usernames to support annealing to multiple real-world player behaviours if required.
   \item[args] Any additional arguments to pass when running a simulation.
   \item[kwargs] Any additional keyword arguments to pass when running a simulation.
+  \item[boredom\_period] The number of games completed by the simulated
+  playerbase between checks of players' confidence and random selection for
+  removal (default 25).
+  \item[initial\_exploration] A value which controls the number of
+  games individual players complete before their confidence \& learning models control
+  their character pair selection (default 28, to allow sufficient games to
+  select every available pair exactly once).
 \end{description}
 
+\begin{figure}
+  \begin{center}
+    \begin{lstlisting}
+class ModelParameters:
+
+    # <snipped additional attributes and methods for space>
+
+    def run_experiment(self, testing, correlation_metric):
+        real, synthetic = generate_charpair_distributions(\
+            rgr_control=self.rgr(testing=False),
+            iterations=self.iterations(testing=False),
+            games=self.training_data,
+            players=self.players,
+            birch_c=self.c,
+            sigmoid_initial_confidence=self.starting_confidence,
+            boredom_confidence=self.assumed_confidence_plateau,
+            num_synthetic_players=self.number_simulated_players,
+            boredom_period=self.boredom_period,
+            prob_bored=self.prob_bored,
+            advice=self.advice,
+            *self.args,
+            **self.kwargs)
+        return Result(self, real, synthetic, correlation_metric, testing)
+    \end{lstlisting}
+  \end{center}
+  \caption{The \lstinline{run_experiment()} method on the
+  \lstinline{ModelParameters} class, which can be used to reproduce an
+  experimental run from its parameters.}
+  \label{fig:ModelParameters_run_experiment_method}
+\end{figure}
+
+These parameters are varied when optimising the model to represent the learning
+of individual players in order to find a combination of parameters which best
+represent a given player.\footnote{The strategy for this optimisation is
+described in \cref{exp1:optimisation_strategy}.} A \lstinline{ModelParameters} object defines
+everything required to run a simulation of RPGLite play and produce the
+resulting character pair distribution for analysis. 
+Individual experimental runs\footnote{Throughout this chapter, ``experimental run''
+is used to refer to the process of producing a simulated dataset for comparison
+against training or testing folds taken from the dataset of completed RPGLite
+games. Many experimental runs with different parameters are used to optimise a
+model.} can therefore be reproduced using the class. 
+The convenience method \lstinline{run_experiment()}, as shown in
+\cref{fig:ModelParameters_run_experiment_method}, is provided to simplify
+reproducing experimental runs with \lstinline{ModelParameters} objects.
+
+
+\subsection{Representing the result of an experimental run}
+
+As referenced in \cref{fig:ModelParameters_run_experiment_method}, a
+\lstinline{Result} class is defined to collect the results of an experimental
+run and simplify analysis of the distribution of character pair selection
+produced. A definition of the \lstinline{Result} class is given in
+\cref{fig:Result_class}. This class is used in the analysis of the success of an
+experimental run when selecting ideal experimental parameters for the simulation
+of a real-world player.
+
+A \lstinline{Result} is not the result of an entire experiment, or the ideal
+parameters to simulate a given player. Instead, it represents the result of
+attempting to generate realistic data for a player, which is defined by a
+\lstinline{ModelParameters} attribute. Several \lstinline{Result} objects can be
+compared against desired probabilities of correlation and correlation statistics
+(the \lstinline{pval} and \lstinline{statistic} properties, respectively) to
+select an optimal set of parameters for the simulation of an RPGLite player.
+
+
+\begin{figure}
+  \begin{center}
+    \begin{lstlisting}
+from dataclasses import dataclass
+@dataclass
+class Result:
+    params:ModelParameters
+    real_distribution:list[float]
+    simulated_distribution:list[float]
+    correlation_metric:Optional[callable]
+    testing: bool
+
+    @property
+    def pval(self) -> float:
+        return self.correlation_metric(self.real_distribution, self.simulated_distribution).pvalue
+
+    @property
+    def statistic(self) -> float:
+        return self.correlation_metric(self.real_distribution, self.simulated_distribution).statistic
+
+    def within_acceptable_bounds(self, pval_threshold:float, statistic_threshold:float) -> bool:
+        return self.pval < pval_threshold and self.statistic > statistic_threshold
+    \end{lstlisting}
+  \end{center}
+  \caption{The \lstinline{Result} class used to collect results of experimental
+  runs and evaluate their success.}
+  \label{fig:Result_class}
+\end{figure}
 
 
 \subsection{Quantifying Similarity of Character Pair Selection}
@@ -1273,7 +1415,6 @@ similarities between a player's character pair preferences and the preferences
 of simulated players by ranking and correlating their preferences to arrive at a
 measurement of similarity between the datasets; this is achieved through
 rank correlation.
-
 
 Many rank correlation measurements exist. For the purpose of comparing lists of
 character pairs, we require a non-parametric measurement. Some methods for
@@ -1383,8 +1524,13 @@ random play, while allowing simulated players to learn over time.
 Boredom is implemented using several parameters. Players are eligible to be
 removed from the playerbase when their model of confidence reaches a threshold,
 defined by \lstinline{assumed_confidence_plateau} as mentioned in
-\cref{subsec:exp1_model_parameters}. \inline{RETURN TO FINISH DISCUSSING PARAMS
-USED BY BOREDOM MODEL AFTER WRITING ABOUT MODEL PARAMETERS}
+\cref{subsec:exp1_model_parameters}. Once this threshold is reached, each player
+is removed with probability \lstinline{prob_bored}, allowing some confident
+players to remain in the playerbase for a long time. \inline{TODO note that
+players are removed, and then replaced, so that the playerbase is of constant
+size but varying experience! Replacement happens immediately.}\inline{Mention
+boredom period controlling how often we check that players are bored.}\inline{TODO note that
+boredom can be disabled}
 
 
 
@@ -1407,64 +1553,36 @@ experimental codebase contains a function which is responsible for these tasks,
 \lstinline{generate_synthetic_data}.
 
 % Special vals in environment for different aspects we might apply
-\lstinline{generate_synthetic_data} is given several parameters which control
-experimental behaviour, and are determined by experimental machinery to be
-described shortly. These parameters are\inline{RETURN TO COMPLETE AFTER WRITING
-ABOUT ModelParams CLASS}:
+\lstinline{generate_synthetic_data} accepts a \lstinline{ModelParameters}
+instance to control its behaviour, as well as some other values. It is
+parameterised as follows:\revnote{I end list items here with semicolons. I
+should be consistent through the thesis, and decide whether semicolons are
+appropriate.}
+
 \begin{itemize}
-  \item \lstinline{rgr_control:float}, the relative growth rate of the birch curves
-  applied by aspect-oriented models of learning;
-  \item \lstinline{environment:dict[str:any]}, the environment simulated players play within;
-  \item \lstinline{print_progress:bool = False}, a parameter to print debug loglines;
-  \item \lstinline{advice : list[tuple[str, str, callable]] = list()}, a list of
-  tuples defining advice to weave when generating data. Pieces of advice are
-  uniquely defined by a tuple containing the type of aspect to weave (such as
-  \lstinline{prelude} or \lstinline{error_handler}), a string-represented
-  regular expression defining the join point of the advice, and a
-  \lstinline{callable} to use as an aspect when weaving;
-  \item \lstinline{num_synthetic_players:int=15}, the number of players to
-  produce in a pool. 
-  \item \lstinline{sigmoid_initial_confidence=0.1}
-  \item \lstinline{initial_exploration=28}
-  \item \lstinline{boredom_confidence=0.9}
-  \item \lstinline{prob_bored=0.25}
-  \item \lstinline{sigmoid_used="birch controlled"}
-  \item \lstinline{boredom_period=25}
-  \item \lstinline{birch_c=1}
+  \item \lstinline{rgr_control:float}, which is the RGR value provided by the
+  \lstinline{rgr(testing:bool) -> float} method of a \lstinline{ModelParameters}
+  instance. This is passed to \lstinline{generate_synthetic_data} directly
+  to maintain ignorance within the function as to whether it is training or
+  testing against a dataset; the caller is aware instead, and passes the correct
+  RGR value;
+  \item \lstinline{environment:dict()}, the environment simulated players interact
+  with, which is used to accumulate information shared by all players such as a
+  history of games or special values used to parameterise aspect behaviour;
+  \item \lstinline{params:ModelParameters}, the \lstinline{ModelParameters}
+  instance which provides parameters detailed in
+  \cref{list_of_model_parameter_attributes} and is used to parameterise aspect
+  behaviour and the model of boredom used to manage players;
+  \item \lstinline{print_progress:bool=False}, a parameter controlling the
+  printing of debug loglines.
 \end{itemize}
+
+As all values controlling simulated player behaviour \inline{TODOTODOTODOTODOTODOTODOTODOTODOTODO FINISH THIS }
 
 
 % Weaving aspects, unweaving at the end
 % creating and matching synthetic players
 % Model of boredom (which can be switched off, importantly)
-
-
-\subsection{Annealing toward Player-Specific Learning Parameters}
-
-\inline{Discussion required here around the mitigation of randomness --- it's
-required because of RPGLite's inherent RNG --- and also explaining how we make
-use of a grid search in combination with k-fold validation to anneal toward
-well-fitted parameters of our models of learning for each individual player.}
-
-\inline{TODO make a diagram of this.}
-
-% To mention here:
-% \begin{itemize}
-%   \item Data generation specifically: \begin{itemize}
-%     \item Boredom. We rotate players to make sure we've got a constant stream of
-%     new players being introduced into the game, and to maximise the number of
-%     times a simulated player is able to explore the state space.
-%     \item Data generation
-%     \item normalisation.
-%     \item Calculation of preference distribution lists
-%   \end{itemize}
-%   \item Actual annealing: \begin{itemize}
-%   \item Identify the different parameters to fit, and briefly explain them and
-%   their significance to the model.
-%   \item Testing combinations of different parameters. Compare grid search on RGR
-%   to current combine-lots-of-parameters technique.
-%   \end{itemize}
-% \end{itemize}
 
 
 
