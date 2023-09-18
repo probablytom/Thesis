@@ -1,109 +1,177 @@
-\contentsline {todo}{\emph {[C1{}] todo: }Explain aspect orientation briefly.}{19}{section.1.1}%
-\contentsline {todo}{\emph {[C1{}] todo: }find a citation for spring AOP}{19}{section.1.1}%
-\contentsline {todo}{\emph {[C1{}] todo: }Write a section for the introduction describing the work done on pdsf before this, to delineate where we're starting from and avoid any claims of plagiarism. This can be short, the first sec of the lit review is a proper discussion, but the tool should be mentioned here. See \cref {sec:pdsf_early_work} for what already exists.}{20}{section.1.2}%
-\contentsline {todo}{\emph {[C1{}] todo: }Complete the glossary in \cref {sec:glossary}.}{20}{section.1.3}%
-\contentsline {todo}{\emph {[C1{}] todo: }Decide whether terms like BPMN, simulation \& modelling, etc also belong in the glossary\cref {sec:glossary}.}{20}{section.1.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }don't use a description list here, this should be a regular paragraph}}{21}{chapter.2}%
-\contentsline {todo}{\emph {[C2{}] todo: }Citation needed?}{22}{section.2.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }Add a paragraph after this on subject-oriented programming.}{27}{subsection.2.1.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }Add notes on subject-oriented programming, bigraphs, maybe holons?}{27}{subsection.2.1.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }don't be fancy here}{31}{Item.7}%
-\contentsline {todo}{\emph {[C2{}] todo: }Note from discussion with Tim to work into this: ``the anticipated benefits of aspect-oriented programs are not observed in practice''}{32}{Item.7}%
-\contentsline {todo}{\emph {[C2{}] todo: }Both paragraphs on Gilani2004 need to be heavily edited.}{32}{Item.7}%
-\contentsline {todo}{\emph {[C2{}] todo: }Remove the description of tangling and scattering from here and include in a review of more foundational AOP literature early in the lit review. They don't belong buried so far down in this chapter.}{34}{section.2.3}%
-\contentsline {todo}{\emph {[C2{}] todo: }Editing tip from Tim: don't call things "important", this implies other things aren't. Rework areas where I do this.}{38}{subsection.2.3.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }Brief intro of the process variance section here}{40}{section.2.4}%
-\contentsline {todo}{\emph {[C2{}] todo: }Find citation for empirical datasets being the only ones available to researchers, maybe for disaster prevention or similar?}{42}{subsection.2.4.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }find a citation for simulating different systems for finding an optimal one. Arguably Genetic programming \& hill climbing do similar things?}{42}{subsection.2.4.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }Find some nice way to round this subsection out, or refactor out subsections}{42}{subsection.2.4.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }Important to acknowledge somewhere in this subsection that synthetic data generation is a well-researched field, but that generating logs from simulations with variance is the specific area relevant to this thesis}{42}{subsection.2.4.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }Shugurov \& Mitsyuk's work should follow this. REVIEW IT.}{45}{subsection.2.4.2}%
-\contentsline {todo}{\emph {[C2{}] todo: }more citations}{46}{section.2.5}%
-\contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Consider moving some code snippets like those of Fuzzi-Moss, which aren't necessarily that important in the grand scope of the thesis, to an appendix.}}{58}{lstnumber.-2.34}%
-\contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Maybe I should include something on Aran's masters dissertation too, rather than just citing it?}}{59}{section.3.4}%
-\contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Add a citation for TDD vs agile! Citations are missing from the copy of the CAiSE paper I can find, but I'd like to use the same one.}}{59}{section.3.4}%
-\contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Does this want to be a list? Consider reworking to a paragraph.}}{60}{section.3.5}%
-\contentsline {todo}{\emph {[C4{}] todo: }Check the most up-to-date pdsf implementation --- is it actually on that backup drive?}{63}{chapter.4}%
-\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Rewrite chapter outline after the structure of the chapter is known to be OK.}}{63}{chapter.4}%
-\contentsline {todo}{\emph {[C4{}] todo: }Consider adding references to the sections through this PDSF chapter, depending on how beefy it becomes\ldots {}}{63}{chapter.4}%
-\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Too informal}}{63}{section.4.1}%
-\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }sloppily put}}{63}{section.4.1}%
-\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Could be less sloppy}}{64}{section.4.1}%
-\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Could be less sloppy}}{64}{section.4.1}%
-\contentsline {todo}{\emph {[C4{}] todo: }Consider adding local namespace weaving to pdsf3: should be easy to implement as a cheeky little monkey-patch\ldots {}}{69}{subsection.4.3.2}%
-\contentsline {todo}{\emph {[C4{}] todo: }is this true??? verify, I think not, if imported normally. tested but didn't realise that pdsf won't fuzz functions with single-character IDs, so inconclusive.}{70}{subsection.4.3.2}%
-\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }A bit clunky --- take the last sentence out in favour of notes in discussion or rewrite.}}{72}{Item.19}%
-\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Decide whether the ``-style'' prefix I sometimes use should stay or go when copyediting. Or: when do I use it? Be consistent.}}{73}{figure.caption.7}%
-\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Add metrics here on the performance implications; they're pretty significant, I actually added them because the regex matches slowed my own code down to a crawl. Our experiments make use of non-dynamic weaving for this reason.}}{77}{figure.caption.11}%
-\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }contributions to what?}}{78}{section.4.5}%
-\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Is this list complete?}}{78}{section.4.5}%
-\contentsline {todo}{\emph {[C5{}] todo: }Fix formatting and correct wording of William's hypothesis.}{79}{chapter.5}%
-\contentsline {todo}{\emph {[C5{}] todo: }Insert my own research question here}{79}{chapter.5}%
-\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Lift screenshots in this chapter from game-on paper source where possible}}{79}{chapter.5}%
-\contentsline {todo}{\emph {[C5{}] todo: }TODO INSERT RESEARCH QUESTION HERE}{79}{chapter.5}%
-\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Needs copy-editing}}{81}{section.5.1}%
-\contentsline {todo}{\emph {[C5{}] todo: }Metagame is never defined!}{83}{Hfootnote.18}%
-\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Should a summary of the paper be a section here, or maybe an appendix? Keen not to plagarise, but it's also maybe worth including. William and I both spent a lot of time getting that paper out. I presented it at GameOn2020. He's included some in his thesis, so I guess it's a precedent for me to do the same. And why not?}}{85}{section.5.2}%
-\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Should info sheet / consent form be cited, instead of linked as in this footnote\ldots {}?}}{85}{subsection.5.2.1}%
-\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }There are some good screenshots in the paper for RPGLite; lessons learned. Consider adding those here instead; the screenshots I've included at present come from my iCloud photos library\ldots {}}}{86}{subsection.5.2.2}%
-\contentsline {todo}{\emph {[C6{}] todo: }Cite William's PhD thesis}{91}{chapter.6}%
-\contentsline {todo}{\emph {[C6{}] todo: }There must be tons of good citations for aspects being used to compose together a simulation / model}{91}{section.6.1}%
-\contentsline {todo}{\color {blue}{\emph {[C6{}] review: }We don't think this is the case --- those citations just don't exist! Rework to discuss use of AOP in business process modelling, and note that nobody made those models in practice, just tooling.}}{91}{section.6.1}%
-\contentsline {todo}{\emph {[C6{}] todo: }Add a cross-reference to the chapter on cross-cutting concern simulation accuracy when it exists}{92}{section.6.1}%
-\contentsline {todo}{\emph {[C6{}] todo: }maybe cut this list of reasons PyDySoFu is fantastic...}{93}{subsection.6.1.1}%
-\contentsline {todo}{\emph {[C6{}] todo: }Write a little here on the learning aspects.}{96}{subsection.6.1.2}%
-\contentsline {todo}{\emph {[C6{}] todo: }Flesh this out as a brief wrap-up of our experimental technique. The end of our ``naive'' model explanation might be useful to move down here / rework into this para.}{96}{subsection.6.1.2}%
-\contentsline {todo}{\emph {[C6{}] todo: }Position this figure properly on the page.}{97}{section.6.2}%
-\contentsline {todo}{\emph {[C6{}] todo: }Maybe reword? Pretty verbose.}{97}{section.6.2}%
-\contentsline {todo}{\emph {[C6{}] todo: }Consider changing \cref {fig:naive_model} to only include details about the model of the game itself, leaving the steps about data analysis to the later aspect-applied version (which is the real experiment).}{97}{figure.caption.16}%
-\contentsline {todo}{\emph {[C6{}] todo: }Move \cref {fig:naive_model} to .svg for fidelity}{99}{figure.caption.16}%
-\contentsline {todo}{\emph {[C6{}] todo: }These RQs are taken from an early outline of a thesis structure. Maybe they need rewording?}{99}{Item.30}%
-\contentsline {todo}{\emph {[C6{}] todo: }Rearrange either this paragraph of the sections it refers to so they're in order / make sense. At time of writing they refer to 6.3.1, then 6.4, then 6.3.2, then 6.5\ldots {}!}{101}{Item.30}%
-\contentsline {todo}{\emph {[C6{}] todo: }Investigate: did we ever model confidence with anything other than c==1, i.e. a standard logistic curve?}{107}{subsection.6.3.3}%
-\contentsline {todo}{\emph {[C6{}] todo: }The ordering of this explanation of different uses of aspects is confusing; once the aspects are explained individually, reorder the sections, rework the introduction to the structure of this section, and ensure the outline of the section reflects the changes made.}{108}{Item.33}%
-\contentsline {todo}{\emph {[C6{}] todo: }Make a reference to the chapter(s) where I explain different seasons of RPGLite.}{110}{section*.18}%
-\contentsline {todo}{\emph {[C6{}] todo: }Do I need code snippets for notes on aspects?}{110}{section*.18}%
-\contentsline {todo}{\emph {[C6{}] todo: }OH NO. I just realised our models don't use birch at all, they use a logistic curve. They also use a relative growth rate on the logicstic curve that I'm unsure of — not sure why I implemented it the way I did. Getting increasingly close to just re-running my models. I could run them again using birch, and maybe anneal to a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXED ASAP.}{112}{section*.20}%
-\contentsline {todo}{\emph {[C6{}] todo: }Keeping this in because I might need to explain the aspect, but it's only used in the implementation of choosing based on prior distribution, which I don't believe is ever applied. So! Decide whether to get rid of the writeup of that model. If I \emph {am}, then get rid of this too. If not, add it to the learning models writeup below and explain it here.}{112}{section*.21}%
-\contentsline {todo}{\emph {[C6{}] todo: }Do we describe an experiment singular or experiments plural in \cref {chap:exp1_simulation_optimisation}?}{113}{section*.22}%
-\contentsline {todo}{\emph {[C6{}] todo: }reference pdsf's explanatory chapter / re-engineering chapter here? unsure which is most appropriate / introduces the concepts first.}{113}{section*.22}%
-\contentsline {todo}{\emph {[C6{}] todo: }Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}{115}{subsection.6.4.3}%
-\contentsline {todo}{\emph {[C6{}] todo: }Maybe we should have also produced models of other discounting mechanisms, like exponential discounting (which I \emph {believe} is actually the logically sound way to discount). Would be interesting to see whether some players are well-modelled by other discounting mechanisms. Investigate this!}{116}{section*.26}%
-\contentsline {todo}{\emph {[C6{}] todo: }Find citations explaining hyperbolic discounting}{116}{section*.26}%
-\contentsline {todo}{\emph {[C6{}] todo: }Maybe there's need here for a diagram or some extra equations to make this clearer\ldots {}?}{117}{figure.caption.27}%
-\contentsline {todo}{\emph {[C6{}] todo: }Some reference to the research question is required here.}{117}{section.6.5}%
-\contentsline {todo}{\emph {[C6{}] todo: }I need to write up the strat for using k-fold validation. Should include the parameters selected, evaluation of ``best'' result, etc.}{118}{subsection.6.5.1}%
-\contentsline {todo}{\emph {[C6{}] todo: }Discussion required here around the mitigation of randomness --- it's required because of RPGLite's inherent RNG --- and also explaining how we make use of a grid search in combination with k-fold validation to anneal toward well-fitted parameters of our models of learning for each individual player.}{118}{subsection.6.5.1}%
-\contentsline {todo}{\emph {[C6{}] todo: }TODO make a diagram of this.}{118}{subsection.6.5.1}%
-\contentsline {todo}{\emph {[C6{}] todo: }These parameters are required because we run with different parameters for different folds. This subsec should be preceded by another on our strategy for optimmising, so we can introduce k-fold validation and clean up the wordinng in this sec so it makes more sense.}{118}{subsection.6.5.2}%
-\contentsline {todo}{\emph {[C6{}] todo: }IIRC Tim doesn't love the description list formatting. Probably means I should avoid; consider other ways of laying this out that avoids a big wall of text}{118}{figure.caption.28}%
-\contentsline {todo}{\emph {[C6{}] todo: }This subsection most likely needs to be condensed.}{122}{subsection.6.5.4}%
-\contentsline {todo}{\emph {[C6{}] todo: }Find citations for each correlation coefficient, and also for justifying choosing between these two specifically (if required).}{124}{subsection.6.5.4}%
-\contentsline {todo}{\emph {[C6{}] todo: }I'm not sure I've defined how I represent (or calculate) the ordered list of preferences yet. If not, that should live somewhere, I suppose.}{125}{subsection.6.5.4}%
-\contentsline {todo}{\emph {[C6{}] todo: }A little clumsy --- reword this para? Is it suffient? }{125}{subsection.6.5.5}%
-\contentsline {todo}{\color {blue}{\emph {[C6{}] review: }At time of writing metagame is not defined, but this should be introduced in \cref {chap:rpglite}; there's a corresponding revision note there.}}{126}{subsection.6.5.5}%
-\contentsline {todo}{\emph {[C6{}] todo: }TODO note that players are removed, and then replaced, so that the playerbase is of constant size but varying experience! Replacement happens immediately.}{126}{subsection.6.5.5}%
-\contentsline {todo}{\emph {[C6{}] todo: }Mention boredom period controlling how often we check that players are bored.}{126}{subsection.6.5.5}%
-\contentsline {todo}{\emph {[C6{}] todo: }TODO note that boredom can be disabled}{126}{subsection.6.5.5}%
-\contentsline {todo}{\color {blue}{\emph {[C6{}] review: }I end list items here with semicolons. I should be consistent through the thesis, and decide whether semicolons are appropriate.}}{126}{subsection.6.5.6}%
-\contentsline {todo}{\emph {[C6{}] todo: }TODOTODOTODOTODOTODOTODOTODOTODOTODO FINISH THIS }{127}{subsection.6.5.6}%
-\contentsline {todo}{\emph {[C8{}] todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{133}{chapter.8}%
-\contentsline {todo}{\emph {[C8{}] todo: }Add a RQ at the end of each research opportunity; this can and should be a contribution of the thesis, and the RQs would help to sell it as such.}{133}{chapter.8}%
-\contentsline {todo}{\emph {[C8{}] todo: }Find citations for World3 model}{134}{section.8.2}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }``Freak event'' might be too informal here but I'm not sure what to replace it with.}}{135}{section.8.2}%
-\contentsline {todo}{\emph {[C8{}] todo: }Revisit this paragraph. Is this too wordy / rambly / unclear? Can I tighten it up at all?}{135}{section.8.3}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }If I've got time, I'd love to push my codebase augmenting a World3 model to achieve just this with predictive implications for the 2008 financial crisis and the covid pandemic.}}{136}{section.8.3}%
-\contentsline {todo}{\emph {[C8{}] todo: }Cite popper, any point including studies that do this too? It's fairly table stakes as a concept\ldots {}}{137}{section.8.4}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Maybe too informal, but I don't know, maybe live a little\ldots {}?}}{137}{section.8.4}%
-\contentsline {todo}{\emph {[C8{}] todo: }find a citation for modern algorithmic / robotic drug development}{137}{section.8.4}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }This subsec is already quite long, and including this point makes it significantly longer. Maybe that's not a prob; maybe this should be a separate point / subsubsec; maybe it can live in a footnote; maybe it should be omitted completely.}}{137}{section.8.4}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }I've made this an enumerated list; is it better as a paragraph?}}{139}{section.8.5}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }``obvious'' is a little too informal, not sure what to replace it with here.}}{141}{section.8.6}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }This might be a little rambly --- consider omitting, rewording, or factoring into a footnote.}}{141}{section.8.6}%
-\contentsline {todo}{\emph {[C8{}] todo: }We can get more precise than chapter references; find the sections / subsections.}{141}{section.8.7}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Are there any other reasons as to why models might be incorrect (and instrumentation could identify this by boundary checking)?}}{142}{section.8.7}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Is this point worthwhile? I cited it in IIRC an experimental chapter, but I'm unsure it's worth including. For future Tom to revisit.}}{144}{section.8.8}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Consider refactoring this into a subsection of that sec.}}{146}{subsection.8.9.3}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Possibly too grandiose? I don't think so really, but I wouldn't want to present it as being more than it is, and worry I oversell here. Maybe some references to literature discussing the expected scope of PhD theses (which exists! I have it in KeepIt, Tim sent me some early in the PhD) and an explanation that it's not outside the realm of a normal thesis to make contributions with theoretical implications --- see REST thesis or computational trust --- it does warrant a beefy future work chapter and an exploration of the research this enables (because it \emph {does} enable lots of future research) is a contribution in its own right. Which isn't necessarily grandiose, but can be oversold as grandiose. Maybe comparisons to REST don't help that case, actually...}}{148}{section.8.10}%
-\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Maybe go into more detail on what was mentioned in specific cross-referenced sections here? A long list of sections this chapter contains without any extra explanation isn't very satisfying, even if it's useful within this framing of exploring what Kuhn meant and how it relates to this thesis.}}{150}{section.8.10}%
-\contentsline {todo}{\emph {[C9{}] todo: }Duplicate citation to clean up}{161}{chapter*.31}%
+\contentsline {todo}{\emph {[C1{}] todo: }Explain aspect orientation briefly.}{23}{section.1.1}%
+\contentsline {todo}{\emph {[C1{}] todo: }find a citation for spring AOP}{23}{section.1.1}%
+\contentsline {todo}{\emph {[C1{}] todo: }Write a section for the introduction describing the work done on pdsf before this, to delineate where we're starting from and avoid any claims of plagiarism. This can be short, the first sec of the lit review is a proper discussion, but the tool should be mentioned here. See \cref {sec:pdsf_early_work} for what already exists.}{24}{section.1.2}%
+\contentsline {todo}{\emph {[C1{}] todo: }Complete the glossary in \cref {sec:glossary}.}{24}{section.1.3}%
+\contentsline {todo}{\emph {[C1{}] todo: }Decide whether terms like BPMN, simulation \& modelling, etc also belong in the glossary\cref {sec:glossary}.}{24}{section.1.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }There's a paragraph missing here explaining which chapters follow, why, and in what order. I'm omitting it at the moment because I suspect I'm about to reorder them.}}{25}{chapter.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Reword if I move criticisms to another section.}}{25}{section.2.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Cite some OO languages, papers noting their industrial use / the ``success'' of object orientation.}{26}{subsection.2.1.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Feels like the full literature on AOP is missing here. What is the available evidence that it works, if any? What has it been used for? Some sort of survey of AOP tech might also be useful for talking about alternatives?}}{29}{Item.2}%
+\contentsline {todo}{\color {green}{\emph {[C2{}] review response/Q: }I wonder whether I need to review more literature (possible --- I have a few mentioned in comments here and in annotated.bib that I should look at if I have time, though I believe I've covered the essentials) or whether the tech that's of interest here is reviewed later on. I suspect it's included later, because there's a note toward Dynamic Aspect Weaving which suggests the tech needs to come before the criticisms review (i.e. there's some tooling reviewed, but not where it should be). Mostly folk seem to have stuck with AspectJ, and domain-specific / general tooling is reviewed later. I'm reticent to move the specific tech reviewed here because I currently have a nice separation between the philosophy of the paradigm and its implementations; maybe I should make those concepts more clearly separated in section headings, or maybe I should move the tech here and make Criticisms its own section, rather than a subsec of this introduction.}}{29}{Item.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }I would rephrase the opening of this as direct report of voice to make it more succinct. \blx@tocontentsinit {0}\cite {Constantinides04aopconsidered} offered an early critique of AOP, making unfavourable comparisons with criticisms of GOTO statements.}}{30}{subsection.2.1.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Again, direct active report of voice is more succinct. \blx@tocontentsinit {0}\citeauthor {steimann06paradoxical} makes a similar, but more thorough critique of AOP.}}{30}{subsection.2.1.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Generally, avoid referring to a ``paper'' refer to the authors.}}{30}{subsection.2.1.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }The style in the below is what I'm suggesting}}{31}{subsection.2.1.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }This review is arguably unfinished --- there are more papers commented below this note which are probably worth reading / ensuring I'm citing. Tim has noted that the review on early / foundational literature of AOP seems incomplete, and I think the commented papers to review below could be good candidates to address this.}}{31}{subsection.2.1.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }this needs more explanation. What were Kiczales et al. trying to do, what was the context, what did they demonstrate?}}{32}{subsection.2.1.3}%
+\contentsline {todo}{\color {green}{\emph {[C2{}] review response/Q: }I covered this a fair bit in the earlier parts of this section. Maybe this was unclear? This lit is already covered, so fixing earlier notes might be better than adding notes here. I've since restructured \& reframed, hopefully enough to make this clearer, but I'm curious\ldots {}}}{32}{subsection.2.1.3}%
+\contentsline {todo}{\emph {[C2{}] todo: }Add notes on Bigraphs here}{33}{section*.3}%
+\contentsline {todo}{\emph {[C2{}] todo: }Add notes on Holons here, maybe}{33}{section*.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Wouldn't the paragraph below fit better in the section on program mutation?}}{33}{section*.4}%
+\contentsline {todo}{\color {green}{\emph {[C2{}] review response/Q: }I'm not sure exactly what section this is, but have reworded the below to fit better within this section (BCA is a relative of AOP) and added a cref to where I \emph {think} it might be added. Unsure though. To discuss and fix the cref. I haven't added notes on BCA anywhere else. Or, was it intended to refer to the metaprogramming notes in the next para? If so, I've since collected these into a subsubsec.}}{33}{section*.4}%
+\contentsline {todo}{\emph {[C2{}] todo: }A diagram or Python example might help here, as per Tim's suggestion below.}{34}{section*.5}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Would some illustrative examples of these different approaches help?}}{34}{section*.5}%
+\contentsline {todo}{\color {green}{\emph {[C2{}] review response/Q: }Yes, I'm sure they'd help! Diagrams to add here.}}{34}{section*.5}%
+\contentsline {todo}{\emph {[C2{}] todo: }Add subject-oriented programming here}{34}{section*.5}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }I think this comes before the critique section perhaps? Need a general introduction to AOP techniques and techs, including this?}}{34}{section.2.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Need citations to these technologies}}{35}{section.2.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }My worry in below is that it feels like you are teasing the reader - well WHAT environments/contexts then, huh?}}{36}{Item.5}%
+\contentsline {todo}{\emph {[C2{}] todo: }don't be fancy here}{36}{Item.5}%
+\contentsline {todo}{\emph {[C2{}] todo: }Note from discussion with Tim to work into this: ``the anticipated benefits of aspect-oriented programs are not observed in practice''}{37}{Item.5}%
+\contentsline {todo}{\emph {[C2{}] todo: }Both paragraphs on Gilani2004 need to be heavily edited.}{37}{Item.5}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Long sentence and not sure what you are trying to say exactly}}{37}{Item.5}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Can you be more precise here? Is it the first instance?}}{38}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Don't think Swarm has been mentioned before so needs explanation/cite - sentence or two}}{38}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }intrinsic? explicit?}}{38}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }it seems like this might be an important exposition, so perhaps more details?}}{39}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }This is waffly. Would suggest simplifying to something like ``The position adopted by Gulyas aligns with that taken in this thesis: that aspect orientation has signficant benefits for supporting software based modelling and simulation''}}{39}{section.2.3}%
+\contentsline {todo}{\emph {[C2{}] todo: }Remove the description of tangling and scattering from here and include in a review of more foundational AOP literature early in the lit review. They don't belong buried so far down in this chapter.}{39}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Agree}}{39}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }(DES)}}{39}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }repetition}}{39}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Be explicit about what Japrosim is - is it a DESF?}}{39}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Just say ``Later,...,''}}{39}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }generally past tense preferred}}{39}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Evaluating?}}{40}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }new sentence here - \citet {chibani2019using}'s later work presented an implementation of their proposal and provide a quantitative evaluation.}}{40}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }simplify - Similar to}}{40}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }simplify - observed that their are advantages to adopting AOP}}{40}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }I'd avoid handwavy conclusions like this. Say something more sober like ``In general, the AOP for modelling and simulation literature defers to claims in general AOP literature that AOP enhances...}}{41}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }provide}}{41}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Simplify - The work therefore provides evidence that AOP is suitable for supporting simulation and modelling in real-world ontexts and use case. Several authors have otherwised criticised the lack of practical evaluation of AOP generally \blx@tocontentsinit {0}\cite {}}}{41}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Generally remove ``note'' prefixes to sentences. ``Improvements to code quality...''}}{42}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }use macro?}}{42}{subsection.2.3.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Editing tip from Tim: don't call things "important", this implies other things aren't. Rework areas where I do this.}{43}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }past tense again - the paper has been written/published - foresaw, observed, described...}}{43}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }what do you mean by static nature? not clear}}{43}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Can you give am example}}{43}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }this seems relevant argument so avoid footnotes?}}{43}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Don't need to state pub type, just name the author}}{43}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }can you say something explicit about the difference and benefits of this?}}{44}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Can you say something more precise than spirit here, e.g. objectives, intentions at least?}}{44}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }demonstrates}}{45}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }conventions, syntax - again be more precise}}{45}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }add something early on giving an example of how it might be a problem?}}{45}{subsection.2.3.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Brief intro of the process variance section here}{45}{section.2.4}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Agree, builds well from preceding sections though}}{45}{section.2.4}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Not sure this is true - e.g. MAS?}}{45}{section.2.4}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }remove plausibly - it can or it can't}}{47}{subsection.2.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Has this motivation already been explained? If not re-order with below first.}}{47}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Find citation for empirical datasets being the only ones available to researchers, maybe for disaster prevention or similar?}{47}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }find a citation for simulating different systems for finding an optimal one. Arguably Genetic programming \& hill climbing do similar things?}{47}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Find some nice way to round this subsection out, or refactor out subsections}{47}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Important to acknowledge somewhere in this subsection that synthetic data generation is a well-researched field, but that generating logs from simulations with variance is the specific area relevant to this thesis}{47}{subsection.2.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }refactor by re-ordering - explain the motivation first and then intro the approach of charfi}}{47}{subsection.2.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }with what particular characteristics? e.g. that plausibly mimic real world logs of real security violations?}}{48}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }is this a however, i.e. a limitation?}}{48}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }further}}{48}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }techniques}}{48}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }say limited instead of relatively rudimentary?}}{48}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }why only presumably?}}{48}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }new paragraph?}}{48}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }of?}}{48}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }be explicit - on what. Also start with the overall thrust of the work, not the specific contribution}}{49}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }as per first comment on this paragraph - what technique?}}{49}{subsection.2.4.2}%
+\contentsline {todo}{\emph {[C2{}] todo: }Shugurov \& Mitsyuk's work should follow this. REVIEW IT.}{50}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }unclear here}}{50}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }have been developed}}{50}{subsection.2.4.2}%
+\contentsline {todo}{\emph {[C2{}] todo: }more citations}{51}{section.2.5}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }This is good, but don't be speculative like this. Draw a conclusion}}{53}{section.2.5}%
+\contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Consider moving some code snippets like those of Fuzzi-Moss, which aren't necessarily that important in the grand scope of the thesis, to an appendix.}}{64}{lstnumber.-2.34}%
+\contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Maybe I should include something on Aran's masters dissertation too, rather than just citing it?}}{65}{section.3.4}%
+\contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Add a citation for TDD vs agile! Citations are missing from the copy of the CAiSE paper I can find, but I'd like to use the same one.}}{65}{section.3.4}%
+\contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Does this want to be a list? Consider reworking to a paragraph.}}{66}{section.3.5}%
+\contentsline {todo}{\emph {[C4{}] todo: }Check the most up-to-date pdsf implementation --- is it actually on that backup drive?}{69}{chapter.4}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Rewrite chapter outline after the structure of the chapter is known to be OK.}}{69}{chapter.4}%
+\contentsline {todo}{\emph {[C4{}] todo: }Consider adding references to the sections through this PDSF chapter, depending on how beefy it becomes\ldots {}}{69}{chapter.4}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Too informal}}{69}{section.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }sloppily put}}{69}{section.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Could be less sloppy}}{70}{section.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Could be less sloppy}}{70}{section.4.1}%
+\contentsline {todo}{\emph {[C4{}] todo: }Consider adding local namespace weaving to pdsf3: should be easy to implement as a cheeky little monkey-patch\ldots {}}{75}{subsection.4.3.2}%
+\contentsline {todo}{\emph {[C4{}] todo: }is this true??? verify, I think not, if imported normally. tested but didn't realise that pdsf won't fuzz functions with single-character IDs, so inconclusive.}{76}{subsection.4.3.2}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }A bit clunky --- take the last sentence out in favour of notes in discussion or rewrite.}}{78}{Item.17}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Decide whether the ``-style'' prefix I sometimes use should stay or go when copyediting. Or: when do I use it? Be consistent.}}{79}{figure.caption.10}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Add metrics here on the performance implications; they're pretty significant, I actually added them because the regex matches slowed my own code down to a crawl. Our experiments make use of non-dynamic weaving for this reason.}}{83}{figure.caption.14}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }contributions to what?}}{84}{section.4.5}%
+\contentsline {todo}{\color {blue}{\emph {[C4{}] review: }Is this list complete?}}{84}{section.4.5}%
+\contentsline {todo}{\emph {[C5{}] todo: }Fix formatting and correct wording of William's hypothesis.}{85}{chapter.5}%
+\contentsline {todo}{\emph {[C5{}] todo: }Insert my own research question here}{85}{chapter.5}%
+\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Lift screenshots in this chapter from game-on paper source where possible}}{85}{chapter.5}%
+\contentsline {todo}{\emph {[C5{}] todo: }TODO INSERT RESEARCH QUESTION HERE}{85}{chapter.5}%
+\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Needs copy-editing}}{87}{section.5.1}%
+\contentsline {todo}{\emph {[C5{}] todo: }Metagame is never defined!}{89}{Hfootnote.19}%
+\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Should a summary of the paper be a section here, or maybe an appendix? Keen not to plagarise, but it's also maybe worth including. William and I both spent a lot of time getting that paper out. I presented it at GameOn2020. He's included some in his thesis, so I guess it's a precedent for me to do the same. And why not?}}{91}{section.5.2}%
+\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Should info sheet / consent form be cited, instead of linked as in this footnote\ldots {}?}}{91}{subsection.5.2.1}%
+\contentsline {todo}{\color {blue}{\emph {[C5{}] review: }There are some good screenshots in the paper for RPGLite; lessons learned. Consider adding those here instead; the screenshots I've included at present come from my iCloud photos library\ldots {}}}{92}{subsection.5.2.2}%
+\contentsline {todo}{\emph {[C6{}] todo: }Cite William's PhD thesis}{97}{chapter.6}%
+\contentsline {todo}{\emph {[C6{}] todo: }There must be tons of good citations for aspects being used to compose together a simulation / model}{97}{section.6.1}%
+\contentsline {todo}{\color {blue}{\emph {[C6{}] review: }We don't think this is the case --- those citations just don't exist! Rework to discuss use of AOP in business process modelling, and note that nobody made those models in practice, just tooling.}}{97}{section.6.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }Add a cross-reference to the chapter on cross-cutting concern simulation accuracy when it exists}{98}{section.6.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }maybe cut this list of reasons PyDySoFu is fantastic...}{99}{subsection.6.1.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }Write a little here on the learning aspects.}{102}{subsection.6.1.2}%
+\contentsline {todo}{\emph {[C6{}] todo: }Flesh this out as a brief wrap-up of our experimental technique. The end of our ``naive'' model explanation might be useful to move down here / rework into this para.}{102}{subsection.6.1.2}%
+\contentsline {todo}{\emph {[C6{}] todo: }Position this figure properly on the page.}{103}{section.6.2}%
+\contentsline {todo}{\emph {[C6{}] todo: }Maybe reword? Pretty verbose.}{103}{section.6.2}%
+\contentsline {todo}{\emph {[C6{}] todo: }Consider changing \cref {fig:naive_model} to only include details about the model of the game itself, leaving the steps about data analysis to the later aspect-applied version (which is the real experiment).}{103}{figure.caption.19}%
+\contentsline {todo}{\emph {[C6{}] todo: }Move \cref {fig:naive_model} to .svg for fidelity}{105}{figure.caption.19}%
+\contentsline {todo}{\emph {[C6{}] todo: }These RQs are taken from an early outline of a thesis structure. Maybe they need rewording?}{105}{Item.28}%
+\contentsline {todo}{\emph {[C6{}] todo: }Rearrange either this paragraph of the sections it refers to so they're in order / make sense. At time of writing they refer to 6.3.1, then 6.4, then 6.3.2, then 6.5\ldots {}!}{107}{Item.28}%
+\contentsline {todo}{\emph {[C6{}] todo: }Investigate: did we ever model confidence with anything other than c==1, i.e. a standard logistic curve?}{113}{subsection.6.3.3}%
+\contentsline {todo}{\emph {[C6{}] todo: }The ordering of this explanation of different uses of aspects is confusing; once the aspects are explained individually, reorder the sections, rework the introduction to the structure of this section, and ensure the outline of the section reflects the changes made.}{114}{Item.31}%
+\contentsline {todo}{\emph {[C6{}] todo: }Make a reference to the chapter(s) where I explain different seasons of RPGLite.}{116}{section*.21}%
+\contentsline {todo}{\emph {[C6{}] todo: }Do I need code snippets for notes on aspects?}{116}{section*.21}%
+\contentsline {todo}{\emph {[C6{}] todo: }OH NO. I just realised our models don't use birch at all, they use a logistic curve. They also use a relative growth rate on the logicstic curve that I'm unsure of — not sure why I implemented it the way I did. Getting increasingly close to just re-running my models. I could run them again using birch, and maybe anneal to a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXED ASAP.}{118}{section*.23}%
+\contentsline {todo}{\emph {[C6{}] todo: }Keeping this in because I might need to explain the aspect, but it's only used in the implementation of choosing based on prior distribution, which I don't believe is ever applied. So! Decide whether to get rid of the writeup of that model. If I \emph {am}, then get rid of this too. If not, add it to the learning models writeup below and explain it here.}{118}{section*.24}%
+\contentsline {todo}{\emph {[C6{}] todo: }Do we describe an experiment singular or experiments plural in \cref {chap:exp1_simulation_optimisation}?}{119}{section*.25}%
+\contentsline {todo}{\emph {[C6{}] todo: }reference pdsf's explanatory chapter / re-engineering chapter here? unsure which is most appropriate / introduces the concepts first.}{119}{section*.25}%
+\contentsline {todo}{\emph {[C6{}] todo: }Why didn't we make a bayesian model of learning? Should we have? Would this be difficult at all?}{121}{subsection.6.4.3}%
+\contentsline {todo}{\emph {[C6{}] todo: }Maybe we should have also produced models of other discounting mechanisms, like exponential discounting (which I \emph {believe} is actually the logically sound way to discount). Would be interesting to see whether some players are well-modelled by other discounting mechanisms. Investigate this!}{122}{section*.29}%
+\contentsline {todo}{\emph {[C6{}] todo: }Find citations explaining hyperbolic discounting}{122}{section*.29}%
+\contentsline {todo}{\emph {[C6{}] todo: }Maybe there's need here for a diagram or some extra equations to make this clearer\ldots {}?}{123}{figure.caption.30}%
+\contentsline {todo}{\emph {[C6{}] todo: }Some reference to the research question is required here.}{123}{section.6.5}%
+\contentsline {todo}{\emph {[C6{}] todo: }I need to write up the strat for using k-fold validation. Should include the parameters selected, evaluation of ``best'' result, etc.}{124}{subsection.6.5.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }Discussion required here around the mitigation of randomness --- it's required because of RPGLite's inherent RNG --- and also explaining how we make use of a grid search in combination with k-fold validation to anneal toward well-fitted parameters of our models of learning for each individual player.}{124}{subsection.6.5.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }TODO make a diagram of this.}{124}{subsection.6.5.1}%
+\contentsline {todo}{\emph {[C6{}] todo: }These parameters are required because we run with different parameters for different folds. This subsec should be preceded by another on our strategy for optimmising, so we can introduce k-fold validation and clean up the wordinng in this sec so it makes more sense.}{124}{subsection.6.5.2}%
+\contentsline {todo}{\emph {[C6{}] todo: }IIRC Tim doesn't love the description list formatting. Probably means I should avoid; consider other ways of laying this out that avoids a big wall of text}{124}{figure.caption.31}%
+\contentsline {todo}{\emph {[C6{}] todo: }This subsection most likely needs to be condensed.}{128}{subsection.6.5.4}%
+\contentsline {todo}{\emph {[C6{}] todo: }Find citations for each correlation coefficient, and also for justifying choosing between these two specifically (if required).}{130}{subsection.6.5.4}%
+\contentsline {todo}{\emph {[C6{}] todo: }I'm not sure I've defined how I represent (or calculate) the ordered list of preferences yet. If not, that should live somewhere, I suppose.}{131}{subsection.6.5.4}%
+\contentsline {todo}{\emph {[C6{}] todo: }A little clumsy --- reword this para? Is it suffient? }{131}{subsection.6.5.5}%
+\contentsline {todo}{\color {blue}{\emph {[C6{}] review: }At time of writing metagame is not defined, but this should be introduced in \cref {chap:rpglite}; there's a corresponding revision note there.}}{132}{subsection.6.5.5}%
+\contentsline {todo}{\emph {[C6{}] todo: }TODO note that players are removed, and then replaced, so that the playerbase is of constant size but varying experience! Replacement happens immediately.}{132}{subsection.6.5.5}%
+\contentsline {todo}{\emph {[C6{}] todo: }Mention boredom period controlling how often we check that players are bored.}{132}{subsection.6.5.5}%
+\contentsline {todo}{\emph {[C6{}] todo: }TODO note that boredom can be disabled}{132}{subsection.6.5.5}%
+\contentsline {todo}{\color {blue}{\emph {[C6{}] review: }I end list items here with semicolons. I should be consistent through the thesis, and decide whether semicolons are appropriate.}}{132}{subsection.6.5.6}%
+\contentsline {todo}{\emph {[C6{}] todo: }TODOTODOTODOTODOTODOTODOTODOTODOTODO FINISH THIS }{133}{subsection.6.5.6}%
+\contentsline {todo}{\emph {[C8{}] todo: }is suitable for simulation purposes? It's about showing that we \emph {can} use aspect orientation appropriately in simulation environments, and that aspect orientation can also lead us to realistic and nuanced simulations, too. Go back through the pdsf and lit review chapters to make this argument properly.}{139}{chapter.8}%
+\contentsline {todo}{\emph {[C8{}] todo: }Add a RQ at the end of each research opportunity; this can and should be a contribution of the thesis, and the RQs would help to sell it as such.}{139}{chapter.8}%
+\contentsline {todo}{\emph {[C8{}] todo: }Find citations for World3 model}{140}{section.8.2}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }``Freak event'' might be too informal here but I'm not sure what to replace it with.}}{141}{section.8.2}%
+\contentsline {todo}{\emph {[C8{}] todo: }Revisit this paragraph. Is this too wordy / rambly / unclear? Can I tighten it up at all?}{141}{section.8.3}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }If I've got time, I'd love to push my codebase augmenting a World3 model to achieve just this with predictive implications for the 2008 financial crisis and the covid pandemic.}}{142}{section.8.3}%
+\contentsline {todo}{\emph {[C8{}] todo: }Cite popper, any point including studies that do this too? It's fairly table stakes as a concept\ldots {}}{143}{section.8.4}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Maybe too informal, but I don't know, maybe live a little\ldots {}?}}{143}{section.8.4}%
+\contentsline {todo}{\emph {[C8{}] todo: }find a citation for modern algorithmic / robotic drug development}{143}{section.8.4}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }This subsec is already quite long, and including this point makes it significantly longer. Maybe that's not a prob; maybe this should be a separate point / subsubsec; maybe it can live in a footnote; maybe it should be omitted completely.}}{143}{section.8.4}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }I've made this an enumerated list; is it better as a paragraph?}}{145}{section.8.5}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }``obvious'' is a little too informal, not sure what to replace it with here.}}{147}{section.8.6}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }This might be a little rambly --- consider omitting, rewording, or factoring into a footnote.}}{147}{section.8.6}%
+\contentsline {todo}{\emph {[C8{}] todo: }We can get more precise than chapter references; find the sections / subsections.}{147}{section.8.7}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Are there any other reasons as to why models might be incorrect (and instrumentation could identify this by boundary checking)?}}{148}{section.8.7}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Is this point worthwhile? I cited it in IIRC an experimental chapter, but I'm unsure it's worth including. For future Tom to revisit.}}{150}{section.8.8}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Consider refactoring this into a subsection of that sec.}}{152}{subsection.8.9.3}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Possibly too grandiose? I don't think so really, but I wouldn't want to present it as being more than it is, and worry I oversell here. Maybe some references to literature discussing the expected scope of PhD theses (which exists! I have it in KeepIt, Tim sent me some early in the PhD) and an explanation that it's not outside the realm of a normal thesis to make contributions with theoretical implications --- see REST thesis or computational trust --- it does warrant a beefy future work chapter and an exploration of the research this enables (because it \emph {does} enable lots of future research) is a contribution in its own right. Which isn't necessarily grandiose, but can be oversold as grandiose. Maybe comparisons to REST don't help that case, actually...}}{154}{section.8.10}%
+\contentsline {todo}{\color {blue}{\emph {[C8{}] review: }Maybe go into more detail on what was mentioned in specific cross-referenced sections here? A long list of sections this chapter contains without any extra explanation isn't very satisfying, even if it's useful within this framing of exploring what Kuhn meant and how it relates to this thesis.}}{156}{section.8.10}%
+\contentsline {todo}{\emph {[C9{}] todo: }Duplicate citation to clean up}{167}{chapter*.34}%

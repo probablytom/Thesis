@@ -99,10 +99,17 @@ skipbelow=0cm,
 \@ifclasswith{good_template}{final}
 {\newcommand{\revnote}[1]{}}
 {\newcommand{\revnote}[1]{
-  % {\color{blue}{#1}}
   \todo[nolist,size=\footnotesize]{#1}
   \ifdefined\reviewnotesintable
     \addcontentsline{tdo}{todo}{\color{blue}{\emph{[C\thechapter{}] review: }#1}}{}
+  \fi
+}}
+\@ifclasswith{good_template}{final}
+{\newcommand{\reviewresponse}[1]{}}
+{\newcommand{\reviewresponse}[1]{
+  \todo[nolist,size=\footnotesize,color=green]{Reply/Q: #1}
+  \ifdefined\reviewnotesintable
+    \addcontentsline{tdo}{todo}{\color{green}{\emph{[C\thechapter{}] review response/Q: }#1}}{}
   \fi
 }}
 \makeatother
