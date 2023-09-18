@@ -1,14 +1,21 @@
 \chapter{RPGLite: A Mobile Game for Collecting Data}\label{chap:rpglite}
 
-RPGLite is a game designed to mimic existing popular games, while being
-structured to permit exploring all game states via formal methods;
-\citeauthor{kavanagh2020}~have produced PRISM models which can be model-checked
-to identify ideal play strategies in all game states~\cite{kavanagh2020}. Some
+\revnote{About what, and why? Consider changing title. add a sentence in first
+  paragraph describing why this fits in with the rest of the dissertation, and
+  why it is here.} RPGLite is a game designed to mimic existing popular games,
+while being structured to permit exploring all game states via formal
+methods;\revnote{Suggest new sentence}
+\citeauthor{kavanagh2020}~have produced PRISM models\revnote{PRISM undefined} which can be model-checked
+to identify optimal play strategies in all game
+states~\cite{kavanagh2020}\revnote{``game states'' not welld efined here, though
+I do define it later on}. Some
 experiments were conducted around RPGLite to answer the question: ``Over time,
 do players converge on an ideal strategy of play?''\inline{Fix formatting and
-correct wording of William's hypothesis.}\inline{Insert my own research question
-here}\revnote{Lift screenshots in this chapter from game-on paper source where
-possible}
+  correct wording of William's hypothesis. Review note from Jess: this is
+  \emph{very} important (and, yes! I don't believe i have my RQs well-defined
+  anywhere in the thesis yet, which is concerning.)}\inline{Insert my own research
+  question here}\revnote{Lift screenshots in this chapter from game-on paper
+  source where possible}
 
 Real-world play of the game invites many research questions. For example, an
 alternative question to answer would be, ``what strategy of play do players
@@ -16,16 +23,19 @@ typically adopt?'' or, relatedly, ``do all players adopt the same strategies?''
 \footnote{These are not of research interest for the purposes of this thesis,
 but examples of interesting questions to ask of a game where ``correct'' and
 ``incorrect'' actions can be categorised.} \citeauthor{kavanagh2020}'s work can
-identify the \emph{cost} of an action~\cite{kavanagh2020,kavanagh2021thesis},
+identify the \emph{cost}\revnote{``cost'' undefined} of an action~\cite{kavanagh2020,kavanagh2021thesis},
 allowing for richer datasets to be produced and more in-depth analysis of
 real-world play to be conducted. One possibility invited by these datasets is
 that it may permit modelling of real-world players' interactions with the game,
 and therefore offers an opportunity to investigate the effectiveness of
-aspect-oriented simulation and modelling. Referring back to \inline{TODO INSERT
+aspect-oriented simulation and modelling.\revnote{From Jess: this seems
+  important, but needs clarification and reworking. She suggests moving it to
+  the top.} Referring back to \inline{TODO INSERT
 RESEARCH QUESTION HERE}, it would be feasible to build a model of RPGLite play
 which did not satisfactorily model real-world data, inviting aspectual
 augmentation of the model in an attempt to improve its performance, and thereby
-investigating the research question proposed.
+investigating the research question proposed.\revnote{From Jess: The last half
+  of this para in particular is hard to understand.}
 
 However, it would not be possible to perform analyses of player behaviour
 without real-world player data. Datasets collected empirically would be required
@@ -43,36 +53,41 @@ research~\cite{kavanagh2021thesis}, formal methods~\cite{kavanagh2020},
 sociotechnical simulation research, and research software engineering tooling
 demonstration.
 
-To that end, a collaboration was undertaken with \citeauthor{kavanagh2021thesis}
-to develop and release a mobile implementation of RPGLite which would collect
-player data for research purposes. The dataset produced would enable
-\citeauthor{kavanagh2021thesis} to demonstrate the utility of their model
-checking in an empirical scenario~\cite{kavanagh2021thesis}, and for the
-purposes of this thesis, it would also enable the analysis of models
-representing player behaviour, by supporting the comparison of these models
-against the collected data.
+To that end, a collaboration was undertaken\revnote{J: rework passive voice}
+with \citeauthor{kavanagh2021thesis} to develop and release a mobile
+implementation of RPGLite which would collect player data for research purposes.
+The dataset produced would enable \citeauthor{kavanagh2021thesis} to demonstrate
+the utility of their model checking in an empirical
+scenario~\cite{kavanagh2021thesis}, and for the purposes of this thesis, it
+would also enable the analysis of models representing player behaviour, by
+supporting the comparison of these models against the collected data.
 
-The development and release of RPGLite as a mobile game offers an opportunity to
+\revnote{J: this para's easier to understand than previous ones in this chapter.
+  When reworking, consider how the others could be rewritten in a style closer
+  to this? She also notes it might belong further up in the chap.}The
+development and release of RPGLite as a mobile game offers an opportunity to
 make use of aspect orientation in a new context: a model of naive RPGLite play
-can be produced which represents random play, and aspects could be written which
-augment the naive model representing hypothesised player behaviour. If the
-aspectually augmented models generate data which correlates with empirically
-sourced data more closely than that generated by the naive model (with random
-play, and no aspectual augmentation), we can dismiss naive play as
-``realistic'', and understand the aspectually augmented behaviour as ``more
-realistic''. Many aspects can be written representing different styles of play,
-which might be adopted by different players, a concrete benefit of aspect
-orientation in modelling \& simulation.
+can be produced\revnote{J: avoid passive voice} which represents random play,
+and aspects could be written which augment the naive model representing
+hypothesised player behaviour. If the aspectually augmented models generate data
+which correlates with empirically sourced data more closely than that generated
+by the naive model (with random play, and no aspectual augmentation), we can
+dismiss naive play as ``realistic'', and understand the aspectually augmented
+behaviour as ``more realistic''. Many aspects can be written representing
+different styles of play, which might be adopted by different players, a
+concrete benefit of aspect orientation in modelling \& simulation.
 
-The modelling \& simulation research opportunities RPGLite presents are realised
-in \cref{chap:exp1_simulation_optimisation} and
+\revnote{J: She suggests moving this earlier, too.}The modelling \& simulation
+research opportunities RPGLite presents are realised in
+\cref{chap:exp1_simulation_optimisation} and
 \cref{chap:exp2_old_aspects_new_systems}; this chapter focuses only on the
 design and development of RPGLite as a mobile game, and the dataset collected
 from real-world play and released
 ~\cite{wallis_game_on_2020,RPGLiteLessonsLearned}. It starts with an overview of
 RPGLite itself in \cref{sec:rpglite_overview}, and progresses to a discussion of
 the game's implementation in \cref{sec:rpglite_implementation} before concluding
-with a discussion around the empirical data collected using the game in \cref{sec:rpglite_data_discussed}.
+with a discussion around the empirical data collected using the game in
+\cref{sec:rpglite_data_discussed}.
 
 \section{An Overview of RPGLite}\label{sec:rpglite_overview}\revnote{Needs copy-editing}
 
@@ -89,7 +104,9 @@ their target[s]. A random player is chosen to take a first move, players may
 always skip their turn as a valid action, and players continue to take
 alternating turns until a victor is left with the only ``alive'' characters.
 
-Eight characters are available for selection, with the following abilities:
+Eight characters are available for selection, with the following
+abilities\revnote{J: compress the description list. Maybe make it bulleted? I
+  wonder whether it can just be a para or something.}:
 
 \begin{description} \item[Knight] Deals damage to an opponent character on a
 successful hit.  \item[Archer] Deals damage to two opponent characters on a
@@ -98,7 +115,8 @@ successful hit, disabling (or \emph{``stunning''}) them for the duration of the
 opponent's next turn.  \item[Healer] Deals damage to an opponent character on a
 successful hit, and heals themselves or, optionally, the other player character
 instead (assuming that character is still alive).  \item[Barbarian] Deals damage
-to an opponent character on a successful hit, dealing additional damage if their
+to an opponent character on a successful hit, dealing additional damage if
+their\revnote{J: whose? the barbarian's? Clarify.}
 health is low when attacking.  \item[Rogue] Deals damage to an opponent
 character on a successful hit, dealing additional damage if the target's health
 is low when attacked.  \item[Monk] Deals damage to an opponent character on a
@@ -138,22 +156,29 @@ space in order to calculate optimal moves and character pairings.
 
 \subsection{RPGLite's Design Implications}
 
-The state space of RPGLite makes it unusually well-suited to analysis through
+The state space\revnote{Jess noted this wasn't formally described. I describe it
+later, but clearly it's confusing on a first read; consider either reordering or
+including a definition earlier, the term shouldn't be used here if it's not
+defined properly.} of RPGLite makes it unusually well-suited to analysis through
 formal methods.  Because of this, datasets produced through simulation of
 RPGLite can be compared against two other datasets: one of real-world play, and
 another of what can be mathematically shown to be ``correct'' player behaviour.
 
 To demonstrate this state space, note that RPGLite games can have their states
-described by a set of values: the healths of characters on each team, plus a
-stunned character. With eight characters having a maximum health value of $w, x,
+described\revnote{J: so is that the state, or just a description of a subset?
+  (It's a complete and uniquely identifying state, but I don't make this clear enough)} by a set of values: the healths of characters on each team, plus a
+stunned character. With eight characters each having their own maximum health
+value, which we denote $w, x,
 y, z$\footnote{Maximum health values are dependent on RPGLite's configuration.},
 two players, and an indicator of which character is stunned.\footnote{Note that
 stunnedness is valid for exactly one character for one turn, meaning that only
 one character may be stunned at any time, and the status effect immediately
 resets, meaning there are only three possible states for stunnedness: either
-character belonging to the player taking a turn, or neither.}. The entropy of a
+character belonging to the player taking a turn, or neither.}. The
+entropy\revnote{J: define earlier? Also: why is entropy important here?} of a
 game's state is therefore
-\(log_2(w\times{}x\times{}y\times{}z\times{}3\times{}2)\), where the
+\(log_2(w\times{}x\times{}y\times{}z\times{}3\times{}2)\)\revnote{J: does the
+  order matter?}, where the
 multiplications by 3 and 2 represent the stunnedness indicator for the current
 player (either character, or neither), and the player whose turn it is to play,
 respectively. The maximum health for a character is 10 hit points, which makes
@@ -163,7 +188,11 @@ choose to attack either opponent character with either of their own, or skip
 their turn, for a maximum of 6 possible actions. We can therefore see that the
 total entropy of the entire RPGLite game is no greater than
 \(log_2(10^{4}\times{}6\times{}2\times{}{10\choose2}\times{}6 \approx 24.36
-bits\).\footnote{The actual figure is smaller: \begin{itemize}\item Players may
+bits\)\revnote{J: Summarising her notes but 1. Footnote should be integrated
+  into body and 2. Entropy's a confusing concept, wasn't
+  what she was expecting here for defining a state space. Either make the
+  concept extremely clear or, better, avoid the concept of entropy so as not to
+  trip people up. Clearer writing > clever writing.}.\footnote{The actual figure is smaller: \begin{itemize}\item Players may
 choose two characters with special abilities that prevent them from attacking
 both opponent characters at once (this accounts for 9 out of 10 characters),
 giving 5 possible actions in a turn, rather than 6.\item The ``metagame''\inline{Metagame is never defined!}, which
@@ -187,8 +216,9 @@ states themselves, meaning that it is feasible to map the potential progressions
 through all possible games of RPGLite using formal methods. Further, this allows
 us to understand the chances of a player winning given transitions between
 different states, for example by representing moves in the game as transitions
-in a decision diagram where nodes are the game's state. We can calculate exactly
-how ``good'' a move is, by comparing chances of success making a given move in a
+in a decision diagram\revnote{J: suggest a diagram here} where nodes are the game's state. We can calculate exactly
+how ``good'' a move is, by comparing chances of success\revnote{J: this needs to
+be defined too} when making a given move in a
 given state against the chances of success when making the objectively optimal
 move.
 
@@ -197,7 +227,9 @@ draws on common game design elements and is sufficiently ``interesting'' to
 generate data from a real-world playerbase.\footnote{Demonstrated through data
 collected from several thousand completed games, which can be found at
 \cite{rpglite_dataset}.} This yields some useful properties for the purposes of
-aspect-oriented simulation:
+aspect-oriented simulation\revnote{J: first section isn't clear, she notes she
+  didn't understand. In second section she circles ``known'', asking, ``known by
+  whom?''}:
 
 \begin{enumerate} \item Simulated moves can be selected naively, i.e. at random,
 but can also be made perfectly according to the known-correct move in a given
@@ -210,7 +242,9 @@ shown to have a relatively low chance of winning games.  \item As the actions
 taken when playing RPGLite are consistent --- such as deciding the target
 character of an attack, or a character to use in an attack --- random play can
 be simulated as a ``naive'' play style, which can be compared against real-world
-players. Where player behaviour does not correlate to naive play,\footnote{The
+players. Where player behaviour does not correlate to naive
+play,\revnote{Footnote suggests correlation is defined in chap 6; include a more
+specific cref.}\footnote{The
 concept of play correlation is introduced in
 \cref{chap:exp1_simulation_optimisation}.} the biases of players may be
 represented as aspects which are applied only to specific actors within the
@@ -244,7 +278,7 @@ help to assess whether aspect orientation is suitable for realistic simulation.
 
 \section{Implementation of RPGLite}\label{sec:rpglite_implementation}
 
-Knowing ideal play is useful. However, to understand how real-world players
+\revnote{J: compress}Knowing ideal play is useful. However, to understand how real-world players
 would interact with RPGLite, empirical data needed to be collected. To produce
 this, a mobile online multiplayer version of the game was developed for data
 collection purposes. Play constituted engagement with an experiment for data
@@ -256,8 +290,7 @@ offered a dataset which could be used to simulate real-world player behaviour.
 This section describes details of RPGLite's implementation as a data collection
 tool. Some lessons learned after reflection on the implementation process were
 documented for the benefit of others' avoiding our
-errors\cite{RPGLiteLessonsLearned} which provides some reflection on the process
-of RPGLite's development\revnote{Should a summary of the paper be a section
+errors\cite{RPGLiteLessonsLearned}\revnote{Should a summary of the paper be a section
 here, or maybe an appendix? Keen not to plagarise, but it's also maybe worth
 including. William and I both spent a lot of time getting that paper out. I
 presented it at GameOn2020. He's included some in his thesis, so I guess it's a
@@ -296,13 +329,11 @@ game was publicly released.
 As a mobile game, RPGLite's user-facing component was an application,
 distributed through the Google Play Store on Android and the Apple App Store on
 iOS. This was developed in Unity, a framework for developing games in C\# which
-can be distributed to almost any platform\footnote{Meaning that there are
-technically also versions of RPGLite playable on, say, a games console or web
-browser.}. Most assets were developed in GIMP, with character designs
+can be distributed to almost any platform. Most assets were developed in GIMP, with character designs
 contributed by a commissioned artist online. Unity allowed for a ``WYSIWYG'' or
 what-you-see-is-what-you-get interface builder, with event handlers defined in
 C\# code which would ``hook'' into events signalled by interface element
-interactions. User-facing components of the game were largely produced by
+interactions. \revnote{J: rest of this para should be made shorter.}User-facing components of the game were largely produced by
 \citeauthor{kavanagh2021thesis}, the collaborator on this project and original
 RPGLite designer. Therefore, in an attempt not to take credit for this component
 of the work involved in collecting the RPGLite dataset, curious readers are
@@ -361,7 +392,8 @@ screenshots I've included at present come from my iCloud photos library\ldots{}}
 
 \subsection{API \& Server-side Logic}\label{subsec:server-side-logic}
 
-As the data collected ought to be empirical, RPGLite was developed as an online
+As the data collected ought to be empirical\revnote{J: how could the data not be
+empirical?}, RPGLite was developed as an online
 game. This required a server and API for a client to communicate with.
 
 A REST API was developed with Python's \emph{Flask} framework. Endpoints were
@@ -401,30 +433,35 @@ the game's launch have been published separately~\cite{GameOn2020}.
 
 \section{Empirical Play and Data Collected}\label{sec:rpglite_data_discussed}
 
-In total, players produced a dataset comprising around $9,693$
-games. It also includes
+In total, players produced a dataset of $9,693$ games. It also\revnote{J:
+  suggests this is separate from games. Is that correct? (Yes; make this clearer.)} includes
 $1,105,065$ datapoints generated by gameplay or player interaction with the
 client, such as players checking their position on a leaderboard, searching
-their game history, or rolling to hit as part of an attack. The data is drawn
+their game history, or rolling to hit as part of an attack. The data is
+drawn\\revnote{J: present here, past elsewhere, be consistent with tenses}
 directly from the MongoDB database used to run the game. With player consent on
 signup (see \cref{subsec:consent_to_participation}) this data is published and
-available for all researchers to analyse in the format of a JSON object~\cite{rpglite_dataset}.
+available for all researchers to analyse in the format of a JSON
+object~\cite{rpglite_dataset}.
 
-Completed games drawn from the MongoDB instance contain many fields, and the in
-particular the breadth of datapoints logged by player interaction with the
-RPGLite app means there are an extremely broad range of datapoints available to
-curious researchers. A full list of available data is available in
-a text document within the dataset~\cref{rpglite_dataset}; in brief, some of
-particular interest include: 
+Completed games drawn from the MongoDB instance contain many fields. The breadth
+of datapoints logged by player interaction with the RPGLite app means there are
+an extremely broad range of datapoints available to curious
+researchers.\revnote{J: make more concise. (I made slight edits when adding this
+  revnote, maybe the para can be condensed. I haven't done much right now.)} A full
+list of available data is available in a text document within the
+dataset~\cref{rpglite_dataset}\revnote{citation undefined}; in brief, some of particular interest include:
 
 \begin{itemize}
     \item The history of moves made, and the times those moves were
 made
 \item The players involved and the winning player of each game (by username as
 no personally identifying data was collected)
-\item The ELO scores of players in each game
+\item The ELO\revnote{ELO undefined.} scores of players in each game
 \item The characters chosen by each player
-\item The ``score'' of each player\footnote{RPGLite's mobile app presented users
+\item The ``score'' of each player\revnote{J: ``score'' is vague. I clarify in
+    the footnote but it should be in the body here. Also, ``score'' is not of
+    interest. We don't use it in the experiments, don't waste attention on it.}\footnote{RPGLite's mobile app presented users
 with a naive scoring mechanism used to rank users on a leaderboard which some
 users then used to identify other players of a similar notional skill.}
 \end{itemize}
@@ -436,3 +473,9 @@ configuration (a preference of characters, for example), changes were made which
 may invalidate what players had learned. The dataset therefore contains two
 conceptual subsets: data collected from a system with the same mechanics but
 slightly tweaked
+\inline{J: this chapter is actually unfinished. (I can't believe I missed this.
+  OK. There's a little more to say on the dataset itself; set yourself up in
+  particular for the parts of the data that are important in the experiments.
+  Make note of the changes between S1 and S2; I think I'd meant to look this up,
+  forgot, and thought the final section was complete, which is a serious
+  oversight, but there's not too much left to write here.)}
