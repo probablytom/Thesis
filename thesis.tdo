@@ -8,10 +8,7 @@
 \contentsline {todo}{\emph {[C2{}] todo: }Cite some OO languages, papers noting their industrial use / the ``success'' of object orientation.}{28}{subsection.2.1.1}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Feels like the full literature on AOP is missing here. What is the available evidence that it works, if any? What has it been used for? Some sort of survey of AOP tech might also be useful for talking about alternatives?}}{31}{Item.2}%
 \contentsline {todo}{\color {green}{\emph {[C2{}] review response/Q: }I wonder whether I need to review more literature (possible --- I have a few mentioned in comments here and in annotated.bib that I should look at if I have time, though I believe I've covered the essentials) or whether the tech that's of interest here is reviewed later on. I suspect it's included later, because there's a note toward Dynamic Aspect Weaving which suggests the tech needs to come before the criticisms review (i.e. there's some tooling reviewed, but not where it should be). Mostly folk seem to have stuck with AspectJ, and domain-specific / general tooling is reviewed later. I'm reticent to move the specific tech reviewed here because I currently have a nice separation between the philosophy of the paradigm and its implementations; maybe I should make those concepts more clearly separated in section headings, or maybe I should move the tech here and make Criticisms its own section, rather than a subsec of this introduction.}}{31}{Item.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }I would rephrase the opening of this as direct report of voice to make it more succinct. \blx@tocontentsinit {0}\cite {Constantinides04aopconsidered} offered an early critique of AOP, making unfavourable comparisons with criticisms of GOTO statements.}}{32}{subsection.2.1.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Again, direct active report of voice is more succinct. \blx@tocontentsinit {0}\citeauthor {steimann06paradoxical} makes a similar, but more thorough critique of AOP.}}{32}{subsection.2.1.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Generally, avoid referring to a ``paper'' refer to the authors.}}{32}{subsection.2.1.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }The style in the below is what I'm suggesting}}{33}{subsection.2.1.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Why? Presumably because they use the wrong type of modularity (Lexical?) --- if so, make this clear here!}}{33}{subsection.2.1.2}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }This review is arguably unfinished --- there are more papers commented below this note which are probably worth reading / ensuring I'm citing. Tim has noted that the review on early / foundational literature of AOP seems incomplete, and I think the commented papers to review below could be good candidates to address this.}}{33}{subsection.2.1.2}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }this needs more explanation. What were Kiczales et al. trying to do, what was the context, what did they demonstrate?}}{34}{subsection.2.1.3}%
 \contentsline {todo}{\color {green}{\emph {[C2{}] review response/Q: }I covered this a fair bit in the earlier parts of this section. Maybe this was unclear? This lit is already covered, so fixing earlier notes might be better than adding notes here. I've since restructured \& reframed, hopefully enough to make this clearer, but I'm curious\ldots {}}}{34}{subsection.2.1.3}%
@@ -24,67 +21,66 @@
 \contentsline {todo}{\color {green}{\emph {[C2{}] review response/Q: }Yes, I'm sure they'd help! Diagrams to add here.}}{36}{section*.5}%
 \contentsline {todo}{\emph {[C2{}] todo: }Add subject-oriented programming here}{36}{section*.5}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }I think this comes before the critique section perhaps? Need a general introduction to AOP techniques and techs, including this?}}{36}{section.2.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Need citations to these technologies}}{37}{section.2.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }My worry in below is that it feels like you are teasing the reader - well WHAT environments/contexts then, huh?}}{38}{Item.5}%
-\contentsline {todo}{\emph {[C2{}] todo: }don't be fancy here}{38}{Item.5}%
-\contentsline {todo}{\emph {[C2{}] todo: }Note from discussion with Tim to work into this: ``the anticipated benefits of aspect-oriented programs are not observed in practice''}{39}{Item.5}%
-\contentsline {todo}{\emph {[C2{}] todo: }Both paragraphs on Gilani2004 need to be heavily edited.}{39}{Item.5}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Long sentence and not sure what you are trying to say exactly}}{39}{Item.5}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Can you be more precise here? Is it the first instance?}}{40}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Don't think Swarm has been mentioned before so needs explanation/cite - sentence or two}}{40}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }intrinsic? explicit?}}{40}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }T: Have I actually explained what a dynamic weaver is? Think not.}}{36}{section.2.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }T: maybe this is a suitable introduction to dynamic weaving, if I add an explanatory paragraph at the beginning?}}{37}{subsection.2.2.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Need citations to these technologies}}{37}{subsection.2.2.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }I \emph {definitely} need more reviews of specific tools here. AspectJ now has dynamic weaving, I'm certain, and if so it's essential it gets a spot here (before prose, really). Also, where's Nu?}}{39}{subsection.2.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Where's this quote from? Citation needed. Think it could be \citet {przybylek2010wrong} or \citet {steimann06paradoxical}.}}{40}{subsection.2.2.4}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Can you be more precise here? Is it the first instance?}}{41}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Don't think Swarm has been mentioned before so needs explanation/cite - sentence or two}}{41}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }intrinsic? explicit?}}{41}{section.2.3}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }it seems like this might be an important exposition, so perhaps more details?}}{41}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }This is waffly. Would suggest simplifying to something like ``The position adopted by Gulyas aligns with that taken in this thesis: that aspect orientation has signficant benefits for supporting software based modelling and simulation''}}{41}{section.2.3}%
-\contentsline {todo}{\emph {[C2{}] todo: }Remove the description of tangling and scattering from here and include in a review of more foundational AOP literature early in the lit review. They don't belong buried so far down in this chapter.}{41}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Agree}}{41}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }(DES)}}{41}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }repetition}}{41}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Be explicit about what Japrosim is - is it a DESF?}}{41}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Just say ``Later,...,''}}{41}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }generally past tense preferred}}{41}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Evaluating?}}{42}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }new sentence here - \citet {chibani2019using}'s later work presented an implementation of their proposal and provide a quantitative evaluation.}}{42}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }simplify - Similar to}}{42}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }simplify - observed that their are advantages to adopting AOP}}{42}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }This is waffly. Would suggest simplifying to something like ``The position adopted by Gulyas aligns with that taken in this thesis: that aspect orientation has signficant benefits for supporting software based modelling and simulation''}}{42}{section.2.3}%
+\contentsline {todo}{\emph {[C2{}] todo: }Remove the description of tangling and scattering from here and include in a review of more foundational AOP literature early in the lit review. They don't belong buried so far down in this chapter.}{42}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Agree}}{42}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }(DES)}}{42}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }repetition}}{42}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Be explicit about what Japrosim is - is it a DESF?}}{42}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Just say ``Later,...,''}}{42}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }generally past tense preferred}}{42}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Evaluating?}}{43}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }new sentence here - \citet {chibani2019using}'s later work presented an implementation of their proposal and provide a quantitative evaluation.}}{43}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }simplify - Similar to}}{43}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }simplify - observed that their are advantages to adopting AOP}}{43}{section.2.3}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }I'd avoid handwavy conclusions like this. Say something more sober like ``In general, the AOP for modelling and simulation literature defers to claims in general AOP literature that AOP enhances...}}{43}{section.2.3}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }provide}}{43}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Simplify - The work therefore provides evidence that AOP is suitable for supporting simulation and modelling in real-world ontexts and use case. Several authors have otherwised criticised the lack of practical evaluation of AOP generally \blx@tocontentsinit {0}\cite {}}}{43}{section.2.3}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Simplify - The work therefore provides evidence that AOP is suitable for supporting simulation and modelling in real-world ontexts and use case. Several authors have otherwised criticised the lack of practical evaluation of AOP generally \blx@tocontentsinit {0}\cite {}}}{44}{section.2.3}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Generally remove ``note'' prefixes to sentences. ``Improvements to code quality...''}}{44}{section.2.3}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }use macro?}}{44}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }use macro?}}{45}{subsection.2.3.1}%
 \contentsline {todo}{\emph {[C2{}] todo: }Editing tip from Tim: don't call things "important", this implies other things aren't. Rework areas where I do this.}{45}{subsection.2.3.1}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }past tense again - the paper has been written/published - foresaw, observed, described...}}{45}{subsection.2.3.1}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }what do you mean by static nature? not clear}}{45}{subsection.2.3.1}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Can you give am example}}{45}{subsection.2.3.1}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }this seems relevant argument so avoid footnotes?}}{45}{subsection.2.3.1}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Don't need to state pub type, just name the author}}{45}{subsection.2.3.1}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }can you say something explicit about the difference and benefits of this?}}{46}{subsection.2.3.1}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Can you say something more precise than spirit here, e.g. objectives, intentions at least?}}{46}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Can you give am example}}{46}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }this seems relevant argument so avoid footnotes?}}{46}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Don't need to state pub type, just name the author}}{46}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }can you say something explicit about the difference and benefits of this?}}{47}{subsection.2.3.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Can you say something more precise than spirit here, e.g. objectives, intentions at least?}}{47}{subsection.2.3.1}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }demonstrates}}{47}{subsection.2.3.1}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }conventions, syntax - again be more precise}}{47}{subsection.2.3.1}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }add something early on giving an example of how it might be a problem?}}{47}{subsection.2.3.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }Brief intro of the process variance section here}{47}{section.2.4}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Agree, builds well from preceding sections though}}{47}{section.2.4}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Not sure this is true - e.g. MAS?}}{47}{section.2.4}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }add something early on giving an example of how it might be a problem?}}{48}{subsection.2.3.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Brief intro of the process variance section here}{48}{section.2.4}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Agree, builds well from preceding sections though}}{48}{section.2.4}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Not sure this is true - e.g. MAS?}}{48}{section.2.4}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }remove plausibly - it can or it can't}}{49}{subsection.2.4.1}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Has this motivation already been explained? If not re-order with below first.}}{49}{subsection.2.4.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }Find citation for empirical datasets being the only ones available to researchers, maybe for disaster prevention or similar?}{49}{subsection.2.4.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }find a citation for simulating different systems for finding an optimal one. Arguably Genetic programming \& hill climbing do similar things?}{49}{subsection.2.4.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }Find some nice way to round this subsection out, or refactor out subsections}{49}{subsection.2.4.1}%
-\contentsline {todo}{\emph {[C2{}] todo: }Important to acknowledge somewhere in this subsection that synthetic data generation is a well-researched field, but that generating logs from simulations with variance is the specific area relevant to this thesis}{49}{subsection.2.4.1}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }refactor by re-ordering - explain the motivation first and then intro the approach of charfi}}{49}{subsection.2.4.1}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }with what particular characteristics? e.g. that plausibly mimic real world logs of real security violations?}}{50}{subsection.2.4.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }is this a however, i.e. a limitation?}}{50}{subsection.2.4.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }further}}{50}{subsection.2.4.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }techniques}}{50}{subsection.2.4.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }say limited instead of relatively rudimentary?}}{50}{subsection.2.4.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }why only presumably?}}{50}{subsection.2.4.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }new paragraph?}}{50}{subsection.2.4.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }of?}}{50}{subsection.2.4.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }be explicit - on what. Also start with the overall thrust of the work, not the specific contribution}}{51}{subsection.2.4.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }as per first comment on this paragraph - what technique?}}{51}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Has this motivation already been explained? If not re-order with below first.}}{50}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Find citation for empirical datasets being the only ones available to researchers, maybe for disaster prevention or similar?}{50}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }find a citation for simulating different systems for finding an optimal one. Arguably Genetic programming \& hill climbing do similar things?}{50}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Find some nice way to round this subsection out, or refactor out subsections}{50}{subsection.2.4.1}%
+\contentsline {todo}{\emph {[C2{}] todo: }Important to acknowledge somewhere in this subsection that synthetic data generation is a well-researched field, but that generating logs from simulations with variance is the specific area relevant to this thesis}{50}{subsection.2.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }refactor by re-ordering - explain the motivation first and then intro the approach of charfi}}{50}{subsection.2.4.1}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }with what particular characteristics? e.g. that plausibly mimic real world logs of real security violations?}}{51}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }is this a however, i.e. a limitation?}}{51}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }further}}{51}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }techniques}}{51}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }say limited instead of relatively rudimentary?}}{51}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }why only presumably?}}{51}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }new paragraph?}}{51}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }of?}}{51}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }be explicit - on what. Also start with the overall thrust of the work, not the specific contribution}}{52}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }as per first comment on this paragraph - what technique?}}{52}{subsection.2.4.2}%
 \contentsline {todo}{\emph {[C2{}] todo: }Shugurov \& Mitsyuk's work should follow this. REVIEW IT.}{52}{subsection.2.4.2}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }unclear here}}{52}{subsection.2.4.2}%
-\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }have been developed}}{52}{subsection.2.4.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }have been developed}}{53}{subsection.2.4.2}%
 \contentsline {todo}{\emph {[C2{}] todo: }more citations}{53}{section.2.5}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }This is good, but don't be speculative like this. Draw a conclusion}}{55}{section.2.5}%
 \contentsline {todo}{\color {blue}{\emph {[C3{}] review: }Consider moving some code snippets like those of Fuzzi-Moss, which aren't necessarily that important in the grand scope of the thesis, to an appendix.}}{66}{lstnumber.-2.34}%
