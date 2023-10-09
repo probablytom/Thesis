@@ -1,4 +1,4 @@
-%\labelledsec{Aspect Orientation}{dynamic_aok_review}
+%\labelledsec{Aspect Orientation}{dynamic_aok_review\}
 %
 %In \cref{kiczales1997aspect}, \citeauthor{kiczales1997aspect} see these
 %engineering concepts as universal throughout business logic, motivating the
@@ -26,7 +26,9 @@ design, tooling to support these endeavours, some empirical assessment of both
 the paradigm and its application in the domain of simulation and modelling. In
 particular, the presented research makes use of aspects to model hypotheses and
 the complexities of variable and unpredictable behaviour in the simulation of
-\sociotechnical systems.
+\sociotechnical Their evaluation measures code quality improvements, which are
+commonly claimed in aspect orientation research\revnote{add citations where code
+quality improvements are claimed in AOP research}. systems.
 
 Relevant literature in this topic typically comes from a variety of fields which
 do not overlap significantly, meaning that this review must cover segments of
@@ -50,14 +52,16 @@ moment because I suspect I'm about to reorder them.}
 % \end{description}
 
 
-\section{Aspect Orientation}\label{lit_review_AOP_explainer}
 
-This section provides an introduction to the approach of aspect orientation, its
 philosophy toward software engineering and modularity, and some criticisms of
 its high-level design. Other sections, in particular
 \cref{sec:dynamic_aop_review} and \cref{sec:ao_and_modelling}, expand on this
 introduction by investigating implementations, technologies and use cases of
 particular interest.\revnote{Reword if I move criticisms to another section.}
+\revnote{I believe this para was mangled by emacs somehow, and is the end of a
+  drafted final paragraph of this introduction. Keeping it because it wasn't
+  committed so can't restore the original para, and ideally I'll recreate it
+  when redrafting this chapter.}
 
 \subsection{Motivations \& Philosophy Underlying Aspect Orientation}
 \label{review_aop_motivations_and_philosophy}
@@ -764,7 +768,10 @@ the use of aspects to \emph{modify} simulated behaviour rather than simply
 observing it. Further disucssion follows in \cref{sec:lit_discussion}.
 
 
+
 \subsection{Aspect Orientation in Discrete Event Simulation}
+
+\subsubsection{Aspect-Orientated Implementations of Simulation Frameworks}
 
 \citet{chibani2013toward} observed that simulation frameworks and the codebases
 built upon them can exhibit cross-cutting concerns such as event handling,
@@ -779,32 +786,30 @@ framework previously developed by the research team, which was designed to model
 domains through process interaction in Java --- as an example of an
 existing framework which exhibits the cross-cutting concerns they describe.
 
-% MARK MARK MARK
-% ===== Currently here when redrafting --- 23-09-24.
-% MARK MARK MARK
-
-\revnote{Just say ``Later,...,''} In a later publication~\cite{chibani2019using}, \citeauthor{chibani2019using}
-identify\revnote{generally past tense preferred} opportunities for the use of aspect orientation in simulation tooling,
-aiming to increase ``modularity, understandability, maintainability,
-reusability, and testability'' by applying the paradigm~\cite{chibani2019using}.
-They present a case study of an application of aspect orientation to simulation
-tooling by identifying cross-cutting concerns in Japrosim, a discrete event
-simulation framework, and propose an aspect-oriented redesign of the tool using
-AspectJ. \citeauthor{chibani2019using} describe Japrosim's existing
-object-oriented design, followed by aspect oriented variations of some design
-elements, including concurrent process management and in Japrosim's graphical
-animation features. A similar survey of areas in which Japrosim's source might
-benefit from the application of aspect orientation is presented by
+Later, \citet{chibani2019using} identified opportunities for the use of aspect
+orientation in simulation tooling, aiming to increase ``modularity,
+understandability, maintainability, reusability, and testability'' by applying
+the paradigm~\cite{chibani2019using}. They present a case study of an
+application of aspect orientation to simulation tooling by identifying
+cross-cutting concerns in Japrosim, a discrete event simulation framework, and
+propose an aspect-oriented redesign of the tool using AspectJ.
+\citeauthor{chibani2019using} describe Japrosim's existing object-oriented
+design, followed by aspect oriented variations of some design elements,
+including concurrent process management and in Japrosim's graphical animation
+features. A similar survey of areas in which Japrosim's source might benefit
+from the application of aspect orientation is presented by
 \citeauthor{chibani2014practical} in an earlier
 work~\cite{chibani2014practical}. In both cases, the main contribution noted is
-the design itself. Counting\revnote{Evaluating?} the main improvements between the presented
-aspect-oriented design and the existing object-oriented one is left to future
-work\revnote{new sentence here - \citet{chibani2019using}'s later work presented an implementation of their proposal and provide a quantitative evaluation.} %
-in the authors' later publication~\cite{chibani2019using}, although a
-concrete implementation is linked to and some quantitative evaluation of that
+the design itself. Counting\revnote{Evaluating?} the main improvements between
+the presented aspect-oriented design and the existing object-oriented one is
+left to future work\revnote{new sentence here - \citet{chibani2019using}'s later
+  work presented an implementation of their proposal and provide a quantitative
+  evaluation.}
+in the authors' later publication~\cite{chibani2019using}, although a concrete
+implementation is linked to and some quantitative evaluation of that
 implementation presented in their earlier
 publication~\cite{chibani2014practical}. The quantitative evaluation provides
-measurements based on \citeauthor{martin1994oo}'s object-oriented design metrics
+measurements based on \citet{martin1994oo}'s object-oriented design metrics
 and demonstrates a greater independence of packages in their aspect oriented
 version of Japrosim than in the original. However, the intended aim of aspect
 orientation is not to decouple existing packages, but to isolate those packages'
@@ -815,97 +820,116 @@ possible that the improvement is due to the rewriting necessary in their
 maintenance of the Japrosim source, rather than due to their use of aspect
 orientation specifically.
 
-\revnote{simplify - Similar to}In a manner similar to
-\citeauthor{chibani2019using}'s~\cite{chibani2019using,chibani2013toward,chibani2014practical},
-\citeauthor{DEVSaspectorientation2008aksu} observe that there are opportunities
-to be found\revnote{simplify - observed that their are advantages to adopting AOP} in a simulation framework able to take advantage of aspect
-orientation~\cite{DEVSaspectorientation2008aksu}. Examining the DEVS framework
-Simkit, their proposal for aspect-oriented programming adoption is two-fold:
-refactoring of the framework itself and aspect-oriented tooling for use by
-modellers, who represent cross-cutting concerns within their models.
-Opportunities for improvements in production and development are discussed, and
-some implementation notes are detailed, although no concrete implementation or
-evaluation is provided; the work instead proposes design alterations, and the
-authors ``leave it as a future work \emph{[sic]} to explore the usability and
-efficiency'' of aspect orientation used idiomatically alongside Java's existing
-reflection offerings. The existence of multiple attempts to refactor differing
-simulation packages with aspect orientation indicates potential for modellers in
-the use of aspect-oriented patterns, but the real-world utility of the
-techniques are omitted. \citeauthor{chibani2019using} and
-\citeauthor{DEVSaspectorientation2008aksu} both seem to defer to the zeitgeist
-wisdom of the aspect orientation community in their unproven claim that it
-improves modularity and maintainability of a codebase.\revnote{I'd avoid handwavy conclusions like this.  Say something more sober like ``In general, the AOP for modelling and simulation literature defers to claims in general AOP literature that AOP enhances...}
+Similarly to
+\citeauthor{chibani2019using}~\cite{chibani2019using,chibani2013toward,chibani2014practical},
+\citeauthor{DEVSaspectorientation2008aksu} observe that there are advantages in
+adopting aspect orientation when developing a simulation
+framework~\cite{DEVSaspectorientation2008aksu}. Examining the DES framework
+Simkit\revnote{grab a citation for Simkit}, they motivate two different
+applications of aspect-orientation: a refactoring of the framework itself to
+better manage cross-cutting concerns within its codebase; and aspect-oriented
+tooling for use by modellers who represent cross-cutting concerns within their
+models. Opportunities for improvements in production and development are
+discussed, and some implementation notes are detailed, although no concrete
+implementation or evaluation is provided; the work instead proposes design
+alterations, and the authors ``leave it as a future work \emph{[sic]} to explore
+the usability and efficiency'' of aspect orientation used idiomatically
+alongside Java's existing reflection offerings. The existence of multiple
+attempts to refactor differing simulation packages with aspect orientation
+indicates potential for modellers in the use of aspect-oriented patterns, but
+the real-world utility of the techniques are omitted. As is common in
+aspect-orientation literature, \citeauthor{chibani2019using} and
+\citeauthor{DEVSaspectorientation2008aksu} both defer to the general claims that
+aspect-orientation improves modularity of cross-cutting concerns and can
+eliminate code smells such as tangling and scattering.
 \footnote{\citeauthor{chibani2014practical} do present some quantitative
-evaluation, but this is flawed as previously described.}
+  evaluation, but this is flawed as previously described.}
 
-Neither \citeauthor{gulyas1999use} nor
-\citeauthor{DEVSaspectorientation2008aksu} detail\revnote{provide} a case study of their
-techniques with real-world examples. However, \citeauthor{ionescu2009aspect} do
-in their work identifying an increased demand for computational power in
+
+
+\subsubsection{Aspect-Orientated Implementations of Simulations \& Models}
+
+Research projects applying aspect-orientation to the implementation of
+simulation frameworks~\cite{chibani} fails to provide a case study which evaluates
+their technique with real-world examples. However, case studies do exist which
+evaluate aspect-orientation's suitability in maintaining model source code.
+
+\citeauthor{ionescu2009aspect} identify an increased demand for computational power in
 simulation execution on supercomputers~\cite{ionescu2009aspect}. Existing
 known-good models might be unsuitable for the extreme requirements of code
-efficiency modellers contend with, but running the code on different
-environments requires modifications for suitability in different environments,
-around which there are regulations and risks of a reduction in quality during
-maintenance. The authors propose an aspect-oriented solution to the problem,
-where aspects modify the simulation codebase with minimal overhead. An
-implementation of a real-world model for disaster prevention is presented, and
-assessed both by comparison against an equivalent non-aspect-oriented codebase
-and by assessment of the aspect-oriented variant's scalability and reliability
-in both cluster and multi-cluster environments. They find that a comparative
-analysis of generated code and of their simulations in various configurations
-both indicate that their simulation's aspect-oriented implementation is suitable
-for use in disaster prevention, implying that aspect orientation could be
-suitable in scenarios with comparable requirements.
+efficiency modellers contend with, but running the code in different
+environments requires modifications to make the code suitable in the
+environment. These modifications are subject to regulations and introduce risk
+of a reduction in quality during maintenance. The authors propose an
+aspect-oriented solution to the problem, where aspects modify the simulation
+codebase with minimal overhead. An implementation of a real-world model for
+disaster prevention is presented, and assessed both by comparison against an
+equivalent non-aspect-oriented codebase and by assessment of the aspect-oriented
+variant's scalability and reliability in both cluster and multi-cluster
+environments. They find that a comparative analysis of generated code and of
+their simulations in various configurations both indicate that their
+simulation's aspect-oriented implementation is suitable for use in disaster
+prevention, implying that aspect orientation could be suitable in scenarios with
+comparable requirements.
 
-\revnote{Simplify - The work therefore provides evidence that AOP is suitable for supporting simulation and modelling in real-world ontexts and use case. Several authors have otherwised criticised the lack of practical evaluation of AOP generally \cite{}}
-That the authors can conclude that aspect orientation is suitable in a
-real-world use case constrained by the requirements of supercomputer use seems
-promising for the aspect-oriented paradigm, which is criticised for its lack of
-practical
-evaluation~\cite{Constantinides04aopconsidered,steimann06paradoxical,przybylek2010wrong}.
-As it is therefore a rare example of aspect-oriented case studies, their
-evaluation methodology is important to highlight. Their code analysis makes use
-of significant lines of code as a core metric, which doesn't reliably reflect
-code quality; quoting \citeauthor{rosenberg1997some}'s \citetitle{rosenberg1997some}~\cite{rosenberg1997some}:
+This work provides evidence that aspect-oriented programming is suitable for
+supporting modifications to simulations and models. This contrasts the lack of
+evidence for the paradigm's success in improvements to modularity and
+maintainability~\cite{przybylek2010wrong,Constantinides04aopconsidered}, and
+supports \citet{Steimann06paradoxical}'s suggestion that aspect-orientation
+might be suitable for other uses --- as well as the suggestion made by
+\citet{gulyas1999use} that the paradigm is well suited to the requirements of
+simulation \& modelling codebases.
+
+As it is a rare example of aspect-oriented case studies, the methodology
+employed by \citeauthor{ionescu2009aspect} is important to highlight. Their
+evaluation measures code quality improvements, which are commonly claimed in
+aspect orientation research\revnote{add citations where code quality
+  improvements are claimed in AOP research}. Their code
+analysis makes use of significant lines of code as a core metric, which doesn't
+reliably reflect code quality. As \citet{rosenberg1997some} explains:
+
 \begin{displayquote}
     (\ldots{})~the best use of SLOC is not as a predictor of quality
 itself (for such a prediction would simply reduce to a claim about size, not
 quality), but rather as a covariate adjusting for size in using another
 metric.
 \end{displayquote}
-This is important because a common claim in the aspect-oriented
-literature for which there is little empirical evidence is that aspect
-orientation improves the ``quality'' of a codebase, but the related claims made
-by \citeauthor{ionescu2009aspect}~\cite{ionescu2009aspect} are unreliable.
 
-\revnote{Generally remove ``note'' prefixes to sentences. ``Improvements to code quality...''}
-It is important to note that improvements in code quality specifically are those
-which have come under scrutiny by the critical papers reviewed in
-\cref{subsec:aop-criticisms}. The results presented by
-\citeauthor{ionescu2009aspect} do not satisfactorily address the requests for
-empirical evidence of improved code quality in these reviewed criticisms. This
-does not impact their aspect-oriented models' suitability given the motivations
-of \citeauthor{ionescu2009aspect}, which are that models should be amendable for
-new supercomputing settings without lack of performance. The models described in
-this work satisfy that aim. These models are also evaluated by way of
-performance, an important factor in supercomputer use where execution time is
-financially expensive and power-intensive. Quantitative evaluation of their
-simulation's execution time shows less than 5\% slowdown compared to a
-non-aspect-oriented implementation. \citeauthor{ionescu2009aspect} deem this a
-reasonable trade-off for the engineering improvements they observe. Their
-application to the supercomputing \& disaster prevention simulation domains
-therefore seem satisfactory by way of performance, and meet
-\citeauthor{ionescu2009aspect}'s aim of demonstrating a modelling technique
-which permits adapting existing models for use in new environments without
-directly maintaining the original model's source.
+Although \citet{ionescu2009aspect} evaluate code quality, the methodology
+employed to measure improvements is unreliable.
 
-This result is notable with regards the findings presented in this thesis, which
-similarly aim to alter a pre-existing model without directly altering it,
-although for purposes such as model reuse and simplification of experimental
-design rather than for avoiding the regulatory overhead and financial cost of
-maintaining the models described by
-\citeauthor{ionescu2009aspect}~\cite{ionescu2009aspect}.
+Improvements in code quality are those which have come under scrutiny by the
+critical papers reviewed in \cref{subsec:aop-criticisms}. The results presented
+by \citeauthor{ionescu2009aspect} do not satisfy critics' requests for empirical
+evidence of improved code quality. This does not impact their aspect-oriented
+models' viability: their study demonstrates that their models can be augmented
+to support new supercomputing environments without lack of performance. The
+models described in this work satisfy that aim: their models are also evaluated
+in their performance. Model performance is a priority in supercomputing
+contexts, where execution time is financially expensive and energy-intensive.
+Quantitative evaluation of their models' execution time shows less than 5\%
+slowdown compared to a non-aspect-oriented implementation.
+\citeauthor{ionescu2009aspect} deem this a reasonable trade-off for the
+engineering improvements they observe.
+
+\citeauthor{ionescu2009aspect}'s application of aspect-orientation to
+supercomputing \& disaster prevention simulations meet their performance
+requirements and demonstrate a modelling technique which adapts existing models
+for use in new environments without directly modifying pre-existing source code.
+This result is notable with regards the contributions presented in this thesis, which
+similarly aim to augment a pre-existing model without directly modifying its
+source code --- though this thesis' targets model reuse and design
+simplification rather than for avoiding the regulatory overhead and financial
+cost of maintaining models which run on supercomputers.
+
+
+
+
+%%%%%
+%%%%% MARK MARK MARK here when redrafting 09-10-2023
+%%%%%
+
 
 
 
@@ -926,18 +950,17 @@ maintaining the models described by
 Several projects within the business process modelling research community make
 use of aspect orientation to design modelling languages which produce less
 monolithic business process models~\cite{Cappelli_AOBPM,da2020implementation}
-and simplify the composition of models~\cite{charfi2007ao4bpel}. As business
-processes are inherently sociotechnical\revnote{use macro?} and this thesis presents tooling for and
-results in the modelling and simulation of \sociotechnical systems using
-aspect-oriented techniques, it is important to review this community's
-literature.~\inline{Editing tip from Tim: don't call things "important", this
-implies other things aren't. Rework areas where I do this.} This field is particularly relevant as work on this project prior to
-this thesis' research models software engineering processes that are
-conceptually similar to business process modelling (see \cref{chap:prior_work}),
-and there also exists interest in modelling behavioural variance within the
-business process modelling community (see \cref{sec:dynamism_in_sm}), which is
-highly relevant to this thesis' concern with the representation of alteration to
-process and modelled behaviour as aspects.
+and simplify the composition of models~\cite{charfi2007ao4bpel}. Business
+process modelling research is relevant to this thesis' contributions, as
+business processes are inherently \sociotechnical and later chapters present
+tooling for and results in the modelling and simulation of \sociotechnical
+systems using aspect-oriented techniques. In addition, some research conducted
+prior to this thesis developed software engineering processes that are
+conceptually similar to business process modelling (see \cref{chap:prior_work}).
+There also exists interest in modelling behavioural variance within the business
+process modelling community (see \cref{sec:dynamism_in_sm}), which is relevant
+to this thesis' concern with the aspect-oriented representation of changes to
+processes and modelled behaviours.
 
 \revnote{past tense again - the paper has been written/published - foresaw, observed, described...}
 \citeauthor{charfi2007ao4bpel} see opportunities in integrating BPEL, an
@@ -1279,10 +1302,20 @@ transformations their tool supports are always well-formed \revnote{have been de
   It's OK but was waffly there. Maybe it can fit in this discussion
   somewhere?}This thesis draws on the idea that, in response to
 \citeauthor{steimann06paradoxical} asking what aspect orientation is good for,
-\citeauthor{gulyas1999use} would seem to answer, ``simulation \& modelling''.
+\citeauthor{gulyas1999use} would seem to answer, ``simulation \&
+modelling''.\revnote{Worth observing that \citet{ionescu2009aspect} actually
+  produce a case studdy of using AOP and their code quality evaluation uses SLOC
+(unreliable), but they do find that they can augment models successfully (in
+their context, successfully is without significant loss of performance). Backs
+up claim in \citet{gulyas1999use} that AOP is useful for simulation \& modelling
+and claim in \citet{steimann06paradoxical} that AOP ``doesn't know what it aims
+to be good for'' (paraphrased, it's quoted in the ciriticisms section and used
+elsewhere too). There's loads of AOP lit but we need to explore using it in new
+ways, and actually buildinng models \& running simulations using it can be
+motivated by existing literature. I don't believe I make reference to
+\citet{ionescu2009aspect} in this section at present.}
 
 % Points to make here:
-
 % \begin{itemize}
 % \item Aspect orientation allows for a clean separation of concerns. There has
 % been a lot of promising research in the field. 
