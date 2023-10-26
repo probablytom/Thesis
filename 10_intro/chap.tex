@@ -2,6 +2,111 @@
 
 
 
+
+% === 231026 The below was a first draft from today on the introduction but
+% didn't make the cut; instead I think it can be the start to an intro to AOP
+% (with some citations added of course)
+
+
+% Software's structure is an important part of its design. Software engineering
+% paradigms and techniques are often concerned with this structure:
+% object-oriented programming attempts to combine information and its related
+% processes; functional programming has a focus on the composition of processes
+% from small, general ones; design patterns such as factories, observers, or
+% adaptors offer a jargon for common structures used when solving common problems.
+% These paradigms and techniques are tools, each suited to addressing different
+% problems in different scenarios or domains. This thesis investigates a paradigm
+% being applied to a new domain, where it can be used for new purposes and in new
+% ways. Our paradigm is aspect-oriented programming; our domain is \sociotechnical
+% simulation.
+
+% % Briefly described, aspect-orientation was
+% % originally proposed as a solution to the problem of structuring the parts of a
+% % program which are not related to its core logic but are common throughout it,
+% % called ``cross-cutting concerns''.
+
+% Aspect-oriented programming offers a program structure designed for improved
+% modularisation of program logic which repeats frequently and doesn't relate to
+% its neighbouring logic, but does not yield modules using other techniques. An
+% example of this is logging. Logging is not typically required for a program to
+% achieve its aims, but code which logs pieces of information appears in many
+% software components and generally amid program logic which has nothing to do
+% with logging at all. These are termed ``cross-cutting concerns''. The goal of
+% aspect-oriented programming is to modularise these cross-cutting concerns. This
+% is achieved by separating them from a program's core logic and rewriting them as
+% modules --- termed ``aspects'' --- which are later ``woven'' back into their
+% intended positions. This allows high-level behaviours such as logging,
+% synchronisation, or memory safety to be factored away from a program's logic and
+% into a program's 
+
+% The concept of separating a program's behaviour into a separate module so as to
+% be re-introduced in whatever manner is 
+
+
+
+
+
+% === 231026 the below probably isn't what I want as my first page, but I do
+% think it motivates the problem well. It takes too long to get to the point (I
+% guess? it _is_ similar to Steve Marsh's thesis intro IMO) but too casual to go
+% in the middle of the chapter, so I think it's appropriate as the start of the
+% first section, with a brief para or two heading up the chap.
+
+
+
+Consider a research software engineer, responsible for the development and
+maintenance of a well-adopted model of some \sociotechnical system --- perhaps a
+public transport system, the spread of a disease in a pandemic, or a software
+development team's day-to-day work. As the model's use spreads and users'
+requirements broaden, how might our engineer manage their maintenance burden?
+What tools and techniques might they make use of to ease their task? Their tool
+might have originally modelled the interactions of individual developers in a
+team (to extend the latter example), and offered parameters for development
+methodologies or team sizes; subsequent researchers might look to run
+simulations of the team with biased behaviour such as illness or tiredness, or
+different experience levels in the team, or communication breakdowns between
+individuals, or the impact of a change in management or project direction. What
+then?
+
+Typically, if a required change would alter the model significantly, researchers
+looking to adopt the tool for new purposes would fork it (assuming the source is
+available to them under a permissive enough license) and would make whichever
+modifications suited their needs. Other researchers might make their own forks.
+If the change was small, or if the new behaviour was enabled in configuration,
+then it might be merged into the original tool. The contribution is thus
+disseminated to the research community who adopted the original tool without the
+need to migrate to a fork. However, if a future team wanted to research a
+combination of factors --- say, simulating the impact of a change of management
+on teams with different levels of experience and communication quality --- they
+would repeat the process, producing another fork with their own implementation
+of this particular combination. As modifications are built on top of each other,
+the logic for each possible behaviour is interwoven with that of the original
+model.
+
+Such a codebase would be increasingly difficult to maintain. For example, the
+abstractions used to modularise it may have elegantly separated different
+concerns into different modules at first, but abstractions are often
+domain-specific; as the model becomes increasingly general-purpose, its
+abstractions used to separate concerns accumulate technical debt. In addition,
+the behaviours added by different teams may not make sense when enabled at the
+same time, such as a change representing remote work and a change representing
+the spread of a virus in different office settings; the tool's source code risks
+becoming confusing and unwieldy.
+
+% === stubs for what comes next...:
+
+% We suggest that changes like these are actually well encapsulated as aspects.
+% By weaving different aspects into the original tool, different models can be
+% constructed by composition.
+
+% However, there are some challenges with this approach. How does one know
+% whether the resulting model is valid? Can this be used practically? Can models
+% be made more realistic using the technique, or can new models with different
+% behaviours be produced through composition? Are the resulting modules
+% portable, so that a single module representing a behaviour can be woven into different codebases?
+
+
+
 \section{A primer on aspect orientation}
 
 \inline{Explain aspect orientation briefly.} Some useful notes for the
@@ -42,14 +147,19 @@ discussion, but the tool should be mentioned here. See
 \inline{Decide whether terms like BPMN, simulation \& modelling, etc also belong
 in the glossary\cref{sec:glossary}.}
 
+\inline{Dejice's thesis has a similar glossary; how did he structure it? Wasn't
+  an appendix. Was it a section of the intro or something else?}
+
 \begin{description}
-    \item[Aspect]  
+  \item[Aspect-Oriented Programming]
+  \item[Cross-Cutting Concern]
+    \item[Aspect] 
     \item[Advice] 
     \item[Joinpoint]
-    \item[Pointcut]  
+    \item[Pointcut] 
     \item[Weaving] 
     \item[AspectJ] The original aspect orientation framework, with language
-    extensions to describe pointcuts and aspects.  
+    extensions to describe pointcuts and aspects.
     \item[Target] The procedure an aspect is applied to via a join point, to
     affect advice.
     \item[PyDySoFu] 

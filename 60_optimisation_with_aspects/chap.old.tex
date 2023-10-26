@@ -1,36 +1,12 @@
 \chapter{Simulation Optimisation with Aspect Orientation}\label{chap:exp1_simulation_optimisation}
 
-\inline{My main concern with this chapter at time of writing (10-10-23) is that
-  it goes into too much trivial detail (e.g. types passed into different
-  functions), and not enough into substantive detail (experimental design and
-  why things are set up the way they are). Maybe I have enough substantive
-  detail, but just a surplus of trivial detail? Consider this carefully when
-  redrafting and kill your darlings. If you're not Tom and you're reviewing
-  this, please be generous in suggesting things to eliminate!}
-
-This chapter describes the design, implementation, and results of an experiment
-which investigates the use of advice to augment modelled behaviour. The
-experiment's foundation is RPGLite, described in \cref{chap:rpglite}, which was
-developed to collect data on real-world play of a game with formally verifiable
-correct moves~\cite{rpglite_dataset}\inline{Cite William's thesis here
-  somehow?}. This dataset yields further research opportunities: data produced
-by simulated RPGLite play can be compared against the real-world dataset to
-assess whether a simulation is accurate. The experiment presented in this
-chapter makes use of this opportunity to answer the research question:\inline{REFERENCE THE RESEARCH
-  QUESTIONS BEING ANSWERED, THEN BRIEFLY SUMMARISE THE EXPERIMENTS BEING
-  CONDUCTED, WHY THEY ANSWER THE QUESTION[S], AND FINALLY GIVE A RUNDOWN OF THE
-  STRUCTURE OF THIS CHAPTER.}
-
-% In this chapter, this dataset is used to conduct experiments answering the research
-% questions proposed in \cref{chap:lit_review}.
-
-% As correct RPGLite play can be
-% formally verified~\cite{kavanagh2021thesis,kavanagh2021gameplay}, player
-% behaviour can be
-
-% If we understand how players \emph{should} play, and we
-% have data to indicate how they \emph{do} play, we can investigate how real-world
-% players might be modelled.
+With a game deployed to experiment participants and a dataset of empirical play
+collected, it was possible to determine optimal play in any game state. This
+entirely separate body of work is documented in another student's PhD
+thesis\inline{Cite William's PhD thesis}. This dataset leads to
+further research. If we understand how players \emph{should} play, and we have
+data to indicate how they \emph{do} play, we can investigate how real-world
+players might be modelled. 
 
 \section{Aims}\label{sec:aop_simulation_optimisation_aims}
 
@@ -185,19 +161,10 @@ This is the basis of the experiments in this thesis.
 
 With datasets collected empirically on RPGLite's play, we can build a naive
 model of play and aspects to apply that should realistically model data from
-players. This can be used to answer the research questions motivated in
-\cref{subsec:rqs}\inline{THESE RESEARCH QUESTIONS HAVE BEEN AMENDED SINCE I
-  FIRST WROTE THIS SECTION (I hadn't decided on a wording then) AND THE
-  PLACEHOLDER SUGGESTION THAT PREVIOUSLY EXISTED WAS JUST WHETHER ASPECTUALLY
-  AUGMENTED MODELS COULD BE REALISTIC. THIS CHAP DOES MORE, SO THIS SECTION
-  NEEDS TO BE REWORKED.}:
+players. This can be used to answer the question:
 
 \begin{researchquestion}
-  \begin{enumerate}
-    \item Can changes to a model be represented as advice using aspect orientation?
-    \item Can a model be made more realistic by applying aspect-oriented improvements?
-    \item Can advice which improves the realism of a model be ported to others without loss of realism?
-  \end{enumerate}
+    Can aspect-oriented models be said to exhibit realism?
 \end{researchquestion}
 
 % To answer this question, a naive model of play is produced, and aspects
@@ -206,12 +173,11 @@ players. This can be used to answer the research questions motivated in
 % The following subsections detail the naive model developed and aspects applied
 % to this model.
 
-To answer these questions, a naive model of play is produced. Aspects are
+To answer this question, a naive model of play is produced. Aspects are
 developed which model learning within the system defined by the naive system.
 The synthetic datasets produced by models with naive or aspect-applied models
 can be compared to an empirical dataset sourced from real-world players of the
-game, and their similarity compared.\inline{Rework to include details on the
-  other RQs, too .}
+game, and their similarity compared. 
 
 ``Naive'' is used here to describe a model which does not encode any
 understanding of the players of the game being modelled. Traits such as
@@ -499,7 +465,7 @@ more closely linked to the empirically focused work of modelling real-world
 behaviour than alternatives.
 
 \citeauthor{lachman1997learning} identify\cite{lachman1997learning} that
-standard definitions of learning summarised as, ``[\ldots{}] a
+standard definitions of learning along the lines of, ``Learning refers to a
 relatively permanent change in behavior as a result of practice or experience''
 have practical shortcomings such as a focus on behavioural change (as learning
 may not change behaviour) or conflating learning's process and its product (the
@@ -746,18 +712,6 @@ confidence.
 % previous ones. The models of leaning presented in this section are
 % differentiated by the manner in which future decisions are informed.
 
-\inline{I don't believe I make any note in this section that selecting character
-pairs based on a known distribution from player data isn't really learning. It's
-useful, though, because it allows us to demonstrate that using aspects can make
-us \emph{really} accurate. So, it answers our research question, kind of, in
-that the aspectually augmented model is more accurate than the naive one.
-However, that aspect isn't particularly portable to a new system (we'd still be
-selecting based on the S1 distribution, not S2, so we'd expect it can't be
-ported) and doesn't so much change simulated behaviour as patch a part of the
-model. It's still useful to build models of learning, see which players are
-accurately represented by different models, and see whether those models are
-portable. I still have to figure out how to ``sell'' this properly\ldots{}}
-
 Having a naive model of player interaction in RPGLite allows for the generation
 of a control dataset, which can be compared to aspect-applied datasets to
 examine whether the aspect-applied models are provably ``closer'' to
@@ -932,15 +886,12 @@ An aspect updating our model of confidence is applied to act after a game ends (
 PyDySoFu's parlance), and updates a value in the model's environment for confidence models. Confidence
 is represented as a mapping of player objects to floating point values between 0 and 1. The aspect supports
 modelling confidence in many ways, identified by a \lstinline{sigmoid_type} parameter within the model's environment.
-\revnote{This is unfinished! There's an \lstinline{inline} todo note commented
-  out in the source below that I've kept to remind me of what I was thinking
-  when I left this in the state it's currently in.}
 % However, the model was executed using a \lstinline{birch_c} logistic curve, which implemented the 
-% \inline{OH NO. I just realised our models don't use birch at all, they use a logistic curve.
-% They also use a relative growth rate on the logicstic curve that I'm unsure of — not sure why I implemented
-% it the way I did.
-% Getting increasingly close to just re-running my models. I could run them again using birch, and maybe anneal to
-% a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXED ASAP.}
+\inline{OH NO. I just realised our models don't use birch at all, they use a logistic curve.
+They also use a relative growth rate on the logicstic curve that I'm unsure of — not sure why I implemented
+it the way I did.
+Getting increasingly close to just re-running my models. I could run them again using birch, and maybe anneal to
+a value for the curve shape for different players too...?! THIS NEEDS TO BE FIXED ASAP.}
 
 \begin{enumerate}
   \item A logistic curve
@@ -1434,7 +1385,6 @@ class Result:
 
 
 \subsection{Quantifying Similarity of Character Pair Selection}
-\label{measuring_charpair_similarity}
 
 \inline{This subsection most likely needs to be condensed.}
 The experiments presented in this chapter make comparisons of many synthetic
@@ -1517,9 +1467,8 @@ difference in rank, which remains small for small differences.
 
 For these reasons, we quantify similar character pair preferences by
 representing preference as an ordered list of string-represented character
-pairs, and measuring their correlation using \tau{}. \inline{I'm not sure I've
-  defined how I represent (or calculate) the ordered list of preferences yet. If
-  not, that should live somewhere, I suppose.}
+pairs, and measuring their correlation using \tau{}.
+\inline{I'm not sure I've defined how I represent (or calculate) the ordered list of preferences yet. If not, that should live somewhere, I suppose.}
 
 
 
@@ -1597,14 +1546,18 @@ boredom can be disabled}
 % - Recycling players when they get ``bored''
 
 Our goal is to produce datasets of simulated player behaviour with aspects
-applied. This is achieved by weaving aspects to augment behaviour and repeatedly
-invoking the naive model's \lstinline{play_game} function while managing the
-simulated playerbase.\footnote{For example, generating synthetic datasets
-  involves } The experimental codebase contains
-a function which is responsible for these tasks,
-\lstinline{generate_synthetic_data}, which is parameterised as follows:
-\revnote{I end list items here with semicolons. I should be consistent through
-  the thesis, and decide whether semicolons are appropriate.}
+applied. This is achieved through the naive model's \lstinline{play_game}
+function. Related work also exists to manage the environment games are played
+within, manage the simulated playerbase, and weave \& remove any aspects. The
+experimental codebase contains a function which is responsible for these tasks,
+\lstinline{generate_synthetic_data}.
+
+% Special vals in environment for different aspects we might apply
+\lstinline{generate_synthetic_data} accepts a \lstinline{ModelParameters}
+instance to control its behaviour, as well as some other values. It is
+parameterised as follows:\revnote{I end list items here with semicolons. I
+should be consistent through the thesis, and decide whether semicolons are
+appropriate.}
 
 \begin{itemize}
   \item \lstinline{rgr_control:float}, which is the RGR value provided by the
@@ -1624,10 +1577,7 @@ a function which is responsible for these tasks,
   printing of debug loglines.
 \end{itemize}
 
-This is sufficient to generate a synthetic dataset, as all values which
-parameterise the behaviour of simulated players are encapsulated in the
-\lstinline{ModelParameters} class. 
-
+As all values controlling simulated player behaviour \inline{TODOTODOTODOTODOTODOTODOTODOTODOTODO FINISH THIS }
 
 
 % Weaving aspects, unweaving at the end
@@ -1635,199 +1585,18 @@ parameterise the behaviour of simulated players are encapsulated in the
 % Model of boredom (which can be switched off, importantly)
 
 
-\subsection{Answering the first Research Question}
-In designing advice which amends a model with new behaviour, the first research
-question was effectively answered:
-
-\begin{researchquestion}
-  Can changes to a model be represented as advice using aspect orientation?
-\end{researchquestion}
-
-The advice described in this chapter demonstrates that behavioural variations
-such as learning can be separated into aspects and applied to a model to alter
-its behaviour without requiring its original implementation to be modified. We
-can therefore answer this research question: \emph{yes}, modifications to a
-model can be represented using advice.
-
-\inline{A note here that we're using AOP, but don't actually target
-  cross-cutting concerns in our models of learning, which is interesting.}
-
-Other research questions motivated in the literature review in
-\cref{chap:lit_review} are concerned with whether representing changes to models
-using aspect orientation can accurately reflect their subject, and whether the
-modules formed by a library of aspects can be reused. These are investigated in
-\cref{sec:optimisation_with_aspects_experimental_results} and
-\cref{chap:exp2_old_aspects_new_systems} respectively.
 
 \section{Experimental Results}
 \label{sec:optimisation_with_aspects_experimental_results}
 
-% Presentation of the results owing from the experiment as described in
-% \cref{sec:optimisation_with_aspects_experimental_design}, and evaluation of the
-% research question with respect to these findings.
+Presentation of the results owing from the experiment as described in
+\cref{sec:optimisation_with_aspects_experimental_design}, and evaluation of the
+research question with respect to these findings.
 
-% expecting subsections for each aspect applied.
-
-\inline{To be honest, this might be the best explanation of the experimental
-  design I've produced so far. Maybe I should be re-using this in the
-  experimental design section?!}
-
-The second research question proposed in \cref{subsec:rqs} is:
-
-\begin{researchquestion}
-  Can a model be made more realistic by applying aspect-oriented improvements?
-\end{researchquestion}
-
-To investigate this, the naive model of RPGLite play described in
-\cref{subsec:optimisation_with_aspects_experiment} is augmented using the
-aspect-oriented models of learning outlined in
-\cref{sec:optimisation_with_aspects_aspectsdeveloped}. The datasets produced by
-executing both the unaltered naive model and the naive model with aspects
-applied are compared against the real-world dataset described in
-\cref{chap:rpglite}. Comparisons are made by quantifying the similarity of
-the character pair preferences found in each dataset as defined in
-\cref{measuring_charpair_similarity}. Whichever synthetic dataset is most
-similar to the empirically sourced one can be said to be the most realistic.
-This experiment has the null hypothesis that introducing aspects has no impact
-of model realism. If no change in model behaviour can be measured when learning
-models are applied, then it would be possible to \emph{represent} model changes as
-advice as demonstrated in \cref{sec:optimisation_with_aspects_aspectsdeveloped}
-but not possible to \emph{use} those changes in their aspect-oriented form.
-
-This section evaluates the results of each model of learning individually. It
-starts by defining the comparison between generated and real-world datasets in
-more detail. With this background, an evaluation is presented of the aspects
-implementing character pair selection from the known (real-world) dataset,
-followed by an evaluation of the aspects implementing confidence-based models of
-learning and hyperbolic discounting.
-
-
-
-\subsection{Identifying Statistically Significant Results in Datasets}
-
-\inline{A discussion of how datasets are evaluated. We produce \emph{many}
-  datasets which have annealed to the highest stat and P val we could find, but
-  they're split across many folds. How do we determine whether a set of
-  parameters works ``enough''? We find the highest correlation val and lowest
-  pval which work across a majority of folds, then test against the complete
-  dataset to be absolutely certain that correlation doesn't drop. This gives us
-  the best parameters for a player: the parameters were reliably annealed to
-  across many folds to give statistically significant correlation, retained
-  their correlation against a testing set, and further retained their
-  correlation against the entire dataset.}
-
-\inline{Is there a pattern in players getting reliable correlation and having
-  played many games? Maybe we just don't have enough games to do this for most
-  players. Check this; could be worth a note toward the end, in a discussion or
-  similar.}
-
-\inline{This is an explanation of the analysis script, not the process f
-  annealing; we should already have that in the experimental design section
-  (currently 6.5, at time of writing).}
-
-
-
-
-\subsection{Selecting Character Pairs from a Known Distribution}
-
-The second research question presented in \cref{subsec:rqs} is:
-
-\begin{researchquestion}
-  Can a model be made more realistic by applying aspect-oriented improvements?
-\end{researchquestion}
-
-This question can be answered directly by weaving advice which modifies player
-behaviour so that character pairs are selected from a distribution calculated
-from existing player data. If the dataset produced with this advice woven
-correlates with the pre-calculated distribution of character pair preferences,
-then the simulated behaviour must have been affected by the aspects in the
-manner the advice modelled, and so made the model more realistic. If the dataset
-correlates with that produced by the naive model, it must have had no effect.
-And, if it correlates with neither, then the weaving of advice modelling a
-specific character pair selection did impact player behaviour, but did not
-produce expected results.\footnote{In this scenario, there would likely be an
-error in implementation as the aspects demonstrably made a difference to
-behaviour, but not what was intended. Rather than confirming the hypothesis that
-advice can be used to augment models of behaviour or the null hypothesis that
-weaving such advice has no effect, it would indicate a flawed experiment.}
-
-Datasets representing every real-world player who completed more than 100 games
-in RPGLite's first season were generated with the advice described in
-\cref{sec:optimisation_with_aspects_aspectsdeveloped} woven. There were 21 such
-players. The \tau correlation statistic (and corresponding p-values) of these
-datasets compared to their players'
-real-world datasets and the naive model's dataset is presented in
-\cref{fig:known_distribution_results_s1}.
-
-\begin{figure}[h]
-\begin{center}
-  \begin{tabular}{c|c|c}
-    \emph{Simulated Player} & \emph{P-Value} & \emph{Correlation Statistic} \\ \hline\hline
-    Data1 & data2 & data3 \\
-    Data1 & data2 & data3 \\
-  \end{tabular}
-  \caption{Correlation statistics generated by weaving aspects into the naive
-    model which select character pairs with the same distribution as a specific
-    real-world player}
-  \label{fig:known_distribution_results_s1}
-\end{center}
-\end{figure}
-
-
-
-\inline{TODO: add notes explaining what an acceptable pval and correlation stat
-  are. This will be useful to refer back to in the next subsection, where not
-  all players are simulated by each model.}
-
-
-\inline{Explain the results \& relate them to the final RQ.}
-
-
-
-\subsection{Selecting Character Pairs using Confidence-Based Learning}
-
-\inline{I suspect I'll move this to the discussion of the next experiment, so
-  that the aspects using the known distribution are presented as an
-  investigation of the first research question, and the aspects using the
-  confidence-based model of learning are presented as an investigation of the
-  second.}
-
-Selecting character pairs based on a known distribution demonstrates that advice
-can alter the behaviour of actors in a model, improving the model's accuracy.
-
-\inline{I'm increasingly realising that the aspect drawing from a known
-  distribution is both more accurate and more portable than our models of
-  learning: we can apply it to S2 and just draw from season-specific data to get
-  the correct results. It's actually way better than our models of learning.
-  However, the models of learning let us investigate specific players'
-  behaviour, so they let us use the naive model to investigate the bahviour of
-  real-world players, which is still quite valuable, but might want a different
-  approach to the write-up. I'm pretty lost with this chapter --- need Tim's
-  input, I think.}
-
-
-
-\subsection{Learning with Hyperbolic Decay}
-
-
-
+Again, no subsec likely required here.
 
 \section{Discussion}
 \label{sec:optimisation_with_aspects_discussion}
 
 A closing discussion on what we found, and how the research question was
 answered.
-
-Also, note the weaknesses of the approach.
-
-\begin{itemize}
-  \item More games could have lead to a more accurate result
-  \item It'd be interesting to use the models to ``learn'' other things too,
-    such as move selection / mistakes made
-  \item Would like to reproduce across multiple different systems, not just
-    RPGLite. Maybe developers like we did in the CAISE paper, maybe aspects that
-    aren't learning like degraded modes. Could be interesting to model a complex
-    adaptive system with aspects representing rule changes. Could be interesting
-    to demonstrate other uses of aspectually augmented systems, like introducing
-    new rules to a cellular automaton.
-\end{itemize}
