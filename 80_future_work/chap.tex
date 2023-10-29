@@ -23,24 +23,24 @@ a contribution of the thesis, and the RQs would help to sell it as such.}
 \section{Aspect-Oriented Metaprogramming in real-world Software Engineering}
 \label{future_work_aspect_oriented_metaprogramming}
 
-The combination of metaprogramming and aspect-orientation introduces powerful
-new possibilities in the realm of aspect-orientation. In traditional
-aspect-oriented work, aspects treat their targets as black boxes; this leads to
-some limitations, which aspect-oriented metaprogramming is well positioned to
-address.
+The combination of metaprogramming and aspect-orientation introduces new
+possibilities in aspect-orientation. In traditional aspect-oriented work,
+aspects treat their targets as black boxes; this leads to limitations
+which aspect-oriented metaprogramming can address.
 
-Traditional aspects cannot add their behavioural modifications interspersed
-within the work being done by their target. The ``textbook'' use-case for
-aspect-orientation is logging: aspects can separate logging from the business
-logic they are applied to. However, a programmer in mainstream programming
-paradigms may wish to insert logging behaviour \emph{within} their business
-logic, rather than \emph{around} it. Aspect-oriented metaprogramming makes this
-possible, as the target can have logging logic interspersed through otherwise
-decoupled business logic when woven. To achieve this end goal without
-``within''-style aspect application would require a refactoring of business
-logic to create join points which traditional aspects could apply against; this
-breaks the ``obliviousness'' property of the aspect orientated philosophy as
-discussed in \cref{chap:lit_review}.
+Traditional aspects cannot intersperse their behavioural modifications with the
+work being done by their target, as they apply their logic before or after the
+target's execution. The ``textbook'' use case for aspect-orientation is logging:
+aspects can separate logging from the business logic they are applied to.
+However, a programmer in mainstream programming paradigms may wish to insert
+logging behaviour \emph{within} their business logic rather than \emph{around}
+it. Aspect-oriented metaprogramming enables this as the target can have logging
+logic woven within business logic, which remains decoupled within the codebase.
+To achieve this end goal without ``within''-style aspect application would
+require a refactoring of business logic to create join points which traditional
+aspects could apply against; this breaks the ``obliviousness'' property of the
+aspect orientated philosophy discussed in
+\cref{review_aop_motivations_and_philosophy}.
 
 
 % ==== These were originally written as separate points, but they shouldn't be.
@@ -100,33 +100,32 @@ discussed in \cref{chap:lit_review}.
 
 \section{Augmentation of pre-existing models}\label{future_work_nudge_model_state}
 
-Myriad models exist which have been provided accurate results in past research,
-but where unexpected events such as financial collapses, pandemics, or
-unpredictable weather events cause one-off shifts in real-world data which
-cannot be accounted for. For example, models of world health over time could not
-account for the Covid19 pandemic, and models of the world economy could not
-incorporate real-world data from the recession caused by responses to the
-pandemic, or the 2008 financial crisis. The World3 model is an example of one
-which has provided accurate predictions for decades\inline{Find citations for
-World3 model}, but could not account for unexpected incidents when constructed.
+Models which predict the future state of some system may be accurate in general,
+but cannot account for unforseeable events such as financial collapses,
+pandemics, or unpredictable weather events. Pre-existing models cannot account
+for these one-off shifts in system state due to their random nature. For
+example, models of world health over time could not account for the Covid19
+pandemic, and models of local or global economies could not incorporate
+real-world data from the recession resulting from the pandemic. The 2008
+financial crisis also impacted local and global economies, but could not be
+predicted before the event. The World3 model is an example of one which has
+provided accurate high-level predictions of the state of various global systems
+over many decades\inline{Find citations for World3 model}, but predictions for
+recent years fail to account for these unforseeable events.
 
-Models are often initialised with data describing a system's initial state,
-which a model computes on to produce predictions. Any output produced could only
-represent the impact of a large, unpredictable event within the system as
-changes to data or process; changing either for the entire model risks
-compromising a model's predictive quality for the timespan prior to an event.
-The modification must therefore be represented as a special case within the
-model, leading to ancillary code inline with the model's core logic in a similar
-manner to the scattered and tangled code discussed in
-\cref{lit_review_AOP_explainer}, which aspect orientation was initially designed
-to alleviate. It therefore has similar properties to a cross-cutting
-concern~\cite{kiczales1997aspect} and may be suitable for factoring out of a
-model's logic and into advice.
+If the modification is represented as a special case within the model, a
+research software engineer must introduce their corrective code alongside the
+model's core logic, thereby tangling\footnote{For an overview on the tangling of
+cross-cutting concerns, see \cref{review_aop_motivations_and_philosophy}.} the
+two. It therefore has the properties of a cross-cutting
+concern~\cite{kiczales1997aspect,filman2000aspect}, and can be factored into an
+aspect as such. 
 
-Intuitively, this research would aim to show that an aspect could ``nudge'' a
-system's state in-line with real-world data when exceptional real-world
-circumstances affect a model, but cannot elegantly be represented within the
-model's logic. A relevant research question for future work to investigate is:
+Research investigating the use of aspects to correct for one-off events could
+aim to show that an aspect can ``nudge'' a system's state in-line with
+real-world data when exceptional circumstances affect a modelled system but
+cannot be elegantly represented within the model's logic. A research question
+for this future work is therefore:
 
 \begin{researchquestion}
 Can aspect orientation be used to introduce special cases to real-world systems
@@ -141,35 +140,50 @@ to replace it with.} ipsum
 \section{Aspect Orientation's utility for Research Software Engineers}
 \label{future_work_aop_for_rses}
 
-As a corollary of the research opportunities for aspect orientation's use in
-software engineering discussed in \cref{future_work_aspect_oriented_metaprogramming},
-there is an opportunity for research software engineers to also benefit from the
-adoption of aspect oriented programming. However, while aspect orientation's use
-in industrial software engineering has drawn
+A corollary of the research opportunities for aspect orientation's use in
+software engineering discussed in
+\cref{future_work_aspect_oriented_metaprogramming} is that there is an
+opportunity for research software engineers to benefit from the adoption of
+aspect oriented programming. However, while aspect orientation's use in
+industrial software engineering has drawn
 criticism~\cite{steimann06paradoxical,przybylek2010wrong,Constantinides04aopconsidered}\footnote{A
 review of aspect orientation's critique is presented in
 \cref{subsec:aop-criticisms}.} its use within research codebases is a special
-case where it may be more suitable, particularly considering the possibilities
-discussed through the rest of this chapter.\inline{Revisit this paragraph. Is this too wordy /
-rambly / unclear? Can I tighten it up at all?}
+case where it may be more suitable. Related suggestions for the use of aspect
+orientation in research codebases were proposed by \citeauthor{gulyas1999use}
+(as discussed in \cref{review_gulyas_use_of_aop_in_research_codebases}).
+However, the benefits proposed in earlier work concerned the design of the
+software itself. Aside from aspect-orientation's utility in software design in a
+research context, there are potential benefits for the \emph{practice} of
+developing these codebases which may be of professional interest to research
+software engineers.
+
+
+
+% ===== MARK:
+%             I'm copyediting this currently and pausing here for dinner. What's
+%             below in this file likely requires some reworking!
+% ===== MARK
+
+
 
 The resource constraints and stringent requirements for accuracy in research
-codebases present challenges which augmentation through aspects could
-assist with. Compensating for a special case in a pre-existing model would
-require maintenance of the codebase, which takes time and could inadvertently
-alter its behaviour. Time is a scarce resource in research environments, and
-undesired changes to a model's behaviour can invalidate research results. An
-alternative to adjusting the models directly is to construct aspects which
-represent large and unpredictable events in real-world systems such as
-pandemics, economic crises, war and famine. These can be modelled on real-world
-data for accuracy, which can produce realistic simulations as this thesis
-demonstrates. This use of aspect orientation in simulation and modelling can be
-investigated by creating a proof-of-concept of the approach as applied to
-pre-existing models.\footnote{This approach is similar to \pdsf{}'s initial
-proof-of-concept study~\cite{wallis2018caise} as discussed in
-\cref{chap:prior_work}.} Studies can also be conducted to investigate whether an
-aspectually-augmented model is quicker to construct and easier to maintain in
-future than a codebase with ``patches'' written into its original logic.
+codebases present challenges which aspect-orientation could assist with.
+Compensating for a special case in a pre-existing model would require
+maintenance of the codebase, which takes time and could inadvertently alter its
+behaviour. Time is a scarce resource in research environments, and undesired
+changes to a model's behaviour can invalidate research results. An alternative
+to adjusting the models directly is to construct aspects which represent large
+and unpredictable events in real-world systems such as pandemics, economic
+crises, war and famine. These can be modelled on real-world data for accuracy,
+which can produce realistic simulations as this thesis demonstrates. This use of
+aspect orientation in simulation and modelling can be investigated by creating a
+proof-of-concept of the approach as applied to pre-existing
+models.\footnote{This approach is similar to \pdsf{}'s initial proof-of-concept
+study~\cite{wallis2018caise} as discussed in \cref{chap:prior_work}.} Studies
+can also be conducted to investigate whether an aspectually-augmented model is
+quicker to construct and easier to maintain in future than a codebase with
+``patches'' written into its original logic.
 
 Researchers investigating this technique's application to existing models could
 also investigate the difficulties of augmenting a model created with no

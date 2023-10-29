@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bcf:controlfile version="3.10" bltxversion="3.19" xmlns:bcf="https://sourceforge.net/projects/biblatex">
+<bcf:controlfile version="3.9" bltxversion="3.18b" xmlns:bcf="https://sourceforge.net/projects/biblatex">
   <!-- BIBER OPTIONS -->
   <bcf:options component="biber" type="global">
     <bcf:option type="singlevalued">
@@ -37,11 +37,6 @@
     <bcf:option type="singlevalued">
       <bcf:key>alphaothers</bcf:key>
       <bcf:value>+</bcf:value>
-    </bcf:option>
-    <bcf:option type="multivalued">
-      <bcf:key>extradatecontext</bcf:key>
-      <bcf:value order="1">labelname</bcf:value>
-      <bcf:value order="2">labeltitle</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>labelalpha</bcf:key>
@@ -281,11 +276,6 @@
   </bcf:options>
   <!-- online -->
   <bcf:options component="biblatex" type="online">
-    <bcf:option type="multivalued">
-      <bcf:key>extradatecontext</bcf:key>
-      <bcf:value order="1">labelname</bcf:value>
-      <bcf:value order="2">labeltitle</bcf:value>
-    </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>labelalpha</bcf:key>
       <bcf:value>1</bcf:value>
@@ -505,7 +495,6 @@
     <bcf:option datatype="xml">sortingnamekeytemplate</bcf:option>
     <bcf:option datatype="xml">sortingtemplate</bcf:option>
     <bcf:option datatype="xml">extradatespec</bcf:option>
-    <bcf:option datatype="xml">extradatecontext</bcf:option>
     <bcf:option datatype="xml">labelnamespec</bcf:option>
     <bcf:option datatype="xml">labeltitlespec</bcf:option>
     <bcf:option datatype="xml">labeldatespec</bcf:option>
@@ -729,7 +718,6 @@
     <bcf:option datatype="xml">translit</bcf:option>
     <bcf:option datatype="xml">sortexclusion</bcf:option>
     <bcf:option datatype="xml">sortinclusion</bcf:option>
-    <bcf:option datatype="xml">extradatecontext</bcf:option>
     <bcf:option datatype="xml">labelnamespec</bcf:option>
     <bcf:option datatype="xml">labeltitlespec</bcf:option>
     <bcf:option datatype="xml">labeldatespec</bcf:option>
@@ -2781,34 +2769,36 @@
     <bcf:citekey order="367" intorder="1">gulyas1999use</bcf:citekey>
     <bcf:citekey order="368" intorder="1">rpglite_dataset</bcf:citekey>
     <bcf:citekey order="369" intorder="1">kiczales1997aspect</bcf:citekey>
+    <bcf:citekey order="369" intorder="2">filman2000aspect</bcf:citekey>
     <bcf:citekey order="370" intorder="1">steimann06paradoxical</bcf:citekey>
     <bcf:citekey order="370" intorder="2">przybylek2010wrong</bcf:citekey>
     <bcf:citekey order="370" intorder="3">Constantinides04aopconsidered</bcf:citekey>
-    <bcf:citekey order="371" intorder="1">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="372" intorder="1">kuhn2012structure</bcf:citekey>
+    <bcf:citekey order="371" intorder="1">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="372" intorder="1">wallis2018caise</bcf:citekey>
     <bcf:citekey order="373" intorder="1">kuhn2012structure</bcf:citekey>
-    <bcf:citekey order="374" intorder="1">popper1972theoryevolution</bcf:citekey>
+    <bcf:citekey order="374" intorder="1">kuhn2012structure</bcf:citekey>
     <bcf:citekey order="375" intorder="1">popper1972theoryevolution</bcf:citekey>
-    <bcf:citekey order="376" intorder="1">steimann06paradoxical</bcf:citekey>
-    <bcf:citekey order="376" intorder="2">przybylek2010wrong</bcf:citekey>
-    <bcf:citekey order="376" intorder="3">Constantinides04aopconsidered</bcf:citekey>
-    <bcf:citekey order="377" intorder="1">clement2003eclipseAJDT</bcf:citekey>
-    <bcf:citekey order="378" intorder="1">mehner2002towards</bcf:citekey>
-    <bcf:citekey order="379" intorder="1">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="379" intorder="2">fuzzimoss_repo</bcf:citekey>
-    <bcf:citekey order="380" intorder="1">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="376" intorder="1">popper1972theoryevolution</bcf:citekey>
+    <bcf:citekey order="377" intorder="1">steimann06paradoxical</bcf:citekey>
+    <bcf:citekey order="377" intorder="2">przybylek2010wrong</bcf:citekey>
+    <bcf:citekey order="377" intorder="3">Constantinides04aopconsidered</bcf:citekey>
+    <bcf:citekey order="378" intorder="1">clement2003eclipseAJDT</bcf:citekey>
+    <bcf:citekey order="379" intorder="1">mehner2002towards</bcf:citekey>
+    <bcf:citekey order="380" intorder="1">wallis2018caise</bcf:citekey>
+    <bcf:citekey order="380" intorder="2">fuzzimoss_repo</bcf:citekey>
     <bcf:citekey order="381" intorder="1">gulyas1999use</bcf:citekey>
-    <bcf:citekey order="382" intorder="1">wallis2018caise</bcf:citekey>
-    <bcf:citekey order="383" intorder="1">GameOn2020</bcf:citekey>
-    <bcf:citekey order="383" intorder="2">kavanagh2020</bcf:citekey>
-    <bcf:citekey order="383" intorder="3">kavanagh2021thesis</bcf:citekey>
-    <bcf:citekey order="383" intorder="4">kavanagh2019balancing</bcf:citekey>
-    <bcf:citekey order="383" intorder="5">kavanagh2021gameplay</bcf:citekey>
-    <bcf:citekey order="384" intorder="1">kuhn2012structure</bcf:citekey>
+    <bcf:citekey order="382" intorder="1">gulyas1999use</bcf:citekey>
+    <bcf:citekey order="383" intorder="1">wallis2018caise</bcf:citekey>
+    <bcf:citekey order="384" intorder="1">GameOn2020</bcf:citekey>
+    <bcf:citekey order="384" intorder="2">kavanagh2020</bcf:citekey>
+    <bcf:citekey order="384" intorder="3">kavanagh2021thesis</bcf:citekey>
+    <bcf:citekey order="384" intorder="4">kavanagh2019balancing</bcf:citekey>
+    <bcf:citekey order="384" intorder="5">kavanagh2021gameplay</bcf:citekey>
     <bcf:citekey order="385" intorder="1">kuhn2012structure</bcf:citekey>
     <bcf:citekey order="386" intorder="1">kuhn2012structure</bcf:citekey>
-    <bcf:citekey order="387" intorder="1">kavanagh2021thesis</bcf:citekey>
+    <bcf:citekey order="387" intorder="1">kuhn2012structure</bcf:citekey>
     <bcf:citekey order="388" intorder="1">kavanagh2021thesis</bcf:citekey>
+    <bcf:citekey order="389" intorder="1">kavanagh2021thesis</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="anyt">
