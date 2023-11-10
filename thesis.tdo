@@ -1,19 +1,13 @@
-\contentsline {todo}{\emph {[C1{}] todo: }find a citation for spring AOP}{30}{subsection.1.1.1}%
-\contentsline {todo}{\emph {[C1{}] todo: }Describe the problems AOP solves}{31}{subsection.1.1.1}%
-\contentsline {todo}{\emph {[C1{}] todo: }Common criticisms of AOP, and where there's room for improvement / research projects}{31}{subsection.1.1.2}%
-\contentsline {todo}{\emph {[C1{}] todo: }Slkim through lit review's AOP section to identify what other criticisms of AOP are worth including in this (brief!) subsection.}{31}{subsection.1.1.2}%
-\contentsline {todo}{\emph {[C1{}] todo: }Is this section on socio-technical\xspace systems and simulation \& modelling really necessary?}{31}{section.1.2}%
-\contentsline {todo}{\emph {[C1{}] todo: }This introductory paragraph is a little sloppy / doesn't add much --- maybe it can be reworked?}{31}{section.1.2}%
-\contentsline {todo}{\emph {[C1{}] todo: }Find a proper definition of socio-technical system from the lit and cite it here --- maybe Emery or Trist have a good definition? Or Bertanlaffy? Or Beer?}{31}{subsection.1.2.1}%
-\contentsline {todo}{\emph {[C1{}] todo: }Briefly explain that this section intends to familiarise the reader to the core ideas and goals of the thesis, but that there'll be lots more to follow which covers relevant literature and motivates the ideas properly. This is purely to give an overview of the thesis as a whole.}{32}{section.1.3}%
-\contentsline {todo}{\emph {[C1{}] todo: }How many people played RPGLite exactly?}{34}{section.1.5}%
-\contentsline {todo}{\emph {[C1{}] todo: }Revisit. Does this work? Experiments need re-running. Should work for prior-distribution, maybe not for models of learning\ldots {}}{35}{section.1.5}%
-\contentsline {todo}{\emph {[C1{}] todo: }Is this still required now we have a section for it? If so, write a section for the introduction describing the work done on pdsf before this to delineate where we're starting from and avoid any claims of plagiarism. This can be short, the first sec of the lit review is a proper discussion, but the tool should be mentioned here. See \cref {sec:pdsf_early_work} for what already exists.}{35}{section.1.6}%
-\contentsline {todo}{\emph {[C1{}] todo: }Complete the glossary in \cref {sec:glossary}.}{35}{section.1.7}%
-\contentsline {todo}{\emph {[C1{}] todo: }Decide whether terms like BPMN, simulation \& modelling, etc also belong in the glossary\cref {sec:glossary}.}{35}{section.1.7}%
-\contentsline {todo}{\emph {[C1{}] todo: }Dejice's thesis has a similar glossary; how did he structure it? Wasn't an appendix. Was it a section of the intro or something else?}{35}{section.1.7}%
-\contentsline {todo}{\emph {[C1{}] todo: }Write the thesis structure!}{36}{section.1.8}%
+\contentsline {todo}{\emph {[C1{}] todo: }Cite Robert Martin}{28}{subsection.1.1.1}%
+\contentsline {todo}{\emph {[C1{}] todo: }Putting a pin in this --- this section's getting really long, and I don't think the introduction needs to be such a mammoth. This section in particular is pushing it a bit, 3 pages at time of writing I think.}{34}{section.1.2}%
+\contentsline {todo}{\emph {[C1{}] todo: }How many people played RPGLite exactly?}{35}{section.1.3}%
+\contentsline {todo}{\emph {[C1{}] todo: }Revisit. Does this work? Experiments need re-running. Should work for prior-distribution, maybe not for models of learning\ldots {}}{35}{section.1.3}%
+\contentsline {todo}{\emph {[C1{}] todo: }Complete the glossary in \cref {sec:glossary}.}{35}{section.1.4}%
+\contentsline {todo}{\emph {[C1{}] todo: }Decide whether terms like BPMN, simulation \& modelling, etc also belong in the glossary\cref {sec:glossary}.}{35}{section.1.4}%
+\contentsline {todo}{\emph {[C1{}] todo: }Dejice's thesis has a similar glossary; how did he structure it? Wasn't an appendix. Was it a section of the intro or something else?}{35}{section.1.4}%
+\contentsline {todo}{\emph {[C1{}] todo: }Write the thesis structure!}{36}{section.1.5}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }add citations where code quality improvements are claimed in AOP research}}{37}{chapter.2}%
+\contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Include a review of the survey in \citet {masuhara2003modeling}.}}{37}{chapter.2}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }There's a paragraph missing here explaining which chapters follow, why, and in what order. I'm omitting it at the moment because I suspect I'm about to reorder them.}}{37}{chapter.2}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }Reword if I move criticisms to another section.}}{37}{chapter.2}%
 \contentsline {todo}{\color {blue}{\emph {[C2{}] review: }I believe this para was mangled by emacs somehow, and is the end of a drafted final paragraph of this introduction. Keeping it because it wasn't committed so can't restore the original para, and ideally I'll recreate it when redrafting this chapter.}}{37}{chapter.2}%
@@ -127,7 +121,7 @@
 \contentsline {todo}{\color {blue}{\emph {[C5{}] review: }J: Summarising her notes but 1. Footnote should be integrated into body and 2. Entropy's a confusing concept, wasn't what she was expecting here for defining a state space. Either make the concept extremely clear or, better, avoid the concept of entropy so as not to trip people up. Clearer writing > clever writing.}}{103}{subsection.5.1.1}%
 \contentsline {todo}{\color {blue}{\emph {[C5{}] review: }J: suggest a diagram here}}{103}{subsection.5.1.1}%
 \contentsline {todo}{\color {blue}{\emph {[C5{}] review: }J: this needs to be defined too}}{103}{subsection.5.1.1}%
-\contentsline {todo}{\emph {[C5{}] todo: }Metagame is never defined!}{103}{Hfootnote.20}%
+\contentsline {todo}{\emph {[C5{}] todo: }Metagame is never defined!}{103}{Hfootnote.21}%
 \contentsline {todo}{\color {blue}{\emph {[C5{}] review: }J: first section isn't clear, she notes she didn't understand. In second section she circles ``known'', asking, ``known by whom?''}}{104}{subsection.5.1.1}%
 \contentsline {todo}{\color {blue}{\emph {[C5{}] review: }Footnote suggests correlation is defined in chap 6; include a more specific cref.}}{104}{Item.21}%
 \contentsline {todo}{\color {blue}{\emph {[C5{}] review: }J: compress}}{105}{section.5.2}%
