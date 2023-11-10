@@ -1,5 +1,6 @@
 \chapter{Introduction}
 
+
 Software's structure is an important part of its design. Software engineering
 paradigms and techniques are often concerned with this structure:
 object-oriented programming attempts to combine information and its related
@@ -20,19 +21,19 @@ a change to existing code. The research we present in later chapters uses this
 novel structure to define new models by composing a model with desired modifications.
 
 This is the ``elevator pitch'' for the research in this thesis. Its high-level
-motivation is
-presented in a later section in more detail, but
-some background knowledge of aspect orientation and sociotechnical modelling is necessary. 
-This introduction starts with a brief overview\footnote{A more detailled
-  background to the research is given
-in the literature review in \cref{chap:lit_review}; the aim of this introduction is to familiarise
-the reader with the concepts and aims of later chapters, and so opts for a light touch on the 
-relevant topics. Rigorous discussions follow in the appropriate chapters.} of aspect orientation and of
-sociotechnical modelling, and moves on to explain the high-level aims of the thesis more
-concretely. An overview of the work required to achieve these aims is given, and an outline
-of the contributions in later chapters follows. To aid the reader in later sections,
-this introduction concludes with a brief glossary of important terms and an outline of
-the rest of the thesis.
+motivation is presented in a later section in more detail, but some background
+knowledge of aspect orientation and sociotechnical modelling is necessary. This
+introduction starts with a brief overview\footnote{A more detailled background
+  to the research is given in the literature review in \cref{chap:lit_review};
+  the aim of this introduction is to familiarise the reader with the concepts
+  and aims of later chapters, and so opts for a light touch on the relevant
+topics. Rigorous discussions follow in the appropriate chapters.} of aspect
+orientation and of sociotechnical modelling, and moves on to explain the
+high-level aims of the thesis more concretely. An overview of the work required
+to achieve these aims is given, and an outline of the contributions in later
+chapters follows. To aid the reader in later sections, this introduction
+concludes with a brief glossary of important terms and an outline of the rest of
+the thesis.
 
 
 % === 231026 The below was a first draft from today on the introduction but
@@ -162,17 +163,6 @@ tool for composing models.
 
 %STUB
 
-
-\begin{itemize}
-  \item AOP's ``obliviousness'' makes it difficult to know what a program will
-    do by reading its source code. Program flow is effectively non-linear again,
-    so predictions as to what a program will ``do'' are difficult to make.
-  \item There's lots of AOP research out there, but it mostly builds tooling or
-    describes languages for specifying advice. AOP's claimed benefits aren't
-    well tested empirically.
-  \item Advice always treats its target as a blackbox.
-\end{itemize}
-
 The aspect-oriented paradigm has some drawbacks. Identifying these means they
 can be addressed when applying aspect-oriented programming to a new domain where
 possible, and generally contextualise the research in later chapters. While they
@@ -209,27 +199,26 @@ that the technique is of practical benefit, rather than a theoretical curiosity.
 \subsection{What are \SocioTechnical Systems?}
 
 The research in this thesis applies aspect-oriented programming to the modelling
-\& simulation of \sociotechnical systems. 
-A \sociotechnical system is one constituted of people, technology, and the interactions
-between the two. The term originates in the study of work and organisations
-undertaken by \citet{trist1951sociotechnical}. \Sociotechnical systems research
-continues to focus on organisations and
+\& simulation of \sociotechnical systems. A \sociotechnical system is one
+constituted of people, technology, and the interactions between the two. The
+term originates in the study of work and organisations undertaken by
+\citet{trist1951sociotechnical}. \Sociotechnical systems research continues to
+focus on organisations and
 workplaces~\cite{pasmore2019reflections,baxter2011socio}, though the interaction
-of people and technology is also studied more
-broadly in areas such as degraded modes~\cref{johnson2007degradedmodes},
-resilience engineering~\cite{hollnagel2006resilience}, and responsibility modelling~\cite{lock2009responsibility}.
+of people and technology is also studied more broadly in areas such as degraded
+modes~\cref{johnson2007degradedmodes}, resilience
+engineering~\cite{hollnagel2006resilience}, and responsibility
+modelling~\cite{lock2009responsibility}.
 
-The involvement of
-human behaviour in the system's dynamics makes these systems a useful subject
-for aspect-oriented modelling, as variations in the behaviour of an individual
-or an entire group is a candidate for cross-cutting concern. To this end, models of learning as
-cross-cutting concerns are developed in
-\cref{chap:exp1_simulation_optimisation}. In addition,
-datasets of users' interactions with computer systems can be collected to
-empirically verify models of their behaviour. This is also useful for the
-research in later chapters: \cref{chap:rpglite} describes the design,
-implementation, and data collected from the release of a mobile game, another
-example of a \sociotechnical system.
+The involvement of human behaviour in the system's dynamics makes these systems
+a useful subject for aspect-oriented modelling, as variations in the behaviour
+of an individual or an entire group is a candidate for cross-cutting concern. To
+this end, models of learning as cross-cutting concerns are developed in
+\cref{chap:exp1_simulation_optimisation}. In addition, datasets of users'
+interactions with computer systems can be collected to empirically verify models
+of their behaviour. This is also useful for the research in later chapters:
+\cref{chap:rpglite} describes the design, implementation, and data collected
+from the release of a mobile game, another example of a \sociotechnical system.
 
 The technique of creating models using aspect-orientation to modularise
 particular behaviours or dynamics is not exclusively \sociotechnical in nature.
@@ -311,28 +300,28 @@ domain-specific; as the model becomes increasingly general-purpose, the
 abstractions used to separate concerns accumulate technical debt. In addition,
 the behaviours added by different teams may not make sense when enabled at the
 same time. In the example of a model of a software development team, a change
-representing remote work and a change representing 
-the spread of a virus in different office settings are at odds conceptually and
-both are unlikely to be required in most cases. As a result, the tool's source
-code risks becoming confusing and unwieldy.
+representing remote work and a change representing the spread of a virus in
+different office settings are at odds conceptually and both are unlikely to be
+required in most cases. As a result, the tool's source code risks becoming
+confusing and unwieldy.
 
 To resolve this without onerous maintenance burdens or several forked tools, we
 propose that additional behaviours, model parameters, or observational
-instrumentation be 
-modularised into aspects. If they are, then each individual research group can
-share a common model without directly modifying it for their own ends:
-aspect-oriented programming's principle of obliviousness means that no changes
-should require direct modification of the original model's source, because it
-should be ``unaware'' that it is the subject of aspect weaving at all.
+instrumentation be modularised into aspects. If they are, then each individual
+research group can share a common model without directly modifying it for their
+own ends: aspect-oriented programming's principle of obliviousness means that no
+changes should require direct modification of the original model's source,
+because it should be ``unaware'' that it is the subject of aspect weaving at
+all.
 
-With this approach, individual research teams can create a model for their own purposes by weaving
-their desired changes into the original model. Different teams can share
-aspects, standardising future research. The addition of another modification is
-the construction of another stand-alone module. The creation of a new model
-is the specification of a new set of pieces of advice to weave. This allows for
-all research teams to create the models required for their own work, without
-creating several forked tools or a single tool with many cross-cutting concerns
-and a complex architecture.
+With this approach, individual research teams can create a model for their own
+purposes by weaving their desired changes into the original model. Different
+teams can share aspects, standardising future research. The addition of another
+modification is the construction of another stand-alone module. The creation of
+a new model is the specification of a new set of pieces of advice to weave. This
+allows for all research teams to create the models required for their own work,
+without creating several forked tools or a single tool with many cross-cutting
+concerns and a complex architecture.
 
 Some specific benefits we anticipate from such an architecture include:
 
