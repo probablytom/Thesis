@@ -1,141 +1,110 @@
 \chapter{Introduction}
 
+\section{The Problem to Solve}
 
-Software's structure is an important part of its design. Software engineering
-paradigms and techniques are often concerned with this structure:
-object-oriented programming attempts to combine information and its related
-processes; functional programming has a focus on the composition of processes
-from small, general ones; design patterns such as factories, observers, or
-adaptors offer a jargon for common structures used when solving common problems.
-These paradigms and techniques are tools, each suited to addressing different
-problems in different scenarios or domains.
+Consider a research software engineer, responsible for the development and
+maintenance of a well-adopted model of some \sociotechnical system --- perhaps a
+public transport system, the spread of a disease in a pandemic, or a software
+development team's day-to-day work. As the model's use spreads and users'
+requirements broaden, how might our engineer manage their maintenance burden?
+What tools and techniques might they make use of to ease their task? Their tool
+might have originally modelled the interactions of individual developers in a
+team (to extend the latter example), and offered parameters for development
+methodologies or team sizes; subsequent researchers might look to run
+simulations of the team with biased behaviour such as illness or tiredness, or
+different experience levels in the team, or communication breakdowns between
+individuals, or the impact of a change in management or project direction. What
+then?
 
-This thesis investigates a paradigm
-being applied to a new domain, where it can be used for new purposes and in new
-ways. Our paradigm is aspect-oriented programming; our domain is \sociotechnical
-simulation \& modelling. 
+Typically, if a required change would alter the model significantly, researchers
+looking to adopt the tool for new purposes would fork it (assuming the source is
+available to them under a permissive enough license) and would make whichever
+modifications suited their needs. Other researchers might make their own forks.
+If the change is small, or if the new behaviour can be enabled in configuration,
+then it might be merged into the original tool. The contribution is thus
+disseminated to the research community who adopted the original tool without the
+need to migrate to a fork. However, if a future team wanted to research a
+combination of factors --- say, simulating the impact of a change of management
+on teams with different levels of experience and communication quality --- they
+would repeat the process, producing another fork with their own implementation
+of this particular combination. As modifications are built on top of each other,
+the logic for each possible behaviour is interwoven with that of the original
+model.
 
-Aspect-oriented programming is concerned with a program's modularity. It creates
-a new kind of module --- ``advice'' --- which, informally described, expresses
-a change to existing code. The research we present in later chapters uses this
-novel structure to define new models by composing a model with desired modifications.
+Such a codebase would be increasingly difficult to maintain. For example, the
+abstractions used to modularise it may have elegantly separated different
+concerns into different modules at first, but abstractions are often
+domain-specific; as the model becomes increasingly general-purpose, the
+abstractions used to separate concerns accumulate technical debt in the face of
+broader use-cases. In addition, the behaviours added by different teams may not
+make sense when enabled at the same time. In the example of a model of a
+software development team, a change representing remote work and a change
+representing the spread of a virus in different office settings are at odds
+conceptually and both are unlikely to be required in most cases. As a result,
+the tool's source code risks becoming confusing and unwieldy.
 
-This is the ``elevator pitch'' for the research in this thesis. Its high-level
-motivation is presented in a later section in more detail, but some background
-knowledge of aspect orientation and sociotechnical modelling is necessary. This
-introduction starts with a brief overview\footnote{A more detailled background
-  to the research is given in the literature review in \cref{chap:lit_review};
-  the aim of this introduction is to familiarise the reader with the concepts
-  and aims of later chapters, and so opts for a light touch on the relevant
-topics. Rigorous discussions follow in the appropriate chapters.} of aspect
-orientation and of sociotechnical modelling, and moves on to explain the
-high-level aims of the thesis more concretely. An overview of the work required
-to achieve these aims is given, and an outline of the contributions in later
-chapters follows. To aid the reader in later sections, this introduction
-concludes with a brief glossary of important terms and an outline of the rest of
-the thesis.
-
-
-% === 231026 The below was a first draft from today on the introduction but
-% didn't make the cut; instead I think it can be the start to an intro to AOP
-% (with some citations added of course)
-
-
-% Software's structure is an important part of its design. Software engineering
-% paradigms and techniques are often concerned with this structure:
-% object-oriented programming attempts to combine information and its related
-% processes; functional programming has a focus on the composition of processes
-% from small, general ones; design patterns such as factories, observers, or
-% adaptors offer a jargon for common structures used when solving common problems.
-% These paradigms and techniques are tools, each suited to addressing different
-% problems in different scenarios or domains. This thesis investigates a paradigm
-% being applied to a new domain, where it can be used for new purposes and in new
-% ways. Our paradigm is aspect-oriented programming; our domain is \sociotechnical
-% simulation.
-
-% % Briefly described, aspect-orientation was
-% % originally proposed as a solution to the problem of structuring the parts of a
-% % program which are not related to its core logic but are common throughout it,
-% % called ``cross-cutting concerns''.
-
-% Aspect-oriented programming offers a program structure designed for improved
-% modularisation of program logic which repeats frequently and doesn't relate to
-% its neighbouring logic, but does not yield modules using other techniques. An
-% example of this is logging. Logging is not typically required for a program to
-% achieve its aims, but code which logs pieces of information appears in many
-% software components and generally amid program logic which has nothing to do
-% with logging at all. These are termed ``cross-cutting concerns''. The goal of
-% aspect-oriented programming is to modularise these cross-cutting concerns. This
-% is achieved by separating them from a program's core logic and rewriting them as
-% modules --- termed ``aspects'' --- which are later ``woven'' back into their
-% intended positions. This allows high-level behaviours such as logging,
-% synchronisation, or memory safety to be factored away from a program's logic and
-% into a program's 
-
-% The concept of separating a program's behaviour into a separate module so as to
-% be re-introduced in whatever manner is 
+There is therefore an opportunity to improve the design of models and their
+codebases. We identify a need for a technique which allows a model to be altered
+in any arbitrary fashion so that the changes somebody could make to the tool can
+be represented as separate, optional modules --- even when that change
+introduces or alters logic in the middle of an existing process. It should also
+permit a developer to select the changes they need for their study, effectively
+composing a model with whichever behaviours they require.
 
 
 
-
-
-% === 231026 the below probably isn't what I want as my first page, but I do
-% think it motivates the problem well. It takes too long to get to the point (I
-% guess? It _is_ similar to Steve Marsh's thesis intro IMO) but too casual to go
-% in the middle of the chapter, so I think it's appropriate as the start of the
-% first section, with a brief para or two heading up the chap.
-
-
-
-
-% === stubs for what comes next...:
-
-% We suggest that changes like these are actually well encapsulated as aspects.
-% By weaving different aspects into the original tool, different models can be
-% constructed by composition.
-
-% However, there are some challenges with this approach. How does one know
-% whether the resulting model is valid? Can this be used practically? Can models
-% be made more realistic using the technique, or can new models with different
-% behaviours be produced through composition? Are the resulting modules
-% portable, so that a single module representing a behaviour can be woven into different codebases?
-
-
-
-\section{A Primer on Aspect Orientation \& \SocioTechnical Systems}
-
-As the aims of this research are concerned with aspect orientation, a discussion of
-those aims or the relevant research questions requires a familiarity with the concepts
-aspect-oriented programming concerns itself with. To that end, this 
-section contains a brief summary of aspect-orientation to familiarise the reader
-with some general concepts. A more detailled discussion of the aspect-oriented
+\section{A Proposed Solution}
+We identify aspect-oriented programming as a tool which is well-suited to the
+needs of research software engineers who build models as described earlier. This
+section gives a high-level introduction to aspect-oriented programming concepts.
+A more detailled discussion of the aspect-oriented
 paradigm and its literature follows in \cref{chap:lit_review}.
+
+The systems being modelled throughout this thesis are \sociotechnical systems,
+which involve the interaction between human actors and technology \& processes.
+While we expect this technique is broadly applicable to models \& simulations
+generally, the scope of the research is reduced to examine it as applied to
+\sociotechnical models in particular; these are also briefly introduced.
+
+Having discussed aspect-oriented programming and the modelling \& simulation of
+\sociotechnical systems, we section concludes by examining the technique's
+possible application in the context of the problem described.
+
+
 
 
 
 \subsection{What is Aspect-Oriented Programming?}
+\inline{
+  TODO may no longer be true; reworked; re-examine this\ldots{}
+  I worry that the explanation of aspect orientation and \sociotechnical
+  systems repeats itself, and also repeats other parts of the introduction.
+  I suspect a lot of what's here is redundant. Is the section needed at all?
+}
 
-Aspect-oriented programming originated in \citeauthor{kiczales1997aspect}'s work 
-in Xerox Parc~\cite{kiczales1997aspect}. The motivation for the paradigm was the 
+Aspect-oriented programming originated in \citeauthor{kiczales1997aspect}'s work
+in Xerox Parc~\cite{kiczales1997aspect}. The motivation for the paradigm was the
 modularisation of ``cross-cutting concerns'': parts of a program which are not
-directly related to the fulfilment of its requirements but are common throughout it.
-Cross-cutting concerns generally doesn't relate to
-their neighbouring logic: instead they fulfil an ancilary task, such as logging.
-This suggests it is a suitable candidate for modularisation: the single responsibility
-principle\inline{Cite Robert Martin} suggests that software with multiple concerns
-should be refactored into separate modules. However, traditional techniques are unsuitable
-for the creation of separate modules in these situations.
+directly related to the fulfilment of its requirements but are common throughout
+it. Cross-cutting concerns generally doesn't relate to their neighbouring logic.
+Rather, they fulfil an ancillary task, such as logging. This suggests it is a
+suitable candidate for modularisation: the single responsibility
+principle\inline{Cite Robert Martin} suggests that software with multiple
+concerns should be refactored into separate modules. However, traditional
+techniques are unsuitable for the creation of separate modules in these
+situations.
 
-Aspect-oriented programming introduces a new pattern which modularises cross-cutting concerns. This
-is achieved by separating them from a program's core logic and rewriting them as
-modules --- termed ``advice'', the combination of some implementation (an
-``aspect'') and a place to apply it (a ``join point'') --- which are later ``woven'' back into their
-intended positions by ensuring the aspect's logic is included somehow at its
-corresponding join point. This allows high-level behaviours such as logging,
-synchronisation, or memory safety to be factored away from a program's logic and
-into separate units. Unlike traditional modules, which are included by the code which
-requires them, a weaver composes advice and the code they should be applied to, with
-neither requiring knowledge of the other. This separation is core to aspect-oriented
+Aspect-oriented programming introduces a new pattern which modularises
+cross-cutting concerns. This is achieved by separating them from a program's
+core logic and rewriting them as modules --- termed ``advice'', the combination
+of some implementation (an ``aspect'') and a place to apply it (a ``join
+point'') --- which are later ``woven'' back into their intended positions by
+ensuring the aspect's logic is included somehow at its corresponding join point.
+This allows high-level behaviours such as logging, synchronisation, or memory
+safety to be factored away from a program's logic and into separate units.
+Unlike traditional modules, which are included by the code which requires them,
+a weaver composes advice and the code they should be applied to, with neither
+requiring knowledge of the other. This separation is core to aspect-oriented
 programming's design, and is referred to as ``obliviousness''.
 
 Aspect-orientation allows for existing codebases to be structured in new ways,
@@ -147,36 +116,36 @@ researchers suggest using aspect-oriented programming to separate concepts in
 experimental software, such as experiment and observation, to mirror the setup
 of a traditional experiment in research-specific codebases~\cite{gulyas1999use}.
 
-This thesis explores modelling changes to behaviour using advice, as applied to
-the modelling of \sociotechnical systems. These models partly consist of the
-behaviour of human agents within a system, which can exhibit variations
-contingent on environmental factors and other states, and might exhibit variance
-between actors. In later chapters, we demonstrate that these behavioural
-variations can be separated from a generic model into advice, with the advantage
-that the generic model's codebase is simplified and any particular behaviour of
-interest in a particular study can be modelled by weaving those behaviours at
-runtime. Advice, as demonstrated in later chapters, is a flexible and useful
-tool for composing models.
+This thesis explores modelling changes to behaviour using advice, and is applied
+to the modelling of \sociotechnical systems in particular. \Sociotechnical
+systems partly consist of the behaviour of human agents within a system, which
+can exhibit variations contingent on environmental factors and other states.
+This variance might be expressed differently in different agents in the system.
+In later chapters, we demonstrate that these behavioural variations can be
+separated from a generic model into advice, with the advantage that the generic
+model's codebase is simplified and any particular behaviour of interest in a
+particular study can be modelled by weaving those behaviours at runtime. Advice,
+as demonstrated in later chapters, is a flexible and useful tool for composing
+models.
 
 
 \subsection{Challenges in Aspect-Orientation Today}
-
-%STUB
 
 The aspect-oriented paradigm has some drawbacks. Identifying these means they
 can be addressed when applying aspect-oriented programming to a new domain where
 possible, and generally contextualise the research in later chapters. While they
 are discussed in detail in \cref{subsec:aop-criticisms}, a quick summary is
 given here as background for this chapter's later explanation of this thesis'
-aims and contributions (see \cref{intro_high_level_vision} and \cref{intro_contributions}).
+aims and contributions (see \cref{intro_high_level_vision} and
+\cref{intro_contributions}).
 
 The paradigm's philosophy that advice and the code it is applied to are
-oblivious to one another produces codebases which can be tricky to
-comprehend. When reading the implementation of some function or
-feature, it's not possible to know whether advice is being applied to it
-elsewhere. If it is, the behaviour of that code might be altered. Accurately
-understanding a program's control flow can therefore be challenging as a
-consequence of aspect-oriented programming's fundamental design choices.
+oblivious to one another produces codebases which can be tricky to comprehend.
+When reading the implementation of some function or feature, it's not possible
+to know whether advice is being applied to it elsewhere. If it is, the behaviour
+of that code might be altered. Accurately understanding a program's control flow
+can therefore be challenging as a consequence of aspect-oriented programming's
+fundamental design choices.
 
 Other limitations of aspect-oriented programming concern advice itself. Aspect
 orientation tooling typically allows for aspects to be woven before their join
@@ -259,71 +228,17 @@ modelling of \sociotechnical systems, the subject of a simulation or model
 should be assumed to be a \sociotechnical system unless otherwise specified.
 
 
+\subsection{Possible Benefits of Aspect-Oriented Modelling}
+Some specific benefits we anticipate from an aspect-oriented approach to
+building and maintaining models include:
 
-
-\section{High-Level Vision for a \SocioTechnical Modelling Technique}
-\label{intro_high_level_vision}
-
-Consider a research software engineer, responsible for the development and
-maintenance of a well-adopted model of some \sociotechnical system --- perhaps a
-public transport system, the spread of a disease in a pandemic, or a software
-development team's day-to-day work. As the model's use spreads and users'
-requirements broaden, how might our engineer manage their maintenance burden?
-What tools and techniques might they make use of to ease their task? Their tool
-might have originally modelled the interactions of individual developers in a
-team (to extend the latter example), and offered parameters for development
-methodologies or team sizes; subsequent researchers might look to run
-simulations of the team with biased behaviour such as illness or tiredness, or
-different experience levels in the team, or communication breakdowns between
-individuals, or the impact of a change in management or project direction. What
-then?
-
-Typically, if a required change would alter the model significantly, researchers
-looking to adopt the tool for new purposes would fork it (assuming the source is
-available to them under a permissive enough license) and would make whichever
-modifications suited their needs. Other researchers might make their own forks.
-If the change was small, or if the new behaviour was enabled in configuration,
-then it might be merged into the original tool. The contribution is thus
-disseminated to the research community who adopted the original tool without the
-need to migrate to a fork. However, if a future team wanted to research a
-combination of factors --- say, simulating the impact of a change of management
-on teams with different levels of experience and communication quality --- they
-would repeat the process, producing another fork with their own implementation
-of this particular combination. As modifications are built on top of each other,
-the logic for each possible behaviour is interwoven with that of the original
-model.
-
-Such a codebase would be increasingly difficult to maintain. For example, the
-abstractions used to modularise it may have elegantly separated different
-concerns into different modules at first, but abstractions are often
-domain-specific; as the model becomes increasingly general-purpose, the
-abstractions used to separate concerns accumulate technical debt. In addition,
-the behaviours added by different teams may not make sense when enabled at the
-same time. In the example of a model of a software development team, a change
-representing remote work and a change representing the spread of a virus in
-different office settings are at odds conceptually and both are unlikely to be
-required in most cases. As a result, the tool's source code risks becoming
-confusing and unwieldy.
-
-To resolve this without onerous maintenance burdens or several forked tools, we
-propose that additional behaviours, model parameters, or observational
-instrumentation be modularised into aspects. If they are, then each individual
-research group can share a common model without directly modifying it for their
-own ends: aspect-oriented programming's principle of obliviousness means that no
-changes should require direct modification of the original model's source,
-because it should be ``unaware'' that it is the subject of aspect weaving at
-all.
-
-With this approach, individual research teams can create a model for their own
-purposes by weaving their desired changes into the original model. Different
-teams can share aspects, standardising future research. The addition of another
-modification is the construction of another stand-alone module. The creation of
-a new model is the specification of a new set of pieces of advice to weave. This
-allows for all research teams to create the models required for their own work,
-without creating several forked tools or a single tool with many cross-cutting
-concerns and a complex architecture.
-
-Some specific benefits we anticipate from such an architecture include:
+\inline{
+  The below have been moved around a lot, and I'm no longer sure this
+  subsection makes sense. If it doesn't, move it. It's almost future work
+  content. \emph{Maybe} it's a justification of the aspect-oriented approach, or
+  \emph{maybe} it's a discussion of possible contributions, or \emph{maybe} it's
+  worth nuking completely.
+}
 
 \begin{description}
   \item[Advice as Units of Model Change] Scientific models which already exist
@@ -358,89 +273,55 @@ Some specific benefits we anticipate from such an architecture include:
     bias results. This potential use-case of aspect orientation has been
     suggested in the community~\cite{gulyas1999use}.
 
-  \item[Advice as Hypothesised System Behaviour] \inline{Putting a pin in this
-      --- this section's getting really long, and I don't think the introduction
-      needs to be such a mammoth. This section in particular is pushing it a
-    bit, 3 pages at time of writing I think.}
+  \item[Advice as Hypothesised System Behaviour] \inline{
+      COME BACK TO THIS I'm not sure how to phrase having advice as a
+      hypothesised system behaviour right now; moving on to keep momentum. Needs
+      completing!
+    }
 \end{description}
 
-
-
-
-
-%  % === 231106 Planning on replacing this with the contributions section, which
-%  % should explain each contribution and also explain how it relates to the
-%  % high-level vision. Better than a separate section, then a contributions
-%  % section too...
-% \section{Achieving the High-Level Vision}
-% \label{intro_achieving_the_thesis_aims}
-% 
-% 
-% \subsection{Non-Blackbox Aspects}
-% 
-% Adaptations of existing research codebases will have to account for software
-% which doesn't have useful join-points to weave onto, as models are written today
-% without aspect orientation as a design goal. In addition, the requirements of
-% future studies may not be apparent to the original implementers of a tool. As
-% aspect-oriented programming frameworks offer join points which specify that
-% aspects should be woven before, after, or around their target, any modifications
-% which must happen \emph{within} a join point are impossible to represent with
-% existing tooling. 
-% 
-% A method for weaving aspects \emph{into} their join points is therefore required
-% to fulfil the requirements of aspect-oriented simulation \& model development.
-% 
-% 
-% \subsection{Legible Aspect-Oriented Programs}
-% 
-% Software used in a research setting carries its own unique requirements. In
-% particular, they must be easily peer-reviewed and verified by a community, and
-% their maintenance is important for the purposes of a team's future work.
-% If aspect-oriented programming were to negatively impact a codebase's
-% legibility, this would run against the requirements of research software
-% engineers. Yet, aspect-oriented programming's principle of obliviousness is
-% argued to limit developers' comprehension of their
-% codebases~\cite{Constantinides04aopconsidered}. An aspect-oriented approach to
-% developing simulations and models should therefore accommodate program
-% legibility, either in framework design or in some supporting tooling. 
 
 
 
 \section{List of Contributions}
 \label{intro_contributions}
 
-% ALL STUB S
-Not sure whether these should be subsections but I'm leaning towards not. Here
-they are in description-list style, because i think description lists with
-paragraph-length definitions look really good in Ben's thesis. Maybe Tim has a
-different take?
+In developing tooling for aspect-oriented modelling and investigating the
+technique's feasibility, this thesis makes multiple contributions to the
+relevant research communities.
 
 \begin{description}
-  \item[PyDySoFu] Tooling for Aspect Orientation with within-style aspects and a
-    new weaving technique which is familiar to other AOP designs but makes the
-    intended use of a package a little clearer, particularly when used in the
-    intended way (i.e. in the main entrypoint to an experimental codebase).
-  \item[RPGLite Gameplay Data] provides an implementation of mobile game design,
-    RPGLite, and published a dataset produced by hundreds of players'
-    interactions with the game \inline{How many people played RPGLite exactly?}
-  \item[Demonstration of aspect-oriented model enhancement] Aspects are used to
-    augment a model of gameplay and demonstrate that aspect-oriented
-    enhancements can change a model and make it ``realistic''. We show that a
-    model can be augmented to synthesise data with the properties of the
-    real-world dataset. Depending on the discussion currently being had with
-    Tim, we might not claim this as a contribution --- maybe it's just too weak
-    (I think it might be, but would like a good way to sell the
-    prior-distribution model).
-  \item[Tuning a Complex Aspect-Oriented enhancement for hyper-realistic
-    modelling] A model of learning is presented which can be tuned to specific
-    real-world players in order to maximise its realism. Properties of learning
-    of specific real-world players are identified by fitting a learning model to
-    their RPGLite gameplay data.
+  \item[Tooling for Aspect-Oriented Modelling] This thesis presents a redesigned
+    and re-implemented version of a tool , \lstinline{PyDySoFu}, originally
+    prototyped for some prior work,\footnote{See \cref{chap:prior_work} for a
+    discussion on earlier related work.} which contributes both a tool which can
+    be employed for aspect-oriented modelling and a weaving technique designed
+    for legibility when applying aspects to models. It can be applied to
+    existing Python code with no modification to target code, and introduces
+    minimal dependencies when added to a project.
+  \item[Dataset describing \SocioTechnical System Interaction] A dataset
+    describing 370 players' interactions with a mobile game released for
+    research purposes called RPGLite. The design, implementation, and data
+    obtained from the game is presented, and the dataset collected via RPGLite
+    is used in experimental design for this thesis.
+  \item[Demonstration of Aspect-Oriented Model Enhancement] Aspects are used to
+    augment a model of RPGLite gameplay and demonstrate that aspect-oriented
+    enhancements can alter a model to improve it (according to some metric). In
+    particular, we show that a model can be augmented to synthesise data with
+    the properties of the real-world dataset.
+  \item[Using Aspect-Oriented Enhancements to Identify Hypothesised Player
+    Behaviour] A model of learning is presented with multiple parameters. We
+    demonstrate that this can be tuned to specific real-world players' behaviour
+    using the dataset collected, resulting in player-specific models of
+    learning. Properties of learning of specific real-world players are
+    identified by fitting a learning model to their RPGLite gameplay data.
   \item[Investigation into Aspect Portability] We investigate whether
     aspect-oriented changes to a model can be ported from one system to another,
     taking advantage of aspect-orientation's modular nature. \inline{Revisit.
       Does this work? Experiments need re-running. Should work for
       prior-distribution, maybe not for models of learning\ldots{}}
+    \item[Exploration of Opportunities Enabled by Aspect-Oriented Modelling]
+      \inline{Describe the future work section as its own contribution}
 \end{description}
 
 
@@ -474,3 +355,40 @@ in the glossary\cref{sec:glossary}.}
 \section{Thesis Structure}
 
 The rest of the thesis is structured as follows. \inline{Write the thesis structure!}
+
+\cref{chap:lit_review} surveys the project's relevant literature and identifies
+specific research questions in the field which the thesis addresses. Some
+earlier work precedes the research presented in this thesis; to delineate
+earlier contributions from those presented in later chapters,
+\cref{chap:prior_work} surveys the state of the research project before this PhD
+began.
+
+Having surveyed the literature, identified research questions, and established
+the starting point of the research, \cref{chap:pdsf_rewrite} describes the
+re-design and implementation of an aspect-oriented modelling tool,
+\lstinline{PyDySoFu}. Other technical contributions follow in
+\cref{chap:rpglite}, which describes the design and implementation of RPGLite, a
+mobile game developed for research purposes, as well as the data collected from
+it.
+
+Later chapters explore the application of aspect-orientation of aspect-oriented
+programming to simulation \& modelling codebases, using a model of RPGLite as an
+example.
+\inline{
+  Chapter structure for experiments may be reworked; thesis
+  structure concerning experimental chapters needs to be finished.
+}
+
+Finally, the encoding of behaviours and model properties as aspects yields novel
+research approaches, a discussion of which is omitted in all relevant literature
+we have reviewed to date. Therefore, in a similar vein to
+\citet{marsh1994formalising}, we investigate the possibilities aspect-oriented
+modelling enables in \cref{chap:future_work}. A brief conclusion to the thesis
+follows in \cref{chap:closing_discussion}.
+
+
+
+
+
+
+
