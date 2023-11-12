@@ -1,3 +1,61 @@
 \chapter{Closing Discussion}\label{chap:closing_discussion}
 
-A chapter rounding out the thesis with a brief discussion.
+\inline{
+  Closing discussion chapter is currently just — to be fleshed out
+}
+
+This thesis presented research into the application of aspect-oriented
+programming to the development of models \& simulations, with particular
+interest in the technique's use in a research setting. 
+
+Core to the approach is the notion that parts of a model expressing a model's
+contingent behaviour, introducing new parameters to it, or other changes a
+researcher might make to a codebase to investigate hypothesised behaviour can be
+understood as cross-cutting concerns.
+
+We investigated the technique as applied to \sociotechnical systems, but it
+needn't be limited to models of only one kind of system. This technique is
+general and shows promise as a novel approach to designing software for research
+purposes. It may also yield new approaches to collaboration in research.
+
+
+
+
+
+\section{Summary of Contributions}
+
+We introduced a new version of \pdsf which addresses criticisms of
+aspect-oriented programming, in particular its principle of obliviousness. The
+tool is later demonstrated as appropriate for use in the simulation \& modelling
+context.
+
+We produced a dataset of player interaction with a game designed for researchers
+to study, RPGLite. RPGLite's design was introduced and its implementation
+explained. We found the dataset useful in our own studies and anticipate that
+future researchers will also benefit from a well-described \sociotechnical
+system for which there exists a rich dataset of human interactions, well-defined
+mathematical properties, and a detailled account of its implementation and
+distribution.
+
+We demonstrate that aspects can be applied to alter model behaviour by
+altering a model of RPGLite to generate player-specific character choice data.
+
+We demonstrate that a model can be extended using aspects to encapsulate more
+complex behaviours. Models of learning with additional parameters are created
+and also used to create player-specific models of gameplay. We demonstrate that
+different individuals' learning patterns can be characterised by their accurate
+simulation using this model of learning, thereby identifying properties of those
+players which is not apparent from the dataset alone. For players whose learning
+is well modelled by these aspects, we demonstrate that the models can be tuned
+to reflect an individual's gameplay with statistical significance.
+
+We also investigate the portability of aspects applied to different models.
+\inline{
+  Finish stub (/section) concluding the contributions of our research on  aspect
+  portability once the chapter on aspect porting is completed.
+}
+
+
+
+
+
