@@ -26,7 +26,7 @@ normal:
 	lualatex "\def\nofonts{fontsdisabled}\include{thesis.tex}"
 
 clean:
-	-rm *.aux *.bbl *.blg *.log *.gz *.toc */*.aux *.idx *.out
+	-rm *.aux *.bbl *.blg *.log *.gz *.toc */*.aux *.idx *.out *.xml
 	-rm -r auto
 
 readable:
