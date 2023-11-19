@@ -1,28 +1,29 @@
 \chapter{Closing Discussion}\label{chap:closing_discussion}
 
-\inline{
-  Closing discussion chapter is currently just — to be fleshed out
+The discussion in this chapter summarises the findings made in earlier
+chapters, and provides some concluding remarks.
+
+First, the contributions made in earlier chapters are summarised, as an overview
+of the research as a whole. Next, some limitations of the findings and the
+methodology are acknowledged in the spirit of scientific integrity. The chapter
+then ends by reviewing the core concept of the thesis: that parts of scientific
+models can be written as --- or refactored to be --- advice, using
+aspect-oriented programming. This notion is examined through the lens of the
+thesis' contributions.
+\revnote{
+  I'm a little unfocused and distracted at time of writing --- moving on, but I
+  wonder if this can be phrased better, particularly the bit about the last
+  section reviewing AOP \& modelling as a whole.
 }
-
-This thesis presented research into the application of aspect-oriented
-programming to the development of models \& simulations, with particular
-interest in the technique's use in a research setting. 
-
-Core to the approach is the notion that parts of a model expressing a model's
-contingent behaviour, introducing new parameters to it, or other changes a
-researcher might make to a codebase to investigate hypothesised behaviour can be
-understood as cross-cutting concerns.
-
-We investigated the technique as applied to \sociotechnical systems, but it
-needn't be limited to models of only one kind of system. This technique is
-general and shows promise as a novel approach to designing software for research
-purposes. It may also yield new approaches to collaboration in research.
-
-
 
 
 
 \section{Summary of Contributions}
+\label{conclusion:contributions}
+
+% TODO: rewrite the below with references to the chapters making the
+% contributions. Perhaps it can be a description list of individual
+% contributions and the chapters (in order) which make them.
 
 We introduced a new version of \pdsf which addresses criticisms of
 aspect-oriented programming, in particular its principle of obliviousness. The
@@ -54,6 +55,108 @@ We also investigate the portability of aspects applied to different models.
   Finish stub (/section) concluding the contributions of our research on  aspect
   portability once the chapter on aspect porting is completed.
 }
+
+
+
+\section{Limitations}
+
+\inline{
+  Check with Tim: is it worth acknowledging some limitations in the conclusion?
+  I know it's a little unconventional, but I think it also shows some awareness
+  / humility. Hoping it makes questioning in the viva easier, because I can
+  point to areas where I openly acknowledge what could be improved in the
+  future; I'm following the scientific process, and aware of what ``good'' work
+  looks like. At least, that's what I'm trying to demonstrate here.
+}
+As with all research, the contributions summarised in
+\cref{conclusion:contributions} have some limitations. These are acknowledged
+here in the spirit of openness, and because identifying weaknesses in any piece
+of work helps to improve anything building on it.
+
+\begin{description}
+
+  \item[\pdsf{} improves on problems with obliviousness, but does not entirely
+    solve them]
+    A weakness of aspect-oriented
+    programming which its critics
+    identify~\cite{steimann06paradoxical,Constantinides04aopconsidered,przybylek2010wrong}
+    is that aspect-orientation's principle of obliviousness makes a program more
+    difficult to reason about. Obliviousness --- that the join-point of some
+    advice is unaware that a weaver might change it --- complicates reasoning
+    about a program, because it's unclear from reading its source code that
+    additional logic may be included when it is run, where that logic is to be
+    woven, and what it is to do. \pdsf{}'s ability to weave changes
+    \emph{within} its join-point as opposed to before or after it introduces new
+    ways for a program to exhibit unexpected logic. The only way to identify
+    whether a program been affected by \pdsf{} is to identify how it is used, by
+    observing where it is imported and whether \pdsf{} is utilised there. Other
+    aspect-orientation frameworks provide tooling to facilitate easier
+    inspection of aspect-oriented programs; at present, this is not provided for
+    \pdsf{}.
+  \item[Only one instance of aspect-oriented modelling is investigated]
+    \inline{this is a stub, complete me} We only investigate a model of RPGLite;
+    it'd be nice to apply AOP to more than just a model of a \sociotechnical
+    system, or show that it can be applied in many contexts.
+
+\end{description}
+
+
+
+
+
+\section{Using Aspects to Augment Models}
+
+\inline{
+  This was originally written as an introduction to the chapter, but I've moved
+  it to the end, because what it's getting at --- the central concept of using
+  aspect-oriented programming when developing scientific models --- is actually
+  a good thing to wrap the entire thesis up with, \emph{and} it just fits more
+  cleanly at the end and gives this chapter a nicer flow.\\HOWEVER I haven't rewritten it since moving it to the bottom. It needs editing
+  to fit here, I expect. Also, it's a little unfocused. What is it trying to
+  say, exactly\ldots{}?
+}
+
+This thesis presents research into the application of aspect-oriented
+programming to the development of models \& simulations, with a particular
+interest in the technique's use in a research setting. The use of aspects to
+represent changes to a model appears entirely novel, though some references to
+it exist in the literature, in particular that of \citet{gulyas1999use}. Core to
+the approach is the notion that parts of a model such as behavioural traits,
+additional parameters (and their impact on a model), and behaviour contingent on
+environmental factors can be suitably modularised from it as cross-cutting
+concerns. 
+
+Verification that the technique is viable --- and a demonstration of it ---
+required the development of new tooling, and the application of that tooling to
+investigate the benefits augmenting a model using aspects.
+
+The work presented investigates the technique as applied to RPGLite as an
+example \sociotechnical system. However, the application of aspect-oriented
+programming needn't be limited to models of one type of system. In theory, the
+technique can be viable in any scenario where a model developed for research
+purposes contains cross-cutting concerns. Where future research projects make
+significant changes to the behaviour a model exhibits, these changes may also be
+suitably represented as aspects woven into the original model, rather than a
+fork of it.
+
+Curiously, aspect-oriented programming as implemented by \pdsf can be used to
+augment codebases which were not designed to support the weaving of aspects. No
+change to their codebase is required to support aspect-oriented programming, so
+somebody looking to make modifications can design those as advice without
+requiring anything of the original codebase. In addition, a project using \pdsf
+to weave advice makes no changes to the language and requires no specialist
+tooling; it can be adopted in any other software project without the other
+project needing to support aspect-oriented programming or be built with the
+paradigm in mind. In this way, the choice to use of aspect-oriented programming
+when developing models affects only the team developing that model; their code
+requires nothing of anything it uses or is derived from, and their model can
+be used by other research teams as if it were any other software
+project.\inline{
+  Other AOP systems like AspectJ or nu require special compilers etc and
+  graphical systems like AOBPM introduce requirements for specialised tooling
+  too --- confirm and cite.
+}
+
 
 
 

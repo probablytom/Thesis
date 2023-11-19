@@ -9,9 +9,11 @@ to review, once something's content complete I don't think there's a reason
 _not_ to review it; just might still shift a little on my end.
 
 - Introduction
-  - [ ] Content decided
-  - [ ] Content complete
+  - [X] Content decided
+  - [X] Content complete
   - [ ] Draft 1 complete
+      - Not quite complete, but the content's there except for the odd bits and
+        pieces to be added on review. It's in a weird state, but it's close.
   - [ ] Reviewed
   - [ ] Draft 2 complete
 - Lit review
@@ -67,7 +69,7 @@ _not_ to review it; just might still shift a little on my end.
   - [ ] Reviewed
   - [ ] Draft 2 complete
 - Closing discussion
-  - [ ] Content decided
+  - [X] Content decided
   - [ ] Content complete
   - [ ] Draft 1 complete
   - [ ] Reviewed
@@ -88,7 +90,7 @@ _not_ to review it; just might still shift a little on my end.
 - [ ] Are footnotes always placed after periods, and before commas?
 - [ ] 
 
-
+<!-- 
 ## Plan
 
 Gantt chart for planning PhD:
@@ -159,3 +161,5 @@ gantt
     Receive edit suggestions from Tim on discussion / intro / conclusion / future work : milestone, after copyEditExperimentalWriting,
     Final editing notes from Tim : milestone, after copyEditBookends, 
 ```
+-->
+
