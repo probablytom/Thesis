@@ -3,58 +3,147 @@
 The discussion in this chapter summarises the findings made in earlier
 chapters, and provides some concluding remarks.
 
-First, the contributions made in earlier chapters are summarised, as an overview
-of the research as a whole. Next, some limitations of the findings and the
+First, the contributions made in earlier chapters are summarised to provide an
+overview of the research as a whole. Next, some limitations of the findings and
 methodology are acknowledged in the spirit of scientific integrity. The chapter
 then ends by reviewing the core concept of the thesis: that parts of scientific
 models can be written as --- or refactored to be --- advice, using
-aspect-oriented programming. This notion is examined through the lens of the
-thesis' contributions.
-\revnote{
-  I'm a little unfocused and distracted at time of writing --- moving on, but I
-  wonder if this can be phrased better, particularly the bit about the last
-  section reviewing AOP \& modelling as a whole.
-}
+aspect-oriented programming. This concept is examined through the lens of
+earlier chapters' investigations \& results.
+
 
 
 
 \section{Summary of Contributions}
 \label{conclusion:contributions}
 
-% TODO: rewrite the below with references to the chapters making the
-% contributions. Perhaps it can be a description list of individual
-% contributions and the chapters (in order) which make them.
+Several contributions are made in earlier chapters; this section summarises them
+individually to provide an overview of the presented research and its
+conclusions. These contributions were made in response to opportunities found in
+\cref{chap:lit_review}'s literature review, and are distinct from
+the contributions of earlier work as outlined in \cref{chap:prior_work}.
 
-We introduced a new version of \pdsf which addresses criticisms of
-aspect-oriented programming, in particular its principle of obliviousness. The
-tool is later demonstrated as appropriate for use in the simulation \& modelling
-context.
+\begin{description}
 
-We produced a dataset of player interaction with a game designed for researchers
-to study, RPGLite. RPGLite's design was introduced and its implementation
-explained. We found the dataset useful in our own studies and anticipate that
-future researchers will also benefit from a well-described \sociotechnical
-system for which there exists a rich dataset of human interactions, well-defined
-mathematical properties, and a detailled account of its implementation and
-distribution.
+  \item[A new aspect weaving technique aiming to improve aspect-oriented code's legibility]
+    The principle of obliviousness which forms part of aspect-oriented
+    programming's design
+    philosophy~\cite{filman2000aspect,kell2008survey,Charfi2006AspectOrientedWL},
+    but critics note that it makes the intended behaviour of a program difficult
+    to ascertain, and should therefore be used in
+    moderation~\cite{leavens2007multiple} or not at
+    all~\cite{przybylek2010wrong,Constantinides04aopconsidered}. \pdsf{} applies
+    aspect hooks to modules as they are imported, meaning that modules which
+    \emph{can} be altered by aspects are identified not only when weaving is
+    applied, but when any module is used. As this design preserves
+    obliviousness, function implementations still contain no reference to any
+    potentially applied aspects --- but any other module which invokes that function
+    must import it with hooks applied.
 
-We demonstrate that aspects can be applied to alter model behaviour by
-altering a model of RPGLite to generate player-specific character choice data.
+    Advice may still be woven anywhere within the module calling the function,
+    but the entire module does not need to be searched for a call to \pdsf{}'s
+    weaver: developers can simply find the module's import to check whether it
+    can be influenced by aspects. This reduces the possible parts of the
+    codebase one must check to identify whether arbitrary changes could be made
+    to a function's behaviour from anywhere at all to a single, well-defined
+    point in the program, addressing the limitation of obliviousness raised by
+    critics such as \citet{leavens2007multiple} or
+    \citet{Constantinides04aopconsidered} without sacrificing the design
+    principle itself.
 
-We demonstrate that a model can be extended using aspects to encapsulate more
-complex behaviours. Models of learning with additional parameters are created
-and also used to create player-specific models of gameplay. We demonstrate that
-different individuals' learning patterns can be characterised by their accurate
-simulation using this model of learning, thereby identifying properties of those
-players which is not apparent from the dataset alone. For players whose learning
-is well modelled by these aspects, we demonstrate that the models can be tuned
-to reflect an individual's gameplay with statistical significance.
+  % \item[A new type of advice which operates \emph{within} its join point, rather
+  %   than before and/or after it] \inline{
+  %     I think this really falls within prior work, and I shouldn't count it as a
+  %     contribution, but I'm leaving the stub here while I consider this. We
+  %     _do_ make improvements to the technique.
+  %   }
 
-We also investigate the portability of aspects applied to different models.
-\inline{
-  Finish stub (/section) concluding the contributions of our research on  aspect
-  portability once the chapter on aspect porting is completed.
-}
+  % RQ1
+  \item[Development of a tool which is suitable for use in aspect-oriented
+    modelling \& simulation] Having established through \cref{chap:lit_review}
+    that no tool suitable for use in aspect-oriented modelling \& simulation
+    exists, \cref{subsec:rqs} proposed the research question: \emph{
+      is an aspect orientation tool which is appropriate for use in simulation
+      \& modelling feasible to design?
+    } To address this, a redesign of \pdsf{}\footnote{Note that an early version
+    of \pdsf{} predates this thesis, as discussed in \cref{chap:prior_work}.}
+    was developed which provided compatibility with modern versions of Python
+    % , introduced optimisations for within-style aspect weaving, 
+    and improved on the design of its hook weaver to address criticisms of
+    aspect-oriented programming's legibility by adding aspect hooks at import
+    time --- thus preserving obliviousness while improving legibility.
+
+  \item[Demonstration that a model's behaviour can be augmented to accurately
+    reflect a system under study using advice] The review of relevant literature
+    in \cref{chap:lit_review} observes that many research projects in
+    aspect-oriented programming produce tooling, but do not confirm that
+    tooling's hypothetical contribution empirically, and few case studies exist
+    which demonstrate the benefits of aspect-oriented programming empirically.
+    It is therefore particularly important that \pdsf{} is demonstrated to
+    successfully represent changes to a model as advice.
+
+    \pdsf{} was used to apply advice which augmented a naive model of RPGLite
+    play; character selection was altered to reflect the characters selected by
+    real-world individuals, as observed in the RPGLite gameplay
+    dataset~\cite{rpglite_dataset}. This advice successfully produced synthetic
+    gameplay datasets which correlated with the individuals being modelled by
+    the advice. Advice is therefore demonstrated to be a viable mechanism for
+    the encoding of changes to a model, producing the expected datasets when
+    applied. \pdsf{} is also shown to be used successfully in a simulation \&
+    modelling setting.
+
+  \item[Demonstration of introducing new behaviours into a model using advice]
+    \inline{
+      TODO write about using AOP to introduce new behaviours to a model
+    }
+
+  \item[Investigation of the portability of advice from one model to another]
+    \inline{
+      TODO: write about investigating aspect portability (they're modules, so in
+      theory they can be portable\ldots{} in practice, obliviousness makes this
+      tricky.
+    }
+
+  \item[A model of RPGLite play, and corresponding dataset of player
+    interactions] Supporting the earlier contributions is a model of RPGLite
+    play\inline{Cite repo for RPGLite model}, paired with a dataset of RPGLite
+    player interactions~\cite{rpglite_dataset}. Both are publicly available in
+    support of other researchers' future work.
+
+  \item[An exploration of the possibilities which aspect-oriented modelling
+    yields] The technique investigated in earlier contributions --- the
+    application of aspect-oriented programming to model implementations ---
+    yields novel research opportunities which are undocumented in the literature
+    of relevant fields, although some researchers (notably
+    \citet{gulyas1999use}) hypothesise some opportunities. Having demonstrated
+    that model behaviours can be woven as advice rather than calcifying the
+    changes in a model's source code, we anticipate that a large body of future
+    work can be produced investigating more specific uses of the technique and
+    applying it in novel, domain-specific ways.\revnote{
+      This contribution in particular is explained in a very wordy way. Can we
+      be more concise here?
+    }
+    
+    The future work illustrated in \cref{chap:future_work} follows the example
+    of \citet{marsh1994formalising}, a thesis which introduces a formalism of
+    trust and also yields a large quantity of research opportunities.
+    \citeauthor{marsh1994formalising} notes that there exists such a large
+    quantity of research opportunities which existing literature does not
+    identify in any fashion that their thorough discussion of now-feasible
+    research opportunities constitutes a contribution in its own right; ``future
+    work'' in the context of their results doesn't refer to improvements on
+    their own findings, nor to more advanced versions of their own formalism,
+    but to entirely new research projects across a variety of fields. Similarly,
+    the application of aspect orientation to modelling \& simulation supports
+    novel research in applying the technique to existing codebases, using the
+    technique to develop rigorous methodologies for the acceptance of changes to
+    models, alternative forms of collaboration for research teams, and other
+    ``future work'' possibilities. These possibilities are enumerated in
+    \cref{chap:future_work} as a thorough exploration of earlier contributions'
+    significance, and is a contribution in its own right in the same manner as
+    in the work of \citet{marsh1994formalising}.
+
+\end{description}
 
 
 
@@ -71,7 +160,10 @@ We also investigate the portability of aspects applied to different models.
 As with all research, the contributions summarised in
 \cref{conclusion:contributions} have some limitations. These are acknowledged
 here in the spirit of openness, and because identifying weaknesses in any piece
-of work helps to improve anything building on it.
+of work helps to improve anything building on it. \inline{
+  Find one or two more limitations to write here if this section is going to be
+  kept.
+}
 
 \begin{description}
 
@@ -97,7 +189,6 @@ of work helps to improve anything building on it.
     \inline{this is a stub, complete me} We only investigate a model of RPGLite;
     it'd be nice to apply AOP to more than just a model of a \sociotechnical
     system, or show that it can be applied in many contexts.
-
 \end{description}
 
 
