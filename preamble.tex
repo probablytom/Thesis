@@ -20,6 +20,7 @@
 
 % Packages I for sure need
 \usepackage{caption}
+\usepackage{subcaption}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{titletoc}
@@ -80,9 +81,9 @@ skipbelow=0cm,
 %quotes. Also normalise spacing before and after the quote --- mdframed options
 %don't work for this.
 \renewcommand{\mkbegdispquote}
-    {\bigskip\begin{mdframed}\fontsize{12pt}{12pt}\setstretch{1.25}\setquotestyle{quote}\textooquote}
+    {\bigskip\begin{mdframed}\setstretch{1.25}\setquotestyle{quote}}
 %End displayquote environment with ending quotes
-\renewcommand{\mkenddispquote}{\textcoquote\end{mdframed}\medskip}
+\renewcommand{\mkenddispquote}{\end{mdframed}\smallbreak}
 
 % Macros
 % A todo system that is turned off by enabling final mode.

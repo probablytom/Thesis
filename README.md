@@ -99,6 +99,7 @@ _not_ to review it; just might still shift a little on my end.
 - [ ] Ensure quotes are formatted correctly throughout
 - [ ] Ensure code blocks are formatted correctly throughout
 - [ ] Past / present? I _always_ forget. Be consistent!
+- [ ] Ensure consistent punctuation in captions (do I end with periods, etc)
 
 <!-- 
 ## Plan
