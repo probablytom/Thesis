@@ -48,7 +48,6 @@ _not_ to review it; just might still shift a little on my end.
       - [ ] K-fold validation strategy
       - [ ] Experimental run comparison strategy
       - [ ] Actual results from different models
-      - [ ] Produce data from hyperbolic decay model
       - [ ] Write up prior distribution aspect
         - Note that this will require a few changes.
         - Obviously another section explaining how it works
@@ -88,7 +87,18 @@ _not_ to review it; just might still shift a little on my end.
 - [ ] Are words hyphenated correctly?
 - [ ] UK English used throughout?
 - [ ] Are footnotes always placed after periods, and before commas?
-- [ ] 
+- [ ] Move to macros for common phrases
+    - [ ] aspect-orientation
+    - [ ] aspect-oriented
+    - [ ] aspect-oriented programming
+    - [ ] PyDySoFu
+    - [ ] socio-technical
+    - [ ] research questions!
+- [ ] Ensure consistent use of either "within" or "fuzzing" advice. I use these
+  interchangeably. If keeping both, explain explicitly that they're equivalent.
+- [ ] Ensure quotes are formatted correctly throughout
+- [ ] Ensure code blocks are formatted correctly throughout
+- [ ] Past / present? I _always_ forget. Be consistent!
 
 <!-- 
 ## Plan
