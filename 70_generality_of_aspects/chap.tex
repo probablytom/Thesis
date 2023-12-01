@@ -55,32 +55,104 @@ changed instances of the same system.
   Add crefs to the sections mentioned here once they exist.
 }
 
-\inline{
-  TODO replace following sections to match the above.
-}
-
-
 
 
 \section{Identifying Statistically Significant Results}
 \label{exp_identiying_statistically_significant_results}
 
-The process used to identify statistically significant results.
+The process of generating datasets of simulated games of RPGLite outputs
+datasets for each training fold which have a statistically significant
+correlation to the real-world dataset produced by a player being simulated.
+However, different folds may produce statistically significant results with
+different parameters. For a model to represent a player's behaviour across all
+folds, its parameters should be independent of the fold being compared against.
+As a result, it is necessary to identify model parameters which produce
+statistically significant behaviour across many training folds.
 
+In scenarios where a player has many model parameters which provide
+statistically significant results across a majority of folds, stronger results
+should be preferred. However, a balance must be reached between the \tau{}
+correlation coefficient and the p-value which denotes confidence in that
+statistic: a low correlation statistic indicates little similarity between
+datasets, and a high p-value indicates a high probability that any measured
+correlation would occur when the null hypothesis is correct.\footnote{i.e. incidentally,
+rather than as a result of a hypothesis being true.}
 
+A set of model parameters yielding significant results for simulating a given
+player are selected by identifying model parameters which produced results above
+a threshold correlation coefficient and below a threshold p-value across $>50\%$
+of folds. All sets of parameters meeting these thresholds are then used to
+generate another dataset, the correlation of which is measured against the
+empirical dataset of the simulated player. If the new dataset's correlation
+meets the thresholds for correlation coefficient and p-value, it is considered
+to accurately simulate the player. A result is therefore found. If no sets of
+parameters meet these criteria, the thresholds are weakened, and the search
+repeats, until the thresholds can no longer be weakened without compromising the
+significance of the results they would produce.
+
+Correlation coefficient thresholds are selected at $0.5$, $0.4$, $0.3$, and
+$0.2$. P-value thresholds are $0.01$, $0.02$, $0.035$, and $0.05$. We prefer a
+weaker pvalue to a weaker correlation coefficient, as reliable weak correlation
+is preferable to dubious strong correlation. For this reason, correlation
+coefficient thresholds are relaxed only when all p-value thresholds have been
+tested. The algorithm implementing this search is given in
+\cref{search_for_correlation_coefficients} for reference.
+
+The result of this search is that --- if they exist --- the model parameters are
+returned which achieve optimally statistically significant results when
+simulating a given player.
 
 
 
 \section{RQ2: Altering Model Behaviour using \AspectOrientation}
 \label{rq2_results}
 
-Applying the prior distribution model to augment simulated player behaviour.
-
 \subsection{Experimental Design}
 
-Details of this experiment specifically: what are we looking for? How will we
-look for it? What is our hypothesis and null hypothesis, and how will this be
-tested?
+To demonstrate the viability of altering a model by using aspects to describe a
+change in behaviour, the advice applying the already-known character pair
+distribution to character pair selection is applied. This forms the first of
+three experiments in this chapter, addressing the research question:
+
+\begin{researchquestion}
+\rqtwo{}
+\end{researchquestion}
+
+The research question yields a null hypothesis: \emph{models of systems cannot
+be altered using advice to reflect their subjects more accurately}. If this were
+the case, there would be no discernable difference between the real world data's
+correlation against data from the naive model and data from a model with advice
+woven. Simulated players in the naive model select character pairs randomly,
+meaning that --- if patterns such as personal preference exist in the real-world
+data, or the data is not randomly distributed --- we would not expect much
+correlation between the two. If weaving advice produces datasets which do
+correlate with the real-world data, then the advice would have affected the
+model to more accurately reflect the player being simulated. We would therefore
+discount the null hypothesis, and answer the research question affirmatively. If
+no correlation could be produced as a result of weaving aspects, then the null
+hypothesis would have been demonstrated instead, answering the research question
+negatively.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{70_generality_of_aspects/diagrams/exp2_prior_distribution_model.png}
+  \caption{Advice woven into the naive model to adopt the distribution used to select character pairs from real-world data.}
+  \label{fig:exp2_prior_distribution_model}
+\end{figure}
+
+\Cref{fig:exp2_prior_distribution_model} illustrates the advice woven into the
+naive model to alter player behaviour to select character pairs with the same
+distribution as the real-world data exhibits. As this advice causes simulated
+players to select character pairs with the same distribution as real-world
+players, the datasets generated using them ought to correlate strongly with the
+real-world data: rather than being random, the distribution is expected to be
+the same. This therefore tests our hypothesis that advice can be used to alter
+model behaviour to be more accurate.
+\footnote{
+  Later experiments will investigate the addition of specific behaviours, rather
+  than reproducing properties of an already-present dataset.
+}
+
 
 \subsection{Results}
 

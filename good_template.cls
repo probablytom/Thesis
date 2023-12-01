@@ -246,7 +246,7 @@
 
 % ==== For synatax highlighting.
 \usepackage[final]{listings}
-\lstset{ %
+\lstdefinestyle{custompython}{
   backgroundcolor=\color{backcolour},
   basicstyle=\ttfamily\color{gray},
   breaklines=true,
@@ -258,6 +258,7 @@
   language=python,
   showtabs=true
 }
+\lstset{style=custompython}
 
 
 %-----------------------
