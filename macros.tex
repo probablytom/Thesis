@@ -1,3 +1,8 @@
+% Typeset a scientific notation number of the form 1.23e-5 => 1.23 x 10^-5
+\newcommand{\scientific}[1]{\num[{scientific-notation = true, separate-uncertainty = true}]{#1}}
+
+% Old macros for ensuring all secs and subsecs had labels.
+% Don't use these! Kept because I think they're still used _somewhere_...
 \newcommand{\labelledsec}[2]{\section{#1}\label{sec:#2}}
 \newcommand{\labelledsubsec}[2]{\subsection{#1}\label{subsec:#2}}
 
