@@ -56,62 +56,100 @@ changed instances of the same system.
 }
 
 
+\section{Methodology concerning the Interpretation of Results}
+\subsection{K-Fold Validation}
 
-\section{Identifying Model Parameters yielding Optimally Significant Results}
+RPGLite exhibits randomness, and its random nature affects the datasets
+generated when running experiments; this may cause correlation to appear by
+chance, biasing results. As discussed in
+\cref{subsec:controlling_state_space_exploration}, efforts are made to mitigate
+the impact of random play such as periodically refreshing the player pool and
+ensuring many games are played. Efforts are also made when interpreting results
+to control for the influence of random chance.
+
+Simulations are run several times, and the datasets they generate are compared
+against subsets of RPGLite player data to measure correlation, minimising the
+impact of randomness when evaluating results. This is achieved using k-fold
+validation, and ``Leave-One-Out Cross-Validation'' (LOOCV) in particular. In
+k-fold validation, the dataset being compared against is divided into $k$
+equally sized partitions (``folds''), which can be combined in different ways to
+produce datasets for training an algorithm or finding optimal parameters for an
+algorithm (``training~folds'') and corresponding datasets for testing the
+results of each optimisation
+(``testing~folds'')~\cite{k-fold-validation-definition}. LOOCV creates $k$ pairs
+of training and testing folds, where testing folds are individual partitions,
+and their corresponding training folds are the union of all other partitions.
+
+All experiments in this chapter make use of LOOCV to minimise bias in results.
+RPGLite player data is partitioned, and sets of training and testing folds are
+produced from these partitions. Experiments generate multiple datasets,
+comparing the results against different testing folds, and optimising model
+parameters against different training folds where appropriate. In all
+experiments \(k = 5\) to avoid small training \& testing folds and to measure
+correlation many times, which helps to identify individual biased results.
+
+
+\subsection{Identifying Model Parameters yielding Optimally Significant Results}
 \label{identifying-significant-results-explanation}
 
-% When generating datasets from simulated games, our experiments search to find
-% optimally performing values for several parameters: the curve parameter defining
-% the shape of a player's confidence curve, the relative growth rate of a player's
-% confidence, and the probability of simulated players becoming bored and being
-% replaced in the simulated player pool. 
+\Cref{sec:rq2} and \cref{sec:rq3} describe experiments where parameters for the
+model of learning are optimised. As this optimisation occurs across many folds,
+it is possible that many parameters produce statistically significant datasets
+when compared against a given player. These parameters may also vary between
+folds, as comparison against different testing folds may show correlation with
+different datasets. A technique to identify model parameters which produce
+statistically significant results across many folds is therefore required.
 
-\inline{
-  I think this makes most sense moved into the results section of RQ2 (exp3), or
-  maybe somewhere similar. It applies only to the model of learning.
-}
+Identifying optimal parameters requires searching across two dimensions of
+statistical significance reported in experiment results: Kendall's \tau{}
+correlation metric produces a statistic of correlation (which is also referred
+to as \tau{} in the context of results) and a p-value describing the probability
+that the correlation statistic would arise in the case that the null hypothesis
+for a given experiment is true, as described in
+\cref{measuring_charpair_similarity}. Statistically significant results must
+demonstrate a sufficiently high correlation statistic and a sufficiently low
+p-value; ``sufficiently'' high or low is defined below.
 
-The process of generating datasets of simulated games of RPGLite outputs
-datasets for each training fold which have a statistically significant
-correlation to the real-world dataset produced by a player being simulated.
-However, different folds may produce statistically significant results with
-different parameters. For a model to represent a player's behaviour across all
-folds, its parameters should be independent of the fold being compared against.
-As a result, it is necessary to identify model parameters which produce
-statistically significant behaviour across many training folds.
-
-In scenarios where a player has many model parameters which provide
-statistically significant results across a majority of folds, stronger results
-should be preferred. However, a balance must be reached between the \tau{}
-correlation coefficient and the p-value which denotes confidence in that
-statistic: a low correlation statistic indicates little similarity between
-datasets, and a high p-value indicates a high probability that any measured
-correlation would occur when the null hypothesis is correct.\footnote{i.e. incidentally,
-rather than as a result of a hypothesis being true.}
-
-A set of model parameters yielding significant results for simulating a given
-player are selected by identifying model parameters which produced results above
-a threshold correlation coefficient and below a threshold p-value across $>50\%$
-of folds. All sets of parameters meeting these thresholds are then used to
-generate another dataset, the correlation of which is measured against the
-empirical dataset of the simulated player. If the new dataset's correlation
-meets the thresholds for correlation coefficient and p-value, it is considered
-to accurately simulate the player. A result is therefore found. If no sets of
-parameters meet these criteria, the thresholds are weakened, and the search
-repeats, until the thresholds can no longer be weakened without compromising the
-significance of the results they would produce.
+To identify parameters for a player which reliably produce statistically
+significant results across folds, a threshold is set for both values of \tau{}
+and their corresponding p-values. Parameters producing results which meet both
+thresholds across $>50\%$ of folds are considered to be significant
+parameters for simulating a player, as they are more likely than not to produce
+datasets correlating to real-world play. If no such parameters exist,
+thresholds are weakened, and the search repeats. Thresholds continue to be
+weakened until doing so would indicate statistically insignificant results, such
+as large p-value or a low \tau{} value. If no parameters exist which reliably
+produce statistically significant results for a player, the player is not
+accurately represented by the model.
 
 Correlation coefficient thresholds are selected at $0.5$, $0.4$, $0.3$, and
-$0.2$. P-value thresholds are $0.01$, $0.02$, $0.035$, and $0.05$. We prefer a
-weaker pvalue to a weaker correlation coefficient, as reliable weak correlation
-is preferable to dubious strong correlation. For this reason, correlation
-coefficient thresholds are relaxed only when all p-value thresholds have been
-tested. The algorithm implementing this search is given in
-\cref{search_for_correlation_coefficients} for reference.
+$0.2$. In behavioural science research, a correlation coefficient of $0.5$ is
+considered strong in practice, $0.3$ of medium strength, and anything below
+$0.2$ weak; these values are both suggested as
+guidelines~\cite{significant_values_for_correlation_statistics} and found in the
+distribution of published results in
+metastudies~\cite{interpreting_correlation_coefficient_magnitude_psychology}. As
+the model of learning used in these experiments predicts human behaviour,
+typical bounds on high and low correlation from the behavioural science
+community are adopted for these experiments, and a correlation coefficient below
+$0.2$ is discarded in all cases as insignificant. P-value thresholds are $0.01$,
+$0.02$, $0.035$, and $0.05$. A maximum value of $0.05$ is adopted by convention
+in many research communities~\cite{borderline-significance-statistics-medicine};
+other p-value thresholds are selected arbitrarily for incrementally more significant
+results.
 
-The result of this search is that --- if they exist --- the model parameters are
-returned which achieve optimally statistically significant results when
-simulating a given player.
+To determine which pairs are searched first, they are ordered by their Manhattan
+distance from the most restrictive pair, $\tau{} > 0.5$ and $p < 0.01$. This is
+calculated by summing the number of steps away from the most restrictive
+threshold for each measurement: a threshold pair $\tau{} > 0.4$ and $p < 0.2$,
+with a Manhattan distance of $1 + 1 = 2$, is considered stronger than a pair
+$\tau{} > 0.5$ and $p < 0.05$, which has a Manhattan distance of $0 + 3 = 3$,
+and therefore is used first when searching for significant results.
+
+Experiments in \cref{sec:rq2} and \cref{sec:rq3} use this technique to find
+``optimal'' parameters to model each player with statistical significance, if
+such parameters exist for a player. The algorithm implementing this search is
+given in \cref{search_for_correlation_coefficients} for reference.
 
 
 
@@ -167,19 +205,19 @@ model behaviour to be more accurate.
 
 \subsection{Results}
 
+\inline{Revisit --- e.g. k-fold validation now properly explained in an early section.}
+
 For each player, datasets are generated using the naive and aspectually
 augmented models and compared against that player's real-world dataset. A risk
 when making this comparison is that RPGLite's random nature may cause the
 distributions generated by the player and the simulation to correlate, thereby
-skewing results. Later experiments are evaluated using k-fold
-validation\footnote{K-fold validation is described in more detail in
-\cref{k-fold-evaluation-explanation}.} where datasets are divided into $k$
-partitions, and sets of partitions organised into $k$ independent folds. A
-similar technique is adopted in this experiment. To run
-it multiple times and make comparisons against different
-representative datasets, this experiment is run $k$ times and the resulting
-character pair distributions compared against folds. Here and in future
-experiments, $k$ is set at $5$, meaning 5 results per player are generated.
+skewing results. Later experiments are evaluated using k-fold validation where
+datasets are divided into $k$ partitions, and sets of partitions organised into
+$k$ independent folds. A similar technique is adopted in this experiment. To run
+it multiple times and make comparisons against different representative
+datasets, this experiment is run $k$ times and the resulting character pair
+distributions compared against folds. Here and in future experiments, $k$ is set
+at $5$, meaning 5 results per player are generated.
 
 The results are consistent and similar across all players. However, unlike in
 later experiments where the results of multiple folds are compared and combined
