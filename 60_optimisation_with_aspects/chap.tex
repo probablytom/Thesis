@@ -447,9 +447,7 @@ seek to answer are:
 % \end{figure}
 
 \inline{
-  I've changed the RQs in the above list, but am currently restructuring this
-  chap, so yet to edit this section and make sure it makes sense with the
-  reworded Qs. Make sure it does!
+  this is unhinged and needs some serious editing.
 }
 To investigate these, we produce models of learning which can be applied to the
 naive model to augment player behaviour. Simulated players will have their
@@ -789,6 +787,12 @@ for the model of confidence required by our experiments.
 
 
 \section{Aspects Applied}\label{sec:optimisation_with_aspects_aspectsdeveloped}
+
+\inline{
+  The aspects used have changed since this was written. Needs revisiting, notes
+  on hyperbolic decay removing, and a writeup of fuzzing aspects for prior
+  distribution added.
+}
 
 % Players can be expected to select stronger characters as they understand
 % gameplay more. Aspects were therefore developed to track player experience with
@@ -1345,8 +1349,8 @@ collected in a class, \lstinline{ModelParameters}. Defining these values in a
 class helps to identify them in the codebase, and defines all variables which
 are used when optimising the model.\inline{These parameters are required because
 we run with different parameters for different folds. This subsec should be
-preceded by another on our strategy for optimmising, so we can introduce k-fold
-validation and clean up the wordinng in this sec so it makes more sense.}
+preceded by another on our strategy for optimising, so we can introduce k-fold
+validation and clean up the wording in this sec so it makes more sense.}
 
 \begin{figure}
   \begin{center}
@@ -1459,7 +1463,9 @@ wall of text}
   a string value; strings are IDs of aspects, and are replaced with their
   corresponding aspect on deserialisation.
   \item[players] The player being simulated. This parameter is a list of player
-  usernames to support annealing to multiple real-world player behaviours if required.
+  usernames to support simulating groups of players if required, though this
+  functionality is not used in the experiments presented in
+  \cref{chap:experimental_results}.
   \item[args] Any additional arguments to pass when running a simulation.
   \item[kwargs] Any additional keyword arguments to pass when running a simulation.
   \item[boredom\_period] The number of games completed by the simulated
@@ -1672,7 +1678,7 @@ could lead to inaccurate simulation. To counter this possibility, two mechanisms
 are introduced to control state space exploration: ``initial exploration'' and
 ``boredom''.
 
-\inline{A little clumsy --- reword this para? Is it suffient? } Initial
+\inline{A little clumsy --- reword this para? Is it sufficent? } Initial
 exploration is a threshold number of games a simulated player must complete
 before models of learning make changes. Learning models' impact in player
 behaviour is gated on both a player's level of confidence and the number of

@@ -100,6 +100,9 @@ _not_ to review it; just might still shift a little on my end.
 - [ ] Ensure code blocks are formatted correctly throughout
 - [ ] Past / present? I _always_ forget. Be consistent!
 - [ ] Ensure consistent punctuation in captions (do I end with periods, etc)
+- [ ] Do I still have reference to hyperbolic decay, or to two models of
+  learning?
+  - If so, remove. Hyperbolic decay is in the bin, unfortunately.
 
 <!-- 
 ## Plan
