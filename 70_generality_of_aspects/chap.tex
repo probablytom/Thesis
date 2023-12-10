@@ -652,8 +652,8 @@ but played no games; their results are marked as \emph{No Season 2 Data} in the 
 results table, \cref{learning_model_results_s2_old_parameters}. As in
 \cref{learning_model_results_table_comparison_to_real_world_datasets_players_without_correlation},
 results for players for whom no parameters could be found which produce accurate data in
-season 1 are marked \emph{N/A}, as no parameters are available to run season
-2 simulations with. 
+season 1 are marked \emph{N/A} when annealing toward new parameters using season
+2 data, as shown in \cref{learning_model_results_s2_annealed_parameters}.
 
 
 \inline{
@@ -692,22 +692,7 @@ georgedo & 0.02 & 0.3 & 0.2 & 3 & 0.062 & 0.085 & 0.253     \tabularnewline
 georgedo & 0.02 & 0.3 & 0.2 & 1 & 0.062 & 0.097 & -0.242     \tabularnewline
 georgedo & 0.02 & 0.3 & 0.02 & 1 & 0.062 & 1.0 & 0.0     \tabularnewline
 cwallis & \noseasontwo{} 
-Etess & \noseasontwo{} 
-kubajj & \noseasontwo{} 
 Jamie & \noseasontwo{} 
-basta & \noparams{}
-creilly1 & \noparams{}
-creilly2 & \noparams{}
-Deanerbeck & \noparams{}
-ECDr & \noparams{}
-Fbomb & \noparams{}
-Frp97 & \noparams{}
-l17r & \noparams{}
-Nari & \noparams{}
-Paddy & \noparams{}
-sstein & \noparams{}
-tanini & \noparams{}
-timri & \noparams{}
   \end{tabular}
   \caption{Correlation for simulation using an \aspectoriented{} model of learning
   applied to RPGLite season 2, with parameters identified as optimal for season 1
@@ -777,31 +762,73 @@ timri & \noparams{}
 
 \subsection{Answering the Fourth Research Question}
 
+The fourth research question can be answered affirmatively from the experimental
+results: \cref{prior_distribution_model_results_s2} shows a high degree of
+correlation when used to simulate season 2 gameplay, and its success is
+comparable to that of simulating season 1 gameplay as shown in
+\cref{prior_distribution_results_table_comparison_to_real_world_datasets}.
+Aspects used in the model applying a known distribution of character pairs to
+players' choices therefore port to other models of RPGLite. As these aspects are
+written as fuzzers which weave changes within their targets, this result extends
+to the novel type of advice introduced in \pdsf{} as well as pre-existing types.
 
+While the research question can be affirmatively answered, the results generated
+using the learning model in \cref{learning_model_results_s2_old_parameters} and
+\cref{learning_model_results_s2_annealed_parameters} show little correlation and
+so add nuance to these findings. Only one player --- \emph{ellen} --- was
+successfully simulated using the same parameters in seasons 1 and 2. The same
+player was also the only one for whom parameters could be discovered using
+season 2 data which yielded statistically significant results across a majority
+of folds. As many fewer players are successfully modelled using these aspects in
+season 2 than in season 1, these results do not demonstrate that aspects which
+successfully introduce new behaviours or parameters to one model can be reused
+across different models. Several factors may contribute to these results.
 
-A discussion of the fourth RQ, delivering a concrete answer using the results.
+These results may be influenced by the design of the learning model: it may more
+accurately represent the behaviour of a player who is new to a game than one who
+is adjusting to a change in that game. It may be that players respond to a
+change in RPGLite's metagame by using old strategies and adjusting them as
+needed, rather than discovering new strategies. The model of learning makes an
+assumption that simulated players have an initial lack of confidence which
+impacts how character pairs are selected, forcing players to explore possible
+character pairs and build preferences over time. If real-world players do not
+lose much confidence in their ability to select winning character pairs when
+seasons change then the assumption of the model would be incorrect, which could
+account for the learning model's loss of accuracy in simulation season 2
+players.
 
-There are two perspectives here: first, simple aspects which are more oblivious
-to the system they're applied to are more portable. The parameters of the model
-of learning need to be fitted, and it turns out they're being fitted to both the
-player \emph{and} the season: changing the season decimates the accuracy of the
-model, so clearly the parameters aren't independent of the system they're being
-fitted against. However, the prior distribution model is entirely independent of
-season, and it works a treat. The result is that the advice being ported
-matters, and while some advice \emph{can} be moved to new systems in a way that
-makes sense, other advice will be invalidated by the change. A researcher
-applying aspects to new systems therefore needs to demonstrate that they're
-valid on the new system --- it could be a worthwhile endeavour to port advice
-(instead of writing it from scratch) but there's still work involved.
+An alternative factor which may bias simulation accuracy may be habit. Players
+may build habits in season 1 which prove maladaptive in later seasons. If
+players were previously successful and did not realise that they may need to
+adapt to a changed metagame, their gameplay may be biased. They may also have
+grown accustomed to a particular strategy when playing, and either regard an
+increased rate of lost games in the new season as a result of RPGLite's random
+nature or simply refuse to change their character pair preferences out of
+stubbornness. The learning model does not account for any of these biases, which
+may impact its effectiveness when applied to simulations of season 2. Further
+research is needed to demonstrate that more complex augmentations of models such
+as additions of behaviours and parameters can be reused across models without a
+loss of model accuracy; some suggestions are given in
+\cref{experiment_results_final_discussion}.
 
-\inline{
-  TODO yet to finish this subsec.
-}
-
+Finally: advice implementing improvements to the model or instrumenting it to
+collect results have been successfully reused. If this were not so, the outcomes
+of games could not be recorded, and no players would be successfully modelled
+using the model of learning, as the confidence model would be unimplemented. As
+results are collected by instrumentation advice and user \emph{ellen} is
+successfully simulated using the learning model in season 2, we infer that these
+pieces of advice have been successfully reused. Instrumentation for data
+collection is an example of logic typically included in model codebases but
+ancillary to their main concerns~\cite{gulyas1999use}, making this an example of
+a cross-cutting concern in simulation \& modelling which these experiments
+implement as aspects. These results add further evidence that aspects which
+augment models can be successfully reused, and so constitute portable modules in
+the context of simulation \& modelling.
 
 
 
 \section{Discussion}
+\label{experiment_results_final_discussion}
 
 The experiments in this chapter contribute an investigation into the
 viability of using \aop for simulation \& modelling and its practical utility
@@ -827,47 +854,40 @@ advice can be used to amend models and improve their representation of a system
 under study.
 
 Finally, \cref{sec:rq4} presents an experiment which studies the modular nature
-of aspects representing change to models. It is anticipated that advice can be
+of aspects representing changes to models. It is anticipated that aspects can be
 used to encode behaviour which cuts across different models; to investigate
 this, the experiments presented in \cref{sec:rq2} and \cref{sec:rq3} are run
 again against gameplay data collected from RPGLite's second season. The
 experiments show that some aspects \emph{can} be applied to other models, in
 particular simple modifications to a model which do not require parameterisation
-or add additional behaviour. However, \cref{sec:rq4} fails to demonstrate this
-for advice which introduces new behaviours and parameters to a model. These
-findings may be biased by players' season 1 habits around character pair
-selection being carried into their season 2 behaviour. If players chose
+or add additional behaviour. However, \cref{sec:rq4} does not conclusively
+demonstrate this for advice which introduces new behaviours and parameters to a
+model. These findings may be biased by players' season 1 habits around character
+pair selection being carried into their season 2 behaviour. If players chose
 characters habitually rather than responding to RPGLite's changed metagame, no
-learning would be present in their gameplay data.
+learning would be present in their gameplay data. Relatedly, players may not
+respond to the change of season with any behavioural change at all. This would
+mean that the learning model's assumption that players explore possible
+character pairs when they are inexperienced would not be appropriate: players
+would effectively begin the game with a high degree of initial confidence, which
+the model of learning does not represent. This would cause real-world gameplay
+data to compare less favourably to datasets produced by the simulation.
 
-One player, \emph{Ellen}, was modelled accurately in these experiments, and was
-the only player accurately modelled both with parameters which produced accurate
-data in season 1 and with parameters generated using k-fold validation on season
-2 data. The model of learning therefore works for season 2, but does not model
-players successfully in this season. It is possible that the design of the
-learning model represents players' initial learning of the game, but represents
-their response to a changing environment poorly, thereby modelling play of the
-first season more accurately than the second.
-% This amounts to a type of ``knowledge'' about the system advice is woven into,
-% as the system it is applied to may not be an \emph{appropriate} target for the
-% advice. 
-
-The fourth research question can therefore be affirmatively answered for
-\emph{some} aspects, though more research into the portability of complex
-aspects is required. The experiments described in \cref{sec:rq4} show that
-simple changes to one model can be applied to similar models. Theoretically,
-this result holds when weaving into any alternative model for which the
-aspectually-represented variation is appropriate --- more research is required
-to confirm this. The result could be confirmed in this broader sense by creating
-aspects which represent behavioural change found in many systems such as the
+One player --- \emph{ellen} --- was modelled accurately in season 2 in both
+experiments using the learning model. Also, the model applying a player-specific
+distribution of character pair selections to simulated players' choices produced
+successful results. Advice which instrumented the model or modified it to
+mitigate the impact of stalemates was also successfully reused in the
+experiments described in \cref{sec:rq4}. For these reasons, the fourth research
+question can be answered affirmatively --- however, further research is needed
+to examine whether more complex changes to models suffer a loss of performance.
+This can be investigated by creating
+aspects which represent behavioural change found in many systems, such as the
 models of distraction implemented by Fuzzi-Moss\cite{fuzzimoss_repo} and used in
 prior research~\cite{wallis2018caise} as discussed in \cref{chap:prior_work}.
-Though aspects representing behaviours and parameters may be demonstrated to
-model a system accurately, \cref{sec:rq4} does not demonstrate conclusively that
-they may be reused in another model reliably, and further research would also
-clarify whether RPGLite's players were biased by their season 1 experiences or
-whether the model of learning was semantically inappropriate for application to
-a model of RPGLite season 2 on a more fundamental level.
+Applying these aspects across different case studies may yield positive results.
+This research should take care to avoid factors biasing behaviours such as
+habits or mistaken assumptions.
 
 
 
