@@ -9,9 +9,14 @@ The naive model of RPGLite and the \aspectoriented models of learning \&
 confidence which are described in \cref{chap:experiment_setup} are designed to
 answer the following research questions:
 
+\laurie{i think there is no RQ1 (it's defined in macros.text but not used
+AFAICS)? fwiw, i tend to give these sorts of macros non-numeric names and then
+i'd have `item[RQsomehumantextnumber] RQsomehumantext' so that I can
+rename/renumber them arbitrarily}
+
 \begin{researchquestion}
   \begin{description}
-\item[RQ2] \rqtwo{}
+\item[RQ2] \rqtwo{} \laurie{i must admit that i don't have an intuition of what `advice-based' might mean, and a quick grep through the PDF didn't turn up a definition. in sec 1.2.1, `advice' is defined as `aspect + join point', but i'm not sure what's different between `AOP' and `advice-based'. they feel like synonyms?}
 \item[RQ3] \rqthree{}
 \item[RQ4] \rqfour{}
   \end{description}
@@ -61,6 +66,10 @@ changed instances of the same system.
 
 \subsection{K-Fold Validation}
 \label{k_fold_validation_explanation}
+
+\laurie{i think you'll need to define `folds' and so on, at least in the
+sense of giving readers an intuition. i've never heard of this stuff
+before, and only got a very vague idea of what this section is doing.}
 
 RPGLite exhibits randomness, and its random nature affects the datasets
 generated when running experiments; this may cause correlation to appear by
@@ -291,6 +300,11 @@ distribution from which character pairs are selected.
 
 \end{figure}
 
+\laurie{the double hline above causes formatting issues with superscript
+numbers. fwiw i am a disciple of the `booktabs' package, which produces the
+most beautiful tables in latex i've seen. in particular, it gets horizontal
+lines `right'.}
+
 Briefly summarised, the only player showing statistically significant results
 from the data produced by the naive model is from \emph{cwallis}, from whom a
 p-value of $0.042$ and a \tau{} correlation coefficient of $0.309$ is produced,
@@ -423,7 +437,7 @@ running simulations were:
   of the values $c \in \{\frac{1}{50}, \frac{1}{10},
     \frac{1}{5}, 1, 5, 10, 50\}$.
     \item The coefficient applied to scale the relative growth rate of the
-    confidence model's birch curve, which could have any of the values $rgr
+      confidence model's birch curve, which could have any of the values \laurie{to avoid weird formatting (e.g. `coeff' gets formatted as `coef f'!) in maths mode, you'll want to put the words in a `textrm' command} $rgr
     ~ coeff. \in \{0.1, 0.3, 1, 3\}$
     \item The probability that a simulated player would become ``bored'' and
     replaced in the player pool for the simulation, as described in
@@ -567,7 +581,9 @@ to represent new behaviours within -- and add new parameters to -- an existing m
 % \emph{useful} as a mechanism to alter models. The former focuses on tooling, the
 % latter on simulation \& modelling. 
 
-\Aop{} is used to produce modules. Aspects describe a cross-cutting concern,
+\laurie{i assumed this definition would have appeared at least earlier
+in the chapter, if not earlier in the thesis?}
+\Aop{} is used to produce modules \laurie{is `produce modules' the easiest way to think of AOP? i'd have said it takes in a program and produces another program.}. Aspects describe a cross-cutting concern,
 which can be applied to specific join-points; its use in multiple parts of a
 program lend it a modular nature. Advice representing change to a model may only
 be applied to a single join-point, as is the case for the aspects described in
@@ -668,6 +684,15 @@ season 1 are marked \emph{N/A} when annealing toward new parameters using season
   what design will work for them all. Revisit the design; it's important that
   the results don't look unhinged. Tim may have useful advice here.
 }
+\laurie{you might want to use the `!' positioning thingy in figure (e.g. `h!')
+which nominally `forces' latex to put tables where you want. in practise,
+latex still does what it wants, but somewhat less so than without. other tricks
+you can play include table rotation to get things to fit well (i've done this
+in several papers) and/or putting one or more tables on their own page, which
+tends to keep latex happier. in other words, `h' is latex's least favourite
+position hint. `t' or `b` are what i use. `p` is what latex really wants, even
+though generally we tend not to what that.}
+
 \newcommand{\noparams}{\multicolumn{7}{c}{\emph{N/A}} \tabularnewline}
 \newcommand{\noseasontwo}{\multicolumn{7}{c}{\emph{No Season 2 Data}} \tabularnewline}
 \begin{figure}[h]
