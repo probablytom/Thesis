@@ -1,0 +1,53 @@
+\chapter{Details of Pattern Used when designing RPGLite's Naive Model}
+\label{appendix_ace_pattern}
+
+This appendix contains additional details on the actor, context, and environment
+variables used as arguments to the functions implementing RPGLite's workflow
+steps. Each simulation step receives these three arguments at a minimum. Because
+steps of the model are functions, and therefore valid join points, aspects
+applied to these have access to the entire state of the simulation.
+
+
+\begin{description}
+  \item[Actor ---] allows the function to identify the actor performing the activity
+    defined by the function. This argument is any object uniquely identifying an
+    actor. While RPGLite's naive model did not use this
+    variable to store actor-specific data, the object identifying the actor
+    could be used to encapsulate actor-specific information across different
+    workflows or different invocations of the same workflow.
+  \item[Context ---] allows a workflow step to determine details of the current
+    thread of work being undertaken by the actor. This is necessary because in
+    some simulations, the same actor might pause and resume multiple occurrences
+    of the same activity --- for example, they might concurrently play three
+    different matches in RPGLite. As a result, it is necessary to understand the
+    context of the action being performed by the actor in question. This
+    argument can be any object uniquely identifying the context of a piece of
+    work, but should be mutable (such as a class or dictionary-like object) to
+    permit the communication of information across invocations of different
+    action-representing functions.
+  \item[Environment ---] an actor's actions can be determined by the global
+    environment they act within. There may be ancillary details to the actor's
+    actions and the context of their particular thread of work which they are
+    undertaken within which are used to determine behaviour, such as a landscape
+    they traverse or other actors they might choose to interact with. An actor
+    may also alter the state of that environment. Because all actors share
+    access to a global environment, it can also function as an area of memory
+    used for message passing or a space where actors can set values and flags to
+    alter the environment of other actors.
+    
+    This concept is related to
+    environments in some other simulation frameworks, such as
+    SimPy\cite{simpy_documentation}, where the environment controls scheduling
+    and execution. However, other frameworks' environments impose model
+    properties such as a model of time which may not be of interest to a
+    researcher; this structure imposes no such constraints and its flexibility
+    offers a general-case design pattern rather than the structure of a
+    pre-existing framework, as it requires nothing more than a mutable
+    function argument common throughout a model's implementation.
+\end{description}
+
+Each simulation step receives these three arguments at a minimum. Because steps
+of the model are functions, and therefore valid join points, aspects applied to
+these have access to the entire state of the simulation. This happens to be a
+useful property for \aspectoriented{} simulation \& modelling, though not a
+necessary one.

@@ -83,7 +83,7 @@ research opportunities RPGLite presents are realised in
 \cref{chap:exp2_old_aspects_new_systems}; this chapter focuses only on the
 design and development of RPGLite as a mobile game, and the dataset collected
 from real-world play and released
-~\cite{wallis_game_on_2020,RPGLiteLessonsLearned}. It starts with an overview of
+~\cite{RPGLiteLessonsLearned}. It starts with an overview of
 RPGLite itself in \cref{sec:rpglite_overview}, and progresses to a discussion of
 the game's implementation in \cref{sec:rpglite_implementation} before concluding
 with a discussion around the empirical data collected using the game in
@@ -192,18 +192,28 @@ bits\)\revnote{J: Summarising her notes but 1. Footnote should be integrated
   into body and 2. Entropy's a confusing concept, wasn't
   what she was expecting here for defining a state space. Either make the
   concept extremely clear or, better, avoid the concept of entropy so as not to
-  trip people up. Clearer writing > clever writing.}.\footnote{The actual figure is smaller: \begin{itemize}\item Players may
-choose two characters with special abilities that prevent them from attacking
-both opponent characters at once (this accounts for 9 out of 10 characters),
-giving 5 possible actions in a turn, rather than 6.\item The ``metagame''\inline{Metagame is never defined!}, which
-refers to the perceived ``best'' strategies at any given point in time, would
-impact the chance of a player selecting making certain moves or choosing to play
-with certain characters. RPGLite is designed to be slightly ``unbalanced'' in
-the parameters of different characters such as health, attack damage, or potency
-of special abilities, meaning long-term players are expected to learn effective
-playstyles and adjust accordingly.\end{itemize}\par{}\indent{}Players' behaviour
+trip people up. Clearer writing > clever writing.}.\footnote{
+  The actual figure is smaller: 
+  \begin{itemize}
+    \item Players may choose two characters with special abilities that prevent
+    them from attacking both opponent characters at once (this accounts for 9
+    out of 10 characters), giving 5 possible actions in a turn rather than 6.
+    \item Players are likely to judge different strategies to be more effective
+    at different times due to their assessment of others' strategies: certain
+    decisions might be poor in general but successful in certain circumstances.
+    If a player determines that a certain strategy is ``popular'', they may
+    assume their opponent will play in the popular manner and adapt their own
+    strategies
+    accordingly~\cite{howard1971metagames_seminal,metagaming_in_esports}.
+    RPGLite is designed to have slightly ``unbalanced'' parameters of different
+    characters such as health, attack damage, or potency of special abilities,
+    meaning long-term players are expected to learn effective playstyles and
+    adjust accordingly.
+\end{itemize}\par{}\indent{}
+Players' behaviour
 is therefore less uniform than this calculation would imply, but the calculation
-provides a higher bound on the entropy of the game.}
+provides a higher bound on the entropy of the game.
+}
 
 Iterating through these states allows us to map the entire state space of
 RPGLite. As the state space the game defines is relatively small\footnote{For
@@ -466,6 +476,7 @@ with a naive scoring mechanism used to rank users on a leaderboard which some
 users then used to identify other players of a similar notional skill.}
 \end{itemize}
 
+\label{seasons_of_rpglite}
 RPGLite was played through two ``seasons'': after an initial $3,000$ games
 played in a first configuration of RPGLite, a second configuration was released.
 This meant that, having learned a strategy to play with the initial
