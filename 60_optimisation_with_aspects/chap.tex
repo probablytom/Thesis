@@ -312,6 +312,12 @@ steps taken by players and disregards whether the simulated players' choices
 reflect realistic ones. Informed decisions are woven as \aspectoriented{}
 changes to behaviour.
 
+\inline{
+  There's more I can and should write here. For example, how are seasons
+  represented? How do we switch between them? I also have classes representing
+  individual characters etc\ldots{}
+}
+
 
 
 
@@ -556,29 +562,31 @@ requirements of the functional model proposed by \citet{lachman1997learning}.
 \subsection{Modelling Player Confidence}\label{subsec:confidence_model}
 
 To model confidence we require a function mapping the number of games a player
-has completed to a probability between 0 and 1, fitting the crieteria described
+has completed to a probability between 0 and 1, fitting the criteria described
 in \cref{subsec:defining_our_models_of_learning}. A sigmoid curve fulfils these
 requirements: it rises monotonically and produces values between $0$ and $1$. It
 also notionally conforms to an intuition around ``confidence'' as a behavioural
-trait: like a sigmoid, peoples' confidence starts low and remains so until it
+trait: like a sigmoid, players' confidence starts low and remains so until it
 reaches some inflection point, after which one's confidence increases more
-signficantly, with the rate of this increase tapering as experience continues to
+significantly, with the rate of this increase tapering as experience continues to
 increase. However, not all real-world players might express the same traits in
-their growth of confidence, and this intuition is not universally applicable;
-the shape of a players' confidence sigmoids differ in the real world. To answer
+their growth of confidence, and this intuition is not universally applicable:
+the shapes of players' confidence sigmoids differ in the real world. To answer
 the proposed research questions, an ideal model of confidence is not required,
 but one which reflects \emph{some} real-world players \emph{is}. To account
-for this, the confidence model uses a sigmoid is which can be parameterised to
+for this, the confidence model uses a sigmoid which can be parameterised to
 alter its shape.
 
 A sigmoid curve is suitable for modelling confidence where other curves are not,
 because we require a period where players lack confidence and explore their
-options. Sigmoid curves such as the logistic~\cite{verhulst1845loi} or
-Gompertz~\cite{gompertz1815curve} are widely used when modelling
-systems~\cite{werker1997modelling}, but while they fulfil the role of a
-monotonically increasing curve with asymptotically low and high initial and
-final states, the shape of such curves is not trivially modified to fit
-different players' learning styles. To fulfil the confidence model's
+options before growing in confidence and remaining at high confidence
+thereafter, implying the shape of a sigmoid. They are also commonly used in
+simulation \& modelling. Sigmoid curves such as the
+logistic~\cite{verhulst1845loi} or Gompertz~\cite{gompertz1815curve} are widely
+used when modelling systems~\cite{werker1997modelling}, but while they fulfil
+the role of a monotonically increasing curve with asymptotically low and high
+initial and final states, the shape of such curves is not trivially modified to
+fit different players' learning styles. To fulfil the confidence model's
 requirements it is necessary to find an alternative: different players are
 expected to exhibit more bullish or timid styles of play, so the curve should be
 parameterised to account for the behaviours of those individuals.
@@ -589,10 +597,10 @@ drawing on growth curves developed by \citet{von1938quantitative}, which afford
 a natural pattern of growth. \citeauthor{richards1959flexiblegrowth} amends this
 curve to offer a parameterised growth rate. This can be made equivalent to other
 curves, including the logistic and Gompertz~\cite{france1984mathematical}. This
-curve allows for a parameterised rate of growth, but lacks parameters
-controlling the points at which growth occurs most rapidly. The relative rate of
-confidence gain is a separate concern to the point at which such growth occurs:
-a player might cautiously grow in their confidence until they are already very
+curve allows for a parameterised rate of growth but lacks parameters controlling
+the points at which growth occurs most rapidly. The relative rate of confidence
+gain is a separate concern to the point at which such growth occurs: a player
+might cautiously grow in their confidence until they are already very
 experienced, or might bullishly grow in confidence yet plateau early, taking
 longer to reach complete confidence in themselves than they did to garner an
 initial increase, regardless of their relative growth in confidence.
@@ -799,9 +807,10 @@ confidence of the player selecting a character pair. The aspect uses the model's
 environment to find parameters such as players' initial confidence or the value
 of the curve's shape parameter $c$. The implementation of the aspect updating
 the confidence model is given in
-\cref{fig:update_confidence_model_aspect_source}. It is implementation
-edited for readability, as the version used when running experiments contained
-debugging code and additional logic used by abandoned experiments.
+\cref{fig:update_confidence_model_aspect_source}. This implementation is edited
+for readability, as the version used when running experiments contained
+debugging code and additional logic used by other experiments which were
+attempted but abandoned.
 
 \begin{figure}[h]
   \centering
@@ -813,21 +822,103 @@ debugging code and additional logic used by abandoned experiments.
 \end{figure}
 
 \subsubsection{Record Prior Distribution of Character Preferences}
+\label{record_prior_distribution}
 
-\inline{
-  Keeping this in because I might need to explain the aspect, but it's only used
-  in the implementation of choosing based on prior distribution, which I don't
-  believe is ever applied. So! Decide whether to get rid of the writeup of that
-  model. If I \emph{am}, then get rid of this too. If not, add it to the
-  learning models writeup below and explain it here.
-}
-\inline{
-  The above inline todo is from the summer --- things have changed a LOT since
-  then! This is no longer the case, but I'm leaving the inline todo in for now
-  as a reminder of the state of the writing. Can't edit at present, I'm just
-  reorganising.
-}
+To implement the prior distribution model, the character pair preferences of the
+player being simulated must be calculated. The prelude aspect implementing this
+is shown in \cref{fig:prelude_before_learning_by_prior_distribution}. Computing
+this distribution involves loading, parsing, and filtering the entire dataset of
+RPGLite gameplay data. However, the program running experiments must load this
+dataset to construct the parameters controlling the simulation --- in particular
+\lstinline{training_data} and \lstinline{testing_data}, introduced later in
+\cref{model_parameters} --- so to avoid duplicating this work, the values are
+retrieved from the stack frames of the function which constructed the model
+parameters. The players being simulated and games played by them are identified
+by their variable names in the stack frame, and their distribution is calculated
+through a convenience function,
+\lstinline{find_distribution_of_charpairs_from_players_collective_games}, the
+implementation of which is given in
+\cref{fig:calculating_charpair_distribution}.
 
+\begin{figure}[hp]
+  \centering
+  \begin{lstlisting}[style=custompython]
+def prelude_before_learning_by_prior_distribution(target, actor, gamedoc, env, *args, **kwargs):
+  # Before we fuzz, we need to make sure the prior distribution is set up in the game's environment.
+  # Calculate and inject it if it's not already there.
+  if 'simulation prior distribution' not in env:
+      # Grab players and games from an earlier stack frame
+      # (avoids weaving an aspect to collect the info)
+      frame_to_find_name = "generate_charpair_distributions"
+      for frameinfo in inspect.stack():
+          if frameinfo.function == frame_to_find_name:
+              break
+      games = frameinfo.frame.f_locals['games']
+      players = frameinfo.frame.f_locals['players']
+
+      from experiment_base import find_distribution_of_charpairs_from_players_collective_games
+      env['simulation prior distribution'] = find_distribution_of_charpairs_from_players_collective_games(players, games)
+  \end{lstlisting}
+  \caption{The prelude aspect calculating the distribution of character pairs selected by the real-world player being simulated, which is reproduced by simulated players using the prior distribution model.}
+  \label{fig:prelude_before_learning_by_prior_distribution}
+\end{figure}
+
+\begin{figure}[hp]
+  \begin{lstlisting}
+def find_distribution_of_charpairs_from_players_collective_games(players, gameset):
+    distribution = dict()
+    for player in players:
+        player_distribution = find_distribution_of_charpairs_for_user_from_gameset(player, gameset)
+        for charpair, count in player_distribution.items():
+            distribution[charpair] = distribution.get(charpair, 0) + count
+
+    return distribution
+
+def find_distribution_of_charpairs_for_user_from_gameset(player, gameset):
+    charpair_distribution = dict()
+    for game in gameset:
+        # Game is from RPGLite's real-world mongodb if it has a `_id` field.
+        if '_id' in game:
+            game = convert_gamedoc_to_tom_compatible(game)
+
+        if player in game:
+            char1 = game[player]['chars'][0][0]
+            char2 = game[player]['chars'][1][0]
+            pair = char1 + char2 if char_ordering[char1] < char_ordering[char2] else char2 + char1
+            charpair_distribution[pair] = charpair_distribution.get(pair, 0) + 1
+
+    return charpair_distribution
+    
+def convert_gamedoc_to_tom_compatible(gamedoc):
+    '''
+    We use this to convert a game document from MongoDB to the kind generated by the simulation, for ease of comparison.
+    '''
+    new_gamedoc = deepcopy(gamedoc)
+
+    new_gamedoc['players'] = gamedoc['usernames']
+    new_gamedoc[gamedoc['usernames'][0]] = dict()
+    new_gamedoc[gamedoc['usernames'][1]] = dict()
+    new_gamedoc[gamedoc['usernames'][0]]['chars'] = [gamedoc['p1c1'], gamedoc['p1c2']]
+    new_gamedoc[gamedoc['usernames'][1]]['chars'] = [gamedoc['p2c1'], gamedoc['p2c2']]
+
+    return new_gamedoc
+  \end{lstlisting}
+  \caption{The implementation of a helper function which calculates the distribution of character pairs from the games a player completed.}
+  \label{fig:calculating_charpair_distribution}
+\end{figure}
+
+This allows the calculation of the distribution to be separated from the change
+to players' character pair selection. Separating these into two different
+aspects allows them to use different join points: this aspect is a prelude and
+operates before character pairs are chosen, whereas the change made to character
+selection is performed using a ``within''-style fuzzer from \pdsf{}. The
+\lstinline{if} statement at the beginning of the aspect, as shown in
+\cref{fig:prelude_before_learning_by_prior_distribution}, avoids calculating the
+distribution more than once.
+\revnote{
+  Bit thin maybe? I'm not sure what to say about the prior distribution model.
+  It's so simple! Hopefully this is sufficient.
+}
 
 
 
@@ -884,27 +975,24 @@ consideration for their opponent's outcome), though in practice all simulations
 were performed with players observing both their own outcomes and those of their
 opponents.
 
-\subsubsection{Record Winning Pair observed by Players on Game
-End}\label{subsubsec:aspect_to_observe_winning_pair} Unlike the detailed game
-outcome data recorded by the aspect described in
-\cref{subsubsec:detailed_game_outcome_tracking_aspect} and used in advanced
-learning models such as that of hyperbolic decay (to be explained later, in
-\cref{subsubsec:learning_with_hyperbolic_decay}), other learning models required
-only simple outcome data. The simpler model of learning making use of a
-distribution of winning teams to be explained in
-\cref{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}
-is more easily implemented against a simple list of winning teams. Rather than
-coalescing the more complex dataset collected as described in
+\subsubsection{Record Winning Pair observed by Players on Game End}
+\label{subsubsec:aspect_to_observe_winning_pair}
+
+The simple model of learning makes use of a distribution of winning teams to
+simulate learning (the implementation of which is explained in
+\cref{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}).
+Rather than coalescing the more complex dataset collected as described in
 \cref{subsubsec:detailed_game_outcome_tracking_aspect} to achieve the desired
 format, another aspect can be applied to collect the data in a simpler format
 directly.
 
-An aspect was implemented which also models players observing winning character
-pairs on game end, but collects the data in a simple list of character pairs
-observed to win games, rather than a mapping of character pairs to game end
+An aspect was implemented which models players observing winning character
+pairs on game end and collects the data in a simple list of character pairs
+which won games, rather than a mapping of character pairs to game end
 states as described in \cref{subsubsec:detailed_game_outcome_tracking_aspect}.
 Character pairs which lose games or are not involved are not recorded for the
 purpose of the alternative model of learning.
+\revnote{This aspect needs a bit more of an explanation. Maybe a code snippet?}
 
 % TODO: Section / subsection for models of learning
 \subsection{Aspects Implementing Models of Learning}\label{subsec:aspects_modelling_learning}
@@ -946,14 +1034,108 @@ A model of learning with a hyperbolic discounting bias is described in
 \subsubsection{Character Selection using Prior Distribution}
 \label{prior_distribution_aspect_description}
 
-\inline{
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  Need to define the model which selects characters using the prior distribution.
+The prior distribution model alters character selection by changing the
+distribution of character pairs selected from when simulating RPGLite play. The
+distribution they choose from is changed to reflect the distribution selected by
+the player being simulated. Another aspect, explained earlier in
+\cref{record_prior_distribution}, calculates that distribution and stores it in
+the simulation's environment. The role of this aspect is to use that
+distribution when selecting character pairs at the beginning of a game.
+
+\begin{figure}[hp]
+  \centering
+  \begin{lstlisting}
+def fuzz_learning_by_prior_distribution(steps, target, actor, env, *args, **kwargs):
+    get_choices_from_prior_dist_injected_code = '''
+players = _context['players']
+games = _env['games']
+
+distribution = _env['simulation prior distribution']
+possible_choices = list()
+for pair, count in distribution.items():
+    for _ in range(count):
+        possible_choices.append(pair)
+
+char_class_map = {
+    "K": Knight,
+    "A": Archer,
+    "R": Rogue,
+    "W": Wizard,
+    "H": Healer,
+    "B": Barbarian,
+    "M": Monk,
+    "G": Gunner
 }
+chars_chosen = [char_class_map[char] for char in choice(possible_choices)]
+'''
+    to_inject = ast.parse(get_choices_from_prior_dist_injected_code)
+    return [steps[0]] + to_inject.body + [steps[2]]
+  \end{lstlisting}
+  \caption{The implementation of the prior distribution model's change to player
+  behaviour, implemented as a \pdsf{} fuzzer which inserts character pair
+  selection logic into the \lstinline{choose_chars} function of the naive model
+  to select character pairs using the distribution taken from RPGLite gameplay
+  data in an earlier aspect.}
+  \label{fig:prior_distribution_implementation}
+\end{figure}
+
+
+The aspect implementing the prior distribution's behaviour change is shown in
+\cref{fig:prior_distribution_implementation}. It is implemented using \pdsf{}'s
+fuzzers (or ``within''-style aspects) to insert additional logic within
+character pair selection rather than prepending or appending logic to it. Logic
+is added by modifying the target program's abstract syntax tree (\emph{``AST''}),
+a native representation of Python code. The steps of the fuzzer's target ---
+provided by \pdsf{} as the fuzzer's first argument --- are nodes of the AST
+representing the function definition of the target. The target in this case is
+\lstinline{choose_chars}. An implementation of this function is given in
+\cref{fig:choose_chars_implementation_annotated_with_steps}, edited to show how
+the lines in the function definition map to values in the \lstinline{steps}
+argument of the fuzzer.
+
+\begin{figure}[hp]
+  \begin{lstlisting}
+def choose_chars(_actor, _context, _env):
+    if _actor not in _context: # First "step", or steps[0]
+        _context[_actor] = dict()
+
+    chars_chosen = sample(characters, 2) # Second "step", or steps[1]
+    _context[_actor]['chars'] = [c() for c in chars_chosen] # Third "step", or steps[2]
+  \end{lstlisting}
+  \caption{The naive model's \lstinline{choose_chars} function, which selects
+  character pairs for a player to play a game with randomly.}
+  \label{fig:choose_chars_implementation_annotated_with_steps}
+\end{figure}
+
+Python code to select character pairs using the desired distribution is written
+in a multi-line string and parsed into an AST. This code:
+
+\begin{itemize}
+\item Takes the distribution of character pairs from the game's environment,
+represented as a map of two-letter strings (for example, ``KA'', representing
+the pair \lstinline{Knight}, \lstinline{Archer}) to the number of times a player
+selected the pair represented by that string,
+\item Constructs a list, \lstinline{possible_choices}, which contains the
+two-character string identifying a character pair as many times as the character
+pair was chosen by a player,
+\item Creates a map of letters to classes implementing the characters those
+letters represent (for example, ``K'' maps to the \lstinline{Knight} class),
+\item Sets the \lstinline{chars_chosen} variable to a list of two classes, by
+selecting a character pair from the \lstinline{possible_choices} list at random
+and adding the class implementing each character in that pair to the
+\lstinline{chars_chosen} list.
+\end{itemize}
+
+This leaves \lstinline{chars_chosen} in the same state as it would have been
+without the application of the prior distribution model: a list of two
+character-implementing classes. However, those classes were selected using the
+distribution produced from RPGLite gameplay data. The AST nodes produced by
+parsing this code are used to replace the second step of the second step in
+\lstinline{choose_chars}. The rest of the function logic remains the same. The
+changed AST nodes are returned by the fuzzer and compiled by \pdsf{}, ensuring
+that the modified function definition is executed and so changing player behaviour.
+
+
 
 \subsubsection{Character Selection using confidence sigmoid}
 \label{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}
