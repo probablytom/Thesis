@@ -41,10 +41,25 @@ implementation of \emph{all} experiments is explained in this chapter, and their
 results follow in \cref{chap:experimental_results}.
 
 The common aspects of design and implementation in this chapter are explored as
-follows. \inline{After completing the restructuring of these chapters, come back
-and complete this chapter outline.}
+follows. To give context as to how different pieces of the experiments'
+foundations are used, an overview of the models constructed and the experiments
+employing them is given in \cref{experiment_design_sec_models_and_experiments}.
+The model of RPGLite play which these experiments weave aspects into is
+described in \cref{sec:naive_model}. The design of the more complex of the two
+models of behaviour change --- a model of learning --- is explained in
+\cref{learning_model_definition}. Aspects implementing the learning model, other
+models of behavioural change, and additional apparatus required to conduct
+experiments are described in \cref{aspects_applied_section}. Having described
+details of the aspects used by experiments, details of the implementation of the
+experiments themselves are given in
+\cref{sec:optimisation_with_aspects_experimental_design}. Following this,
+\cref{chap:experimental_results} explains the design, implementation, results
+and evaluation of each experiment individually, as all context necessary to
+understand these designs and evaluations are given in the aforementioned
+sections.
 
 \section{Experiment Design}
+\label{experiment_design_sec_models_and_experiments}
 
 To answer the proposed research questions, two models are made which change
 simulated players' character pair selections: one which reflects the choices
@@ -301,7 +316,8 @@ changes to behaviour.
 
 
 
-\section{Modelling Learning}\label{learning_model_definition}
+\section{Modelling Learning}
+\label{learning_model_definition}
 
 The naive model makes choices randomly. Informed decisions are made by weaving
 advice into the model which changes player behaviour. Experiments are evaluated
@@ -1389,22 +1405,22 @@ between these checks, and the mechanism can be disabled entirely using the
 
 
 
-\section{Discussion}
-\label{sec:optimisation_with_aspects_discussion}
+% \section{Discussion}
+% \label{sec:optimisation_with_aspects_discussion}
 
-A closing discussion on what we found, and how the research question was
-answered.
+% A closing discussion on what we found, and how the research question was
+% answered.
 
-Also, note the weaknesses of the approach.
+% Also, note the weaknesses of the approach.
 
-\begin{itemize}
-  \item More games could have lead to a more accurate result
-  \item It'd be interesting to use the models to ``learn'' other things too,
-    such as move selection / mistakes made
-  \item Would like to reproduce across multiple different systems, not just
-    RPGLite. Maybe developers like we did in the CAISE paper, maybe aspects that
-    aren't learning like degraded modes. Could be interesting to model a complex
-    adaptive system with aspects representing rule changes. Could be interesting
-    to demonstrate other uses of aspectually augmented systems, like introducing
-    new rules to a cellular automaton.
-\end{itemize}
+% \begin{itemize}
+%   \item More games could have lead to a more accurate result
+%   \item It'd be interesting to use the models to ``learn'' other things too,
+%     such as move selection / mistakes made
+%   \item Would like to reproduce across multiple different systems, not just
+%     RPGLite. Maybe developers like we did in the CAISE paper, maybe aspects that
+%     aren't learning like degraded modes. Could be interesting to model a complex
+%     adaptive system with aspects representing rule changes. Could be interesting
+%     to demonstrate other uses of aspectually augmented systems, like introducing
+%     new rules to a cellular automaton.
+% \end{itemize}
