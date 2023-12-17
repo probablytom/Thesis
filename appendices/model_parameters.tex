@@ -1,0 +1,70 @@
+\chapter{Complete Description of Model Parameters}
+\label{appendix_model_parameters}
+
+The \lstinline{ModelParameters} class defines the parameters which generate data
+from an experiment. It is introduced in \cref{model_parameters}, and its
+implementation is shown in \cref{fig:model_parameters_class} and
+\cref{fig:ModelParameters_run_experiment_method}. However, many parameters
+control the 
+
+  
+
+\begin{description}[style=multiline,leftmargin=3cm]
+  \item[starting\\confidence] The initial value of the model's confidence curve.
+  \item[assumed\\confidence\\plateau] A corresponding high value for the model's
+  confidence curve. As the curve's growth rate is calculated to align with the
+  number of games completed by the real-world player being simulated, and the
+  curve asymptotically approaches 1, a high value is required which represents
+  the expected confidence of a real-world player having played a significant
+  number of games.
+  \item[curve\\inflection\\relative to\\numgames] The proportion of games played by
+  the real-world player being simulated at which the player's confidence
+  curve should reach the parameter \lstinline{assumed_confidence_plateau}. This
+  allows for control over the growth rate of the curve while linking the rate of
+  growth to the number of games played by the real-world player being simulated;
+  \item[C] The curve parameter of the confidence model's underlying birch curve;
+  \item[prob\\bored] The probability that a player with confidence above
+  \lstinline{assumed_confidence_plateau} becomes ``bored'' and stops playing
+  RPGLite. These players are removed from the simulated playerbase and replaced
+  with new players. This mechanism is discussed in further detail in
+  \cref{subsec:controlling_state_space_exploration}.
+  \item[boredom\\enabled] Whether the boredom mechanism discussed in
+  \cref{subsec:controlling_state_space_exploration} is to be enabled.
+  \item[training\\data] The set of real-world games used as a training fold when
+  optimising parameters for simulating a player. This is used when annealing
+  toward optimal parameters for the learning model, and so is explained in more
+  detail in \cref{methodology_explained}.
+  \item[testing\\data] The set of real-world games used as a testing fold when
+  optimising parameters for simulating a player. This is used when annealing
+  toward optimal parameters for the learning model, and so is explained in more
+  detail in \cref{methodology_explained}.
+  \item[iteration\\base] The number of games to play when generating a synthetic
+  dataset. If \lstinline{boredom_enabled==False}, the number of games is instead
+  calculated to ensure that all synthetic players play the same number of games
+  as were completed by the played being simulated, (calculated from the training
+  or testing fold as appropriate).
+  \item[number\\simulated\\players] The size of the simulated playerbase.
+  \item[advice] A list of tuples defining advice to weave when generating data.
+  Pieces of advice are uniquely defined by a tuple containing the type of aspect
+  to weave (such as \lstinline{"prelude"} or \lstinline{"error_handler"}), a
+  string-represented regular expression defining the join point of the advice,
+  and a \lstinline{callable} to use as an aspect when weaving the advice. As
+  \lstinline{ModelParameters} instances are serialised to disk to persist
+  experiment results and Python functions are not seralisable, this may also be
+  a string value; strings are IDs of aspects, and are replaced with their
+  corresponding aspect on deserialisation.
+  \item[players] The player being simulated. This parameter is a list of player
+  usernames to support simulating groups of players if required, though this
+  functionality is not used in the experiments presented in
+  \cref{chap:experimental_results}.
+  \item[args] Any additional arguments to pass when running a simulation.
+  \item[kwargs] Any additional keyword arguments to pass when running a simulation.
+  \item[boredom\\period] The number of games completed by the simulated
+  playerbase between checks of players' confidence and random selection for
+  removal (default 25).
+  \item[initial\\exploration] A value which controls the number of
+  games individual players complete before their confidence \& learning models control
+  their character pair selection (default 28, to allow sufficient games to
+  select every available pair exactly once).
+\end{description}
+  

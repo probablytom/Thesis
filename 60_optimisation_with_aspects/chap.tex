@@ -1,56 +1,38 @@
-\chapter{Simulation Optimisation with Aspect Orientation}
+\chapter{Designing and Implementing \AspectOriented{} Models}
 \label{chap:exp1_simulation_optimisation}
 \label{chap:experiment_setup}
 
-\inline{
-  My main concern with this chapter at time of writing (10-10-23) is that it
-  goes into too much trivial detail (e.g. types passed into different
-  functions), and not enough into substantive detail (experimental design and
-  why things are set up the way they are). Maybe I have enough substantive
-  detail, but just a surplus of trivial detail? Consider this carefully when
-  redrafting and kill your darlings. If you're not Tom and you're reviewing
-  this, please be generous in suggesting things to eliminate!
-}
 
-\inline{
-  Another thought on the issues with this chapter. There are currently two
-  ``Experimental Design'' chapters. The second is trying to lay out how we'll
-  build statistical measurements etc around the model \& advice described
-  earlier; the first is giving an overview of the experiment and what'll happen.
-  I think both are ambiguously titled and should both be renamed. However, an
-  ``Aims'' section also exists before the first ``Experimental Design'' section,
-  and I think this is a sign I'm waffling a \emph{lot} and not getting to the
-  point. Needs to be reviewed and cut down significantly.
-}
+This chapter describes the design and implementation of experiments which
+investigate using advice to augment behaviour in a model. The experiments
+simulate RPGLite gameplay. Using these simulations, the experiments investigate
+the utility of \aop{} in a simulation \& modelling context. Advice which uses
+data about players' gameplay~\cite{rpglite_dataset} is applied to a basic model
+of RPGLite play; the advice changes simulated players' behaviour to model
+individuals' interactions with the game. 
+The behaviour modified by the advice is players' selection of character pairs.
+Character pairs selected by simulated players are compared against those from a
+player's gameplay data and their correlation is measured. If the datasets
+correlate, then players are successfully simulated. 
+This approach is used to answer the last three research questions proposed in \cref{chap:lit_review}: 
 
-\inline{
-  ANOTHER observation on this ``aims'' section. I need to properly explain the
-  experimental design early on, and I don't make any reference at all to the
-  prior distribution model at the moment. I think the aims section should
-  contain almost exclusively an explanation of the experimental design. Right
-  now it's a combination of experimental design and justifying using pdsf... which
-  I can probably do in 2 sentences instead of a page and a half.
-}
+\begin{researchquestion}
+  \begin{description}
+   \item[RQ2] \rqtwo{}
+   \item[RQ3] \rqthree{}
+   \item[RQ4] \rqfour{}
+  \end{description}
+\end{researchquestion}
 
-This chapter describes the design and implementation experiments which
-investigate the use of advice to augment behaviour in a model. The experiments'
-foundation is RPGLite, described in \cref{chap:rpglite}, which was deployed and
-played on iOS and Android~\cite{RPGLiteLessonsLearned}. Data collected about
-players' interactions with the game can be used to simulate individual players'
-behaviours. Data produced by simulated RPGLite play can also be compared against
-the real-world dataset to assess whether a simulation is accurate. This chapter
-describes the design and implementation of experiments which use this
-opportunity to investigate whether \aop{} can augment behaviour in a model.
-%These experiments answer several research questions:
 
-%\begin{itemize}
-%  \item \rqtwo{}
-%  \item \rqthree{}
-%  \item \rqfour{}
-%\end{itemize}
 
-Each experiment applies advice to a model of RPGLite play to evaluate a research
-question. The experiments share a significant proportion of their design and
+To answer these, two approaches to modifying player behaviour are developed:
+one alters the distribution from which character pairs are selected to reflect
+the distribution found in a player's gameplay data, 
+and the other models the player learning to play RPGLite and developing
+preferences for certain character pairs in the process.
+
+The experiments share a significant proportion of their design and
 implementation. As their common elements require a significant amount of
 explanation, a chapter outlining both the setup \emph{and} results of these
 experiments would be extremely long, and their shared foundation means that they
@@ -62,224 +44,208 @@ The common aspects of design and implementation in this chapter are explored as
 follows. \inline{After completing the restructuring of these chapters, come back
 and complete this chapter outline.}
 
+\section{Experiment Design}
+
+To answer the proposed research questions, two models are made which change
+simulated players' character pair selections: one which reflects the choices
+made by the player being simulated, and another which simulates that player
+learning over time. These are used to examine three things about
+\aspectoriented{} simulations \& models: whether aspects can be woven to improve
+a model's accuracy; whether it is feasible to use aspects to introduce new
+behaviours and parameters in a model; and whether the same aspects can be
+successfully woven across different models.
 
 
-\section{Aims}\label{sec:aop_simulation_optimisation_aims}
+The complete designs for the first, second, and third experiments are explained
+in \cref{sec:rq2}, \cref{sec:rq3}, and \cref{sec:rq4} respectively as it is
+useful to have discussed the implementation of the RPGLite model, aspects, and
+statistical methodologies before the experimental design is explained. However,
+some context as to how those foundations are used is important when explaining
+them too. For this reason, a brief description of the behavioural modifications
+and the experiments which use them are given here, and more detailed
+descriptions are given in the following chapter.
 
-\inline{
-  I think this ``Aims'' section is waffly and possibly unneccessary but I
-  haven't copy-edited it yet. REVISIT.
-}
+\subsection{Changes to Behaviour}
 
-Previous simulation and modelling efforts using \aop{} have focused on
-using aspects to compose model or simulation details\inline{There must be
-tons of good citations for aspects being used to compose together a simulation /
-model}\revnote{We don't think this is the case --- those citations just don't
-exist! Rework to discuss use of AOP in business process modelling, and note that
-nobody made those models in practice, just tooling.}\revnote{Also, just read
-this and noted that while AOP isn't necessarily used for model composition,
-there \emph{are} lots of projects for modelling via composition, just not using
-AOP. Although perhaps I can just cite tooling here, and ancillary projects like
-aspect-oriented lindenmeyer systems\ldots{}?}. Critics of aspect orientation
-note that the act of oblivious process composition makes understanding codebases
-difficult, and so ensuring that a simulation properly models real-world
-behaviour is made trickier with the introduction of aspect orientation.
-\inline{this last sentence doesn't make much sense to me when reviewing.}
-However, aspect orientation might instead be used to \emph{augment} an existing
-model, by rethinking what aspects are used to represent.
+Simulated players' behaviour is changed using aspects when they select
+characters. The rationale for altering character selection in particular is
+explained in \cref{learning_model_definition}. The model they alter ---
+described in \cref{sec:naive_model} --- is ``naive'', meaning that it makes all
+decisions a player could make randomly rather than strategically or optimally.
+Two changes to character pair selection are created: the first selects
+characters with the same distribution as found the gameplay data of a player
+being simulated, called the ``prior distribution'' model; the second selects
+characters by modelling players learning which characters are most likely to win
+games and selecting character pairs according to what they learned, called the
+``learning model''.
 
-An alternative use of aspects would be to first build a non-aspect-oriented
-model of \emph{expected} behaviour, and separately build aspects which describe
-deviations from this. For example, one might more realistically simulate safety
-procedures by first producing an idealised, ``naive'' model of what employees
-are expected to do, and separately model alterations to prescribed behaviour as
-an employee's boredom, expectation that checks and balances are unnecessary
-wastes of their time, and so on --- effectively, separating out models of
-degraded modes~\cite{johnson2007degradedmodes}.
+\begin{description}
+\item[Prior Distribution Model] The prior distribution model selects character
+pairs with a distribution calculated from players' gameplay data.\footnote{The
+distribution is known ahead of the simulation being run, hence ``prior''.} As
+the distribution is already known, simulated games can reproduce the
+distribution. This makes little change to the behaviour of simulated players, as
+no new activity is modelled on their part: no additional actions are taken and
+simulated players do not behave in a ``new'' way. However, the emergent
+properties of simulated play should reflect the dataset used by the prior
+distribution model. This is expected to have the effect of synthesising new
+datasets with the same emergent properties and requires little modification to
+the model. The implementation of the prior distribution model is given in
+\cref{prior_distribution_aspect_description}.
 
-Previous research on the use of aspect orientation to model degraded modes
-adopted the traditionally claimed benefit of aspect orientation: separation of
-cross-cutting concerns, allowing for a greater reusability of
-codebases~\cite{wallis2018caise}. A repository of cross-cutting concerns in
-socio-technical simulation such as boredom was developed as a library to be
-applied to any future models~\cite{fuzzimoss_repo}. However, aspects used in
-simulation have no intrinsic need to represent concerns that are cross-cutting.
-Indeed, whether they can be accurately used to represent cross-cutting concerns
-in simulation is the topic addressed in \inline{Add a cross-reference to the
-chapter on cross-cutting concern simulation accuracy when it exists}. Aspects
-might instead be used to represent \emph{amendments to processes} which deviate
-from an expected norm, in this case represented by the idealised model aspects
-are applied to.
+\item[Learning Model] The learning model selects character pairs by preferring
+pairs which previously won games. This model requires an additional model of
+confidence to support it (discussed in \cref{subsec:confidence_model}) and
+special measures to be in place when generating datasets to ensure the space of
+possible character pairs is explored properly (discussed in
+\cref{subsec:controlling_state_space_exploration}). As a result this explanation
+is superficial and is provided as necessary context for the introduction of
+experiments following in \cref{experiments_introduced_briefly}. A thorough
+discussion of the learning model is given in \cref{learning_model_definition}.
 
-To more concretely relate this to the experiment at hand: play of RPGLite can be
-modelled as players matchmaking, picking characters, and then mutually taking
-turns until one player's characters are entirely expired. Once a player's
-characters are dead, new matches can be made. This can continue indefinitely.
-Lacking a heuristic to select next moves or characters, players might be
-modelled as picking random moves. However, heuristics for move selection can be
-added to the naive model of play by way of augmenting the processes already
-defined through aspects. This approach can be useful both when
-modelling player behaviour generally and when modelling the behaviour of
-individual players: \revnote{Consider making these a para instead of an
-enumerated list.}
+The learning model selects character pairs using a distribution defined by the
+pairs' number of observed wins. If a player has never seen a character pair
+winning a game, that pair is unlikely to be selected; if a player sees a pair
+winning an overwhelming number of games, the pair will be selected
+proportionally to its win rate. This model introduces new behaviours for
+simulated players, as their decisions are based on historical observations which
+are not present in the original model and emerge from a player's interactions
+with others as opposed to being defined when the model is first executed.
+New parameters are also introduced to control how players learn, including a
+parameter controlling their arrogance, a parameter scaling the number of games
+required for them to rely on their knowledge, and parameters controlling how
+bored they are and how likely they are to stop playing RPGLite. The introduction
+of new behaviours and parameters to the naive model allows the latter two
+research questions to be answered.
 
-\begin{enumerate}
-    \item Different players might use their own unique heuristics to model play.
-    Each player's behaviour is therefore well described by separating what play
-    ``looks like'' to what makes a given player play differently to their peers.
-    \item Different players might lean more heavily on different heuristics, or
-    mixes thereof. Play might be characterised by reliance on experience, on
-    recent games, on knowledge of an opponent, and so on; these different
-    variables can be expected to be weighted differently by each player, adding
-    complexity to the code which models this individualised play.
-    \item A modeller might discover a new idea for a heuristic long after
-    developing an original concept for a model. Due
-    to the impact of \pointno{2}, ideal architectures for an approach such as
-    this should allow these heuristics to be defined entirely separately to
-    the base model to maximise flexibility when maintaining experiments.
-\end{enumerate}
-
-Considering \pointno{1}, \pointno{2}, and \pointno{3}, architectures and
-paradigms which enable separation of concerns are well-suited to defining
-alternative approaches to play. Some architectural approaches such as mixins or
-plugin design patterns might support this structure well, but they typically
-rely on language features (in the case of mixins) or knowledge of software
-engineering (in the case of design patterns). Aspect orientation is typically
-provided to developers as a framework or runtime in a language (such as
-AspectJ\cite{aspectj_intro} or PROSE\cite{popovici2002PROSE}) and can require
-minimal architectural understanding to use: concepts are simple, and the effort
-of composition is alleviated by the supporting framework or runtime.
-
-The approach makes little use of aspect orientation's focus on cross-cutting
-concerns, as whether behaviour cross-cuts different parts of a codebase is not
-of interest in this use case. Instead, aspect orientation is treated as a
-composition mechanism which introduces no additional requirement of technical
-knowledge.
-
-\subsection{PyDySoFu Suitability}\label{subsec:optimisation_with_aspects_usingpdsf}
-Some aspect orientation frameworks do not adequately achieve this requirement.
-For example, the most influential framework, AspectJ, requires the use of
-language extensions to define integrate aspect
-orientation\cite{AspectJLanguageAndTools}, and similar additional complexity is
-added in seemingly every alternative framework, through the use of bespoke
-virtual machines, compilers, translators, or
-languages\cite{rajan2006nu_towardsAO_invocation,popovici2003JITaspects,AspectCplusplusDesignImpl,baker2002maya}.
-
-PyDySoFu, however, requires very little additional knowledge to use. Its design
-prioritises simplicity and a shallow learning curve that makes its adoption by
-researchers without a software engineering background feasible: \inline{maybe
-cut this list of reasons PyDySoFu is fantastic...}
-
-\begin{itemize}
-    \item PyDySoFu is implemented as a pure-python library, meaning that it can
-    be installed through Python's package manager (pip) and imported like any
-    other Python library. No additional supporting infrastructure is required.
-    \item Aspects in PyDySoFu are simple functions which take as arguments
-    whichever pieces of information are pertinent for the function's use as an
-    aspect\footnote{For example, an ``encore'' aspect which is woven after a
-    target procedure returns will be provided that target's return value.}.
-    \item To weave a PyDySoFu aspect requires only a method call, which returns a
-    \lstinline{callable} which unweaves that aspect.
-    \item Defining PyDySoFu pointcuts requires only a regular expression
-    matching a method name. This can apply to a wide range of join points if
-    required, but where method names are provided directly, the join point is
-    made clear.
-    \item Additional clarity over where aspects \emph{can} be woven is
-    introduced by PyDySoFu's transparent weaving of aspect hooks, mitigating
-    some of aspect orientation's most prominent criticisms.
-\end{itemize}
-
-PyDySoFu therefore satisfies the requirements of this work well: it offers
-composition of procedures outside of the scope of an original codebase, makes
-what is being composed where clear to a programmer, and makes no
-changes to Python as a language (thereby requiring users to specialise in fewer
-tools). 
+ 
+\end{description}
 
 
-\subsection{Proposed Experiment}\label{subsec:optimisation_with_aspects_experiment}
 
-Aspect orientation's use as a composition tool for model components makes sense
-in principle, but it is unclear whether the addition of behaviours to a naive
-model would make the model more ``realistic''. Furthermore, changes to a model
-could alter its representation so as to weaken its mimicry of the system it
-simulates; adding behaviours could make it \emph{less} realistic. The
-fundamental issue at play is that it is unclear whether the changes made would
-properly represent what might be empirically observed. While PyDySoFu's design
-makes understanding what is being composed simpler than other aspect orientation
-frameworks, a composed model under this paradigm is still split across multiple
-areas of a codebase, making a visual assessment of whether a model accurately
-reflects the intended behaviour impractical. It is therefore important to
-demonstrate the efficacy of PyDySoFu and the modelling paradigm it introduces,
-by confirming the realism of a model to which behavioural variation is applied.
+\subsection{Brief Explanations of Experiments}
+\label{experiments_introduced_briefly}
 
-We can confirm whether aspects can realistically represent changes to a naive
-understanding of the real world by comparing their output against empirical
-data. For example, if a such a model of behaviour in a system outputs data which
-correlates poorly against empirically collected data, a change to that system
-would make it more realistic if it improved this correlation, and could be said
-to be realistic if the generated data appeared sufficiently ``close'' to the
-empirical dataset --- which here means that the correlation between the two is
-of statistical significance. Such a change can be aspect-oriented. Therefore, we
-can see the application of aspects as the application of packages of potential
-improvements to a base model, which can be verified by way of comparison to
-known-good datasets.
+\begin{description}
+  \item[Experiment \#1: Improving a Model] The first experiment answers the
+research question: \emph{\rqtwo{}} \Aop{} can only be used to augment models if
+modifications to a model can be encoded in aspects, woven into a model, and
+become provably more accurate as a result. Similar research was conducted in
+prior work~\cite{wallis2018caise}, but this study represented changes to a model
+which were not verified as ``accurate'' or ``realistic''. Beyond producing a
+change that \emph{looked} accurate, it did not simulate any real-world system
+and so could not be verified as rigorously as a model of RPGLite gameplay can
+be.
 
-This is the basis of the experiments in this thesis.
+To verify that a model is changed in the intended way through the weaving of
+advice, three datasets of completed games are used for each player simulated.
+The first is that player's gameplay data collected from their interactions with
+the mobile game in RPGLite's first season, the second is produced by the naive
+model, and the third is produced by the naive model with the prior distribution
+model woven. The distribution of character pairs chosen by each model is
+compared with the player's distribution of character pairs chosen using a
+correlation metric explained in \cref{measuring_charpair_similarity}. The random
+distribution of chosen pairs produced by the naive model is expected to
+correlate poorly with the player's distribution of choices, as the player is
+expected to be biased toward certain character pairs as they continue to play
+RPGLite. The prior distribution model should produce datasets with the same
+distribution as the player exhibited when interacting with the mobile game, so
+the dataset produced with the prior distribution model woven into RPGLite should
+correlate closely to the empirically sourced dataset. If this behaviour is seen,
+then the aspects woven into the model induced a change in simulated players'
+behaviours and so successfully augmented the model.
 
-With datasets collected empirically on RPGLite's play, we can build a naive
-model of play and aspects to apply that should realistically model data from
-players. This can be used to answer the research questions motivated in
-\cref{subsec:rqs}\inline{THESE RESEARCH QUESTIONS HAVE BEEN AMENDED SINCE I
-  FIRST WROTE THIS SECTION (I hadn't decided on a wording then) AND THE
-  PLACEHOLDER SUGGESTION THAT PREVIOUSLY EXISTED WAS JUST WHETHER ASPECTUALLY
-  AUGMENTED MODELS COULD BE REALISTIC. THIS CHAP DOES MORE, SO THIS SECTION
-  NEEDS TO BE REWORKED.}:
+A more thorough description of this experiment is given in \cref{sec:rq2} as the
+reader has been presented with the details of the experiment's foundation at
+that point.
+  
+  \item[Experiment \#2: Extending Behaviours in a Model] The first experiment
+investigates whether advice can alter a model and introduce changes to existing
+behaviours. Another experiment follows to investigate whether advice can
+introduce \emph{new} behaviours to a model and new parameters which alter
+modelled behaviour. This aims to answer the research question:
+\emph{\rqthree{}}
 
-\begin{researchquestion}
-  \begin{enumerate}
-    \item Can changes to a model be represented as advice using aspect orientation?
-    \item Can a model be made more realistic by applying aspect-oriented improvements?
-    \item Can advice which improves the realism of a model be ported to others without loss of realism?
-  \end{enumerate}
-\end{researchquestion}
+The learning model is woven into the naive model of RPGLite play to add new
+behaviours and parameters to the model. For each player, parameters are found
+using a technique explained in
+\cref{identifying-significant-results-explanation} which simulate their learning
+most accurately. This technique determines reproducible results which show
+statistically significant correlation with the player's gameplay data from the
+RPGLite mobile game, extending the statistics used in the first experiment
+(explained in \cref{measuring_charpair_similarity}). If the learning model can
+reproduce the play style of some real-world players, then the additional
+behaviour and parameters successfully model their play of RPGLite and the
+experiment is a success. To do this, datasets are generated by weaving the
+learning model parameterised in different ways. The correlation of these
+datasets is measured against subsets of a player's season 1 gameplay data. If
+the parameters can produce data which correlates with the player's gameplay data
+consistently, the player is accurately simulated by the learning model with
+these parameters and so the research question is answered.
 
-% To answer this question, a naive model of play is produced, and aspects
-% developed which encapsulate different play styles so as to compare empirically
-% sourced datasets against both its aspect-augmented and unaltered counterparts.
-% The following subsections detail the naive model developed and aspects applied
-% to this model.
+Note that not all players are expected to be simulated accurately by the model
+of learning: players might have biases toward or against some characters, might
+play in cliques which limit their exploration of possible character pairs, or
+might learn differently to the way the model assumes such as exhibiting temporal
+discounting (see the work of
+\citet{green1996exponential_versus_hyperbolic_discounting} for an example). As
+these experiments aim to investigate the feasibility of applying \aop{} in a
+simulation \& modelling context, building a learning model which is universally
+applicable to all players is beyond the project's scope. The experiment only
+seeks to demonstrate that new behaviours \emph{can} be accurately represented by
+advice, and that the technique can be used in future work to augment models in
+whatever manner a research team requires.
 
-To answer these questions, a naive model of play is produced. Aspects are
-developed which model learning within the system defined by the naive system.
-The synthetic datasets produced by models with naive or aspect-applied models
-can be compared to an empirical dataset sourced from real-world players of the
-game, and their similarity compared.\inline{Rework to include details on the
-  other RQs, too .}
+A more thorough description of this experiment is given in \cref{sec:rq3} as the
+reader has been presented with the details of the experiment's foundation at
+that point.
 
-``Naive'' is used here to describe a model which does not encode any
-understanding of the players of the game being modelled. Traits such as
-learning, distraction, or aptitude for similar games are irrelevant to the naive
-model. We need a naive model to demonstrate the effectiveness of an
-aspect-oriented alternative: we can measure how closely it reflects empirical
-data, and compare this against the same measurement drawn from another model
-with behavioural variations encoded using aspects. A closer match from our
-aspect-oriented model would demonstrate that the technique can enhance a model's
-realism. Our naive model also provides a null hypothesis: if no improved
-similarity is observed, the technique brought no improvement to the model's
-realism. No measurable difference indicates that weaving behavioural variations
-as aspects has no impact on a model's realism.
 
-\inline{Write a little here on the learning aspects.}
 
-\inline{Flesh this out as a brief wrap-up of our experimental technique. The end
-of our ``naive'' model explanation might be useful to move down here / rework
-into this para.} Contrasting the similarity of the empirical dataset to both
-naive and aspect-applied datasets\ldots{} This discussion is provided so as to
-provide context for the following sections; experimental design is discussed in
-more depth in \cref{sec:optimisation_with_aspects_experimental_design}. 
+\item[Experiment \#3: Behaviours as Cross-Cutting Concerns] Having conducted the
+first two experiments, the utility of aspects as units of behaviour change are
+established. The results in \cref{sec:rq2} and \cref{sec:rq3} are positive. A
+final research question remains, which is: \emph{\rqfour{}}\revnote{It occurs to
+me that these \emph{might} read as rhetorical questions when used in this way.
+I'm not sure so I'd love somebody to review the chapter and let me know how it
+comes across, so I can change this if necessary. I'm struggling to see the forest for
+the trees at this point.}
+
+To establish this, season 2 of RPGLite is used to represent a system
+which is subtly changed. RPGLite's seasons are defined by game configurations,
+which means that the behaviours of players do not change but the strengths and
+weaknesses of different characters do. To play strategically, players must learn
+which changes have affected their ordinary strategies and re-evaluate their
+preferred character pairs. The prior distribution model and learning model
+should work independently of the RPGLite season they are applied to, and so ---
+given positive results are found for the first and second experiments --- the
+models ought to work when woven into a model of the second season
+too.
+
+Data is generated using the prior distribution model and learning model in the
+same manner as in earlier experiments, but applied to player's gameplay data
+from RPGLite's second season. Parameters which yielded statistically significant
+results for the learning model in season 1 are used in season 2, as these
+parameters ought to represent how an individual player learns. The learning
+model may also work to simulate season 2 players, but with different parameters;
+to investigate this, model parameters specific to season 2 are found which yield
+statistically significant datasets using the same technique as in the second
+experiment. If these aspectually-augmented models successfully simulate players
+then the experiment establishes the portability of aspects representing
+behavioural change. Correlation is measured in the same ways as in previous
+experiments to evaluate the models' accuracy in simulating players.
+
+A more thorough description of this experiment is given in \cref{sec:rq4} as the
+reader has been presented with the details of the experiment's foundation at
+that point.
+
+
+\end{description}
+
 
 
 \section{Naive Model}\label{sec:optimisation_with_aspects_naivemodel}
+\label{sec:naive_model}
 
 A naive model of play was developed by separating each stage of the actions
 taken by players and separating them into individual procedures. The model was
@@ -299,7 +265,7 @@ deployed. A graphical representation is provided in \cref{fig:naive_model}.
 how the naive model is used to produce synthetic data by simulating repeated
 gameplay.
 
-\begin{figure}[h]
+\begin{figure}[tp]
   \centering
   \includegraphics[width=\columnwidth]{60_optimisation_with_aspects/diagrams/naive_model.png}
   \caption{A diagram of the ``naive model'' of RPGLite play used in experiments.}
@@ -650,12 +616,6 @@ altering the naive model is given in
 \label{sec:optimisation_with_aspects_aspectsdeveloped}
 \label{aspects_applied_section}
 
-\inline{
-  The aspects used have changed since this was written. Needs revisiting, notes
-  on hyperbolic decay removing, and a writeup of fuzzing aspects for prior
-  distribution added.
-}
-
 % Players can be expected to select stronger characters as they understand
 % gameplay more. Aspects were therefore developed to track player experience with
 % characters. As players became more familiar with the characters they play, we
@@ -688,28 +648,6 @@ altering the naive model is given in
 % previous ones. The models of leaning presented in this section are
 % differentiated by the manner in which future decisions are informed.
 
-\inline{
-  I don't believe I make any note in this section that selecting character pairs
-  based on a known distribution from player data isn't really learning. It's
-  useful, though, because it allows us to demonstrate that using aspects can
-  make us \emph{really} accurate. So, it answers our research question, kind of,
-  in that the aspectually augmented model is more accurate than the naive one.
-  However, that aspect isn't particularly portable to a new system (we'd still
-  be selecting based on the S1 distribution, not S2, so we'd expect it can't be
-  ported) and doesn't so much change simulated behaviour as patch a part of the
-  model. It's still useful to build models of learning, see which players are
-  accurately represented by different models, and see whether those models are
-  portable. I still have to figure out how to ``sell'' this properly\ldots{}
-}
-\inline{
-  The earlier inline todo is old, and since then we've figured out how to
-  properly represent this within our RQs and figured out what it is we're
-  showing with the prior distribution model, too. In short, it answers the
-  second RQ: advice can be applied to take a sub-optimal model and augment its
-  behaviour for a given purpose. I've left the earlier inline todo as a reminder
-  of the state of the writing, because I'm currently reorganising things and
-  can't get into editing to fix it right now.
-}
 
 To generate datasets for experiments the naive model is augmented by weaving
 aspects. These aspects fulfil different functions and can be categorised as
@@ -879,20 +817,18 @@ debugging code and additional logic used by abandoned experiments.
 
 \subsubsection{Record Character Pair Choices}
 It is important to keep track of the characters chosen by simulated players, as
-this data is required to analyse the outcome of the experiment~\inline{Do we
-describe an experiment singular or experiments plural in
-\cref{chap:exp1_simulation_optimisation}?} outlined in this chapter. However,
-the naive model makes no special accommodation for the collection of character
-choices made by players. Character choices could be calculated by iterating
-through the list of completed games after a simulation is complete, filtering
-for games relating to a specific player. However, the collection of character
-selection data can be simplified by tracking what was played at the end of a
-game. This is achieved with with an aspect which observes the character pairs
-played in a completed game, and appends each players' chosen pairs to their own
-list. This aspect is applied after its join point executes (an ``encore'' in
-PyDySoFu parlance\inline{reference pdsf's explanatory chapter / re-engineering
-chapter here? unsure which is most appropriate / introduces the concepts
-first.}).
+this data is required to analyse the outcome of the experiments outlined in
+\cref{experiments_introduced_briefly}. However, the naive model makes no special
+accommodation for the collection of character choices made by players. Character
+choices could be calculated by iterating through the list of completed games
+after a simulation is complete, filtering for games relating to a specific
+player. However, the collection of character selection data can be simplified by
+tracking what was played at the end of a game. This is achieved with with an
+aspect which observes the character pairs played in a completed game, and
+appends each players' chosen pairs to their own list. This aspect is applied
+after its join point executes (an ``encore'' in PyDySoFu
+parlance\inline{reference pdsf's explanatory chapter / re-engineering chapter
+here? unsure which is most appropriate / introduces the concepts first.}).
 
 There are many ways to collect this data, aspectually or otherwise; however, the
 simplicity of collecting information mid-process without requiring modification
@@ -992,6 +928,7 @@ A model of learning with a hyperbolic discounting bias is described in
 %            the prior distribution from a training set, and doesn't contain a model of learning at all.
 
 \subsubsection{Character Selection using Prior Distribution}
+\label{prior_distribution_aspect_description}
 
 \inline{
   WRITE ME
@@ -999,11 +936,11 @@ A model of learning with a hyperbolic discounting bias is described in
   WRITE ME
   WRITE ME
   WRITE ME
-
   Need to define the model which selects characters using the prior distribution.
 }
 
-\subsubsection{Character Selection using confidence sigmoid}\label{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}
+\subsubsection{Character Selection using confidence sigmoid}
+\label{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}
 
 The first model of learning applied through aspect orientation draws on
 character pairs a simulated player observed to have won games (as recorded by
@@ -1098,181 +1035,89 @@ simulated player whose behaviour was augmented.
 
 
 
-\section{Experimental Design}
+\section{Model Implementation Details}
 \label{sec:optimisation_with_aspects_experimental_design}
 
-The models of learning described in \cref{subsec:aspects_modelling_learning} can
-be applied to augment the naive model described in
-\cref{sec:optimisation_with_aspects_naivemodel} and introduce change in player
-behaviour over time. The remaining challenge is to demonstrate that augmenting
-the naive model can make it more realistic in practice. To that end, the
-remainder of this chapter details an experiment which compares synthetic
-datasets produced by the model to empirically sourced data, and shows that this
-synthetic data is more similar to its empirical counterpart than that produced
-by a naive model with no aspects applied.\inline{Some reference to the research
-question is required here.}
+% The models of learning described in \cref{subsec:aspects_modelling_learning} can
+% be applied to augment the naive model described in
+% \cref{sec:optimisation_with_aspects_naivemodel} and introduce change in player
+% behaviour over time. The remaining challenge is to demonstrate that augmenting
+% the naive model can make it more realistic in practice. To that end, the
+% remainder of this chapter details an experiment which compares synthetic
+% datasets produced by the model to empirically sourced data, and shows that this
+% synthetic data is more similar to its empirical counterpart than that produced
+% by a naive model with no aspects applied.\inline{Some reference to the research
+% question is required here.}
 
-This section presents classes used in the design and implementation of
-experiments, as they constitute the foundation of the execution and evaluation
-of synthetic datasets. This is followed by documentation of the strategy for
-generating synthetic datasets, and a description of the technique used to
-compare them to select optimal parameters for player simulation. This design is
-used in the experiment itself, described later in
-\cref{sec:optimisation_with_aspects_experimental_results}.
+% This section presents classes used in the design and implementation of
+% experiments, as they constitute the foundation of the execution and evaluation
+% of synthetic datasets. This is followed by documentation of the strategy for
+% generating synthetic datasets, and a description of the technique used to
+% compare them to select optimal parameters for player simulation. This design is
+% used in the experiment itself, described later in
+% \cref{sec:optimisation_with_aspects_experimental_results}.
 
+The aspects described in \cref{aspects_applied_section} are used to investigate
+whether \aop{} can be used to augment models, add new behaviours and parameters
+to them, and successfully do so across different models. The results of these
+investigations are presented in \cref{chap:experimental_results}; some details
+about the implementation of those experiments are given first in this section.
 
-\subsection{Optimising the Model to Simulate a Real-World Player}
-\label{exp1:optimisation_strategy}
-
-\inline{I need to write up the strat for using k-fold validation.
-Should include the parameters selected, evaluation of ``best'' result, etc.}
-
-%% OLD NOTES FROM WHEN THIS LIVED TOWARD THE END
-%% TODO: DECIDE WHETHER I CAN NUKE THEM (CURRENTLY ON TUBE, DIFFICULT TO EVALUATE)
-
-\inline{Discussion required here around the mitigation of randomness --- it's
-required because of RPGLite's inherent RNG --- and also explaining how we make
-use of a grid search in combination with k-fold validation to anneal toward
-well-fitted parameters of our models of learning for each individual player.}
-
-\inline{TODO make a diagram of this.}
-
-% To mention here:
-% \begin{itemize}
-%   \item Data generation specifically: \begin{itemize}
-%     \item Boredom. We rotate players to make sure we've got a constant stream of
-%     new players being introduced into the game, and to maximise the number of
-%     times a simulated player is able to explore the state space.
-%     \item Data generation
-%     \item normalisation.
-%     \item Calculation of preference distribution lists
-%   \end{itemize}
-%   \item Actual annealing: \begin{itemize}
-%   \item Identify the different parameters to fit, and briefly explain them and
-%   their significance to the model.
-%   \item Testing combinations of different parameters. Compare grid search on RGR
-%   to current combine-lots-of-parameters technique.
-%   \end{itemize}
-% \end{itemize}
-
-
+The parameters used to control experiments are introduced in
+\cref{model_parameters}. The representation of experiments' results is given in
+\cref{representing_results_of_an_experimental_run}. The statistical methods used
+to evaluate those results are explained in \cref{measuring_charpair_similarity}.
+Finally, the methods used to control simulated players' interactions with their
+environments to produce reliable datasets are explained in
+\cref{subsec:controlling_state_space_exploration}.
 
 
 
 \subsection{Model parameters}
-\label{subsec:exp1_model_parameters}
+\label{model_parameters}
 
-Many parameters are used to control simulated play of RPGLite. Their use in
-modelling learning or running simulations for data generation is explained in
-following subsections; however, parameters which control an experimental run are
-collected in a class, \lstinline{ModelParameters}. Defining these values in a
-class helps to identify them in the codebase, and defines all variables which
-are used when optimising the model.\inline{These parameters are required because
-we run with different parameters for different folds. This subsec should be
-preceded by another on our strategy for optimising, so we can introduce k-fold
-validation and clean up the wording in this sec so it makes more sense.}
+Many parameters are used to control simulated play of RPGLite. They affect the
+impact of the learning model and the scaffolding which runs simulations, for
+example by determining the number of simulated players. Parameters which control
+an experimental run are collected in the \lstinline{ModelParameters} class,
+shown in \cref{fig:model_parameters_class}. Defining these values in a class
+helps to identify them in the codebase, and defines all variables which are used
+when optimising the model.
 
-\begin{figure}
-  \begin{center}
-    \begin{lstlisting}
-from dataclasses import dataclass
-
-@dataclass
-class ModelParameters:
-    c: float
-    curve_inflection_relative_to_numgames: float
-    prob_bored: float
-    boredom_enabled: bool
-    training_data: list
-    testing_data: list
-    assumed_confidence_plateau: float
-    starting_confidence: float
-    iteration_base: int
-    number_simulated_players: int
-    advice: list[tuple[str, str, str|callable]]
-    players:list[str]
-    args:list[any]
-    kwargs:dict[str:any]
-    boredom_period: int = 25
-    initial_exploration: int = 28
-
-    @property
-    def boredom_period(self) -> int:
-        '''
-        Number of games to play before checking player boredom.
-        Attempts to allow every player combo to play each other once on average before checking again.
-        '''
-        return int(self.number_simulated_players**2)/2
-
-    def active_dataset(self, testing) -> list:
-        return self.testing_data if testing else self.training_data
-
-    def iterations(self, testing) -> int:
-        '''
-        The number of games to play when generating a synthetic dataset
-        '''
-        if self.boredom_enabled:
-            return self.iteration_base
-        return int(self.number_simulated_players**2 * len(self.active_dataset(testing)) / 2)
-
-    def rgr(self, testing) -> float:
-        '''
-        RGR for the parameterised c value, number of games to play, and start/end confidences.
-        '''
-        if not hasattr(self, '_rgr_cache'):
-            self._rgr_cache = dict()
-        if self._rgr_cache.get(testing) is None:
-            num_games_to_confidence = len(self.active_dataset(testing)) * self.curve_inflection_relative_to_numgames
-            self._rgr_cache[testing] = \
-                curveutils.rgr_yielding_num_games_for_c(
-                    num_games_to_confidence,
-                    self.c,
-                    start=self.starting_confidence,
-                    limit=self.assumed_confidence_plateau)
-        return self._rgr_cache[testing]
-    \end{lstlisting}
-  \end{center}
-  \caption{A class defining the parameters of the model of learning RPGLite which vary when optimising for a given player. For layout \& space reasons, some methods of minor significance are removed.}
-  \label{fig:model_parameters_class}
+\begin{figure}[tp]
+    \centering
+    \lstinputlisting{60_optimisation_with_aspects/snippets/ModelParameters.py}
+    \caption{A class defining the parameters of the model of learning RPGLite which vary when optimising for a given player. For layout \& space reasons, some methods of minor significance are removed.}
+    \label{fig:model_parameters_class}
 \end{figure}
 
-The \lstinline{ModelParameters} class is shown in
-\cref{fig:model_parameters_class}. The parameters it defines, briefly explained,
-are:\label{list_of_model_parameter_attributes}\inline{IIRC Tim doesn't love the description list formatting. Probably
-means I should avoid; consider other ways of laying this out that avoids a big
-wall of text}
+As there are a significant number of parameters and many have a straightforward
+impact on simulated play, a complete description is given in
+\cref{appendix_model_parameters} in the interest of readability. A description
+is given here for parameters which have a non-obvious effect, or are the focus
+of the experimental methodology in \cref{methodology_explained}, or are central
+to the results given in \cref{sec:rq3} and \cref{sec:rq4}. Variables used in
+these ways are:
 
-\begin{description}
-  \item[starting\_confidence] The initial value of the model's confidence curve.
-  \item[assumed\_confidence\_plateau] A corresponding high value for the model's
+\begin{description}[style=multiline,leftmargin=4cm]
+  \item[starting confidence] The initial value of the model's confidence curve.
+  \item[assumed confidence plateau] A corresponding high value for the model's
   confidence curve. As the curve's growth rate is calculated to align with the
   number of games completed by the real-world player being simulated, and the
   curve asymptotically approaches 1, a high value is required which represents
   the expected confidence of a real-world player having played a significant
   number of games.
-  \item[curve\_inflection\_relative\_to\_numgames] The proportion of games played by
+  \item[curve inflection relative to numgames] The proportion of games played by
   the real-world player being simulated at which the player's confidence
-  curve should reach the parameter \lstinline{assumed_confidence_plateau}. This
+  curve should reach the parameter \\\lstinline{assumed_confidence_plateau}. This
   allows for control over the growth rate of the curve while linking the rate of
   growth to the number of games played by the real-world player being simulated;
   \item[C] The curve parameter of the confidence model's underlying birch curve;
-  \item[prob\_bored] The probability that a player with confidence above
+  \item[prob bored] The probability that a player with confidence above
   \lstinline{assumed_confidence_plateau} becomes ``bored'' and stops playing
   RPGLite. These players are removed from the simulated playerbase and replaced
   with new players. This mechanism is discussed in further detail in
   \cref{subsec:controlling_state_space_exploration}.
-  \item[boredom\_enabled] Whether the boredom mechanism discussed in
-  \cref{subsec:controlling_state_space_exploration} is to be enabled.
-  \item[training\_data] The set of real-world games used as a training fold when
-  optimising parameters for simulating a player.
-  \item[testing\_data] The set of real-world games used as a testing fold when
-  optimising parameters for simulating a player.
-  \item[iteration\_base] The number of games to play when generating a synthetic
-  dataset. If \lstinline{boredom_enabled==False}, the number of games is instead
-  calculated to ensure that all synthetic players play the same number of games
-  as were completed by the played being simulated, (calculated from the training
-  or testing fold as appropriate).
-  \item[number\_simulated\_players] The size of the simulated playerbase.
   \item[advice] A list of tuples defining advice to weave when generating data.
   Pieces of advice are uniquely defined by a tuple containing the type of aspect
   to weave (such as \lstinline{"prelude"} or \lstinline{"error_handler"}), a
@@ -1282,22 +1127,33 @@ wall of text}
   experiment results and Python functions are not seralisable, this may also be
   a string value; strings are IDs of aspects, and are replaced with their
   corresponding aspect on deserialisation.
-  \item[players] The player being simulated. This parameter is a list of player
-  usernames to support simulating groups of players if required, though this
-  functionality is not used in the experiments presented in
-  \cref{chap:experimental_results}.
-  \item[args] Any additional arguments to pass when running a simulation.
-  \item[kwargs] Any additional keyword arguments to pass when running a simulation.
-  \item[boredom\_period] The number of games completed by the simulated
-  playerbase between checks of players' confidence and random selection for
-  removal (default 25).
-  \item[initial\_exploration] A value which controls the number of
-  games individual players complete before their confidence \& learning models control
-  their character pair selection (default 28, to allow sufficient games to
-  select every available pair exactly once).
+  \item[training data] The set of real-world games used as a training fold when
+  optimising parameters for simulating a player. This is used when annealing
+  toward optimal parameters for the learning model, and so is explained in more
+  detail in \cref{methodology_explained}.
+  \item[testing data] The set of real-world games used as a testing fold when
+  optimising parameters for simulating a player. This is used when annealing
+  toward optimal parameters for the learning model, and so is explained in more
+  detail in \cref{methodology_explained}.
 \end{description}
 
-\begin{figure}
+
+
+As these determine all variables affecting data generation, individual
+experimental runs\footnote{Throughout this chapter, ``experimental run'' is used
+to refer to the process of producing a simulated dataset for comparison against
+training or testing folds taken from the dataset of completed RPGLite games.
+Many experimental runs with different parameters are used to optimise a model.}
+can therefore be reproduced using the class. The convenience method
+\lstinline{run_experiment()}, shown in
+\cref{fig:ModelParameters_run_experiment_method}, is provided to simplify
+reproducing experimental runs with \lstinline{ModelParameters} objects. These
+parameters are varied in some experimental runs to optimise the model and
+represent individual players' learning to find a combination of parameters which
+best represent a given player. The strategy for this optimisation is described
+in \cref{methodology_explained}.
+
+\begin{figure}[bp]
   \begin{center}
     \begin{lstlisting}
 class ModelParameters:
@@ -1328,28 +1184,14 @@ class ModelParameters:
   \label{fig:ModelParameters_run_experiment_method}
 \end{figure}
 
-These parameters are varied when optimising the model to represent the learning
-of individual players in order to find a combination of parameters which best
-represent a given player.\footnote{The strategy for this optimisation is
-described in \cref{exp1:optimisation_strategy}.} A \lstinline{ModelParameters} object defines
-everything required to run a simulation of RPGLite play and produce the
-resulting character pair distribution for analysis. 
-Individual experimental runs\footnote{Throughout this chapter, ``experimental run''
-is used to refer to the process of producing a simulated dataset for comparison
-against training or testing folds taken from the dataset of completed RPGLite
-games. Many experimental runs with different parameters are used to optimise a
-model.} can therefore be reproduced using the class. 
-The convenience method \lstinline{run_experiment()}, as shown in
-\cref{fig:ModelParameters_run_experiment_method}, is provided to simplify
-reproducing experimental runs with \lstinline{ModelParameters} objects.
-
 
 \subsection{Representing the result of an experimental run}
+\label{representing_results_of_an_experimental_run}
 
 As referenced in \cref{fig:ModelParameters_run_experiment_method}, a
 \lstinline{Result} class is defined to collect the results of an experimental
 run and simplify analysis of the distribution of character pair selection
-produced. A definition of the \lstinline{Result} class is given in
+produced. The implementation of the \lstinline{Result} class is given in
 \cref{fig:Result_class}. This class is used in the analysis of the success of an
 experimental run when selecting ideal experimental parameters for the simulation
 of a real-world player.
@@ -1358,12 +1200,15 @@ A \lstinline{Result} is not the result of an entire experiment, or the ideal
 parameters to simulate a given player. Instead, it represents the result of
 attempting to generate realistic data for a player, which is defined by a
 \lstinline{ModelParameters} attribute. Several \lstinline{Result} objects can be
-compared against desired probabilities of correlation and correlation statistics
-(the \lstinline{pval} and \lstinline{statistic} properties, respectively) to
-select an optimal set of parameters for the simulation of an RPGLite player.
+compared against correlation statistics and probabilities of circumstantial correlation
+(the \lstinline{statistic} and \lstinline{pval} properties respectively) using
+the \lstinline{within_acceptable_bounds} method to
+select an optimal set of parameters to simulate an RPGLite player. A technique
+which uses these properties to determine optimal parameters is described in
+\cref{methodology_explained}.
 
 
-\begin{figure}
+\begin{figure}[tp]
   \begin{center}
     \begin{lstlisting}
 from dataclasses import dataclass
@@ -1396,234 +1241,151 @@ class Result:
 \subsection{Quantifying Similarity of Character Pair Selection}
 \label{measuring_charpair_similarity}
 
-\inline{This subsection most likely needs to be condensed.}
-The experiments presented in this chapter make comparisons of many synthetic
-datasets against a single empirically sourced dataset. The latter contains all games
-completed by a player whose learning of RPGLite we aim to simulate, and is drawn
-from the published RPGLite dataset~\cite{rpglite_dataset}. Comparisons are
-required to determine which of the synthetic datasets most closely matches the
-empirical dataset. We are specifically interested in determining whether players
-played with preference toward similar character pairs. The distribution of their
-choices describes a bias toward some pairs, and away from others. The
-distribution of the naive model, being randomly chosen, should exhibit no bias;
-a simple null hypothesis is therefore that a simulated dataset is as similar to
-real-world play as a randomly generated one; there exists no bias comparable to
-that exhibited by the empirical dataset in this case. Our hypothesis in
-answering the first research question posed is that, with models of learning
-applied through aspect orientation, the naive model can exhibit biases toward
-character pairs similar to that of a real-world dataset. The simulated play
-would therefore exhibit a more ``realistic'' behaviour in character selection
-than the naive model as a result of the aspects applied.
+To measure the results of experiments in \cref{chap:experimental_results}, many
+datasets are generated (with differing model parameters in the case of the
+learning model) and are compared against a player's completed games to determine
+which generated dataset is most similar to the empirical one. The distribution
+of the naive model should exhibit no bias as character pairs are chosen
+randomly; simulated play with advice woven is expected to exhibit more
+``realistic'' character pair preferences than the naive model as a result of the
+advice applied. The similarity between a player's character pair preferences and
+those of simulated players are determined using a rank correlation measurement.
 
-We expect discrepancies in the specific character pairs selected in games (such
-as the order of character selection) because of the random nature of character
-selection. However, it is feasible to assess the similarity between the
-distribution of character pairs chosen by simulated and real-world players. The
-distribution of a player's chosen character pairs describes the preferences of
-that player, as it allows their selections to be ranked. We can examine the
-similarities between a player's character pair preferences and the preferences
-of simulated players by ranking and correlating their preferences to arrive at a
-measurement of similarity between the datasets; this is achieved through
-rank correlation.
+Many rank correlation measurements exist. A non-paremetric measurement is
+required for measuring the correlation of character pair distributions.
+Non-parameteric correlation measurements make no assumptions about the
+distribution of data; the alternative is to use a parametric measurement, which
+would be selected based on the distribution in the data being compared. The
+distribution of character pair preferences is unknown, so to avoid assuming a
+distribution which is universally applicable to all players' interaction with
+RPGLite a non-parametric correlation measurement is chosen.
 
-Many rank correlation measurements exist. For the purpose of comparing lists of
-character pairs, we require a non-parametric measurement. Some methods for
-calculating correlation assume a distribution of data, or require data to be
-distributed in a consistent manner; as nothing is known about the distribution
-of character choice preferences (and this distribution could vary between
-players), a measurement which is independent of the underlying distribution is
-required. Two common options are Spearman's \rho and Kendall's \tau.
-\inline{Find citations for each correlation coefficient, and also for justifying choosing between these two specifically (if required).}
-These measurements assess correlation in different ways, which can affect
-measurements of character pair preference. Spearman's \rho accounts for the
+Two common non-parametric rank-correlation measurements are
+\citeauthor{spearman_rho_measurement_of_association}'s
+\rho{}~\cite{spearman_rho_measurement_of_association} and
+\citeauthor{kendall_tau_rank_correlation}'s
+\tau{}~\cite{kendall_tau_rank_correlation}. The differences between these
+methods can affect measurements of character pair preference.
+\citeauthor{spearman_rho_measurement_of_association}'s \rho{} accounts for the
 magnitude of difference between ranks, and is calculated as $\rho = 1 - \frac{6
-\sum (d^{2}_{i}}{n(n^{2}-1)}$, where $d^{2}_{i}$ is the difference in the rank
+\sum (d^{2}_{i})}{n(n^{2}-1)}$, where $d_{i}$ is the difference in the rank
 of the $i^{th}$ observation in each dataset and $n$ is the total number of
-datapoints in a dataset. Kendall's \tau{} accounts only for their ordering. It
-can be calculated as $\tau = \frac{C - D}{C + D}$, where $C$ is the count of
-concordant pairs, and $D$ the count of discordant pairs.
+datapoints in a dataset. \citeauthor{kendall_tau_rank_correlation}'s \tau{}
+accounts only for their ordering. It can be calculated as $\tau = \frac{C - D}{C
++ D}$, where $C$ is the count of pairs with the same rank
+(\emph{``concordant''}), and $D$ the count of pairs with differing ranks
+(\emph{``discordant''}).
 
-To choose an appropriate measure, we relate them to potential patterns in our
-datasets. As we expect many character pairs to be infrequently picked (if at
-all) once players develop preferences, a slight increase in selecting uncommon
-character pairs within a simulation could incur a significant increase in rank.
-This would have a more significant impact on \rho{} than on \tau{}, as the
-larger difference in rank is squared in the calculation. The simulated dataset
-might also produce a distribution where rankings between empirically sourced and
-synthetic datasets had small differences, but were similarly positioned
-throughout the dataset. This would have an outsized impact on \tau{}, as
-relative positioning affects concordance, but the square of a small difference
-in rank remains relatively small, meaning that \rho{} would be less affected by
-this pattern. A choice of correlation metric is thus a choice of what
-correlation means: should correlation more closely reflect preference of
-character pairs relative to each other, or ``forgive'' small relative preference
-deviations but impose a greater cost on the scale of disagreement on a given
-rank?
+To choose an appropriate measure for comparing character pair distributions,
+they can be related to potential patterns in those distributions. As a player is
+likely not to select many character pairs once they have developed preferences
+(if at all), a slight increase in selecting uncommon character pairs within a
+simulation could incur a significant increase in the rank of those pairs. This
+would have a more significant impact on \rho{} than on \tau{}, as the larger
+difference in rank is squared in the calculation. Character pairs' rankings may
+also have small differences between the two distributions but similar positions
+relative to each other. For example, most character pairs could have ranks only
+1 position apart between the distributions. This would have an outsized impact
+on \tau{}, as relative positioning affects concordance, but the square of a
+small difference in rank remains relatively small, meaning that \rho{} would be
+less affected by this pattern. A choice of correlation metric is thus a choice
+of what correlation means: it can reflect preference of character pairs relative
+to each other, or ``forgive'' small relative preference deviations and impose a
+greater cost on the scale of disagreement on a given rank instead.
 
-We choose to prioritise the preservation of rank order~(\tau{}) over the
-minimisation of rank difference~(\rho{}). Unfavoured character pairs' ranks
-might be affected greatly by a small difference in the number of games played,
-because unfavoured character pairs play few games by definition. A small
-difference in selection count is therefore more likely affect rank; however, the
-character pairs would still be unfavoured relative to a players' preferred
-pairs, which are expected to have a disproportionately high number of games,
-also by definition. Minimising rank difference is therefore sensitive to
-RPGLite's random nature. Preserving the ordering of character pair selection is
-also important when considering favoured pairs, as differences might indicate a
-difference in patterns of play; however, small differences in the ranks of
-favoured pairs with \rho{} would have a less signifiant impact than when
-measuring rank ordering with \tau{}: \rho{} accounts for the square of the
-difference in rank, which remains small for small differences.
+%% === I began making the below to illustrate the examples in the above chapter
+%      but couldn't figure out how to format it properly. Keeping the stubs
+%      incase I revisit.
 
-For these reasons, we quantify similar character pair preferences by
-representing preference as an ordered list of string-represented character
-pairs, and measuring their correlation using \tau{}. \inline{I'm not sure I've
-  defined how I represent (or calculate) the ordered list of preferences yet. If
-  not, that should live somewhere, I suppose.}
+% \begin{figure}
+%   \centering
+%   \begin{minipage}{0.45\textwidth}
+%   \begin{tabular}{l r r}
+%     \emph{Character Pair} & \emph{Games Played} & \emph{Rank}    \\
+%     KA & 25 & 1 \\ 
+%     KW & 15 & 2 \\
+%     AW &  5 & 3 \\
+%     BK &  3 & 4 \\
+%     BA &  2 & 5 \\
+%     BW &  1 & 6 \\
+%   \end{tabular}
+%   \end{minipage}
+%   \begin{minipage}{0.45\textwidth}
+%   \begin{tabular}{l r r}
+% \end{figure}
 
+To prioritise the preservation of the order of a ranking character pair
+preferences are compared using \tau{}. Unfavoured character pairs' ranks might
+be affected greatly by a small difference in the number of games played, because
+unfavoured character pairs play few games. A small difference in selection count
+is therefore more likely affect the rank of those pairs. Minimising rank
+difference is sensitive to RPGLite's random nature for this reason. Preserving
+the ordering of character pair selection is also important when considering
+favoured pairs, as most games are likely to be played with a small number of
+favoured pairs. Much as large differences in unfavoured pairs' ranks can be
+caused by random chance, small differences in the ranks of favoured pairs are
+indicative of a player's preferences. An appropriate correlation measurement
+must take this into account. Small differences in the ranks of favoured pairs
+would have a less signifiant impact on \rho{} than on \tau{}: \rho{} accounts
+for the square of the difference in rank, which remains small for small
+differences. Experimental results are calculated using \tau{} in
+\cref{chap:experimental_results} for this reason: \tau{} prioritises accurately
+simulating a player's preferences when selecting character pairs, which is the
+aim of the experiments, and so is the more appropriate measurement.
 
 
 \subsection{Controlling State Space Exploration}
 \label{subsec:controlling_state_space_exploration}
 
-The model of confidence used grows monotonically as described in
+The model of confidence grows monotonically as described in
 \cref{subsec:defining_our_models_of_learning}, which affects simulated players'
-exploration of possible character pairs. Models of learning use confidence as a
-probability that their alternative behaviour is to be encoded; therefore, when
-confidence is high, players are likely to select character pairs to play which
-were observed to be likely to win historically. As character pairs which are not
-played cannot win games, pairs which are not selected for play cannot be chosen
-by models of learning which rely on a players' historical observations, which
-could lead to inaccurate simulation. To counter this possibility, two mechanisms
-are introduced to control state space exploration: ``initial exploration'' and
-``boredom''.
+exploration of possible character pairs. The learning model uses confidence as a
+probability that character pairs are selected based on experience. As character
+pairs which are not played cannot win games, pairs which are not selected for
+play cannot be chosen by the learning model as it relies on a player's
+historical observations, which could lead to inaccurate simulation if the
+unchosen pair is the player's preference. To counter this possibility, two
+mechanisms are introduced to control state space exploration: ``initial
+exploration'' and ``boredom''.
 
-\inline{A little clumsy --- reword this para? Is it sufficent? } Initial
-exploration is a threshold number of games a simulated player must complete
-before models of learning make changes. Learning models' impact in player
-behaviour is gated on both a player's level of confidence and the number of
-games played. This allows players to observe enough win/loss data in their early
-games that later decisions directed by the learning model have sufficient
-historical observations to have explored the state space make ``informed''
-decisions. The length of the initial exploration phase for any player is given
-as an integer number of games by the \lstinline{initial_exploration} parameter
-when generating data, as mentioned in \cref{subsec:exp1_model_parameters}; use
-of the parameter when generating data is discussed in
-\cref{subsec:exp1_producing_datasets}.
+Initial exploration is a threshold number of games a simulated player must
+complete before the confidence model determines whether aspects should change
+player behaviour. The earning model's impact on player behaviour is gated on
+both a player's level of confidence and the number of games played. This allows
+players to enough games that later decisions directed by the learning model can
+make ``informed'' decisions, having explored the possible options. The length of
+the initial exploration phase for any player is given as an integer number of
+games by the \lstinline{initial_exploration} parameter when generating data.
 
 Boredom is a mechanism which solves a problem introduced by some combinations of
 model parameters: if the confidence model's growth rate and curve parameter are
 high, player confidence raises sharply, with the effect that simulated players
 are unlikely to explore the state space. A situation can arise where the
-simulation's metagame\revnote{At time of writing metagame is not defined, but
-this should be introduced in \cref{chap:rpglite}; there's a corresponding
-revision note there.} falls into a local optimum, where the entire playerbase
+simulation's metagame falls into a local optimum where the entire playerbase
 collectively observe many historical wins for some character pairs because of a
 disproportionately high rate of random selection when players explore the space
 of possible character pairs. This can be overcome by introducing new players
 into the playerbase over time. New players are guaranteed to explore the state
-space due to the initial exploration phase, and will continue to do so while
-their confidence grows. The randomly selected character pairs played in this
-time means veteran players will play games which would not be selected
-otherwise. This reinforces existing preferences when novel character pairs are
-weaker than veteran players' preferences, and weakens existing preferences if
-veteran players are exposed to novel character pairs which are likely to win
-games played against their preferred pairs. In disrupting a locally-optimal
-search of the space of character pairs, boredom mitigates potential issues with
-random play, while allowing simulated players to learn over time.
+space due to the initial exploration phase. The randomly selected character
+pairs played in this time mean that veteran players will play games with
+character pairs which otherwise could not have been selected. This reinforces
+existing preferences when novel character pairs are weaker than veteran players'
+preferences, and weakens existing preferences if veteran players are exposed to
+novel character pairs which are likely to win games played against their
+preferred pairs. By disrupting the simulation's metagame boredom mitigates
+potential issues with random play while allowing simulated players to learn over
+time.
 
-Boredom is implemented using several parameters. Players are eligible to be
-removed from the playerbase when their model of confidence reaches a threshold,
-defined by \lstinline{assumed_confidence_plateau} as mentioned in
-\cref{subsec:exp1_model_parameters}. Once this threshold is reached, each player
-is removed with probability \lstinline{prob_bored}, allowing some confident
-players to remain in the playerbase for a long time. \inline{TODO note that
-players are removed, and then replaced, so that the playerbase is of constant
-size but varying experience! Replacement happens immediately.}\inline{Mention
-boredom period controlling how often we check that players are bored.}\inline{TODO note that
-boredom can be disabled}
+Players are eligible to be removed from the playerbase when their model of
+confidence reaches a threshold defined by the
+\lstinline{assumed_confidence_plateau} parameter. Each player is removed with
+probability \lstinline{prob_bored} once this threshold is reached, allowing some
+confident players to remain in the playerbase for a long time. Any player who is
+removed is immediately replaced with a new one, so the playerbase has a constant
+size. The \lstinline{boredom_period} parameter determines the number of games
+between these checks, and the mechanism can be disabled entirely using the
+\lstinline{boredom_enabled} parameter.
 
-
-
-
-\subsection{Producing Datasets}\label{subsec:exp1_producing_datasets}
-
-% A brief explanation of `generate_synthetic_data`, to separate it from the
-% annealing below.
-% It's responsible for:
-% - Setting up special vals consumed by aspects in the games' environment dict
-% - weaving aspects (and un-weaving them)
-% - matching players together and kicking off games
-% - Recycling players when they get ``bored''
-
-Our goal is to produce datasets of simulated player behaviour with aspects
-applied. This is achieved by weaving aspects to augment behaviour and repeatedly
-invoking the naive model's \lstinline{play_game} function while managing the
-simulated playerbase.\footnote{For example, generating synthetic datasets
-  involves } The experimental codebase contains
-a function which is responsible for these tasks,
-\lstinline{generate_synthetic_data}, which is parameterised as follows:
-\revnote{I end list items here with semicolons. I should be consistent through
-  the thesis, and decide whether semicolons are appropriate.}
-
-\begin{itemize}
-  \item \lstinline{rgr_control:float}, which is the RGR value provided by the
-  \lstinline{rgr(testing:bool) -> float} method of a \lstinline{ModelParameters}
-  instance. This is passed to \lstinline{generate_synthetic_data} directly
-  to maintain ignorance within the function as to whether it is training or
-  testing against a dataset; the caller is aware instead, and passes the correct
-  RGR value;
-  \item \lstinline{environment:dict()}, the environment simulated players interact
-  with, which is used to accumulate information shared by all players such as a
-  history of games or special values used to parameterise aspect behaviour;
-  \item \lstinline{params:ModelParameters}, the \lstinline{ModelParameters}
-  instance which provides parameters detailed in
-  \cref{list_of_model_parameter_attributes} and is used to parameterise aspect
-  behaviour and the model of boredom used to manage players;
-  \item \lstinline{print_progress:bool=False}, a parameter controlling the
-  printing of debug loglines.
-\end{itemize}
-
-This is sufficient to generate a synthetic dataset, as all values which
-parameterise the behaviour of simulated players are encapsulated in the
-\lstinline{ModelParameters} class. 
-
-
-
-% Weaving aspects, unweaving at the end
-% creating and matching synthetic players
-% Model of boredom (which can be switched off, importantly)
-
-
-\subsection{Answering the first Research Question}
-\inline{
-  THIS SHOULD BE MOVED TO THE NEXT CHAPTER. There are lots of issues here. We're
-  answering the second RQ now, not the first; also, we need to introduce the
-  results of the prior distribution model before talking about answering the RQs.
-}
-In designing advice which amends a model with new behaviour, the first research
-question was effectively answered:
-
-\begin{researchquestion}
-  Can changes to a model be represented as advice using aspect orientation?
-\end{researchquestion}
-
-The advice described in this chapter demonstrates that behavioural variations
-such as learning can be separated into aspects and applied to a model to alter
-its behaviour without requiring its original implementation to be modified. We
-can therefore answer this research question: \emph{yes}, modifications to a
-model can be represented using advice.
-
-\inline{A note here that we're using AOP, but don't actually target
-  cross-cutting concerns in our models of learning, which is interesting.}
-
-\inline{This is no longer the case; this section needs rewriting!}
-Other research questions motivated in the literature review in
-\cref{chap:lit_review} are concerned with whether representing changes to models
-using aspect orientation can accurately reflect their subject, and whether the
-modules formed by a library of aspects can be reused. These are investigated in
-\cref{sec:optimisation_with_aspects_experimental_results} and
-\cref{chap:exp2_old_aspects_new_systems} respectively.
 
 
 
