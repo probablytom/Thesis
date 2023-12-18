@@ -765,7 +765,7 @@ particularly suitable is simulation \& modelling, which is the subject of this
 thesis. That aspect orientation might be well suited to separating observer and
 experiment partially motivates research in later chapters, which investigates
 the use of aspects to \emph{modify} simulated behaviour rather than simply
-observing it. Further disucssion follows in \cref{sec:lit_discussion}.
+observing it. Further discussion follows in \cref{sec:lit_discussion}.
 
 
 
@@ -923,6 +923,28 @@ source code --- though this thesis' targets model reuse and design
 simplification rather than for avoiding the regulatory overhead and financial
 cost of maintaining models which run on supercomputers.
 
+
+\subsection{Aspect-oriented L-Systems}
+Aspect-orientation is also applied in other simulation paradigms.
+\citet{Cieslak_2011} investigated the use of aspect orientation in L-system
+based simulations. An L-system\cite{lindenmayer1968lsystem} is defined by a set
+of symbols, an initial string composed of these symbols, and a set of rules for
+rewriting substrings. While being a powerful tool for representing fractal
+structures, they were originally conceived of for modelling in botanical
+research.
+
+\citeauthor{Cieslak_2011} note that some details of plant modelling are actually
+cross-cutting concerns against many plants or families of plants, such as carbon
+dynamics, apical dominance and biomechanics. To represent these, they introduce
+a new language to describe plant models which makes use of aspect orientation to
+represent these cross-cutting concerns. They successfully test the approach by
+representing carbon dynamics, apical dominance and biomechanics as cross-cutting
+concerns that are integrated into a previously published model of kiwifruit
+shoot development. \citeauthor{Cieslak_2011} hope that these cross-cutting
+concerns might work in other models too, but this is untested. The use of an
+aspect developed for use in one model and reused in another seems untested in
+the community's literature writ large\revnote{writ large too casual} and is a
+noted omission in the conclusion of this particular work.
 
 
 
