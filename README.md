@@ -11,9 +11,7 @@ _not_ to review it; just might still shift a little on my end.
 - Introduction
   - [X] Content decided
   - [X] Content complete
-  - [ ] Draft 1 complete
-      - Not quite complete, but the content's there except for the odd bits and
-        pieces to be added on review. It's in a weird state, but it's close.
+  - [X] Draft 1 complete
   - [ ] Reviewed
   - [ ] Draft 2 complete
 - Lit review
@@ -26,40 +24,31 @@ _not_ to review it; just might still shift a little on my end.
   - [X] Content decided
   - [X] Content complete
   - [X] Draft 1 complete
-  - [ ] Reviewed
+  - [X] Reviewed
   - [ ] Draft 2 complete
 - PDSF rewrite
   - [X] Content decided
   - [X] Content complete
   - [X] Draft 1 complete
-  - [ ] Reviewed
+  - [X] Reviewed
   - [ ] Draft 2 complete
 - RPGLite
+  - [X] Content decided
+  - [X] Content complete
+  - [ ] Draft 1 complete
+  - [X] Reviewed
+  - [ ] Draft 2 complete
+- Optimising experiments with aspects
   - [X] Content decided
   - [X] Content complete
   - [X] Draft 1 complete
   - [X] Reviewed
   - [ ] Draft 2 complete
-- Optimising experiments with aspects
-  - [X] Content decided
-  - [ ] Content complete
-  - [ ] Draft 1 complete
-    - Yet to write:
-      - [ ] K-fold validation strategy
-      - [ ] Experimental run comparison strategy
-      - [ ] Actual results from different models
-      - [ ] Write up prior distribution aspect
-        - Note that this will require a few changes.
-        - Obviously another section explaining how it works
-        - Also changes to references to aspects where I claim there are two learning models (although arguably there are only two that learn)
-      - [ ] Code snippets for aspects, experimental setup
-  - [ ] Reviewed
-  - [ ] Draft 2 complete
 - Applying realistic aspects to changed models
   - [X] Content decided
-  - [ ] Content complete
-  - [ ] Draft 1 complete
-  - [ ] Reviewed
+  - [X] Content complete
+  - [X] Draft 1 complete
+  - [X] Reviewed
   - [ ] Draft 2 complete
 - Future work
   - [X] Content decided
@@ -69,8 +58,8 @@ _not_ to review it; just might still shift a little on my end.
   - [ ] Draft 2 complete
 - Closing discussion
   - [X] Content decided
-  - [ ] Content complete
-  - [ ] Draft 1 complete
+  - [X] Content complete
+  - [X] Draft 1 complete
   - [ ] Reviewed
   - [ ] Draft 2 complete
   

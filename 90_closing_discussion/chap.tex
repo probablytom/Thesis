@@ -60,25 +60,22 @@ contributions of earlier work as outlined in \cref{chap:prior_work}.
 
   % RQ1
   \item[Development of a tool which is suitable for use in aspect-oriented
-    modelling \& simulation] Having established through \cref{chap:lit_review}
-    that no tool suitable for use in aspect-oriented modelling \& simulation
-    exists, \cref{subsec:rqs} proposed the research question: \emph{
-      is an aspect orientation tool which is appropriate for use in simulation
-      \& modelling feasible to design?
-    } To address this, a redesign of \pdsf{}\footnote{Note that an early version
-    of \pdsf{} predates this thesis, as discussed in \cref{chap:prior_work}.}
-    was developed which provided compatibility with modern versions of Python
-    % , introduced optimisations for within-style aspect weaving, 
-    and improved on the design of its hook weaver to address criticisms of
-    aspect-oriented programming's legibility by adding aspect hooks at import
-    time --- thus preserving obliviousness while improving legibility.
+    modelling \& simulation] The application of advice to existing codebases
+    requires some technique to overcome a lack of useful join points in a
+    pre-existing model. In addition, \aop{} suffers a criticism that
+    obliviousness limits program legibility, an important quality of software
+    developed for research purposes. To address this, a redesign of \pdsf{} was
+    developed which provided compatibility with modern versions of Python and
+    improved on the design of its hook weaver to address criticisms of \aop{}'s
+    legibility by adding aspect hooks at import time, thus preserving
+    obliviousness while improving legibility.
 
   \item[Demonstration that a model's behaviour can be augmented to accurately
     reflect a system under study using advice] The review of relevant literature
     in \cref{chap:lit_review} observes that many research projects in
-    aspect-oriented programming produce tooling, but do not confirm that
+    \aop{} produce tooling, but do not confirm that
     tooling's hypothetical contribution empirically, and few case studies exist
-    which demonstrate the benefits of aspect-oriented programming empirically.
+    which demonstrate the benefits of \aop{} empirically.
     It is therefore particularly important that \pdsf{} is demonstrated to
     successfully represent changes to a model as advice.
 
@@ -92,17 +89,6 @@ contributions of earlier work as outlined in \cref{chap:prior_work}.
     applied. \pdsf{} is also shown to be used successfully in a simulation \&
     modelling setting.
 
-  \item[Demonstration of introducing new behaviours into a model using advice]
-    \inline{
-      TODO write about using AOP to introduce new behaviours to a model
-    }
-
-  \item[Investigation of the portability of advice from one model to another]
-    \inline{
-      TODO: write about investigating aspect portability (they're modules, so in
-      theory they can be portable\ldots{} in practice, obliviousness makes this
-      tricky.
-    }
 
   \item[A model of RPGLite play, and corresponding dataset of player
     interactions] Supporting the earlier contributions is a model of RPGLite
@@ -111,45 +97,39 @@ contributions of earlier work as outlined in \cref{chap:prior_work}.
     support of other researchers' future work.
 
   \item[An exploration of the possibilities which aspect-oriented modelling
-    yields] The technique investigated in earlier contributions --- the
-    application of aspect-oriented programming to model implementations ---
-    yields novel research opportunities which are undocumented in the literature
-    of relevant fields, although some researchers (notably
-    \citet{gulyas1999use}) hypothesise some opportunities. Having demonstrated
-    that model behaviours can be woven as advice rather than calcifying the
-    changes in a model's source code, we anticipate that a large body of future
-    work can be produced investigating more specific uses of the technique and
-    applying it in novel, domain-specific ways.\revnote{
-      This contribution in particular is explained in a very wordy way. Can we
-      be more concise here?
-    }
+    yields] The demonstration that one can successfully represent changes to
+    models as aspects yields novel research opportunities which are largely
+    undocumented in the literature. Having demonstrated that model behaviours
+    can be woven as advice rather than calcifying the changes in a model's
+    source code, a large body of future work can be produced investigating more
+    specific uses of the technique and applying it in novel, ways.
     
     The future work illustrated in \cref{chap:future_work} follows the example
-    of \citet{marsh1994formalising}, a thesis which introduces a formalism of
-    trust and also yields a large quantity of research opportunities.
+    of \citet{marsh1994formalising}, whose thesis introduces a formalism of
+    trust and also yields a large number of research opportunities.
     \citeauthor{marsh1994formalising} notes that there exists such a large
-    quantity of research opportunities which existing literature does not
-    identify in any fashion that their thorough discussion of now-feasible
-    research opportunities constitutes a contribution in its own right; ``future
-    work'' in the context of their results doesn't refer to improvements on
-    their own findings, nor to more advanced versions of their own formalism,
-    but to entirely new research projects across a variety of fields. Similarly,
-    the application of aspect orientation to modelling \& simulation supports
-    novel research in applying the technique to existing codebases, using the
-    technique to develop rigorous methodologies for the acceptance of changes to
-    models, alternative forms of collaboration for research teams, and other
-    ``future work'' possibilities. These possibilities are enumerated in
-    \cref{chap:future_work} as a thorough exploration of earlier contributions'
-    significance, and is a contribution in its own right in the same manner as
-    in the work of \citet{marsh1994formalising}.
-
+    number of avenues of research which existing literature does not identify in
+    any fashion that their thorough discussion of now-feasible opportunities
+    constitutes a contribution in its own right; ``future work'' in the context
+    of their results doesn't only refer to improvements on their own findings,
+    nor to more advanced versions of their own formalism, but to entirely new
+    research projects across a variety of fields. Similarly, the application of
+    aspect orientation to simulation \& modelling supports novel research in
+    applying the technique to existing codebases, using the technique to develop
+    rigorous methodologies for the acceptance of changes to models, alternative
+    forms of collaboration for research teams, and other ``future work''
+    possibilities. These possibilities are enumerated in \cref{chap:future_work}
+    as a thorough exploration of earlier contributions' significance. Where
+    possible, all future work identified is accompanied by a specific research
+    question, to qualify the particular contribution that work would yield and
+    to simplify other researchers' engagement with the topic.
 \end{description}
 
 
 
 \section{Limitations}
 
-\inline{
+\revnote{
   Check with Tim: is it worth acknowledging some limitations in the conclusion?
   I know it's a little unconventional, but I think it also shows some awareness
   / humility. Hoping it makes questioning in the viva easier, because I can
@@ -160,17 +140,12 @@ contributions of earlier work as outlined in \cref{chap:prior_work}.
 As with all research, the contributions summarised in
 \cref{conclusion:contributions} have some limitations. These are acknowledged
 here in the spirit of openness, and because identifying weaknesses in any piece
-of work helps to improve anything building on it. \inline{
-  Find one or two more limitations to write here if this section is going to be
-  kept.
-}
+of work helps to improve anything building on it.
 
 \begin{description}
 
   \item[\pdsf{} improves on problems with obliviousness, but does not entirely
-    solve them]
-    A weakness of aspect-oriented
-    programming which its critics
+    solve them] A weakness of aspect-oriented programming which its critics
     identify~\cite{steimann06paradoxical,Constantinides04aopconsidered,przybylek2010wrong}
     is that aspect-orientation's principle of obliviousness makes a program more
     difficult to reason about. Obliviousness --- that the join-point of some
@@ -185,69 +160,94 @@ of work helps to improve anything building on it. \inline{
     aspect-orientation frameworks provide tooling to facilitate easier
     inspection of aspect-oriented programs; at present, this is not provided for
     \pdsf{}.
+
   \item[Only one instance of aspect-oriented modelling is investigated]
-    \inline{this is a stub, complete me} We only investigate a model of RPGLite;
-    it'd be nice to apply AOP to more than just a model of a \sociotechnical
-    system, or show that it can be applied in many contexts.
+    The experiments described in \cref{chap:experiment_setup} and
+    \cref{chap:experimental_results} investigate the use of \aop{} in a
+    simulation \& modelling context, but only apply \aspectorientation{} to one
+    model, and specifically one which is \sociotechnical{} in nature. As advice
+    is a feasible mechanism to represent changes to models, changes which do not
+    relate to behavioural variance should be considered also. Promising related
+    work includes research by \citet{Cieslak_2011} which represents details of
+    plant growth in \aspectoriented{} L-systems. The technique could be used to
+    model more \sociotechnical{} systems such as degraded
+    modes~\cite{johnson2007degradedmodes} and
+    epidemiology~\cite{aranTheatreThesis} or tackling modelling problems in
+    other fields, such as diverging behaviours in astronomical
+    models~\cite{comparison_of_galaxy_formation_models,comparison_of_radiative_models_of_galaxies}
+    or cross-cutting concerns in business-process
+    modelling~\cite{Cappelli_AOBPM,da2020implementation} and
+    botany~\cite{Cieslak_2011}. Future work should prove \aop{}'s utility in
+    a broader array of contexts.
+
+  \item[Further research is required into the portability of aspects across
+  models] Results for the third experiment, in \cref{sec:rq3}, investigated the
+  portability of aspects across models and found mixed results. The model of
+  learning appears to successfully model players in season 2 of RPGLite but is
+  unable to model as many players as it could for season 1 regardless of how the
+  model is used. One explanation of this result is that biased player and
+  assumptions within the learning model impacted the aspect's suitability to
+  modelling a second season of RPGLite. Aspects implementing the prior
+  distribution model are successful in simulating players across seasons;
+  therefore, the approach seems viable, but future research should clarify the
+  weaknesses of the learning model as applied to season 2 of RPGLite. 
+
 \end{description}
 
 
 
 
 
-\section{Using Aspects to Augment Models}
+\section{\thesistitle}
 
-\inline{
-  This was originally written as an introduction to the chapter, but I've moved
-  it to the end, because what it's getting at --- the central concept of using
-  aspect-oriented programming when developing scientific models --- is actually
-  a good thing to wrap the entire thesis up with, \emph{and} it just fits more
-  cleanly at the end and gives this chapter a nicer flow.\\HOWEVER I haven't rewritten it since moving it to the bottom. It needs editing
-  to fit here, I expect. Also, it's a little unfocused. What is it trying to
-  say, exactly\ldots{}?
-}
 
 This thesis presents research into the application of aspect-oriented
-programming to the development of models \& simulations, with a particular
-interest in the technique's use in a research setting. The use of aspects to
-represent changes to a model appears entirely novel, though some references to
-it exist in the literature, in particular that of \citet{gulyas1999use}. Core to
-the approach is the notion that parts of a model such as behavioural traits,
-additional parameters (and their impact on a model), and behaviour contingent on
-environmental factors can be suitably modularised from it as cross-cutting
-concerns. 
+programming to the development of models and simulations in a research setting. The use of aspects to
+represent changes to a model is novel. Core to the approach is the notion that
+parts of a model such as behavioural traits, additional parameters (and their
+impact on a model), and behaviour contingent on environmental factors can be
+suitably modularised from it as cross-cutting concerns. Similarly, minor changes
+to a model such as altering existing model properties can be represented as
+advice rather than as a change to the model's source, making the change easily
+enabled or disabled without adding complexity to the model itself.
 
 Verification that the technique is viable --- and a demonstration of it ---
-required the development of new tooling, and the application of that tooling to
-investigate the benefits augmenting a model using aspects.
+required the development of new tooling and the application of that tooling to
+investigate the benefits augmenting a model using aspects. \pdsf{} was rewritten
+to support Python 3 and to weave aspect hooks at import time, allowing for
+dynamic and flexible weaving of advice. A system suitable for simulation ---
+RPGLite --- was designed, implemented as a mobile game, and released to collect
+data to support modelling efforts. A model of RPGLite was constructed, and a
+formalism of learning and confidence was defined, implemented, and used as the
+foundation of experiments investigating \aspectoriented{} modelling. Three
+experiments were designed and conducted to investigate whether \aop{} could
+be used to change models, to compose a model with more complex behaviours, and
+to build single units of model change which are applicable across multiple
+models. Positive results from these experiments indicate that the technique may
+apply to other fields and use cases, and the breadth of these opportunities was
+explored in its own chapter.
 
-The work presented investigates the technique as applied to RPGLite as an
-example \sociotechnical system. However, the application of aspect-oriented
-programming needn't be limited to models of one type of system. In theory, the
-technique can be viable in any scenario where a model developed for research
-purposes contains cross-cutting concerns. Where future research projects make
-significant changes to the behaviour a model exhibits, these changes may also be
-suitably represented as aspects woven into the original model, rather than a
-fork of it.
+% Curiously, aspect-oriented programming as implemented by \pdsf can be used to
+% augment codebases which were not designed to support the weaving of aspects. No
+% change to their codebase is required to support aspect-oriented programming, so
+% somebody looking to make modifications can design those as advice without
+% requiring anything of the original codebase. In addition, a project using \pdsf
+% to weave advice makes no changes to the language and requires no specialist
+% tooling; it can be adopted in any other software project without the other
+% project needing to support aspect-oriented programming or be built with the
+% paradigm in mind. In this way, the choice to use of aspect-oriented programming
+% when developing models affects only the team developing that model; their code
+% requires nothing of anything it uses or is derived from, and their model can
+% be used by other research teams as if it were any other software
+% project.\inline{
+%   Other AOP systems like AspectJ or nu require special compilers etc and
+%   graphical systems like AOBPM introduce requirements for specialised tooling
+%   too --- confirm and cite.
+% }
 
-Curiously, aspect-oriented programming as implemented by \pdsf can be used to
-augment codebases which were not designed to support the weaving of aspects. No
-change to their codebase is required to support aspect-oriented programming, so
-somebody looking to make modifications can design those as advice without
-requiring anything of the original codebase. In addition, a project using \pdsf
-to weave advice makes no changes to the language and requires no specialist
-tooling; it can be adopted in any other software project without the other
-project needing to support aspect-oriented programming or be built with the
-paradigm in mind. In this way, the choice to use of aspect-oriented programming
-when developing models affects only the team developing that model; their code
-requires nothing of anything it uses or is derived from, and their model can
-be used by other research teams as if it were any other software
-project.\inline{
-  Other AOP systems like AspectJ or nu require special compilers etc and
-  graphical systems like AOBPM introduce requirements for specialised tooling
-  too --- confirm and cite.
-}
-
+\Aop{} is shown to successfully modularise changes to models. Lots more can be
+done to explore how it can be used and to identify its limitations; the work
+presented shows that it is feasible and promising.
 
 
 
