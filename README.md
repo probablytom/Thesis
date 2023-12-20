@@ -18,8 +18,8 @@ _not_ to review it; just might still shift a little on my end.
   - [X] Content decided
   - [X] Content complete
   - [X] Draft 1 complete
-  - [ ] Reviewed
-  - [ ] Draft 2 complete
+  - [X] Reviewed
+  - [X] Draft 2 complete
 - Prior work
   - [X] Content decided
   - [X] Content complete
