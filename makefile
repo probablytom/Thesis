@@ -22,6 +22,10 @@ thesis:
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/naive_model.mmd -o 60_optimisation_with_aspects/diagrams/naive_model.svg
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.png
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.svg
+	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.svg
+	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.png
+	sudo mmdc -i 30_prior_work/diagrams/asp_woven_attr.mmd -o 30_prior_work/diagrams/asp_woven_attr.svg
+	sudo mmdc -i 30_prior_work/diagrams/asp_woven_attr.mmd -o 30_prior_work/diagrams/asp_woven_attr.png
 	lualatex $(LTX)
 	biber thesis.bcf
 	lualatex $(LTX)
@@ -36,6 +40,10 @@ normal:
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/naive_model.mmd -o 60_optimisation_with_aspects/diagrams/naive_model.svg
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.png
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.svg
+	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.svg
+	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.png
+	sudo mmdc -i 30_prior_work/diagrams/asp_woven_attr.mmd -o 30_prior_work/diagrams/asp_woven_attr.svg
+	sudo mmdc -i 30_prior_work/diagrams/asp_woven_attr.mmd -o 30_prior_work/diagrams/asp_woven_attr.png
 	lualatex "\def\nofonts{fontsdisabled}\include{thesis.tex}"
 	biber thesis.bcf 
 	lualatex "\def\nofonts{fontsdisabled}\include{thesis.tex}"

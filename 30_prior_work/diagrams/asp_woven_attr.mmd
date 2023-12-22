@@ -1,4 +1,3 @@
-```mermaid
 flowchart LR
     getAdvice(Retrieve advice applied to target attribute's\nunderlying class)
     applyPreludeAdvice(Apply before advice, termed prelude)
@@ -9,7 +8,7 @@ flowchart LR
     returnVal(Return any value returned by\nattr and relevant advice)
     
     getAdvice-->applyPreludeAdvice
-    subgraph ADVICE [ADVICE] 
+    subgraph ADVICE
         direction TB
         applyPreludeAdvice-->wrapAttrInAround
         wrapAttrInAround-->execAttr
@@ -17,4 +16,3 @@ flowchart LR
     end
     execAfterAdvice-->returnVal
     ADVICE-->handleExceptions
-```

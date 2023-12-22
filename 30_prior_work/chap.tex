@@ -1,504 +1,49 @@
 \chapter{Prior Work}\label{chap:prior_work}
 
-% % To cover PDSF, CAISE paper, and anything else we've done previously that's
-% % related to this work (e.g. that masters thesis that models covid).
-
-% % Some notes on where PDSF was before the PHD work, edited from the first draft
-% % of the thesis.
-
-% % \pdsf is a Python library~\cite{pdsf_repo}
-% % built for making changes to the source code of a Python function as it is
-% % called, and before it is executed, while the original function definition
-% % remains oblivious to the changes being made. It was originally developed as an
-% % honours-level dissertation, which was built upon and detailled in a subsequent
-% % paper~\cite{wallis2018caise}. This thesis furthers that original work. To be
-% % clear about the work this thesis contains, the state of the project
-% % \emph{before} this work began is briefly discussed here.
-
-% \pdsf is a Python library~\cite{pdsf_repo} which implements a dynamically-woven
-% aspect orientation framework with the capacity to weave changes within a
-% specified join point. It is designed primarily to address the needs discussed in
-% \cref{sec:lit_discussion}, particularly those of aspect-oriented simulation and
-% modelling.
-
-% Work on PyDySoFu predates the work presented in this thesis: an early version
-% was developed for the modelling of behavioural variation. This prototype was
-% redeveloped and improved to provide more suitable tooling for more complex
-% experiments, and to better address the requirements of such a tool and
-% opportunities found in the existing literature. \pdsf{}'s improved design and
-% implementation is discussed in \cref{chap:pdsf_rewrite}. 
-
-% In this chapter, prior work on \pdsf{} and the research conducted with it is
-% reviewed, so as to isolate the contributions presented in this thesis from
-% previously published research.
-
-% \subsection{Motivations for \pdsf{}'s Original Development}
-
-% The original incarnation of \pdsf{} was developed with different motivations
-% than those outlined in \cref{chap:lit_review}. It is therefore important to
-% elucidate the context in which it was designed and developed.
-
-% \pdsf{} was originally developed for the representation of behavioural variance
-% in sociotechnical systems, and was first produced as a proof-of-concept; the
-% core contribution was one of tooling. It was developed for use in Python
-% codebases, by virtue of the language's widespread use and its flexibility in its
-% modelling of data and process.
-
-% The original version of the tool was to be applied to models of behaviour in
-% \sociotechnical systems, where individual actions were represented as functions.
-% Actions which could be decomposed further into more granular actions were to be
-% defined as a functions calling their more granular counterpart functions.
-% Invocations of low-level behaviours would implement some change to an
-% environment in the model which its modelled behaviour would be expected to
-% incur. Invocations of high-level behaviours, containing the invocations of
-% lower-level behaviours they compose in the model, would therefore apply the
-% combined effect of the collected behaviours they represent. A benefit of this
-% approach to modelling behaviour was that high-level behaviours could implement
-% the ``flow'' of a behaviour. For example, a behaviour which would be modelled in
-% a flowchart as having some loop could be modelled analogously in the method
-% described through use of primitive control flow operators in Python, such as
-% \lstinline{for} and \lstinline{while} loops.
-
-% Another benefit of this approach is that the behaviours modelled have a
-% predictable structure which is amenable to metaprogramming. A low-level
-% behaviour's affect could be changed by changing the function definition; more
-% structural changes could be made by altering the flow of less granular
-% behaviours. A simple high-level behaviour containing a series of function
-% invocations (modelling an ordered list of steps in the \sociotechnical system)
-% can be represented as a literal list of function calls. The contents of such a
-% list is trivially modifiable. Removing an item from a list or truncating it at a
-% certain length, for example, are both achievable in a trivial manner using
-% high-level languages such as Python. Notably, many behaviours can be conceived
-% of which could be represented as high-level behaviours but would not be amenable
-% to a simple list of more granular behaviours, such as a behaviour with a looping
-% quality. 
-
-% With a mechanism to rewrite either an implementation of a behaviour or a
-% collection of behaviours (in the less granular functions mentioned), modelling
-% in such a fashion could therefore lend itself to semantically simple
-% metaprogramming that could represent real-world variations in behaviour.
-% However, largely for reasons discussed in \cref{sec:variation_sm_motivations},
-% metaprogramming for representing realistic behavioural variations in
-% \sociotechnical simulations should be able to take advantage of system state.
-% Many real-world behaviours are contingent on environmental state. Real-world
-% actors in \sociotechnical systems might become tired after lots of work, or
-% proportionally to time of day within a simulation. Therefore, the
-% metaprogramming as described should be performed during runtime, for which no
-% suitable candidate was available. \pdsf was developed to fulfil this
-% requirement, so that behavioural variance in \sociotechnical simulation could be
-% modelled as described and subsequently studied.
-
-% \section{\pdsf{}'s Implementation and Features}
-
-% % The original implementation of \pdsf patched Python classes with
-% % additional functionality. Attributes of Python objects are usually retrieved using
-% % dot notation (i.e. \lstinline{object_id.attr_id}), which evaluates internally to
-% % a call to \lstinline{object_class.__getattribute__(``attr_id'')}. PyDySoFu replaces a
-% % class' built-in \lstinline{__getattribute__()} method with a new one, which
-% % calls the original to acquire the required attribute. 
-
-% Aspect orientation's core concepts include join points, aspects, and advice.
-% \pdsf was not originally designed with aspect orientation in mind --- though its
-% design aligned with aspect oriented design in many ways --- and implemented
-% \emph{analogues} of these concepts using fundamental Python concepts. In
-% particular, it used Python's decorators to specify join points (and the advice
-% to be applied to them). The intended use of \pdsf{}'s original implementation
-% was that a decorator, called \lstinline{@fuzz()}, could be used to annotate a
-% function which might undergo variation at runtime.
-
-% \revnote{Add some diagrams here for a high-level description of the procedure that happens when a variation is applied.}
-
-% \labelledsubsec{Python Decorators}{decorators_explained}
-
-% Python decorators annotate function definitions. They are also
-% functions\footnote{Decorators can also be defined in other ways, such as
-% callable classes, but this is unimportant for the explanation at hand. While it
-% is a simplification of the technical details of Python decorators, for the
-% purpose of a clear example we will consider decorators to be functions
-% specifically.}, which accept a function as an argument and return a function.
-% Decorators transform the functions they annotate: any function with a decorator
-% applied to its definition is passed to that decorator as an argument immediately
-% after compilation. The function returned by the decorator is used as the final
-% value of the original function's compilation, i.e. when compiling a function
-% \lstinline{f} annotated by a decorator \lstinline{d}, the value referenced by
-% the symbol ``\lstinline{f}'' is \lstinline{d(f)}.
-
-% \begin{figure}[h]\label{decorator_simple_explanation}
-%     \begin{center}
-%         \begin{lstlisting}
-% def example_decorator(annotated_func):
-%     def _wrapped_func(*args, **kwargs):
-%         print("Running a decorated function")
-%         to_return = annotated_func(*args, **kwargs)
-%         print("Decorated function has returned")
-%         return to_return
-%     return _wrapped_func
-
-% @example_decorator
-% def add(a, b):
-%     return a + b
-
-% print(add(5, 6))
-%         \end{lstlisting}
-%     \end{center}
-%     \caption{Python code implementing a simple decorator.}
-% \end{figure}
-
-
-% \Cref{decorator_simple_explanation} contains a simple example, where the
-% function \lstinline{add} is annotated by a decorator, called
-% \lstinline{example_decorator}. The relevant compilation and execution steps of
-% running the code outlined in the \cref{decorator_simple_explanation} is as
-% follows:
-
-% \begin{enumerate}
-%     \item The first function definition, \lstinline{example_decorator}, is
-%     compiled and the resulting function object is placed in the variable
-%     namespace as ``\lstinline{example_decorator}''.
-%     \item \lstinline{add} is compiled, producing a function object. However,
-%     this function object is not the object which is eventually available in the
-%     variable namespace as the symbol, ``\lstinline{add}'', because its
-%     definition is annotated by \lstinline{@example_decorator}.
-%     \item \lstinline{example_decorator} is invoked, and the argument it is
-%     passed is the function object compiled in step \pointno{2}.
-%     \item Executing \lstinline{example_decorator} produces another function
-%     object, named ``\lstinline{_wrapped_func}'' in the local namespace, and
-%     returned. When executed, this function will print
-%     ``\lstinline{Running a decorated function}'',
-%     executes the function ``\lstinline{annotated_func}''
-%     (which is \lstinline{add} in this invocation), and finally prints
-%     ``\lstinline{Decorated function has returned}'', preserving and returning
-%     the values returned by the invocation to \lstinline{annotated_func} (here
-%     \lstinline{add}). Note that all arguments to \lstinline{_wrapped_func} are
-%     passed to \lstinline{annotated_func} (here \lstinline{add}), meaning that
-%     the function object produced in this process is agnostic as to the arguments
-%     it is invoked with.
-%     \item When the decorator returns, the compilation of \lstinline{add} is
-%     complete. The function object returned by the decorator,
-%     \lstinline{_wrapped_func}, is added to the namespace as the symbol
-%     ``\lstinline{add}''. Future references to ``\lstinline{add}'' will resolve
-%     to this function object.
-%     \item In the final line, when \lstinline{add} is called, the function
-%     object \lstinline{_wrapped_func} is invoked with the arguments \lstinline{5}
-%     and \lstinline{6}. It outputs:\inline{Fix blockquote formatting} \begin{blockquote}
-%     Running a decorated function
-%     Decorated function has returned
-%     11
-%     \end{blockquote}
-% \end{enumerate}
-
-% Python decorators can be used to append functionality to the beginning or end of
-% a function invocation by adding business logic in place of the first and second
-% print statements within \lstinline{_wrapped_func} respectively. However, if the
-% function provided as an argument could be rewritten, and the rewritten function
-% returned, then the returned function would literally be a variation of the one
-% the decorator was applied to. Using this mechanism, the original incarnation of
-% \pdsf can introduce \emph{procedural} variance into a program. When applied to a
-% model of behaviour as previously described, procedures model behaviours, making
-% procedural variance \emph{behavioural} variance also. 
-
-% \labelledsubsec{The \atfuzz decorator}{early-pdsf-fuzz-decorator}
-
-% \revnote{\atfuzz isn't the version used in the caise paper, so this is pretty irrelevant. Replace with something more substantial around weaving with e.g. fuzz\_clazz.}
-% To introduce behavioural variance with an effect that is contingent on model
-% state at runtime, \atfuzz works with two more complex details about Python
-% decorators.
-
-% \inline{expand}
-% First, \atfuzz is a function which \emph{generates} a decorator.
-
-% \inline{expand}
-% Second, the parameter \atfuzz accepts represents the variance to be applied, as
-% previously mentioned.
-
-% \inline{expand}
-% The combination of these two factors allows for the introduction of procedural
-% variance contingent on model state. Because this procedural variance can be
-% applied to procedures representing behaviour in a structured and predictable
-% manner, \atfuzz can also be used to represent behavioural variance in a model.
-
-
-% % \labelledsec{FuzziMoss: a library of behavioural variances in sociotechnical
-% % % systems}{priorworkfuzzimoss}
-% % \labelledsec{FuzziMoss: A Library of Behavioural Variances in \sociotechnical systems}{priorworkfuzzimoss}
-
-% \inline{expand}
-% \atfuzz can accept any function with the correct signature as its representation
-% of variance. A library of such variances is a good and cool thing to have.
-
-% \inline{expand}
-% Here are some examples of the variances included in FuzziMoss.
-
-% \labelledsec{Theatre_ag: controlling the percieved time of \sociotechnical agents}{prior_work_theatreag}
-
-% \expand
-% The simulation and modelling environment \pdsf and its related software stack
-% was built around involves representing tasks as procedures, but agents in
-% \sociotechnical systems complete tasks concurrently in real-world time.
-
-% \expand
-% Without mechanisms for controlling the concurrent activity of such agents, race
-% conditions between their actions might occur.
-
-% \expand
-% To demonstrate that behavioural variance was being introduced to a model in a
-% controlled manner, and to experimentally demonstrate that it was having the
-% expected effect on simulated behaviour, controlling for these race conditions
-% was necessary.
-
-% \expand
-% Theatre_AG controls simulated behaviour by introducing the notion of a clock,
-% where simulated behaviour is enacted in quantised units of time.
-
-% \labelledsec{Demonstrating behavioural variations in \sociotechnical models}
-
-% \expand
-% To demonstrate that use of the \atfuzz decorator, making use of various
-% introduced by Fuzzi-Moss and in a controlled environment through use of Theatre_AG, 
-
-% \labelledsec{Shared concepts with aspect-oriented programming}{aop-and-early-pdsf}
-
-
-% \labelledsec{Weaknesses of the approach}{prior_work_weaknesses}
-
-
-% %% ==== MARK
-% %% Everything below this is from the original draft of the thesis. Leaving it
-% % here to assist in redrafting. 
-
-
-
-% % The variation to be applied was represented as a function
-% % which took a list of ``steps'' and returned a new list of those steps, represent
-
-% In the case where the required attribute is not callable, the value is returned
-% as normal. Callable attributes are modified, however. In this case, the
-% replacement \lstinline{__getattribute__()} also checks for a set of
-% manipulations to make to the original code. These can be applied before or after
-% the original code is run, as well as around it. A new function is returned
-% containing a reference to the originally sought attribute, but which will search
-% for these additional pieces of work before executing it, and can execute this
-% work before or after the call (or both). These pieces of work are referred to as
-% ``advice'', adopting aspect orientation terminology.
-
-% As discussed further in \cref{subsec:pdsf_aop}, this approach is effectively an
-% implementation of a traditional aspect orientation framework. However, unlike
-% existing frameworks, PyDySoFu also supports a special kind of ``around'' advice:
-% before a function is called, it can be rewritten. This is done by applying
-% ``before'' advice which retrieves the abstract syntax tree of the target
-% callable attribute using Python's \lstinline{inspect} module (its built-in
-% reflection), applying arbitrary transformations to the tree, and recompiling it
-% into a Python \lstinline{code} object (its representation of its
-% internal bytecode). At this point, many things are possible: the transformation
-% can be cached for later use, can replace the original callable's
-% \lstinline{code} object to make the transformation persistent, or can be
-% discarded after use. This transformed code is run in lieu of the original,
-% effectively enabling aspect orientation which can make adaptations \emph{inside}
-% a procedure as well as before and after its execution.
-
-% This approach also had some limitations:
-
-% \begin{itemize}
-%     \item Traditional pointcuts cannot target points inside a procedure, meaning
-%     that an aspect applied ``inside'' its target must manage the points where
-%     its transformation is applied manually.
-%     \item Importantly, a callable object's internal bytecode cannot be replaced
-%     in Python3, leading to a rewrite discussed in \cref{chap:pdsf_rewrite}.
-%     \item This method is significantly slower than other aspect orientation
-%     approaches, as rewriting a class' \lstinline{__getattribute__} method means
-%     that \emph{every} resolution of an object's attributes --- whether they are
-%     methods or values, and including a class' built-in ``magic'' methods ---
-%     incurs an overhead from the replaced \lstinline{__getattribute__}
-%     implementation. However slight this overhead can be made, affecting Python's
-%     built-in methods on classes means that rewriting the
-%     \lstinline{__getattribute__} method is unavoidably expensive due to the
-%     scale of these methods' use.
-% \end{itemize}
-
-% However, the goal of the original research was to develop a flexible
-% ``proof-of-concept'' of aspect orientation adapting procedure definition at
-% runtime, which was successfully
-% achieved\cite{wallis2018caise,wallis2018genetic}. 
-
-% \subsection{Aspect Orientation \& PyDySoFu}\label{subsec:pdsf_aop}
-
-% The goals of ``changing a function's behaviour'' and maintaining
-% ``obliviousness'' in the original definition of that function speak to the goals
-% of the aspect oriented programming paradigm\cite{kiczales1997aspect}. Quoting
-% their original definitions:
-
-% \begin{displayquote}
-%     Components are properties of a system, for which the implementation can be
-%     cleanly encapsulated in a generalized procedure. Aspects are properties
-%     for which the implementation cannot be cleanly encapsulated in a
-%     generalized procedure. Aspects and cross-cut components cross-cut each other
-%     in a system’s implementation.
-%     [ \ldots{} ]
-%     The key difference between
-%     AOP and other approaches is that AOP provides component and aspect languages
-%     with different abstraction and composition mechanisms.
-% \end{displayquote}
-
-% Generally, aspect orientation is percieved to be a technique for separation of
-% concerns. Any cross-cutting concerns can be separated from their components into
-% aspects applied where that concern arises. The strength of aspect orientation
-% lies in its compositional nature: developers can write short, maintainable
-% implementations of a procedure's core purpose (for example, business logic) and
-% ancillary concerns such as logging or security can be woven into this
-% implementation as preprocessing, compilation, or at runtime. This compositional
-% nature is what gives rise to aspect orientation's ``obliviousness'', as the
-% procedure targetted by a piece of advice is written without regard to that fact.
-
-% The original PyDySoFu implementation was an aspect orientation library focusing
-% on separating a function's definition from \emph{potential changes to it}. This
-% was used to model ``contingent behaviour'' --- behaviour sensitive to some
-% condition --- as an original, ``idealised'' definition of that behaviour, plus
-% some possible alterations. These changes might apply to many different
-% behaviours in the same manner, and therefore represent concerns which separate
-% cleanly into an aspect. An example would be the behaviour of a worker whose job
-% requires focus on allocated tasks. A lack of focus could be represented as steps
-% of the worker's tasks being executed in duplicate, out-of-order, or skipped.
-% Assuming aspects as described by \citeauthor{kiczales1997aspect} are able to
-% edit the definition or execution of a procedure\footnote{As opposed to simply
-% wrapping it with additional behaviour before and/or after execution}, such
-% contingent behaviours are well modelled as aspects.
-
-% To achieve this, a model was presented in \cite{wallis2018caise} wherein aspects
-% were developed which could change function \emph{definitions} on each invocation
-% of that function, contingent on program state. This allowed behavioural
-% adaptation to be simulated in an aspect-oriented fashion. In addition, a library
-% of behavioural adaptations called FUZZI-MOSS\inline{CITECITECITE} was developed
-% which implemented many cross-cutting, contingent behaviours in procedural
-% simulations of \sociotechnical systems.
-
-% One important contribution of this work is that PDSF aspects are effectively
-% able to operate \emph{inside} a target. In typical aspect orientation frameworks
-% such as AspectJ~\cite{aspectj_intro}, aspects operate by effectively prepending
-% or appending work to a target, referred to as ``before'' or ``after'' pointcuts
-% respectively. To do both is referred to as ``around''. By manipulating
-% procedures within Python directly, PDSF is able to manipulate its target from a
-% new perspective, adding (or removing) work during the target's
-% execution\footnote{Similarly to \cref{subsec:bca}, but in an aspect oriented
-% manner.}. Moreover, because weaving is performed dynamically, every execution of
-% a function may perform different operations.
-
-% % change to a comparison between this and the lit, what are the limitations of
-% % this approach, etc.
-% \subsection{Opportunities presented by PyDySoFu}
-
-% PyDySoFu presented several oppportunities for future research. Some salient
-% properties of the original work include:
-
-% \begin{itemize}
-%     \item It provided an aspect orientation library which could weave and
-%     unweave aspects during program execution, without relying on anything other
-%     than Python's built-in language features. As discussed in
-%     \cref{sec:dynamic_aop_review}, this is supported by some early aspect
-%     orientation frameworks also, but AspectJ dominates in the world of aspect
-%     orientation frameworks and does not support weaving during program execution.
-%     \item It provided the capacity to weave aspects \emph{inside} targets, as
-%     opposed to around them, or at either end of their execution. So far as we
-%     are aware, no aspect orientation framework in research or industry has
-%     offered this feature, and its applications and potential are yet to be
-%     explored.
-%     \item Relatedly, PyDySoFu was used in the context of simulating behaviour which may change
-%     over time. Contingent behaviour being a cross-cutting concern is an
-%     innovation of the early research which suggests aspect orientation may have
-%     strong applications in \sociotechnical simulation \& modelling.
-% \end{itemize}
-
-% \inline{Do we need a brief explainer of what aspect orientation is before
-% jumping into outside lit? Or will this go in the introduction? already a little
-% in the earlier litrev subsections.}
-
-% The amount of potential investigation which can be done into the dynamic weaving
-% of target-altering / ``inside'' aspects in simulation \& modelling applications
-% is vast. While literature on the complete topic is absent, each individual
-% component of this research angle is well-studied on its own. These opportunities
-% might be related to existing literature through the following questions:
-
-% \begin{itemize}
-%     \item How does PyDySoFu compare to existing aspect orientation frameworks,
-%     particularly those with a focus on dynamic weaving? Related frameworks are
-%     summarised and compared in \cref{sec:dynamic_aop_review}.
-
-%     \item What is the use of aspect orientation in simulation \& modelling? How
-%     does the approach taken in \pdsf's prior work relate to existing
-%     approaches? This will be discussed for simulation in
-%     \cref{sec:ao_and_simulation}, and for modelling in
-%     \cref{sec:ao_and_modelling}.
-    
-%     \item Variability is important to capture in any \sociotechnical model or
-%     simulation. How is variability treated in existing literature, and how does
-%     this relate to \pdsf's approach? This will be explored in
-%     \cref{sec:dynamism_in_sm}.
-% \end{itemize}
-
-
-
-
-% % ==== MARK Second rework, with caise-version of pdsf.
-
-% \pdsf is a Python library~\cite{pdsf_repo} which implements a dynamically-woven
-% aspect orientation framework with the capacity to weave changes within a
-% specified join point. It is designed primarily to address the needs discussed in
-% \cref{sec:lit_discussion}, particularly those of aspect-oriented simulation and
-% modelling.
-
-% Work on PyDySoFu predates the work presented in this thesis: an early version
-% was developed for the modelling of behavioural variation. This prototype was
-% redeveloped and improved to provide more suitable tooling for more complex
-% experiments, and to better address the requirements of such a tool and
-% opportunities found in the existing literature. \pdsf{}'s improved design and
-% implementation is discussed in \cref{chap:pdsf_rewrite}. 
-
-% In this chapter, prior work on \pdsf{} and the research conducted with it is
-% reviewed, so as to isolate the contributions presented in this thesis from
-% previously published research.
-
 \inline{
   Lots of past tense here --- where possible \& appropriate should probably be
   present.
 }
 
-An implementation of the main tool developed and used in this thesis, ``\pdsf'',
-predates this thesis. As context for the contributions in this thesis, this
-chapter will describe the state of the project before the presented research was
-undertaken. Motivations for the tool's original development are described in
-\cref{sec:pdsf_motivations}, which are followed by its design and implementation
-in \cref{sec:prior_work_pdsf}, and that of related tooling for experiments and
-simulations in \cref{sec:prior_work_machinery}. The chapter concludes with a
-description of the research undertaken using these tools in
-\cref{sec:caise_paper}, as some results in the representation of behavioural
-variance using aspect orientation were found using these tools which predate
-this thesis and offer important background for the research undertaken in it.
+An implementation of the main tool developed and used in this thesis,
+``\pdsf{}'', predates the research presented in later chapters. As context for
+the contributions in this thesis, this chapter will describe the state of the
+project before the presented research was undertaken. Motivations for the tool's
+original development are described in \cref{sec:pdsf_motivations}, which are
+followed by its design and implementation in \cref{sec:prior_work_pdsf}, and
+that of related tooling for experiments and simulations in
+\cref{sec:prior_work_machinery}. The chapter concludes with a description of the
+research undertaken using these tools in \cref{sec:caise_paper}, as some results
+in the representation of behavioural variance using aspect orientation were
+contributed using these tools which predate the research presented in later
+chaptes and offer important background for the research undertaken in it.
 
 \section{Motivations in originally implementing \pdsf}\label{sec:pdsf_motivations}
 
-The original incarnation of \pdsf{} was developed with different motivations
-than those outlined in \cref{chap:lit_review}. It is therefore important to
-elucidate the context in which it was designed and developed.
+The original incarnation of \pdsf{}~\cite{wallis2018caise} was developed with
+different motivations than those outlined in \cref{chap:lit_review}. These
+motivations are clarified as context for its design and
+development.
 
 \pdsf{} was originally developed for the representation of behavioural variance
-in sociotechnical systems, and was first produced as a proof-of-concept; the
-core contribution was one of tooling. It was developed for use in Python
-codebases, by virtue of the language's widespread use and its flexibility in its
-modelling of data and process.
+in \sociotechnical systems, and was first produced as a proof-of-concept. It was
+developed with a focus on Python simulations by virtue of the language's widespread
+use and its flexibility in its modelling of data and process.
 
 The original version of the tool was to be applied to models of behaviour in
-\sociotechnical systems, where individual actions were represented as functions.
-Actions which could be decomposed further into more granular actions were to be
-defined as functions with calls to invoke their more granular counterpart
-functions. Invocations of low-level behaviours would implement some change to an
-environment in the model which its modelled behaviour would be expected to
-incur. Invocations of high-level behaviours, containing the invocations of
-lower-level behaviours they compose in the model, would therefore apply the
-combined effect of the collected behaviours they represent. A benefit of this
-approach to modelling behaviour was that high-level behaviours could implement
-the ``flow'' of a behaviour. For example, a behaviour which would be modelled in
-a flowchart as having some loop could be modelled analogously in the method
-described through use of primitive control flow operators in Python, such as
-\lstinline{for} and \lstinline{while} loops.
+\sociotechnical systems written in Python, where individual actions of an agent
+in a system were represented as functions. Actions which could be decomposed
+further into more granular actions could be defined as functions with sequential
+calls to the more fine-grained actions. Invocations of low-level
+behaviours would implement some change to an environment in the model which its
+modelled behaviour would be expected to incur. Invocations of high-level
+behaviours, containing the invocations of lower-level behaviours they compose in
+the model, would therefore apply the combined effect of the collected behaviours
+they represent. A benefit of this approach to modelling behaviour was that
+high-level behaviours could implement the ``flow'' of a behaviour. For example,
+a behaviour which would be modelled in a flowchart as having some loop could be
+modelled analogously in the method described through use of primitive control
+flow operators in Python, such as \lstinline{for} and \lstinline{while} loops.
 
 Another benefit of this approach is that the behaviours modelled have a
 predictable structure which is amenable to metaprogramming. A low-level
@@ -541,7 +86,7 @@ the application of behavioural variance --- the implementation of the original
 
 
 
-\subsection{Weaving mechanism}\label{subsec:prior_work_weaving}
+\subsection{Weaving Mechanism}\label{subsec:prior_work_weaving}
 The original \pdsf implementation made use of a weaving mechanism which could be
 categorised as ``total weaving'' in the parlance of
 \citeauthor{dynamicAOchitchyan}~\cite{dynamicAOchitchyan}: hooks to apply advice
@@ -557,154 +102,175 @@ of \pdsf takes advantage of:
 
 \begin{enumerate}
     \item Everything in Python is an object, including types, functions, and
-    classes
+    classes. Properties of Python's objects which can be used for implementing
+    \aop{} are useful as a result.
     \item Objects are, in essence, implemented as a dictionary\footnote{Python's
     name for what other languages might call a \lstinline{map} or
     \lstinline{hashmap}.} with string keys. All attributes of an object --- such
     as a method on an instance of a class --- are values in this dictionary, and
-    their identifiers are the string keys of the dictionary. In essence,
-    \lstinline{someObject.val} is notionally equivalent to
+    their identifiers are the string keys of the dictionary. This means that the
+    expression \lstinline{someObject.val} is \emph{notionally} equivalent to
     \lstinline{someObject.__dict__['val']}, though the subtleties of this
     mechanism will be explained later.
-    \item Operations on objects are handled by ``magic methods'', which are
-    specifically named methods on objects which Python calls for fundamental
-    behaviour in the language. For example, \lstinline{objA == objB} is
-    interpreted by Python as \lstinline{objA.__eq__(objB)}. Other built-in
-    behaviours in Python have similar reserved method names which represent the
-    implementation of some behaviour. These methods can be overridden, or
-    specified by a programmer if they wish.
+    \item Certain operations on objects such as attribute lookup, addition, or
+    comparison are handled by ``magic methods'', reserved method names
+    surrounded by double underscores which Python calls on an object to invoke
+    the behaviour of the operation associated with the magic method. For
+    example, the expression \lstinline{objA == objB} is interpreted by Python as
+    \lstinline{objA.__eq__(objB)}. Many such magic methods exist. These methods
+    can be overridden or specified by a programmer.
 \end{enumerate}
 
 \pdsf weaves aspect hooks into classes by taking advantage of these three
 properties of Python. At a high level, \pdsf operates by replacing the
-\lstinline{__getattribute__()} method of a class object with a custom one.
-\lstinline{__getattribute__()} is the magic method responsible for performing
-lookups in an object's underlying dictionary. The replacement
-\lstinline{__getattribute__()} also looks up attributes in the relevant object's
-underlying dictionary, but it also searches for advice to be applied when
-performing these lookups, and applies any advice it finds. The replacement
-\lstinline{__getattribute__()} method represents the aspect hooks woven by
-\pdsf{}.
+\lstinline{__getattribute__} method of a class object with a custom one.
+\lstinline{__getattribute__} is the magic method responsible for retrieving an
+attribute from an object's underlying dictionary, by taking a string argument as
+an identifier and returning the object associated with that identifier if it
+exists. The logic of the replaced \lstinline{__getattribute__} method is
+diagrammed in \cref{fig:early_pdsf_replaced_getattr_diagram}.
+
+\begin{figure}[hp]
+\includegraphics[width=0.9\columnwidth]{30_prior_work/diagrams/replacement_getattr.png}
+\caption{High-level representation of the process implemented by the replacement
+\lstinline{__getattribute__} method as implemented by the original \pdsf{}
+library.}
+\label{fig:early_pdsf_replaced_getattr_diagram}
+\end{figure}
+
+The replacement \lstinline{__getattribute__} method injected by
+\pdsf{} also looks up attributes in the relevant object's underlying dictionary,
+but in addition to retrieving an object's attribute it searches for advice to be
+applied when performing these lookups, and applies any advice it finds. The
+replaced attribute lookup logic implements the aspect hook woven by \pdsf{}.
 
 Hooks are applied to a class by way of an invocation to a function,
 \lstinline{fuzz_clazz}, which takes a class as a parameter and weaves aspect
 hooks into that class~\cite{pdsf_repo,asp_repo}. \lstinline{fuzz_clazz} replaces
 the \lstinline{__getattribute__()} method of the class with a new function
-object which it constructs. The replacement function object injects aspect hooks
-to callable attributes, thereby discovering aspects, applying them, and invoking
-an attribute which is the target of advice within a wrapper of the attribute
-itself.
+object which it constructs. The replacement function object discovers aspects
+which have been woven, invokes them, and also invokes the target of any woven
+aspects at the correct time. Without any woven aspects, this has the effect of
+simply executing a target function; however, in following this process the
+replaced function object also implements aspect hooks.
 
-The replacement \lstinline{__getattribute__()} method makes a call to the class'
-original \lstinline{__getattribute__()} method to retrieve an attribute when
-required. If this attribute is not a function or method, it is returned by the
-woven \lstinline{__getattribute__()} function and the program affected class
-behaves as if it was never altered. However: if an attribute to be retrieved is
-a method or function, a new function is constructed and returned. This function
-looks up and applies advice to the attribute originally retrieved by the
-program, and contains a reference to the original aspect to enable its
-execution. This wrapping function is therefore the core of the weaving process:
-a replaced \lstinline{__getattribute__()} method injects the aspect hooks which
-constitute the aspect-orientation framework. Advice to be run before, around,
-and after a join point were implemented as invocations of advice functions
-before a target was executed for ``before'' advice, after a target was executed
-for ``after'' advice, and with an around function being run with a reference to
-the advice's to invoke at its own discretion.
+The implementation of the function constructing the replaced attribute lookup
+logic as well as the aspect hook implementation is given in
+\cref{fig:weave_clazz_impl_early_pdsf}, which is edited slightly for legibility.
+The replacement \lstinline{__getattribute__} method first makes a call to the
+class' original \lstinline{__getattribute__} method to retrieve an attribute
+when required. If this attribute is not a function or method, it is returned by
+the woven \lstinline{__getattribute__} function and the affected class behaves
+as if it was never altered. However, if an attribute to be retrieved is a method
+or function, a new function is constructed and returned. This function contains
+the aspect hooks described earlier. When it is invoked, the function retrieves
+woven advice, invokes it at the appropriate points, and invokes the attribute it
+replaced at the appropriate time. 
+
+\begin{figure}[hp]
+    \centering
+    \lstinputlisting{30_prior_work/snippets/fuzz_clazz.py}
+    \caption{The implementation of \lstinline{fuzz_clazz}, a function which
+    replaces \lstinline{__getattribute__} on Python 2 objects to return
+    callable attributes wrapped within an aspect hook implementation.}
+    \label{fig:weave_clazz_impl_early_pdsf}
+\end{figure}
+
 
 \subsection{Applying Process Mutations}\label{subsec:prior_work_mutations}
+
 The development of \pdsf{} was intended to support simulation \& modelling
 research by providing a way of applying program modifications at runtime. It
-sought to fulfil the needs of a program which determined that a (potentially
-non-deterministic) change to the behaviour it modelled was required, and enable
-the program to apply that change mid-process in an aspect-oriented fashion.
-Aspect orientation libraries typically support advice woven before, around, or
+sought to support models where a (potentially
+non-deterministic) change to the behaviour was required, and enable
+it to apply that change dynamically during execution in an \aspectoriented fashion.
+\Aspectorientation{} libraries typically support advice woven before, around, or
 after a join point; modifying the join point itself essentially allows changes
 inside its definition, introducing a fourth type of weaving. \pdsf achieves this
 through a special type of ``before''-style aspect, which it calls a ``fuzzer''.
 
 Fuzzers implement transformations on abstract syntax trees. They are implemented
-as functions which receive a list of AST objects representing the definition of
-a function which satisfies a fuzzing advice's join point, and return another
-list of AST objects, which replace the target function's definition. Any
+as functions which receive a list of AST objects representing the body of a
+function definition which matches a fuzzing advice's pointcut, and return
+another list of AST objects, which replace the target function's definition. Any
 transformation resulting in a valid AST is permitted. A code snippet
 demonstrating the implementation of this process is shown in
-\cref{fig:v1_pdsf_fuzzing_impl_codesnippet}.
+\cref{fig:v1_pdsf_fuzzing_impl_codesnippet}, edited lightly for legibility.
 
-\begin{figure}
-\begin{lstlisting}
-class FuzzingAspect(IdentityAspect):
-
-    def __init__(self, fuzzing_advice):
-        self.fuzzing_advice = fuzzing_advice
-
-    def prelude(self, attribute, context, *args, **kwargs):
-        self.apply_fuzzing(attribute, context)
-
-    def apply_fuzzing(self, attribute, context):
-        # Ensure that advice key is unbound method for instance methods.
-        if inspect.ismethod(attribute):
-            reference_function = attribute.im_func
-            advice_key = getattr(attribute.im_class, attribute.func_name)
-        else:
-            reference_function = attribute
-            advice_key = reference_function
-
-        fuzzer = self.fuzzing_advice.get(advice_key, identity)
-        fuzz_function(reference_function, fuzzer, context)
-
-
-def fuzz_function(reference_function, fuzzer=identity, context=None):
-    reference_syntax_tree = get_reference_syntax_tree(reference_function)
-
-    fuzzed_syntax_tree = copy.deepcopy(reference_syntax_tree)
-    workflow_transformer = WorkflowTransformer(fuzzer=fuzzer, context=context)
-    workflow_transformer.visit(fuzzed_syntax_tree)
-
-    # Compile the newly mutated function into a module, extract the mutated function code object and replace the
-    # reference function's code object for this call.
-    compiled_module = compile(fuzzed_syntax_tree, inspect.getsourcefile(reference_function), 'exec')
-
-    reference_function.func_code = compiled_module.co_consts[0]
-\end{lstlisting}
-\caption{A code snippet from the original \pdsf implementation, implementing
-\lstinline{Fuzzing} aspects and applying fuzzing to a function definition.}
-\label{fig:v1_pdsf_fuzzing_impl_codesnippet}
+\begin{figure}[hp]
+    \centering
+    \lstinputlisting{30_prior_work/snippets/FuzzingAspect.py}
+    \caption{A code snippet from the original \pdsf implementation, implementing
+    \lstinline{Fuzzing} aspects and applying fuzzing to a function definition.}
+    \label{fig:v1_pdsf_fuzzing_impl_codesnippet}
 \end{figure}
 
 As can be seen in \cref{fig:v1_pdsf_fuzzing_impl_codesnippet}, fuzzing aspects
 are implemented by way of ``prelude'' advice (\pdsf{} nomenclature for advice
 run \emph{before} a target invocation, inspired by early work on TheatreAG,
-which is discussed in \cref{subsec:prior_work_theatre}). Prior to the target
-being run, the fuzzer replaces its underlying code object with one produced by
-compiling a fuzzing aspect's returned AST objects. Replacing the underlying code
-object with a modified one allows the fuzzer to define arbitrary modifications
-to the definition of the function, thereby achieving runtime metaprogramming.
+which is discussed in \cref{subsec:prior_work_theatre}). Using prelude advice,
+the \lstinline{apply_fuzzing} method is called before a target is invoked. This
+method ensures that the correct function object and key to look up advice are
+selected (which requires different logic depending on whether the target is a
+method or a function), retrieves any advice woven onto to the target, and calls
+the \lstinline{fuzz_function} function on it. Fuzzing is dynamically applied, as
+advice is retrieved and applied only when a target is invoked and its prelude
+advice is executed.
+
+The \lstinline{fuzz_function} function retrieves the abstract syntax tree
+(\emph{``AST''}) of the target, a tree representation of the Python code
+implementing the target. This is cached in case fuzzing is applied to a target
+multiple times, resulting in a changed AST every time. A copy is made, and a
+\lstinline{WorkflowTransformer} recursively visits nodes of the AST and applies
+the transformations defined by any discovered fuzzers to function definitions
+within the AST. The implementation of a workflow transformer is given in
+\cref{fig:workflowtransformer_implementation}. After transforming the AST, it is
+compiled into a Python \lstinline{code} object and used to replace the code
+object containing the target's implementation. This has the effect of changing
+the behaviour of the target function, which now executes the program represented
+by the transformed AST when it is invoked. As fuzzing is implemented as prelude
+advice, this invocation is guaranteed to occur presently, meaning that the
+transformation is guaranteed to occur right before the function is run. A fuzzer
+transforming an AST can therefore make its transformations conditionally based
+on the state of the program with little chance that the program state will
+change afterwards.\footnote{Later prelude advice or the initial stages of around
+advice could theoretically also change program state, meaning programmers must
+still be cautious about assumptions of program state.}
+
+\begin{figure}[hp]
+    \centering
+    \lstinputlisting{30_prior_work/snippets/WorkflowTransformer.py}
+    \caption{A code snippet from the original \pdsf implementation, implementing
+    the \lstinline{WorkflowTransformer} which visits AST nodes and applies
+    fuzzing to them.}
+    \label{fig:workflowtransformer_implementation}
+\end{figure}
 
 
 \subsection{Limitations}\label{subsec:prior_work_pdsf_limitations}
 
-The original implementation of \pdsf was intended to demonstrate the feasibility
-of runtime metaprogramming and its potential in simulation and modelling.
+The original implementation of \pdsf demonstrated the feasibility
+of runtime metaprogramming as applied to simulation \& modelling.
 However, its design presents limitations.
 
-There is an overhead involved in running
-the wrapped function for every invocation of \lstinline{__getattribute__()}, and
-also in running aspect hooks for all possible join points, even when those hooks
-are not targets of advice at a given moment.
-When an attribute is the target of advice, aspects are discovered and applied.
-However, aspects are discovered by lookup within the scope of the function
-creating a replacement \lstinline{__getattribute__()} method. This design
-requires multiple instances of advice weaving to create multiple replacement
-\lstinline{__getattribute__()} calls, all of which are invoked on any attribute
-lookup. A single target of advice which has multiple pieces of advice woven
-therefore incurs a performance penalty for every piece of advice applied, which
-must be incurred when any attribute is looked up on the target's class. If the
-join point defining the target may apply to many classes, each class must incur
-the same penalty, even if none of their attributes are targets of advice in
-practice. The original library was developed to demonstrate the feasibility of
-the idea underlying \pdsf{} (runtime metaprogramming), but the weaving mechanism
-implemented left room for improvement. A robust implementation with attention
-paid to reducing this overhead is introduced in \cref{chap:pdsf_rewrite}.
+There is an overhead involved in running the wrapped
+\lstinline{__getattribute__} function for every invocation of a fuzzed class,
+and also in running aspect hooks for all possible join points even when those
+hooks are not targets of advice at a given moment. When an attribute is the
+target of advice, aspects are discovered and applied. However, aspects are
+discovered by lookup within the scope of the function creating a replacement
+\lstinline{__getattribute__} method. This design requires multiple instances
+of advice weaving to create multiple replacement \lstinline{__getattribute__}
+calls, all of which are invoked on any attribute lookup on a target class. A single target of
+advice which has multiple pieces of advice woven therefore incurs a performance
+penalty for every piece of advice applied, which must be incurred when any
+attribute is looked up on the target's class. If the join point defining the
+target may apply to many classes, each class must incur the same penalty, even
+if none of their attributes are targets of advice in practice. The original
+library was developed to demonstrate the feasibility of the idea underlying
+\pdsf{} (runtime metaprogramming), but the weaving mechanism implemented left
+room for improvement. A robust implementation with attention paid to reducing
+this overhead is introduced in \cref{chap:pdsf_rewrite}.
 
 Similarly, an additional overhead is incurred by a lack of caching of the
 modifications fuzzers make to function definitions. One can envisage a need for
