@@ -16,9 +16,9 @@ that of related tooling for experiments and simulations in
 research undertaken using these tools in \cref{sec:caise_paper}, as some results
 in the representation of behavioural variance using aspect orientation were
 contributed using these tools which predate the research presented in later
-chaptes and offer important background for the research undertaken in it.
+chapters and offer important background for the research undertaken in it.
 
-\section{Motivations in originally implementing \pdsf}\label{sec:pdsf_motivations}
+\section{Motivations in originally implementing \pdsf{}}\label{sec:pdsf_motivations}
 
 The original incarnation of \pdsf{}~\cite{wallis2018caise} was developed with
 different motivations than those outlined in \cref{chap:lit_review}. These
@@ -70,7 +70,7 @@ Many real-world behaviours are contingent on environmental state. Real-world
 actors in \sociotechnical systems might become tired after lots of work, or
 proportionally to time of day within a simulation. Therefore, the
 metaprogramming as described should be performed during runtime, for which no
-suitable candidate was available. \pdsf was developed to fulfil this
+suitable candidate was available. \pdsf{} was developed to fulfil this
 requirement, so that behavioural variance in \sociotechnical simulation could be
 modelled as described and subsequently studied.
 
@@ -86,27 +86,33 @@ the application of behavioural variance --- the implementation of the original
 
 
 
-\subsection{Weaving Mechanism}\label{subsec:prior_work_weaving}
-The original \pdsf implementation made use of a weaving mechanism which could be
-categorised as ``total weaving'' in the parlance of
+\subsection{Weaving Mechanism}\label{subsec:prior_work_weaving} The original
+\pdsf implementation made use of a weaving mechanism which could be categorised
+as ``total weaving'' in the parlance of
 \citeauthor{dynamicAOchitchyan}~\cite{dynamicAOchitchyan}: hooks to apply advice
 are woven into every possible join point. The library was implemented in Python,
 which offers a flexible object model \pdsf is able to take advantage of in order
-to weave its hooks.\footnote{The weaving mechanism of \pdsf was eventually
-factored out into another library, Asp~\cite{asp_repo}; as \pdsf was mostly used
-before this refactoring, particularly in case studies (see \cref{sec:caise_paper}), the weaving mechanism will here be described
-within the context of \pdsf specifically.}
+to weave its hooks. The weaving mechanism of \pdsf was eventually factored out
+into another library, Asp~\cite{asp_repo}. However, \pdsf{}'s original
+incarnation predates this refactoring --- it was rewritten during this PhD, and
+early case studies use the older version of the tool (see
+\cref{sec:caise_paper}). For this reason the weaving mechanism will be described
+within the context of \pdsf{}'s original design. \inline{I think
+\emph{sometimes} I do make reference to ASP-y designs though; revisit
+this\ldots{} maybe we actually need to describe ASP as its own library.}
 
 Python's object model has three key properties which the original implementation
 of \pdsf takes advantage of:
+
+\label{first_reference_to_magic_methods}
 
 \begin{enumerate}
     \item Everything in Python is an object, including types, functions, and
     classes. Properties of Python's objects which can be used for implementing
     \aop{} are useful as a result.
-    \item Objects are, in essence, implemented as a dictionary\footnote{Python's
+    \item Objects are, in essence, implemented as a dictionary (Python's
     name for what other languages might call a \lstinline{map} or
-    \lstinline{hashmap}.} with string keys. All attributes of an object --- such
+    \lstinline{hashmap}) with string keys. All attributes of an object --- such
     as a method on an instance of a class --- are values in this dictionary, and
     their identifiers are the string keys of the dictionary. This means that the
     expression \lstinline{someObject.val} is \emph{notionally} equivalent to
@@ -117,8 +123,9 @@ of \pdsf takes advantage of:
     surrounded by double underscores which Python calls on an object to invoke
     the behaviour of the operation associated with the magic method. For
     example, the expression \lstinline{objA == objB} is interpreted by Python as
-    \lstinline{objA.__eq__(objB)}. Many such magic methods exist. These methods
-    can be overridden or specified by a programmer.
+    \lstinline{objA.__eq__(objB)}. Many such magic methods exist, and a deeper
+    explanation is given in \cref{subsec:pdsf3importhookdiscussion}. These
+    methods can be overridden or specified by a programmer.
 \end{enumerate}
 
 \pdsf weaves aspect hooks into classes by taking advantage of these three
@@ -147,7 +154,7 @@ replaced attribute lookup logic implements the aspect hook woven by \pdsf{}.
 Hooks are applied to a class by way of an invocation to a function,
 \lstinline{fuzz_clazz}, which takes a class as a parameter and weaves aspect
 hooks into that class~\cite{pdsf_repo,asp_repo}. \lstinline{fuzz_clazz} replaces
-the \lstinline{__getattribute__()} method of the class with a new function
+the \lstinline{__getattribute__} method of the class with a new function
 object which it constructs. The replacement function object discovers aspects
 which have been woven, invokes them, and also invokes the target of any woven
 aspects at the correct time. Without any woven aspects, this has the effect of
@@ -187,7 +194,7 @@ it to apply that change dynamically during execution in an \aspectoriented fashi
 \Aspectorientation{} libraries typically support advice woven before, around, or
 after a join point; modifying the join point itself essentially allows changes
 inside its definition, introducing a fourth type of weaving. \pdsf achieves this
-through a special type of ``before''-style aspect, which it calls a ``fuzzer''.
+through a special type of ``before''-style aspect termed a ``fuzzer''.
 
 Fuzzers implement transformations on abstract syntax trees. They are implemented
 as functions which receive a list of AST objects representing the body of a
@@ -207,17 +214,17 @@ demonstrating the implementation of this process is shown in
 
 As can be seen in \cref{fig:v1_pdsf_fuzzing_impl_codesnippet}, fuzzing aspects
 are implemented by way of ``prelude'' advice (\pdsf{} nomenclature for advice
-run \emph{before} a target invocation, inspired by early work on TheatreAG,
+run \emph{before} a target invocation, inspired by early work on \theatreag{},
 which is discussed in \cref{subsec:prior_work_theatre}). Using prelude advice,
 the \lstinline{apply_fuzzing} method is called before a target is invoked. This
 method ensures that the correct function object and key to look up advice are
 selected (which requires different logic depending on whether the target is a
 method or a function), retrieves any advice woven onto to the target, and calls
-the \lstinline{fuzz_function} function on it. Fuzzing is dynamically applied, as
+the function \lstinline{fuzz_function} on it. Fuzzing is dynamically applied, as
 advice is retrieved and applied only when a target is invoked and its prelude
 advice is executed.
 
-The \lstinline{fuzz_function} function retrieves the abstract syntax tree
+\lstinline{fuzz_function} retrieves the abstract syntax tree
 (\emph{``AST''}) of the target, a tree representation of the Python code
 implementing the target. This is cached in case fuzzing is applied to a target
 multiple times, resulting in a changed AST every time. A copy is made, and a
@@ -233,7 +240,7 @@ advice, this invocation is guaranteed to occur presently, meaning that the
 transformation is guaranteed to occur right before the function is run. A fuzzer
 transforming an AST can therefore make its transformations conditionally based
 on the state of the program with little chance that the program state will
-change afterwards.\footnote{Later prelude advice or the initial stages of around
+change afterward.\footnote{Later prelude advice or the initial stages of around
 advice could theoretically also change program state, meaning programmers must
 still be cautious about assumptions of program state.}
 
@@ -297,7 +304,7 @@ feature were therefore available for future revisions of the library to
 capitalise on; such a revision is also presented in \cref{chap:pdsf_rewrite}.
 
 A final limitation is that the weaving technique this early of \pdsf used is
-incompatible with Python3, as replacing \lstinline{__getattribute__()} is not
+incompatible with Python3, as replacing \lstinline{__getattribute__} is not
 possible in Python's newer version. It was determined that a tool which was of
 practical use to the simulation and modelling community should be produced which
 would remain useful to future researchers making modern models; as the existing
@@ -312,7 +319,7 @@ complete redesign. The resulting new design is presented in
 Other related projects developed tooling for sociotechnical simulation \&
 modelling. Fuzzi-Moss was a project collecting a library of standardised
 behavioural modifications for use in sociotechnical simulation \& modelling;
-Theatre\_AG was a project offering a model of time against which actors within
+\theatreag{} was a project offering a model of time against which actors within
 sociotechnical simulations \& models could act. While these projects ultimately
 were not used in producing the contributions of this thesis, they are outlined
 here as relevant to the original \pdsf project as they were originally
@@ -369,8 +376,8 @@ def missed_target(random, pmf=default_distracted_pmf(2)):
 Fuzzi-Moss contained utilities and fuzzers such as:
 
 \begin{itemize}
-    \item Several probability mass functions representing chance of
-    unexpected behaviour given a length of time and an actor's\ldots{}:
+    \item Two probability mass functions representing the chance that
+    behaviour is to be altered given a length of time and an actor's\ldots{}:
     \begin{itemize}
         \item conscientiousness, a lack of which would increase chance of behavioural adaptation due to lack
     of effort;
@@ -397,32 +404,32 @@ rewrite presented in \cref{chap:pdsf_rewrite} is given in
 \cref{future_work_revive_fuzzimoss}. 
 
 
-\subsection{Theatre\_Ag}\label{subsec:prior_work_theatre}
+\subsection{\theatreag{}}\label{subsec:prior_work_theatre}
 
-Theatre\_Ag (``Theatre'') is a project defining a model of time against which actors in
+\theatreag{} is a project defining a model of time against which actors in
 sociotechnical models \& simulations can act~\cite{theatre_ag_repo}. In the
 project's overview, it describes itself as\ldots{}:
 
 \begin{blockquote}
-Theatre\_Ag is a workflow oriented agent based simulation environment.
-Theatre\_Ag is designed to enable experimenters to specify readable workflows
+    \theatreag{} is a workflow oriented agent based simulation environment.
+    \theatreag{} is designed to enable experimenters to specify readable workflows
 directly as collections of related methods organised into Plain Old Python
 Classes that are executed by the agents in the simulation. All other simulation
 machinery (critically task duration and clock synchronization) is handled
 internally by the simulation environment.
 \end{blockquote}
 
-The central metaphor underlying Theatre's model of timing is theatrical: actors
+The central metaphor underlying \theatreag{}'s model of timing is theatrical: actors
 in a simulation or model are members of a ``cast'' (a collection of actors) who
 enact a ``workflow'' (simulation steps) in a ``scene'' (domain model within
 which the actors interact). Central to the library is its clock: tasks are given
 durations, and a clock which synchronises all agents' position in time ticks to
-complete different tasks. The theatrical model theatre introduces is the context
+complete different tasks. The theatrical model \theatreag{} introduces is the context
 for \pdsf{}'s nomenclature for its types of advice: ``prelude'' advice happens
-before a task and ``encore'' advice is invoked afterward, as a prelude and
+before a task and ``encore'' advice is invoked afterward as a prelude and
 encore would be in a literal theatre.
 
-Theatre has been used as the environment in models of TCP/IP, algorithmic
+\theatreag{} has been used as the environment in models of TCP/IP, algorithmic
 trading, the spread of disease~\cite{aranTheatreThesis}, and the impact of
 behavioural variation in software engineering methodologies as described in
 \cref{sec:caise_paper}.
@@ -432,7 +439,7 @@ behavioural variation in software engineering methodologies as described in
 
 The viability of encoding behavioural variations as aspects using \pdsf has been
 demonstrated in earlier studies~\cite{wallis2018caise,aranTheatreThesis}.
-\revnote{Maybe I should include something on Aran's masters dissertation too,
+\revnote{Maybe I should include something on Aran's master's dissertation too,
 rather than just citing it?} The study modelled software engineers working to
 different methodologies of software engineering: waterfall, in which
 requirements are gathered, software is developed to meet requirements, quality
@@ -443,7 +450,7 @@ when software engineers were working suboptimally, there was a difference in the
 rate of bugs introduced to a program developed under each methodology.
 
 The study began with a ``naive'' model of software engineers following each
-paradigm, devleoped in Python using \pdsf, Theatre, and Fuzzi-Moss. Engineers
+paradigm, developed in Python using \pdsf{}, \theatreag{}, and Fuzzi-Moss. Engineers
 would produce ``chunks'' of code, which could contain bugs. In quality
 assurance, engineers were modelled as attempting to identify bugs in different
 areas of the codebase, fixing them if they were discovered. Developers could
@@ -451,15 +458,15 @@ commit chunks of code toward features identified through requirement
 engineering, which were eventually completed, but could potentially contain
 undiscovered bugs within chunks of code.
 
-This model was then augmented aspectually using \pdsf. Distraction was
+This model was then augmented aspectually using \pdsf{}. Distraction was
 represented through the truncation of functions representing workflow steps.
 Developers were modelled with different levels of distraction, affecting a
 probability mass function (PMF) which would activate when a developer was
 modelled as being distracted in a given moment. If the PMF activated, the
-workflow step invoked at that moment was truncated using \pdsf. The model showed
+workflow step invoked at that moment was truncated using \pdsf{}. The model showed
 that developers following the TDD methodology could successfully complete a
 larger number of features on average than those following waterfall, concurring
-with the prevailing consensus on the two methodologies.\revnote{Add a citation
+with the prevailing consensus on the two methodologies. \revnote{Add a citation
 for TDD vs agile! Citations are missing from the copy of the CAiSE paper I can
 find, but I'd like to use the same one.}
 
@@ -471,6 +478,11 @@ impossible with the methodologies represented by the naive model. That the
 resulting simulation matched the expectations existing within the community gave
 confidence that the tool could be used to build realistic simulations where
 some features of a model could be separated from its core codebase.
+
+\inline{
+  If there's time, add a section on Aran's thesis specifically (if not don't
+  worry --- it's cited elsewhere in this chapter)
+}
 
 \section{Discussion}\label{sec:prior_work_discussion}
 
@@ -511,7 +523,7 @@ reworking to a paragraph.}
     a belief in their portability~\cite{przybylek2010wrong,Constantinides04aopconsidered,steimann06paradoxical}.
 \end{itemize}
 
-This left opportunities to improve both the tooling offered for aspect-oriented
+This leaves opportunities to improve both the tooling offered for aspect-oriented
 runtime metaprogramming, and the evidence supporting its use to encode
 behavioural variations in sociotechnical systems. Improvements to the tooling
 follow in \cref{chap:pdsf_rewrite}; later chapters propose --- and discuss the

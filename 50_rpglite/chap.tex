@@ -1,158 +1,177 @@
-\chapter{RPGLite: A Mobile Game for Collecting Data}\label{chap:rpglite}
+\chapter{RPGLite: A System to Model}\label{chap:rpglite}
 
-\revnote{About what, and why? Consider changing title. add a sentence in first
-  paragraph describing why this fits in with the rest of the dissertation, and
-  why it is here.} RPGLite is a game designed to mimic existing popular games,
-while being structured to permit exploring all game states via formal
-methods;\revnote{Suggest new sentence}
-\citeauthor{kavanagh2020}~have produced PRISM models\revnote{PRISM undefined} which can be model-checked
-to identify optimal play strategies in all game
-states~\cite{kavanagh2020}\revnote{``game states'' not welld efined here, though
-I do define it later on}. Some
-  experiments were conducted around RPGLite by \citet{kavanagh2021thesis} to
-  investigate whether players' interactions with the game converged on optimal
-  play.
-  \revnote{Lift screenshots in this chapter from game-on paper source where possible}
+\inline{Ensure a consistent tense is used throughout}
 
-Real-world play of the game invites many research questions. For example, an
-alternative question to answer would be, ``what strategy of play do players
-typically adopt?'' or, relatedly, ``do all players adopt the same strategies?''
-\footnote{These are not of research interest for the purposes of this thesis,
-but examples of interesting questions to ask of a game where ``correct'' and
-``incorrect'' actions can be categorised.} \citeauthor{kavanagh2020}'s work can
-identify the \emph{``cost''} of an action~\cite{kavanagh2020,kavanagh2021thesis}
-as the degree to which a player is less likely to win having made a given move
-instead of the optimal one, allowing for richer datasets to be produced and more
-in-depth analysis of real-world play to be conducted. One possibility invited by
-these datasets is that it may permit modelling of real-world players'
-interactions with the game, and therefore offers an opportunity to investigate
-the effectiveness of aspect-oriented simulation and modelling.\revnote{From
-Jess: this seems important, but needs clarification and reworking. She suggests
-moving it to the top.} Referring back to \inline{TODO INSERT RESEARCH QUESTION
-HERE}, it would be feasible to build a model of RPGLite play which did not
-satisfactorily model real-world data, inviting aspectual augmentation of the
-model in an attempt to improve its performance, and thereby investigating the
-research question proposed.\revnote{From Jess: The last half of this para in
-particular is hard to understand.}
+\inline{Spell-check this chapter}
 
-However, it would not be possible to perform analyses of player behaviour
-without real-world player data. Datasets collected empirically would be required
-to compare against synthetically generated datasets, to ascertain their
-similarity and thereby compare different methods of producing synthetic
-datasets. As RPGLite is a real-world sociotechnical system which already yields
-a formal analysis of play, and datasets from this system can be used to support
-multiple avenues of research in different disciplines,\footnote{Later
-contributions in this thesis are supported by datasets produced by RPGLite, as
-were the contributions of \citeauthor{kavanagh2021thesis}'s PhD
-thesis~\cite{kavanagh2021thesis}.} producing a dataset of real-world RPGLite
-could also support future work in a variety of fields as a non-commercial
-dataset for research in fields including at least game design and gameplay
-research~\cite{kavanagh2021thesis}, formal methods~\cite{kavanagh2020},
-sociotechnical simulation research, and research software engineering tooling
-demonstration.
+To investigate whether models can be augmented using \aop{}, \pdsf{} can be
+employed to produce \aspectoriented{} models --- but a system is required which
+it can model. To address the research questions introduced in \cref{subsec:rqs},
+a system is required which can be modelled, and for which the accuracy of that
+model can be measured. This is required because the aspectually augmented model
+must be compared to the model without aspects woven to discern which is more
+accurate. This chapter introduces a suitable system, RPGLite, a game for which
+play can be modelled simply and augmented using \aop{}. RPGLite was implemented
+and deployed on iOS and Android to collect real-world play data to compare
+simulation output against. Techniques for performing these comparisons are
+introduced in \cref{chap:experiment_setup} and the results of these comparisons
+are presented in \cref{chap:experimental_results}. This chapter describes the
+design of RPGLite, its implementation as a mobile game, and the data collected
+from its use.
 
-To that end, a collaboration was undertaken\revnote{J: rework passive voice}
-with \citeauthor{kavanagh2021thesis} to develop and release a mobile
-implementation of RPGLite which would collect player data for research purposes.
-The dataset produced would enable \citeauthor{kavanagh2021thesis} to demonstrate
-the utility of their model checking in an empirical
-scenario~\cite{kavanagh2021thesis}, and for the purposes of this thesis, it
-would also enable the analysis of models representing player behaviour, by
-supporting the comparison of these models against the collected data.
+ RPGLite is a game designed to mimic existing popular games, while being
+structured to permit exploring all game states via formal methods.
+\citet{kavanagh2020} have produced formal models using a model-checker, PRISM,
+which identifies optimal play strategies in all states a game can
+reach.\footnote{Game states are explained in \cref{rpglite_game_states}.} Some
+experiments were conducted around RPGLite by \citet{kavanagh2021thesis} to
+investigate whether players' interactions with the game converged on optimal
+play.
+\revnote{
+  Lift screenshots in this chapter from game-on paper source where possible.
+}
 
-\revnote{J: this para's easier to understand than previous ones in this chapter.
-  When reworking, consider how the others could be rewritten in a style closer
-  to this? She also notes it might belong further up in the chap.}The
-development and release of RPGLite as a mobile game offers an opportunity to
-make use of aspect orientation in a new context: a model of naive RPGLite play
-can be produced\revnote{J: avoid passive voice} which represents random play,
-and aspects could be written which augment the naive model representing
-hypothesised player behaviour. If the aspectually augmented models generate data
-which correlates with empirically sourced data more closely than that generated
-by the naive model (with random play, and no aspectual augmentation), we can
-dismiss naive play as ``realistic'', and understand the aspectually augmented
-behaviour as ``more realistic''. Many aspects can be written representing
-different styles of play, which might be adopted by different players, a
-concrete benefit of aspect orientation in modelling \& simulation.
+RPGLite gameplay data invites many research questions.
+\citeauthor{kavanagh2020}'s original RPGLite design as a formal model was
+intended to allow the calculation of the \emph{``cost''} of an
+action~\cite{kavanagh2020,kavanagh2021thesis} (the degree to which a player is
+less likely to win having made a given move instead of the optimal one),
+allowing for rich analysis of gameplay datasets. However, another possibility
+invited by these datasets is that they enable the development of models of
+individuals' gameplay. This offers an opportunity to investigate the
+effectiveness of aspect-oriented simulation and modelling: the style of play of
+different individuals may be best encoded by different advice (or parameters for
+that advice).
 
-\revnote{J: She suggests moving this earlier, too.}The modelling \& simulation
-research opportunities RPGLite presents are realised in
-\cref{chap:exp1_simulation_optimisation} and
-\cref{chap:exp2_old_aspects_new_systems}; this chapter focuses only on the
-design and development of RPGLite as a mobile game, and the dataset collected
-from real-world play and released
-~\cite{RPGLiteLessonsLearned}. It starts with an overview of
-RPGLite itself in \cref{sec:rpglite_overview}, and progresses to a discussion of
-the game's implementation in \cref{sec:rpglite_implementation} before concluding
-with a discussion around the empirical data collected using the game in
-\cref{sec:rpglite_data_discussed}.
+RPGLite is of interest in other ways than the study of gameplay and game design.
+The game is a \sociotechnical system which can produce useful datasets to
+support multiple avenues of research in different disciplines.
+\footnote{
+Later contributions in this thesis are supported by datasets produced by
+RPGLite, as were the contributions of \citeauthor{kavanagh2021thesis}'s PhD
+thesis~\cite{kavanagh2021thesis}.
+}
+A dataset of real-world RPGLite play would support future work in a variety of
+fields as a non-commercial dataset for research, including at least game design
+and gameplay research~\cite{kavanagh2021thesis}, formal
+methods~\cite{kavanagh2020}, sociotechnical simulation \& modelling research,
+and research software engineering tooling demonstration.
 
-\section{An Overview of RPGLite}\label{sec:rpglite_overview}\revnote{Needs copy-editing}
+For this reason, this research includes a collaboration with
+\citeauthor{kavanagh2021thesis} to develop and release a mobile implementation
+of RPGLite which collects gameplay data for research purposes. This dataset
+enabled \citeauthor{kavanagh2021thesis} to demonstrate the utility of their
+model checking in an empirical scenario~\cite{kavanagh2021thesis}, and with
+regards the research presented in later chapters it enables the analysis of
+models representing player behaviour. The mobile game contributes this by
+supporting the comparison of these models' output against the collected data,
+and providing the basis of a model which can be augmented using \aop{}. The
+model (introduced in \cref{chap:experiment_setup}) represents random play, and
+aspects are written which augment the model to better represent real-world play
+(introduced in \cref{chap:experimental_results}). If the aspectually augmented
+models generate gameplay data which correlates with empirically sourced data
+more closely than that generated by the unmodified model, we can dismiss
+unmodified play as ``unrealistic'', and understand the aspectually augmented
+behaviour as ``more realistic'' --- however, the mobile game is required to
+provide the real-world data enabling this comparison.
 
-RPGLite is a simple two-player game played in turns. Each player selects
-characters independent of the other, with each character having a unique set of
-abilities and properties, which are generally health, chance of success on
-attack, and damage dealt on a successful attack. The abilities of some
-characters necessitate additional properties. Each player selects an ``alive''
-character (one with health greater than 0) to perform their action against a
-chosen ``alive'' target (or occasionally targets). A successful attack ---
-randomly determined by chance of successful attack for the selected attacking
-character --- results in that character's unique ability being inflicted on
-their target[s]. A random player is chosen to take a first move, players may
-always skip their turn as a valid action, and players continue to take
-alternating turns until a victor is left with the only ``alive'' characters.
+This chapter focuses only on the design of RPGLite, its implementation as a
+mobile game, and the dataset collected from real-world
+play~\cite{RPGLiteLessonsLearned}. It starts with an overview of RPGLite itself
+in \cref{sec:rpglite_overview}, and progresses to a discuss the game's
+implementation in \cref{sec:rpglite_implementation} before concluding with a
+discussion around the empirical data collected using the game in
+\cref{sec:rpglite_data_discussed} and the game's multiple configurations
+(``seasons'') in \cref{seasons_of_rpglite}.
+
+\section{An Overview of RPGLite}
+\label{sec:rpglite_overview}
+
+\revnote{Needs copy-editing}
+
+RPGLite is a two-player game and is played in turns. Each player selects two
+characters to play with independently of their opponent. Each character has a
+unique set of abilities and properties, which are health, chance of success on
+attack, and damage dealt on a successful attack as well as special abilities and
+properties for some characters. To act on their turn, each player selects an
+``alive'' character (one with health greater than 0) to attach a chosen
+``alive'' target of their opponent (with caveats for some characters' special
+abilities). A successful attack --- randomly determined by chance of successful
+attack for the selected character --- deals damage, and also results in that
+character's unique ability being activated. When starting a game, a random player is chosen to take a
+first move. Players may always skip their turn as a valid action. Players
+continue to take alternating turns until one player has no ``alive'' characters.
+They lose, and their opponent is the victor.
 
 Eight characters are available for selection, with the following
-abilities\revnote{J: compress the description list. Maybe make it bulleted? I
-  wonder whether it can just be a para or something.}:
+abilities: \revnote{J: compress the description list. Maybe make it bulleted? I
+wonder whether it can just be a para or something.} \revnote{I wonder how
+William explains the characters. His tables of changes between seasons was
+thoughtfully made, maybe his explanation can inspire too.}
 
-\begin{description} \item[Knight] Deals damage to an opponent character on a
-successful hit.  \item[Archer] Deals damage to two opponent characters on a
-successful hit.  \item[Wizard] Deals damage to an opponent character on a
-successful hit, disabling (or \emph{``stunning''}) them for the duration of the
-opponent's next turn.  \item[Healer] Deals damage to an opponent character on a
-successful hit, and heals themselves or, optionally, the other player character
-instead (assuming that character is still alive).  \item[Barbarian] Deals damage
-to an opponent character on a successful hit, dealing additional damage if
-their\revnote{J: whose? the barbarian's? Clarify.}
-health is low when attacking.  \item[Rogue] Deals damage to an opponent
-character on a successful hit, dealing additional damage if the target's health
-is low when attacked.  \item[Monk] Deals damage to an opponent character on a
-successful hit, and immediately takes another turn, until their attack is
-unsuccessful.  \item[Gunner] Deals damage to an opponent regardless of success,
-dealing additional damage on a successful hit.  \end{description}
+\begin{description}
+\item[Knight] Deals damage to an opponent character on a successful hit.
+\item[Archer] Deals damage to two opponent characters on a successful hit.
+\item[Wizard] Deals damage to an opponent character on a successful hit,
+disabling (or \emph{``stunning''}) them for the duration of the opponent's next
+turn.
+\item[Healer] Deals damage to an opponent character on a successful hit, and
+heals themselves or, optionally, the other player character instead (assuming
+that character is still alive).
+\item[Barbarian] Deals damage to an opponent character on a successful hit,
+dealing additional damage if their own health is low when attacking.
+\item[Rogue] Deals damage to an opponent character on a successful hit, dealing
+additional damage if the target's health is low when attacked.
+\item[Monk] Deals damage to an opponent character on a successful hit, and
+immediately takes another turn, until their attack is unsuccessful.
+\item[Gunner] Deals damage to an opponent regardless of success, dealing
+additional damage on a successful hit.
+\end{description}
 
 Specific details of each character --- their health, chance to hit, and damage
 on hit as well as character-specific details (such as the threshold for
 additional Barbarian or Rogue damage, for instance) --- are defined as a
-\emph{``configuration''} of RPGLite. Different configurations change the game's
-\emph{``balance''}, a term referring to the relative strengths of different
-characters or character pairs. For example, if a configuration leaves many
-characters with initial health values close to a Barbarian's threshold for
-additional damage, then they become a very powerful character due to their
-ability to inflict additional damage. If the Monk's chance to hit is high, the
-repeated turns it offers can be very advantageous. Character skills can work in
-concert with each other: choosing a Barbarian and Healer such that the barbarian
-can be kept at low health for additional damage, but the healer can be used to
-keep them alive, may be an effective strategy depending on the game's
-configuration. \citeauthor{kavanagh2019balancing} found that model-checking a
-configuration of the game could discover the relative strengths of characters
-and character pairs when played optimally~\cite{kavanagh2019balancing}.
+\emph{``configuration''} of RPGLite. Two configurations were released in two
+``seasons'' of the RPGLite mobile game, which are discussed in
+\cref{rpglite_configurations}.
 
-RPGLite's design has two objectives it must meet. First, that it is interesting
-to players, which requires that it is approachable and complex enough not to be
-immediately solvable. This is necessary for real-world data collection, and to
-demonstrate a design representative of something that could conceivably be a
-real-world game with an active playerbase. Second, RPGLite's design must be
-sufficiently simple for model-checking. Model checking is a necessary
-requirement of design because of our need to identify optimal moves: analysis of
-player behaviour rests on our understanding of how close to ``ideal'' players
-are, and whether players approach ideal strategies over time. This is the crux
-of the work found in formal methods research on
-RPGLite~\cite{kavanagh2021thesis,kavanagh2020}, which relies on a reduced state
-space in order to calculate optimal moves and character pairings.
+Different configurations change the game's \emph{``balance''}, a term referring
+to the relative strengths of different characters or character pairs. For
+example, if a configuration leaves many characters with initial health values
+close to a Barbarian's threshold for additional damage, then they become a very
+powerful character due to their ability to inflict additional damage. If the
+Monk's chance to hit is high, the repeated turns it offers can be very
+advantageous. Character skills can work in concert with each other: choosing a
+Barbarian and Healer such that the barbarian can be kept at low health for
+additional damage, but the healer can be used to keep them alive, may be an
+effective strategy depending on the game's configuration.
+\citeauthor{kavanagh2019balancing} found that model-checking a configuration of
+the game could discover the relative strengths of characters and character pairs
+when played optimally~\cite{kavanagh2019balancing}.
+
+\inline{
+  Removed a para here explaining why RPGLite needed to be sufficiently
+  interesting to support an active playerbase while also yielding formal models.
+  That it's ``interesting'' is kind of a requirement for us, but it's implied by
+  the fact we're collecting gameplay data, and formal models don't actually
+  matter to use at all...revisit when editing and confirm we can get rid of this
+  para. Does it work without?
+}
+% RPGLite's design has two objectives it must meet. First, that it is interesting
+% to players, which requires that it is approachable and complex enough not to be
+% immediately solvable. This is necessary for real-world data collection, and to
+% demonstrate a design representative of something that could conceivably be a
+% real-world game with an active community of players. Second, RPGLite's design
+% must be sufficiently simple for model-checking. Model checking is a necessary
+% requirement of the game's design because of the need to identify optimal moves:
+% analysis of player behaviour rests on our understanding of how close to
+% ``ideal'' players are, and whether players approach ideal strategies over time.
+% This is the crux of the work found in formal methods research on
+% RPGLite~\cite{kavanagh2021thesis,kavanagh2020}, which relies on a reduced state
+% space in order to calculate optimal moves and character pairings.
 
 \subsection{RPGLite's Design Implications}
+\label{rpglite_game_states}
 
 The state space\revnote{Jess noted this wasn't formally described. I describe it
 later, but clearly it's confusing on a first read; consider either reordering or
@@ -478,6 +497,7 @@ users then used to identify other players of a similar notional skill.}
 
 \section{RPGLite Seasons}
 \label{seasons_of_rpglite}
+\label{rpglite_configurations}
 
 RPGLite was played through two ``seasons'': after an initial 3,000 games
 played, the game was updated and a second configuration was released. This meant

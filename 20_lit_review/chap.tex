@@ -1454,7 +1454,9 @@ support for the alteration of a process definition, or changes ``inside'' a
 process definition, as discussed earlier, which also makes them unsuitable for
 simulated behavioural variation.
 
-\subsection{Research Questions}\label{subsec:rqs}
+\subsection{Research Questions}
+\label{subsec:rqs}
+\label{rqs}
 
 A tool which dynamically weaves definitions of behavioural variations for
 contingent application and which is capable of expressing changes within a join
@@ -1499,109 +1501,3 @@ latter three. Those experiments are discussed in
 literature, related work which predates the contributions of later chapters is
 explained. \Cref{chap:prior_work} Distinguishes prior research from that
 contributed in this thesis.
-
-% \item Criticism of aspect orientation notes that there is no clear application
-% area for the paradigm (and some areas where it _is_ applied seem unsuitable)
-% \item One promising area of application is in modelling, as demonstrated by its
-% use in business-process modelling literature.
-% \item in addition, in business-process modelling literature we find research
-% motivation for --- and research towards --- the modelling of \emph{variations}
-% on behaviour. These behavioural variations appear well-suited to modelling as
-% aspects, as they typically separate the variation from the domain model in which
-% variation is observed, and a given variation might occur in many areas of a
-% model. 
-% \item However, projects modelling these variations do not support contingently
-% applied behavioural variation.
-% \item Also lacking in the literature is a method for applying transformations
-% \emph{within} a process using aspects. Aspect orientation techniques apply
-% alterations before, after, or around their targets.
-% \item We therefore see a need for:
-%     \begin{enumerate}
-%         \item Behavioural variation modelled as aspects
-%         \item Tooling supporting a more ``natural'' representation of variation,
-%         i.e. a variation of a process applied to that process (rather than
-%         additional behaviour appended to its start or finish)
-%         \item Contingent behavioural variation, i.e. variations applied during
-%         simulation execution
-%         \item Empirical evidence that aspect oriented models:
-%         \begin{enumerate}
-%             \item Allow separation of behavioural variance into aspects
-%             \item Allow new modelling techniques, such as
-%             compositionally-defined hypothesised behaviour
-%             \item Provide the typically defined benefits of aspect orientation,
-%             i.e. reusable components in different modelling scenarios (i.e.
-%             aspects are ``oblivious'' to the codebase they are applied to)
-%         \end{enumerate}
-%         \item In addition, we must be certain that a model with variations
-%         applied still represents the originally specified model. That is to say,
-%         we want to fulfil the opportunities observed in the literature, while
-%         demonstrating that applying variation to a model in order to more
-%         realistically represent its domain (a model of human behaviour including
-%         varied behaviour the mistakes we'd expect to see exhibited by human
-%         actors is arguably more ``realistic'' than one without those mistakes)
-%         can be done in a ``safe'' way, i.e. modifying the model programmatically
-%         does not change the model in a way which makes it \emph{less} reflective
-%         of reality by mistake.
-%     \end{enumerate}
-% \end{itemize}
-
-% The underlying hypothesis is:
-
-% # Aspect orientation is well suited to modelling behavioural variations
-
-% In order to investigate this hypothesis, we must investigate:
-
-% ## Can we modify a model while keeping it at least as plausibly realistic as the
-% original (if not more so)?
-% ## Can aspect orientation provide the benefits claimed in the paradigm's
-% literature in the simulation and modelling domain?
-
-% To support those investigations, we need:
-
-% ## A suitable system to model in which we can assert the ``realism'' of a model
-% before and after the application of variance
-% ## Aspect oriented tooling which supports application of behavioural variation
-% ## Ideally also, aspect oriented tooling which addresses the shortcomings of
-% other aspect orientation frameworks (no ``inside'' join point, engineering
-% difficulties such as obliviousness' impact on legibility)
-
-
-
-% Old research questions were:
-
-% 1. Can we fit model details per-player to get realistic player behaviour?
-% 2. Can we cluster based on accuracy of different models for each player?
-% 3. Can we generate predictive data for unseen models?
-
-% The contributions we want to demonstrate are:
-
-% 1. Behavioural variation is well-represented by aspect orientation
-% 2. Tooling which makes modelling behavioural variation feasible using aspect
-%    orientation
-% 3. Tooling which improves on aspect orientation's shortcomings (to make AOP
-%     more viable to apply to s&m in practice)
-% 4. Showing that data produced by aspects is model-specific 
-
-
-% First draft new research questions:
-
-% 1. Can we demonstrate that a model of human actors can be made realistic
-%    through aspect oriented behavioural variation (rather than breaking the
-%    model's representation of its domain)?
-% 2. Can we demonstrate that our aspects represent real-world variation in
-%    actors' behaviour, rather than the emergent change to an overall system?
-%    (by clustering, we demonstrate that many people exhibit the _same_ changes,
-%    but not everybody does, i.e. the aspect accurately represents a subset of
-%    our modelled actors)
-% 3. Can aspects applied successfully to one model be expected to see the same
-%    success when applied to other models?
-
-% Research questions found in an early .md file detailling the thesis structure:
-% - RQ: Can we fit model details per-player to get realistic player behaviour?
-% - RQ: Can we cluster based on accuracy of different models for each player?
-% - RQ: Can we generate predictive data for unseen models?
-
-%%% Local Variables:
-%%% mode: latex
-%%% TeX-master: "../thesis"
-%%% End:
