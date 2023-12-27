@@ -8,13 +8,13 @@ investigate using advice to augment behaviour in a model. The experiments
 simulate RPGLite gameplay. Using these simulations, the experiments investigate
 the utility of \aop{} in a simulation \& modelling context. Advice which uses
 data about players' gameplay~\cite{rpglite_dataset} is applied to a basic model
-of RPGLite play; the advice changes simulated players' behaviour to model
-individuals' interactions with the game. 
-\laurie{i found this sentence a bit difficult to parse (it is correct, valid, English, but it might be a bit too terse)} The behaviour modified by the advice is players' selection of character pairs.
-Character pairs selected by simulated players are compared against those from a
-player's gameplay data and their correlation is measured. If the datasets
-correlate, then players are successfully simulated. 
-This approach is used to answer the last three research questions proposed in \cref{chap:lit_review}: 
+of RPGLite play. The advice changes the behaviour of simulated players in an
+attempt to reflect realistic interactions with the game. The behaviour modified
+by the advice is players' selection of character pairs. Character pairs selected
+by simulated players are compared against those from a player's gameplay data
+and their correlation is measured. If the datasets correlate, then players are
+successfully simulated. This approach is used to answer the last three research
+questions proposed in \cref{chap:lit_review}: 
 
 \begin{researchquestion}
   \begin{description}
@@ -23,7 +23,6 @@ This approach is used to answer the last three research questions proposed in \c
    \item[RQ4] \rqfour{}
   \end{description}
 \end{researchquestion}
-
 
 
 To answer these, two approaches to modifying player behaviour are developed:
@@ -354,8 +353,9 @@ change over time in response to changing popular choices in the community.
 Similar reasoning applies to move selection. For a more thorough discussion of
 the concept of a metagame, see the survey of literature and definitions by
 \citet{metagaming_in_esports} or the original but more theoretical work on the
-topic by \cref{howard1971metagames_seminal} \laurie{should be `cite' not `cref'?}.
+topic by \citet{howard1971metagames_seminal}.
 
+\label{modelling_char_selection_instead_of_move_selection}
 A design consideration of RPGLite is that its metagame is ``solvable'', meaning
 that there exists an objectively optimal choice for a player to make in any
 state~\cite{kavanagh2021thesis}. As the space of possible moves is much larger

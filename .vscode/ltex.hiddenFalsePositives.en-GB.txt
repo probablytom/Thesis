@@ -77,3 +77,14 @@
 {"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QThis is reversed by replacing builtins.__import__ with the cached object in its __exit__ function.\\E$"}
 {"rule":"COMMA_PARENTHESIS_WHITESPACE","sentence":"^\\QThis chapter introduces a suitable system, RPGLite, a game for which play can be modelled simply and augmented using .\\E$"}
 {"rule":"COMMA_PARENTHESIS_WHITESPACE","sentence":"^\\QTo investigate whether models can be augmented using , can be employed to produce models — but a system is required which it can model.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\Q\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q summarises standard definitions of learning as “ a relatively permanent change in behavior as a result of practice or experience”.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QOur definition consists of three components: (1) changes in the behavior of the organism, (2) a regularity in the environment of the organism, and (3) a causal relation between the regularity in the environment and the changes in behavior of the organism.\\E$"}
+{"rule":"COMMA_PARENTHESIS_WHITESPACE","sentence":"^\\QThe mobile game contributes this by supporting the comparison of these models' output against the collected data, and providing the basis of a model which can be augmented using .\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qpossible states for any RPGLite game, assuming maximum health values of \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\Q(I made slight edits when adding this revnote, maybe the para can be condensed.\\E$"}
+{"rule":"SENTENCE_WHITESPACE","sentence":"^\\QJ: make more concise.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_RULE","sentence":"^\\QThe history of moves made, and the times those moves were made The players involved and the winning player of each game (by username as no personally identifying data was collected) The ELO ELO undefined scores of players in each game The characters chosen by each player The “score” of each player J: “score” is vague.\\E$"}
+{"rule":"COMMA_PARENTHESIS_WHITESPACE","sentence":"^\\QTo investigate whether models can be augmented using , can be employed to produce models — but a system to model is required.\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QAttempt at subfigure layout given below, but it looks hideous and the old version's frankly better, so keeping it unless I have time to mess with the layouts.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qis that it was essential to make use of our personal professional networks to advertise the game and build a community.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_RULE","sentence":"^\\QActive Player Attacking Character Opponent Opponent's Targeted Character Roll To Hit p1 G p2 A 65\\E$"}

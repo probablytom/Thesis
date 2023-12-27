@@ -11,21 +11,18 @@
 \RequirePackage{xcolor}
 \RequirePackage{xstring}  % for IfSubr
 
-% shown comment tags
-\def\@SDShowCommentTags{default}
-\def\SDShowCommentTags#1{\def\@SDShowCommentTags{#1}}
-
-\newcommand\ifSDCommentTagEnabled[2]{\IfSubStr{,#2,}{,#1,}}
-
-\newcommand\mynote[3][default]{%
-  \textcolor{red}{%
-    \ifSDCommentTagEnabled{#1}{\@SDShowCommentTags}{%
-      \fbox{\bfseries\sffamily\scriptsize#2}%
-      {\small$\blacktriangleright$\textsf{\emph{#3}}$\blacktriangleleft$}%
-    }{}%
-  }%
+\makeatletter
+\newcommand\mynote[2]{
+\@ifclasswith{good_template}{final}
+{}
+{
+  \color{red}{
+      {\small$\blacktriangleright$#1\bfseries{#2}$\blacktriangleleft$}
+  }
 }
+}
+\makeatother
 
-\newcommand\tom[2][default]{\mynote[#1]{Tom}{#2}}
-\newcommand\laurie[2][default]{\mynote[#1]{Laurie}{#2}}
+\newcommand\tom[2]{\mynote{Tom}{#2}}
+\newcommand\laurie[2]{\mynote{Laurie}{#2}}
 %% end of comment macros

@@ -33,7 +33,6 @@
 \usepackage[export]{adjustbox}
 \usepackage{longtable}
 \usepackage{siunitx}
-\usepackage{softdev}
 \usepackage{multirow}
 \usepackage{booktabs}
 
@@ -110,6 +109,14 @@ skipbelow=0cm,
   \todo[nolist,size=\footnotesize]{#1}
   \ifdefined\reviewnotesintable
     \addcontentsline{tdo}{todo}{\color{blue}{\emph{[C\thechapter{}] review: }#1}}{}
+  \fi
+}}
+\@ifclasswith{good_template}{final}
+{\newcommand{\laurie}[1]{}}
+{\newcommand{\laurie}[1]{
+  {\color{red}Laurie: \emph{#1}}
+  \ifdefined\reviewnotesintable
+    \addcontentsline{tdo}{todo}{\color{red}{\emph{[C\thechapter{}] laurie: }#1}}{}
   \fi
 }}
 \@ifclasswith{good_template}{final}
