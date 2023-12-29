@@ -36,21 +36,11 @@
 \usepackage{multirow}
 \usepackage{booktabs}
 
-% Extra colours for listings
-\definecolor{backcolour}{gray}{0.95}
-
 % Inline listings text size correction from https://tex.stackexchange.com/a/575053
 \makeatletter
 \lst@AddToHook{TextStyle}{\let\lst@basicstyle\ttfamily}
 \makeatother
 
-
-
-% % For inline todos...nicked from https://tex.stackexchange.com/a/219354
-% \makeatletter
-% \usepackage{regexpatch}
-% \xpatchcmd{\@todo}{\setkeys{todonotes}{#1}}{\setkeys{todonotes}{inline,#1}}{}{}
-% \makeatother
 
 % Some quote styling changes, modified from https://tex.stackexchange.com/a/468294
 \usepackage[%

@@ -47,3 +47,4 @@ AspectHooks
 mymodule
 RPGLite
 apk
+sciunit

@@ -48,6 +48,9 @@ normal:
 	biber thesis.bcf 
 	lualatex "\def\nofonts{fontsdisabled}\include{thesis.tex}"
 	lualatex "\def\nofonts{fontsdisabled}\include{thesis.tex}"
+	
+quickly:
+	lualatex $(LTX)
 
 clean:
 	-rm *.aux *.bbl *.blg *.log *.gz *.toc */*.aux *.idx *.out *.xml

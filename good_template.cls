@@ -55,7 +55,9 @@
 \definecolor{linkColor}{RGB}{156,78,13}
 \definecolor{sepia}{RGB}{70,42,14}
 \definecolor{grayBT}{RGB}{211,211,211}
-\definecolor{commentgrey}{gray}{0.3}
+\definecolor{bodygrey}{gray}{0.3}
+\definecolor{commentgrey}{gray}{0.5}
+\definecolor{backcolour}{gray}{0.95}
 %-----------------------
 
 %-----------------------
@@ -248,15 +250,42 @@
 \usepackage[final]{listings}
 \lstdefinestyle{custompython}{
   backgroundcolor=\color{backcolour},
-  basicstyle=\ttfamily\color{gray},
+  basicstyle=\ttfamily,
   breaklines=true,
   captionpos=b,
   commentstyle=\color{commentgrey},
   escapeinside={\%*}{*)},
-  keywordstyle=\color{blue},
-  stringstyle=\color{RawSienna},
+  keywordstyle=\lst@ifdisplaystyle\color{blue}\fi,
+  stringstyle=\lst@ifdisplaystyle\color{RawSienna}\fi,
   language=python,
-  showtabs=true
+  showtabs=true,
+  numberstyle=\scriptsize
+}
+\lstdefinestyle{footnotesize_python}{
+  backgroundcolor=\color{backcolour},
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  captionpos=b,
+  commentstyle=\color{commentgrey},
+  escapeinside={\%*}{*)},
+  keywordstyle=\lst@ifdisplaystyle\color{blue}\fi,
+  stringstyle=\lst@ifdisplaystyle\color{RawSienna}\fi,
+  language=python,
+  showtabs=true,
+  numberstyle=\scriptsize
+}
+\lstdefinestyle{small_python}{
+  backgroundcolor=\color{backcolour},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  captionpos=b,
+  commentstyle=\color{commentgrey},
+  escapeinside={\%*}{*)},
+  keywordstyle=\lst@ifdisplaystyle\color{blue}\fi,
+  stringstyle=\lst@ifdisplaystyle\color{RawSienna}\fi,
+  language=python,
+  showtabs=true,
+  numberstyle=\scriptsize
 }
 \lstset{style=custompython}
 
