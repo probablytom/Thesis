@@ -128,3 +128,6 @@
 {"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QThe aspects which apply to the target being invoked are retrieved by a call to another function, get_rules, on line 8.the name of getrules feels like a mistake I never corrected.\\E$"}
 {"rule":"MORFOLOGIK_RULE_EN_GB","sentence":"^\\QThe name of getrules feels like a mistake I never corrected.\\E$"}
 {"rule":"THERE_RE_MANY","sentence":"^\\QWithout this design, the first around advice would require a reference to every around advice to ensure every one could be invoked, of which there are an indefinite amount.\\E$"}
+{"rule":"APOS_SPACE_CONTRACTION","sentence":"^\\QAn invocation of a function or method within that module triggers 's aspect hooks, which seek aspects registered against the ID of the target they wrap.\\E$"}
+{"rule":"NOT_SURE_IT_WORKS","sentence":"^\\QI haven't included the implementation of this, because I haven't included the implementation of get_rules at time of writing and frankly I'm not sure I'm fussed by it.\\E$"}
+{"rule":"ALLOW_TO","sentence":"^\\QCaching fuzzer output allows to compile fuzzer\\E$"}
