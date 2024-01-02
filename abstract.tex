@@ -1,0 +1,208 @@
+% Broad   ---  Narrow  --- Broad
+% Context ---  Content --- Conclusion
+
+\chapter*{Abstract}
+% \begin{abstract}
+
+% The context must get across the gap that the paper will fill.
+% The first sentence orients the reader by introducing the broader field in
+% which the particular research is situated.
+% Then this context is narrowed until it lands on the open question that the research answered.
+% A successful context section sets the stage for distinguishing the paper's contributions from
+% the current state of the art by communicating what is missing in the literature (i.e., the specific gap)
+% and why that matters (i.e., the connection between the specific gap and the broader context that the paper opened with).
+
+    % Scientific models are a core component of many fields' research, and the
+    % development of those models over time is an important contribution of
+    % researchers' work. However, developing these models can be challenging.
+    % Models can change over time as scientific consensus shifts, can require
+    % reengineering as bugs are discovered, and are subject to requirements other
+    % codebases are not: they must meet scientific standards and pass peer review,
+    % as well as their outputs. 
+
+    % Aspect-oriented programming is a field (paradigm) where parts of a program
+    % which are present in many modules but do not subit to the reqirements of
+    % typical modularisation techniques are factored into ``aspects''. Aspects
+    % allow cross-cutting concerns to be modularised and ``woven'' into a target
+    % codebase. While aspect-oriented programming has seen some academic interest
+    % since its original incarnation, it has seen lukewarm industrial adoption and
+    % has not been extensively studied as to whether it achieves its claimed
+    % benefits in practice. 
+    
+
+    % ---
+
+    % \Aop{} is a paradigm which (programming) modularises parts of a program
+    % which repeat across many modules but are difficult to refactor into their
+    % own module using other techniques. Aspects describe a change (addition) to
+    % make to a program and where that change should be introduced; these changes
+    % are ``woven'' into the program, in different ways. (Just something to add
+    % --- pdsf introduces the idea of a change.) The paradigm has seen some
+    % academic interest, but has not achieved widespread industrial adoption, and
+    % its claimed benefits to a codebase (originally claimed benefits of improved
+    % modularisation and maintainability as a result) have not been demonstrated
+    % conclusively in academic literature to date. While the paradigm has been
+    % widely studied, its effective use in different scenarios has not been well
+    % proven. (Use-cases)
+
+    % This thesis suggests the use of \aop{} in research software engineering
+    % (proposes) to take advantage of its ability to add logic to a program,
+    % rather than its ability to modularise that program. Research software
+    % engineers are tasked with the development of scientific models \&
+    % simulations which are subject to requierments most codebases are not: they
+    % must produce output which passes peer review, rigorously implement a
+    % scientificly interesting (of scientific interest) theory or model, and
+    % maintain scientific relevance over time if part of a long-term research
+    % project or in the case of community adoption. As a result, these codebases
+    % must be maintained over time and demonstrated to work to a research
+    % community. We propose that \aop{} fulfils the need of research software
+    % engineers to produce models which can be improved over time and maintained
+    % in the face of changing research needs by augmenting those codebases with
+    % aspects to ``update'' them and retain their relevance.
+    
+    % ---
+
+    % % AOP can describe changes to points in a program, which was designed to
+    % % separate out ``concerns'' of that program but recieved only limited
+    % % mainstream / industrial adoption. 
+    
+    % \Aop{} is a programming paradigm which is designed to separate parts of a
+    % program into modules, when those parts do not produce modules [are not
+    % easily separated using other means]. The technique describes these parts as
+    % aspects: changes to a program (advice) combined with a place to apply that
+    % change (a join-point). However, while \aop{} has seen some interest from the
+    % academic community [academic interest], it has received lukewarm adoption
+    % from industry and its benefits in real-world engineering contexts are not
+    % well demonstrated.
+
+    % % We think AOP might be well suited to use in scientific codebases because
+    % % models are often used for different things (modelling different scenarios
+    % % or hypothetical systems) and are often updated over time (if the research
+    % % community's consensus changes or if a model is reused in a new context).
+    % % These changes might be well-described as advice. However, people haven't
+    % % researched the application of AOP to developing scientific models before.
+    % % We want to figure out whether research software engineers can take
+    % % advantage of AOP to produce realistic models, by representing changes to
+    % % models as advice.
+    
+    % An alternative use for \aop{} is in producing and maintaining codebases for
+    % research purposes. Lots of modern research is conducted with the aid of
+    % software models. These models often represent different scenarios in the
+    % real world, or require maintenance over time in light of changing consensus
+    % in a research community, or are updated to model a new hypothesis when
+    % reused in future research projects. In all cases, research software
+    % engineers look to describe a change to some foundational model. This raises
+    % the possibility that these changes might be well described as aspects.
+    % Augmenting models using aspects would allow researchers to concisely
+    % describe variations of a model, compare different hypothesised systems, or
+    % maintain that model over time without rewriting a delicate, peer-reviewed
+    % codebase. However, the application of \aop{} to developing models \&
+    % simulations has not been studied to date.
+    
+    % ---
+
+    % \Aop{} is a programming paradigm used to modularise parts of a program which
+    % are difficult to separate using other means. The technique describes these
+    % parts as changes to a program, applied to specific parts of that program.
+    % However, while \aop{} has received some academic interest, it has seen
+    % lukewarm adoption from industry, and its benefits in real-world engineering
+    % contents are not well demonstrated. Particular use-cases where \aop{} is of
+    % particular utility are not common in its literature. 
+    
+    % One possible use for \aop{} is in producing and maintaining codebases for
+    % research purposes. In many fields, modern research is often conducted with
+    % the aid of software models. These models often represent different possible
+    % scenarios, require maintenance over time in light of changing scientific
+    % consensus, or are updated to represent a new hypothesis when reused in
+    % future research projects. In all cases, research software engineers must
+    % describe a change to some foundational model. This raises the possibility
+    % that these changes might be well described as aspects. Augmenting models
+    % using aspects would allow researchers to concisely describe variations of a
+    % model, compare different hypothesised systems, or maintain their model over
+    % time without rewriting a delicate, peer-reviewed codebase. However, \aop{}'s
+    % application to models' codebases has not been studied to date.
+    
+    % ---
+
+    \Aop{} is a software engineering paradigm used to modularise parts of a
+    program which are difficult to separate using other means. The technique
+    makes use of aspects, which are changes to a program applied to specific
+    parts of that program. While \aop{} has received some academic interest, it
+    has seen lukewarm adoption from industry and its benefits in real-world
+    engineering contexts are not well demonstrated. \Aop{} is therefore a
+    well-studied paradigm which lacks a \emph{raison d'\^etre}.
+    
+    One possible use for \aop{} is in producing and maintaining codebases for
+    research purposes. In many fields, modern research is conducted with the aid
+    of software models. These models can represent different possible real-world
+    scenarios, require maintenance over time in light of a changing scientific
+    consensus, or be updated to represent a new hypothesis when reused in future
+    research projects. In all cases, research software engineers must describe a
+    change to some foundational model. This raises the possibility that those
+    changes could be well described as aspects. Augmenting models using aspects
+    would allow researchers to concisely describe variations of a model, compare
+    different hypothesised systems, or maintain their model over time without
+    rewriting a delicate, peer-reviewed codebase. However, \aop{}'s use in
+    research software engineering has not been studied to date.
+
+
+
+% The content (“Here we”) first describes the novel method or approach that you used to fill the gap/question.
+% Then you present the meat—your executive summary of the results.
+
+% Methods --- what was done?
+
+    This thesis presents an investigation into the suitability of using \aop{}
+    to augment models for research purposes. A new \aspectorientation{}
+    framework is implemented, \pdsf{}, which is designed to address the
+    requirements of research software engineering. It applies advice using a new
+    technique, and introduces new types of advice to better augment pre-existing
+    model codebases. The thesis presents a model of people playing a game as a
+    case study, which is altered using \pdsf{} to simulate players learning to
+    play. To measure whether the model is made more accurate with this addition,
+    the game --- RPGLite --- is implemented as a mobile game and distributed to
+    real-world players to collect datasets describing their gameplay. Simulated
+    players are compared against real-world players to identify whether they are
+    accurately represented by the model. By measuring whether the model
+    represents gameplay realistically, the thesis illustrates an experiment
+    showing that \aop{} can be used to make a model more accurately simulate
+    some target system. It proceeds with a second experiment which successfully
+    uses advice to add new parameters and behaviours to that model, successfully
+    simulating behaviours of individual players using a formalism of learning. A
+    third experiment investigates whether aspects can be reused across multiple
+    models, and shows that while aspects can be reused successfully, some
+    aspectual augmentations are more easily reused than others. 
+    
+    The thesis contributes an \aspectorientation{} framework suitable for use in
+    developing scientific models, as well as a reference system for experiments
+    and published the dataset it produced. Aspects are demonstrated to suitably
+    encode units of change to a model, introduce significant changes to those
+    models, and represent the same changes across different models. We therefore
+    conclude that \aop{} applies well to the needs of research software
+    engineers. As this invites new research possibilities in many fields, the
+    thesis also enumerates the future work these contributions enable for
+    researchers investigating \aop{}, simulation \& modelling, and research
+    software engineering, and the methodological implications for researchers in
+    many fields who encode their hypotheses as software models. 
+    
+% Results (contributions etc --- this is important, don't compromise length or
+%          quality.)
+    
+% contributions to mention:
+% - RPGLite (implementation, dataset)
+% - pdsf
+% - RQ 2,3,4 as above
+% - future work
+% - 
+
+% the conclusion interprets the results to answer the question that was posed at the end of the context section.
+% 2nd part "which highlights how this conclusion moves the broader field forward (i.e., ‘broader significance’)."
+
+% Conclusion (take-home message, additional contributions of importance,
+%             perspective [summary?])
+    
+
+
+
+
+% \end{abstract}
