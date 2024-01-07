@@ -86,7 +86,7 @@ As several requirements were left unfulfilled by the original implementation of
 \pdsf{}, a new implementation satisfying them was deemed necessary.
 
 
-\section{Python3-compatible Weaving Techniques}\label{sec:pdsf3python3}
+\section{Python3-Compatible Weaving Techniques}\label{sec:pdsf3python3}
 
 Replacing \lstinline{__getattribute__} on the class of a targeted method was no
 longer viable in Python 3. A replacement method therefore had to be found. As
@@ -103,7 +103,7 @@ We refer to code woven
 around a target which manages applied advice as \emph{``aspect hooks''}.
 
 
-\subsection{Abandoned techniques}\label{subsec:pdsf3badweaving}
+\subsection{Abandoned Techniques}\label{subsec:pdsf3badweaving}
 
 The original incarnation of \pdsf{} relied on ``monkey-patching'': 
 the practice of making on-the-fly changes to object
@@ -165,7 +165,7 @@ for multiple trace handlers, this could provide a promising alternative approach
 to the implementation of future dynamic aspect orientation frameworks.
 
 
-\subsection{A viable technique: import hooks}\label{subsec:pdsf3importhookdiscussion}
+\subsection{Import Hooks}\label{subsec:pdsf3importhookdiscussion}
 
 A final available technique is to continue to monkey-patch hooks to discover and
 weave aspects, via an alternative method which does not make use of
@@ -966,7 +966,7 @@ possibly modified by around advice, is stored in the variable \lstinline{ret}.
 \subsubsection{Encore Advice and Returning from Aspect Hooks}
 
 Encore advice, invoked after a target returns, is implemented on lines
-\texttt{60}--\texttt{62} of \cref{build_wrapper_impl}. Any advice
+\texttt{60}--\texttt{62} of \cref{fig:build_wrapper_impl}. Any advice
 which runs after the target returns is able to inspect and modify the target's
 return value if required; line \texttt{62} replaces the copy of the target's
 return value with that returned by any advice if the advice returns a
@@ -1106,7 +1106,7 @@ previously. This fuzzer is woven into the target in the same way as in
 example.
 
 
-\subsection{Strengths and weaknesses of import hooks}\label{subsec:pdsf3importhooklimitations}
+\subsection{Strengths and Weaknesses of Import Hooks}\label{subsec:pdsf3importhooklimitations}
 
 As a technique for weaving aspect hooks, this new method provides multiple
 benefits.

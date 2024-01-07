@@ -13,17 +13,16 @@ attempt to reflect realistic interactions with the game. The behaviour modified
 by the advice is players' selection of character pairs. Character pairs selected
 by simulated players are compared against those from a player's gameplay data
 and their correlation is measured. If the datasets correlate, then players are
-successfully simulated. This approach is used to answer the last three research
+successfully simulated. This approach is used to answer the research
 questions proposed in \cref{chap:lit_review}: 
 
 \begin{researchquestion}
   \begin{description}
-   \item[RQ2] \rqtwo{}
-   \item[RQ3] \rqthree{}
-   \item[RQ4] \rqfour{}
+   \item[RQ1] \rqtwo{}
+   \item[RQ2] \rqthree{}
+   \item[RQ3] \rqfour{}
   \end{description}
 \end{researchquestion}
-
 
 To answer these, two approaches to modifying player behaviour are developed:
 one alters the distribution from which character pairs are selected to reflect
@@ -199,19 +198,19 @@ consistently, the player is accurately simulated by the learning model with
 these parameters and so the research question is answered.
 
 Note that not all players are expected to be simulated accurately by the model
-of learning: players might have biases toward or against some characters, might
-play in cliques which limit their exploration of possible character pairs, or
-might learn differently to the way the model assumes such as exhibiting temporal
-discounting (see the work of
-\citet{green1996exponential_versus_hyperbolic_discounting} for an example). As
-these experiments aim to investigate the feasibility of applying \aop{} in a
-simulation \& modelling context, building a learning model which is universally
-applicable to all players is beyond the project's scope. The experiment only
-seeks to demonstrate that new behaviours \emph{can} be accurately represented by
-advice, and that the technique can be used in future work to augment models in
-whatever manner a research team requires.
+of learning. For example, players might have biases toward or against some
+characters, might play in cliques which limit their exploration of possible
+character pairs, or might learn differently to the way the model assumes such as
+exhibiting temporal
+discounting~\cite{green1996exponential_versus_hyperbolic_discounting}. As these
+experiments aim to investigate the feasibility of applying \aop{} in a
+simulation \& modelling context, building a formalism of learning which is
+universally applicable to all players is beyond the project's scope. The
+experiment only seeks to demonstrate that new behaviours \emph{can} be
+accurately represented by advice, and that the technique can be used in future
+work to augment models in whatever manner a research team requires.
 
-A more thorough description of this experiment is given in \cref{sec:rq3} as the
+A more thorough description of this experiment is given in \cref{sec:rq3}, as the
 reader has been presented with the details of the experiment's foundation at
 that point.
 
@@ -219,12 +218,9 @@ that point.
 
 \item[Experiment \#3: Behaviours as Cross-Cutting Concerns] Having conducted the
 first two experiments, the utility of aspects as units of behaviour change are
-established. The results in \cref{sec:rq2} and \cref{sec:rq3} are positive. \laurie{If you make this sentence ``Only RQ4 remains to be answered'' then I think it's clear that it's a) not a rhetorical question b) remind readers that they saw the question earlier. two birds, one etc etc} A
-final research question remains, which is: \emph{\rqfour{}}\revnote{It occurs to
-me that these \emph{might} read as rhetorical questions when used in this way.
-I'm not sure so I'd love somebody to review the chapter and let me know how it
-comes across, so I can change this if necessary. I'm struggling to see the forest for
-the trees at this point.}
+established. The results in \cref{sec:rq2} and \cref{sec:rq3} are positive. One
+more research question remains to be addressed. The final research question is:
+\emph{\rqfour{}}
 
 To establish this, season 2 of RPGLite is used to represent a system
 which is subtly changed. RPGLite's seasons are defined by game configurations,
@@ -619,12 +615,12 @@ exact midpoint of the curve's growth.} Different players might exhibit different
 rates of growth in their confidence, and might grow maximally in their
 confidence at different points in their experience. It is defined by the
 equation:
-
-\[\frac{dy}{dt} = \frac{ay(K-y)}{K-y+cy}\]
-
-Where $c$ is its curve parameter, $K$ is its upper asymptote\footnote{This is
+\begin{align*}
+\frac{dy}{dt} = \frac{ay(K-y)}{K-y+cy}
+\end{align*}
+Where $c$ is its curve parameter, $K$ is its upper asymptote,\footnote{This is
 fixed at $1$ for the confidence model, as confidence should never exceed
-$100\%$.}, $a$ is its relative growth rate (RGR)\footnote{The RGR is a common
+$100\%$.} $a$ is its relative growth rate (RGR)\footnote{The RGR is a common
 parameter of sigmoid curves and defines the rate at which the sigmoid increases
 near its inflection point}, and $y$ is the value of the curve at a given point
 in time. The birch curve can represent other curves through its shape parameter:
@@ -699,7 +695,7 @@ naive model annotated with aspects and their join points is presented in
 \end{figure}
 
 
-\subsection{Aspects for model improvement}\label{subsec:aspects_improving_model}
+\subsection{Aspects for Model Improvement}\label{subsec:aspects_improving_model}
 
 \subsubsection{Ensuring the Best Move is Played}\label{aspect_to_ensure_best_move}
 
@@ -935,8 +931,7 @@ tracking what was played at the end of a game. This is achieved with with an
 aspect which observes the character pairs played in a completed game, and
 appends each players' chosen pairs to their own list. This aspect is applied
 after its join point executes (an ``encore'' in PyDySoFu
-parlance\inline{reference pdsf's explanatory chapter / re-engineering chapter
-here? unsure which is most appropriate / introduces the concepts first.}).
+parlance, as discussed in \cref{subsec:prior_work_theatre}).
 
 There are many ways to collect this data, aspectually or otherwise; however, the
 simplicity of collecting information mid-process without requiring modification
@@ -944,18 +939,13 @@ of a base model demonstrates the flexibility of an aspectual augmentation of
 models and simulations as an approach. Collection of chosen character pairs
 mid-simulation is an opportune example of this convenience.
 
-\subsubsection{Track Detailed Outcomes of
-Games}\label{subsubsec:detailed_game_outcome_tracking_aspect} Similarly to the
-recording of character pair choices, the outcomes of games must be tracked. This
-information is important as an input of our model of learning, as successes and
-failures observed by players for each character pair can inform their models of
-learning. Some models of learning implemented, such as one including a
-hyperbolic decay bias (to be explained later, in
-\cref{subsubsec:learning_with_hyperbolic_decay}), require not only knowledge of
-the proportion of wins each character pair has achieved, but also the history of
-wins and losses: players might be biased toward recent win/loss observations,
-discounting older experiences in favour of the new. Detailed historical win/loss
-information must therefore be recorded.
+\subsubsection{Track Detailed Outcomes of Games}
+\label{subsubsec:detailed_game_outcome_tracking_aspect}
+
+Similarly to the recording of character pair choices, the outcomes of games must
+be tracked. This information is important as an input the learning model, as
+successes and failures observed by players for each character pair constitute
+what they learn as ``good'' and ``bad'' character pair selections. 
 
 As with character pair choices, the naive model was not engineered with the
 intention of providing this information specifically. However, the model is
@@ -998,39 +988,16 @@ purpose of the alternative model of learning.
 % TODO: Section / subsection for models of learning
 \subsection{Aspects Implementing Models of Learning}\label{subsec:aspects_modelling_learning}
 
-% * The aspects already described explain how we set up the model for applying our learning implementations,
-%   both instrumenting it for observation and tweaking fundamental behaviours.
-% * Now we need to implement models of learning! We'll present two.
-% * First, a simple model of learning as described in \cref{subsec:models_of_learning_discussed}
-%   which uses a confidence sigmoid to discern between selecting character pairs based on what was 
-%   previously observed to win games, and random selections representing exploration of a player's options.
-% * Second, a more complex model of learning which applies the same concepts, but introduces a hyperbolic decay
-%   on the simulated player's learning, introducing a biased model of learning.
 
-\inline{Still editing but the other two subsections have no intro; right now this has three paras!}
+The aspects described at this point mostly correct move selection, handle
+exceptions which can arise from this, and instrument the model for experimental
+observation. What remains is to describe the implementation of aspects which
+encode behavioural changes: the prior distribution model, which selects
+character pairs by drawing from a distribution of character pair choices known
+before the simulation runs, and the learning model, which selects character
+pairs using a character's observations of which pairs typically win or lose
+games. \revnote{Clumsy, rework if there's time.}
 
-The aspects described above implement setup for the models of learning applied
-in this thesis, both instrumenting the underlying RPGLite model for observation
-and tweaking behaviours of the naive model. Two aspects remain unexplained,
-implementing the learning models themselves.
-
-The first model of learning left to be described is implemented as described in
-\cref{subsec:models_of_learning_discussed}, drawing from a record of character
-pairs observed to win in earlier games to select characters in future games, in
-accordance with a model of confidence which activates either this behaviour or a
-randomly selected pair. A detailed description follows in
-\cref{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}.
-
-The second model of learning left to be described implements a similar logic,
-but introduces a weighting on the history of winning pairs a player observes,
-introducing a hyperbolic discounting bias to historical observations. In this
-model, players increasingly discount old observations in favour of recent ones.
-A model of learning with a hyperbolic discounting bias is described in
-\cref{sec:optimisation_with_aspects_experimental_design}.
-
-% \subsubsection{Character Selection from prior distribution}
-% ==== NOTE: the above subsubsection references an aspect where characters are picked directly from
-%            the prior distribution from a training set, and doesn't contain a model of learning at all.
 
 \subsubsection{Character Selection using Prior Distribution}
 \label{prior_distribution_aspect_description}
@@ -1043,7 +1010,7 @@ the player being simulated. Another aspect, explained earlier in
 the simulation's environment. The role of this aspect is to use that
 distribution when selecting character pairs at the beginning of a game.
 
-\begin{figure}[hp]
+\begin{figure}
   \centering
   \begin{lstlisting}
 def fuzz_learning_by_prior_distribution(steps, target, actor, env, *args, **kwargs):
@@ -1094,7 +1061,7 @@ representing the function definition of the target. The target in this case is
 the lines in the function definition map to values in the \lstinline{steps}
 argument of the fuzzer.
 
-\begin{figure}[hp]
+\begin{figure}
   \begin{lstlisting}
 def choose_chars(_actor, _context, _env):
     if _actor not in _context: # First "step", or steps[0]
@@ -1131,10 +1098,11 @@ This leaves \lstinline{chars_chosen} in the same state as it would have been
 without the application of the prior distribution model: a list of two
 character-implementing classes. However, those classes were selected using the
 distribution produced from RPGLite gameplay data. The AST nodes produced by
-parsing this code are used to replace the second step of the second step in
+parsing this code are used to replace the second step in
 \lstinline{choose_chars}. The rest of the function logic remains the same. The
 changed AST nodes are returned by the fuzzer and compiled by \pdsf{}, ensuring
-that the modified function definition is executed and so changing player behaviour.
+that the modified function definition is executed and so changing player
+behaviour.
 
 
 
@@ -1182,107 +1150,11 @@ otherwise; the only difference being the pair of characters ``chosen'' by the
 simulated player whose behaviour was augmented.
 
 
-\subsection{Answering the First Research Question}
-\label{rq1_answered}
-Having defined the advice used by the models, we are now able to answer the
-first research question:
-
-\begin{researchquestion}
-  \rqone{}
-\end{researchquestion}
-
-
-\inline{
-  First RQ needs addressing here, as we've built the aspects which represent
-  behavioural variations and so can show what those changes to a model look like
-  as advice
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  WRITE ME
-  Also consider changing the phrasing of RQ1?
-}
-
-
-% \subsubsection{Character Selection exhibiting hyperbolic decay}\label{subsubsec:learning_with_hyperbolic_decay}
-
-% \inline{
-%   I believe I'm scrapping the hyperbolic decay model altogether. Doesn't make
-%   sense to keep it given my testing \& evaluation harness right now, but I can
-%   refer to it to compare the implementation (and performance…?) of around-based
-%   and within-based fuzzers. Can't remove / edit now, I'm reorganising; to
-%   revisit.
-% }
-% Character selection with hyperbolic decay works similarly to the simple model of
-% learning as described in
-% \cref{subsubsec:learning_by_picking_from_distribution_of_wins_with_confidence}.
-% Character pairs are selected randomly if a player lacks confidence or, if the
-% confidence model applied to the player indicates that character pairs are to be
-% chosen according to their historical observations of winning pairs, their record
-% of winning pairs in previous games informs their choices instead. However, this
-% model also applies a hyperbolic discounting bias which weights the player's
-% historical observations when making choices.
-
-% Hyperbolic discounting is a bias studied in behavioural economics.
-% \inline{Find citations explaining hyperbolic discounting}
-
-% A hyperbolically discounted score for an event after a delay \(D\) with
-% discounting factor \(k\) is calculated by:
-
-% \begin{figure}
-% \[score(D) = \frac{1}{1 + kD}\]
-% \caption{Hyperbolic discounting score calculation}
-% \end{figure}
-
-% This score can be applied to a history of games played with different character
-% pairs to weight that history; this weighting can then be used to create a new
-% PMF to draw character pair choices from, by allocating each pair a probability
-% of being chosen according to its share of the weighted history of winning pairs.
-% Where the previous method for selecting character pairs selected each pair with
-% the frequency they appear in the record of winning pairs, this method weights
-% the record of winning pairs; the sum weighted history of a character pair's wins
-% as a proportion of the total weighted history for all pairs becomes the PMF for
-% character pair selection. \inline{Maybe there's need here for a diagram or some
-% extra equations to make this clearer\ldots{}?}
-
-% With this scoring mechanism, our model of learning incorporates a behavioural
-% bias which some real-world players may exhibit. Player character choices can now
-% be modelled through different behavioural variations applied to the naive model.
-% The resulting behaviours from each model of learning can be compared to that
-% exhibited by the naive model to discern which produces simulated RPGLite play
-% more similar to a given real-world player's; methods for doing so are explored
-% in the remainder of this chapter. 
-
 
 
 
 \section{Model Implementation Details}
 \label{sec:optimisation_with_aspects_experimental_design}
-
-% The models of learning described in \cref{subsec:aspects_modelling_learning} can
-% be applied to augment the naive model described in
-% \cref{sec:optimisation_with_aspects_naivemodel} and introduce change in player
-% behaviour over time. The remaining challenge is to demonstrate that augmenting
-% the naive model can make it more realistic in practice. To that end, the
-% remainder of this chapter details an experiment which compares synthetic
-% datasets produced by the model to empirically sourced data, and shows that this
-% synthetic data is more similar to its empirical counterpart than that produced
-% by a naive model with no aspects applied.\inline{Some reference to the research
-% question is required here.}
-
-% This section presents classes used in the design and implementation of
-% experiments, as they constitute the foundation of the execution and evaluation
-% of synthetic datasets. This is followed by documentation of the strategy for
-% generating synthetic datasets, and a description of the technique used to
-% compare them to select optimal parameters for player simulation. This design is
-% used in the experiment itself, described later in
-% \cref{sec:optimisation_with_aspects_experimental_results}.
 
 The aspects described in \cref{aspects_applied_section} are used to investigate
 whether \aop{} can be used to augment models, add new behaviours and parameters
@@ -1300,7 +1172,7 @@ environments to produce reliable datasets are explained in
 
 
 
-\subsection{Model parameters}
+\subsection{Model Parameters}
 \label{model_parameters}
 
 Many parameters are used to control simulated play of RPGLite. They affect the
@@ -1412,7 +1284,7 @@ class ModelParameters:
 \end{figure}
 
 
-\subsection{Representing the result of an experimental run}
+\subsection{Representing the Result of an Experimental Run}
 \label{representing_results_of_an_experimental_run}
 
 As referenced in \cref{fig:ModelParameters_run_experiment_method}, a

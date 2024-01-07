@@ -18,7 +18,7 @@ in the representation of behavioural variance using aspect orientation were
 contributed using these tools which predate the research presented in later
 chapters and offer important background for the research undertaken in it.
 
-\section{Motivations in originally implementing \pdsf{}}\label{sec:pdsf_motivations}
+\section{Motivation for Original Implementation}\label{sec:pdsf_motivations}
 
 The original incarnation of \pdsf{}~\cite{wallis2018caise} was developed with
 different motivations than those outlined in \cref{chap:lit_review}. These
@@ -137,7 +137,7 @@ an identifier and returning the object associated with that identifier if it
 exists. The logic of the replaced \lstinline{__getattribute__} method is
 diagrammed in \cref{fig:early_pdsf_replaced_getattr_diagram}.
 
-\begin{figure}[hp]
+\begin{figure}
 \includegraphics[width=0.9\columnwidth]{30_prior_work/diagrams/replacement_getattr.png}
 \caption{High-level representation of the process implemented by the replacement
 \lstinline{__getattribute__} method as implemented by the original \pdsf{}
@@ -174,7 +174,7 @@ the aspect hooks described earlier. When it is invoked, the function retrieves
 woven advice, invokes it at the appropriate points, and invokes the attribute it
 replaced at the appropriate time. 
 
-\begin{figure}[hp]
+\begin{figure}
     \centering
     \lstinputlisting{30_prior_work/snippets/fuzz_clazz.py}
     \caption{The implementation of \lstinline{fuzz_clazz}, a function which
@@ -204,7 +204,7 @@ transformation resulting in a valid AST is permitted. A code snippet
 demonstrating the implementation of this process is shown in
 \cref{fig:v1_pdsf_fuzzing_impl_codesnippet}, edited lightly for legibility.
 
-\begin{figure}[hp]
+\begin{figure}
     \centering
     \lstinputlisting{30_prior_work/snippets/FuzzingAspect.py}
     \caption{A code snippet from the original \pdsf implementation, implementing
@@ -244,7 +244,7 @@ change afterward.\footnote{Later prelude advice or the initial stages of around
 advice could theoretically also change program state, meaning programmers must
 still be cautious about assumptions of program state.}
 
-\begin{figure}[hp]
+\begin{figure}
     \centering
     \lstinputlisting{30_prior_work/snippets/WorkflowTransformer.py}
     \caption{A code snippet from the original \pdsf implementation, implementing
@@ -371,6 +371,8 @@ def missed_target(random, pmf=default_distracted_pmf(2)):
 
     return _insufficient_effort
     \end{lstlisting}
+    \caption{Implementation of Fuzzi-Moss' ``missed target'' fuzzer}
+    \label{fig:fuzzimoss_missed_target_fuzzer}
 \end{figure}
 
 Fuzzi-Moss contained utilities and fuzzers such as:
@@ -386,8 +388,9 @@ Fuzzi-Moss contained utilities and fuzzers such as:
     \end{itemize}
     \item A \lstinline{missed_target} fuzzer, which terminated a
     \lstinline{while} loop early if activated via a probability mass function of
-    an actor's propensity for negligence. As an example of a Fuzzi-Moss fuzzer,
-    this is shown in \cref{fig:fuzzimoss_missed_target_fuzzer}.\revnote{Consider
+    an actor's propensity for negligence. This is shown in
+    \cref{fig:fuzzimoss_missed_target_fuzzer} as an example of a Fuzzi-Moss
+    fuzzer.\revnote{Consider
     moving some code snippets like those of Fuzzi-Moss, which aren't necessarily
     that important in the grand scope of the thesis, to an appendix.}
     \item An \lstinline{incomplete_procedure} fuzzer, which truncated the

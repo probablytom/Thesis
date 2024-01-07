@@ -9,16 +9,11 @@ The naive model of RPGLite and the \aspectoriented models of learning \&
 confidence which are described in \cref{chap:experiment_setup} are designed to
 answer the following research questions:
 
-\laurie{i think there is no RQ1 (it's defined in macros.text but not used
-AFAICS)? fwiw, i tend to give these sorts of macros non-numeric names and then
-i'd have `item[RQsomehumantextnumber] RQsomehumantext' so that I can
-rename/renumber them arbitrarily}
-
 \begin{researchquestion}
   \begin{description}
-\item[RQ2] \rqtwo{} \laurie{i must admit that i don't have an intuition of what `advice-based' might mean, and a quick grep through the PDF didn't turn up a definition. in sec 1.2.1, `advice' is defined as `aspect + join point', but i'm not sure what's different between `AOP' and `advice-based'. they feel like synonyms?}
-\item[RQ3] \rqthree{}
-\item[RQ4] \rqfour{}
+\item[RQ1] \rqtwo{} \laurie{i must admit that i don't have an intuition of what `advice-based' might mean, and a quick grep through the PDF didn't turn up a definition. in sec 1.2.1, `advice' is defined as `aspect + join point', but i'm not sure what's different between `AOP' and `advice-based'. they feel like synonyms?}
+\item[RQ2] \rqthree{}
+\item[RQ3] \rqfour{}
   \end{description}
 \end{researchquestion}
 
@@ -56,11 +51,11 @@ sections each focused on an experiment to answer a research question. These
 sections are composed of an explanation of the experiment's design, followed by
 a presentation of results and an evaluation of those results with regards the
 research question of interest. \Cref{sec:rq2} describes an experiment answering
-the second research question, concerning the use of advice to alter pre-existing
-modelled behaviour. \Cref{sec:rq3} discusses an experiment answering the third
+the first research question, concerning the use of advice to alter pre-existing
+modelled behaviour. \Cref{sec:rq3} discusses an experiment answering the second 
 research question, concerning the use of advice to introduce new parameters and
-behaviours to a model. \Cref{sec:rq3} presents an experiment answering the
-fourth research question, concerning the portability of advice as individual
+behaviours to a model. Finally, \cref{sec:rq3} presents an experiment answering the
+third research question, concerning the portability of advice as individual
 modules to new systems, or to changed instances of the same system. The
 chapter's contributions are briefly reviewed in its conclusion,
 \cref{experiment_results_final_discussion}.
@@ -171,7 +166,7 @@ given in \cref{search_for_correlation_coefficients} for reference.
 
 
 
-\section{RQ2: Altering Model Behaviour using \AspectOrientation}
+\section{RQ1: Altering Model Behaviour using \AspectOrientation}
 \label{sec:rq2}
 
 \subsection{Experimental Design}
@@ -363,7 +358,7 @@ introduce new behaviours in a model.
 
 
 
-\section{RQ3: Adding Model Behaviours \& Parameters using \AspectOrientation}
+\section{RQ2: Adding Model Behaviours \& Parameters using \AspectOrientation}
 \label{sec:rq3}
 
 \subsection{Experimental Design}
@@ -371,7 +366,7 @@ introduce new behaviours in a model.
 The behaviour added to the naive model in \cref{sec:rq2} impacts how accurately
 the model reflects a player, but does not model new player \emph{behaviours}.
 While this is sufficient to demonstrate that \aop{} can be successfully used to
-improve a model, it does not answer the third research question:
+improve a model, it does not answer the second research question:
 
 \begin{researchquestion}
 \rqthree{}
@@ -379,7 +374,7 @@ improve a model, it does not answer the third research question:
 
 \revnote{
   I'm not satisfied with this motivation for this RQ and how it's isolated from
-  the second RQ. Revisit this.
+  the first RQ. Revisit this.
 }
 
 The experiment discussed in \cref{sec:rq2} changes the distribution used to
@@ -412,7 +407,7 @@ The null hypothesis associated with the research question this experiment
 addresses is, \emph{advice cannot be used to accurately introduce behaviours or
 parameters into a model in which they are not already present}. If this were
 true, the datasets produced by the \aspectoriented model shown in
-\cref{fig:earning_model_software_diagram} would exhibit no more correlation with
+\cref{fig:learning_model_software_diagram} would exhibit no more correlation with
 real-world data than the naive model does. If a learning behaviour can be
 successfully introduced, some players' simulations would exhibit consistently
 realistic behaviour which would correlate with their real-world data.
@@ -462,12 +457,6 @@ data; in these cases,
 contains all such parameters. Results
 are shown for players who completed at least $100$ games in season 1 of RPGLite,
 and the experiment is conducted against season 1 gameplay data.
-
-\revnote{
-  If there's time, consider making these results tables prettier, e.g. with the
-  booktabs package as suggested in
-  \href{https://tex.stackexchange.com/a/282930}{https://tex.stackexchange.com/a/282930}.
-}
 
 \begin{figure}[h]
   \centering
@@ -542,13 +531,14 @@ A complete table with all results is provided in
 \cref{appendix_complete_results_table_exp2}.
 
 
-\subsection{Answering the Third Research Question}
+\subsection{Answering the Second Research Question}
 
-\Cref{learning_model_results_table_comparison_to_real_world_datasets} shows that
-six player are accurately modelled by the \aspectoriented model of learning
-shown in \cref{fig:learning_model_software_diagram}. The answer to the research
-question is therefore affirmative: advice can be used to accurately introduce
-new behaviours and parameters to a model which were not previously present.
+\Cref{learning_model_results_table_comparison_to_real_world_datasets_correlating_players}
+shows that six players are accurately modelled by the \aspectoriented model of
+learning shown in \cref{fig:learning_model_software_diagram}. The answer to the
+research question is therefore affirmative: advice can be used to accurately
+introduce new behaviours and parameters to a model which were not previously
+present.
 
 Not all players are accurately simulated using this model of learning. This
 result is to be expected. One reason for this is that different players learn in
@@ -575,7 +565,7 @@ to represent new behaviours within -- and add new parameters to -- an existing m
 
 
 
-\section{RQ4: Applying Aspects to New Models}
+\section{RQ3: Applying Aspects to New Models}
 \label{sec:rq4}
 
 
@@ -654,10 +644,6 @@ manner as with the analogous experiment in \cref{sec:rq2}: results from the
 first fold are presented in the table for
 each player, with a complete table available in
 \cref{appendix_rq4_complete_prior_distribution_results_table}.
-\inline{
-  Appendix tables for prior distribution results currently run off the
-  end of their pages. The formatting for these tables needs fixing.
-}
 
 The results of applying the learning
 model to season 2, parameterised using a player's best-performing model
@@ -685,19 +671,6 @@ season 1 are marked \emph{N/A} when annealing toward new parameters using season
   currently it's at the end to make the layout slightly nicer. Revisit if you
   get time.
 }
-\inline{
-  The design of the tables between experiments is diverging. I'm not sure
-  what design will work for them all. Revisit the design; it's important that
-  the results don't look unhinged. Tim may have useful advice here.
-}
-\laurie{you might want to use the `!' positioning thingy in figure (e.g. `h!')
-which nominally `forces' latex to put tables where you want. in practise,
-latex still does what it wants, but somewhat less so than without. other tricks
-you can play include table rotation to get things to fit well (i've done this
-in several papers) and/or putting one or more tables on their own page, which
-tends to keep latex happier. in other words, `h' is latex's least favourite
-position hint. `t' or `b` are what i use. `p` is what latex really wants, even
-though generally we tend not to what that.}
 
 \newcommand{\noparams}{\multicolumn{7}{c}{\emph{N/A}} \tabularnewline}
 \newcommand{\noseasontwo}{\multicolumn{7}{c}{\emph{No Season 2 Data}} \tabularnewline}
@@ -797,9 +770,9 @@ timri & \noparams{} \\
 \end{figure}
 
 
-\subsection{Answering the Fourth Research Question}
+\subsection{Answering the Third Research Question}
 
-The fourth research question can be answered affirmatively from the experimental
+The third research question can be answered affirmatively from the experimental
 results: \cref{prior_distribution_model_results_s2} shows a high degree of
 correlation when used to simulate season 2 gameplay, and its success is
 comparable to that of simulating season 1 gameplay as shown in
@@ -915,7 +888,7 @@ experiments using the learning model. Also, the model applying a player-specific
 distribution of character pair selections to simulated players' choices produced
 successful results. Advice which instrumented the model or modified it to
 mitigate the impact of stalemates was also successfully reused in the
-experiments described in \cref{sec:rq4}. For these reasons, the fourth research
+experiments described in \cref{sec:rq4}. For these reasons, the final research
 question can be answered affirmatively --- however, further research is needed
 to examine whether more complex changes to models suffer a loss of performance.
 This can be investigated by creating
@@ -925,199 +898,3 @@ prior research~\cite{wallis2018caise} as discussed in \cref{chap:prior_work}.
 Applying these aspects across different case studies may yield positive results.
 This research should take care to avoid factors biasing behaviours such as
 habits or mistaken assumptions.
-
-
-
-
-
-
-
-%\subsection{Identifying Statistically Significant Results in Datasets}
-%
-%\inline{
-%  A discussion of how datasets are evaluated. We produce \emph{many} datasets
-%  which have annealed to the highest stat and P val we could find, but they're
-%  split across many folds. How do we determine whether a set of parameters works
-%  ``enough''? We find the highest correlation val and lowest pval which work
-%  across a majority of folds, then test against the complete dataset to be
-%  absolutely certain that correlation doesn't drop. This gives us the best
-%  parameters for a player: the parameters were reliably annealed to across many
-%  folds to give statistically significant correlation, retained their
-%  correlation against a testing set, and further retained their correlation
-%  against the entire dataset.
-%}
-%
-%\inline{
-%  Is there a pattern in players getting reliable correlation and having played
-%  many games? Maybe we just don't have enough games to do this for most players.
-%  Check this; could be worth a note toward the end, in a discussion or similar.
-%}
-%
-%\inline{
-%  This is an explanation of the analysis script, not the process f annealing; we
-%  should already have that in the experimental design section (currently 6.5, at
-%  time of writing).
-%}
-%
-%
-%
-%
-%
-%\subsection{Selecting Character Pairs from a Known Distribution}
-%
-%The second research question presented in \cref{subsec:rqs} is:
-%
-%\begin{researchquestion}
-%  Can a model be made more realistic by applying aspect-oriented improvements?
-%\end{researchquestion}
-%
-%This question can be answered directly by weaving advice which modifies player
-%behaviour so that character pairs are selected from a distribution calculated
-%from existing player data. If the dataset produced with this advice woven
-%correlates with the pre-calculated distribution of character pair preferences,
-%then the simulated behaviour must have been affected by the aspects in the
-%manner the advice modelled, and so made the model more realistic. If the dataset
-%correlates with that produced by the naive model, it must have had no effect.
-%And, if it correlates with neither, then the weaving of advice modelling a
-%specific character pair selection did impact player behaviour, but did not
-%produce expected results.\footnote{In this scenario, there would likely be an
-%error in implementation as the aspects demonstrably made a difference to
-%behaviour, but not what was intended. Rather than confirming the hypothesis that
-%advice can be used to augment models of behaviour or the null hypothesis that
-%weaving such advice has no effect, it would indicate a flawed experiment.}
-%
-%Datasets representing every real-world player who completed more than 100 games
-%in RPGLite's first season were generated with the advice described in
-%\cref{sec:optimisation_with_aspects_aspectsdeveloped} woven. There were 21 such
-%players. The \tau correlation statistic (and corresponding p-values) of these
-%datasets compared to their players'
-%real-world datasets and the naive model's dataset is presented in
-%\cref{fig:known_distribution_results_s1}.
-%
-%\begin{figure}[h]
-%\begin{center}
-%  \begin{tabular}{c|c|c}
-%    \emph{Simulated Player} & \emph{P-Value} & \emph{Correlation Statistic} \\ \hline\hline
-%    Data1 & data2 & data3 \\
-%    Data1 & data2 & data3 \\
-%  \end{tabular}
-%  \caption{Correlation statistics generated by weaving aspects into the naive
-%    model which select character pairs with the same distribution as a specific
-%    real-world player}
-%  \label{fig:known_distribution_results_s1}
-%\end{center}
-%\end{figure}
-%
-%
-%
-%\inline{TODO: add notes explaining what an acceptable pval and correlation stat
-%  are. This will be useful to refer back to in the next subsection, where not
-%  all players are simulated by each model.}
-%
-%
-%\inline{Explain the results \& relate them to the final RQ.}
-%
-%
-%
-%\subsection{Selecting Character Pairs using Confidence-Based Learning}
-%
-%\inline{I suspect I'll move this to the discussion of the next experiment, so
-%  that the aspects using the known distribution are presented as an
-%  investigation of the first research question, and the aspects using the
-%  confidence-based model of learning are presented as an investigation of the
-%  second.}
-%
-%Selecting character pairs based on a known distribution demonstrates that advice
-%can alter the behaviour of actors in a model, improving the model's accuracy.
-%
-%\inline{I'm increasingly realising that the aspect drawing from a known
-%  distribution is both more accurate and more portable than our models of
-%  learning: we can apply it to S2 and just draw from season-specific data to get
-%  the correct results. It's actually way better than our models of learning.
-%  However, the models of learning let us investigate specific players'
-%  behaviour, so they let us use the naive model to investigate the bahviour of
-%  real-world players, which is still quite valuable, but might want a different
-%  approach to the write-up. I'm pretty lost with this chapter --- need Tim's
-%  input, I think.}
-%
-%
-%
-%%This is a relatively short chapter; a lot of the building blocks for it exist in
-%%the previous chapter, so there's less ground to cover. If it ends up quite
-%%lop-sided, I'd chop the earlier chapter in two rather than artificially making
-%%this chapter beefier; I think it'd flow better.
-%
-%This needs rewriting (and re-titling!) --- it's now a chapter on the results for
-%all the experiments, including the three RQs:
-%
-%\begin{itemize}
-%  \item \rqtwo{}
-%  \item \rqthree{}
-%  \item \rqfour{}
-%\end{itemize}
-%
-%\section{(Reword) Experimental motivations / motivation of research question}
-%This section should describe why it's interesting to move an aspect trained on
-%some actors' behaviours to a new system, and discuss what investigating this can
-%teach us that we \emph{don't} already know from the previous experimental
-%chapter. We've got aspects which represent behavioural variance. If the system
-%changes, can we expect that these aspects still apply to the new system? Is the
-%representation of behavioural variance in this model separable from the system
-%the behaviour occurs within?
-%
-%\subsection{Coupling of Model and Behaviour}
-%Explaining the issues of behaviour coupled to models. Highly related to some of
-%the reviewed literature --- I forget exactly what --- which discussed whether
-%aspects which were designed to be applied to one system could feasibly be
-%transferred to other systems, or whether they're inherently aware of the system
-%they're originally designed for. The core concept is that to be making changes
-%to some underlying codebase, you probably have to know what that codebase is, in
-%most cases at least.
-%
-%\subsection{(Reword) Gaps/opportunities left by previous experiment}
-%In the previous experiment we demonstrated that behavioural variance can be
-%plausibly realistic. Are those variations separable from their underlying model,
-%or --- when trained i.e. made realistic --- do they suffer from the coupling
-%discussed in the previous subsection?
-%
-%\subsection{Research Question}
-%Whatever the specific research question's wording for this was. Something about
-%decoupling realistic aspects from a given model maybe? It should be in an
-%earlier chapter somewhere.
-%
-%\section{Experimental Design}
-%We took old player data and trained aspects on them, and in the previous
-%experiment we found they were statistically significantly accurate. We ran a
-%second season of RPGLite with slightly different parameters on player data. We
-%modelled how players learned and variations on their learning patterns, so in
-%theory, we should be able to apply the new learning patterns to the other system
-%too. Do we have to re-train the aspects? How portable are they? This section
-%lays out the design of this experiment.
-%
-%
-%\subsection{Changes to RPGLite}
-%What changes did we make to our system?
-%
-%
-%\subsection{Applying Behavioural Variations to New System}
-%Layout of new experiment, how it'll work, what's measured, why it should answer
-%the RQ.
-%
-%
-%\section{Applying Aspects from a Control System to a New System}
-%Our implementation \& results from the experiment described above. Discusses how
-%the above experiment was realised, lays out the results we found, and relates
-%those results to the research question we started with.
-%
-%\subsection{Implementation}
-%Implementation of the experiment
-%
-%\subsection{Results}
-%Presentation of the results of the experiment, analysis, some discussion (more
-%in next section too)
-%
-%\section{Discussion}
-%Some notes discussing the outcome of this research question (that trained
-%aspects representing behavioural variance aren't separable from the system
-%they're trained around)
-

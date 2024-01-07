@@ -39,7 +39,24 @@
 \newcommand{\expand}{\inline{EXPAND}\xspace}
 
 %% Research questions
-\newcommand{\rqone}{Is an \aspectorientation{} tool which is appropriate for use in simulation \& modelling feasible to design?}
+% \newcommand{\rqone}{Is an \aspectorientation{} tool which is appropriate for use in simulation \& modelling feasible to design?}
 \newcommand{\rqtwo}{Can models of systems more accurately reflect their subjects through advice-based improvements?}
 \newcommand{\rqthree}{Can advice be used to accurately introduce behaviours or parameters into a model which were not originally present in it?}
-\newcommand{\rqfour}{Can advice be used as a portable module, such that \aspectoriented{} improvements to one model can be woven into another without loss of performance?}
+\newcommand{\rqfour}{Can advice be used as a portable module, such that
+\aspectoriented{} improvements to one model can be woven into another without
+loss of performance?}
+
+% For text within circles
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+            
+
+\ExplSyntaxOn
+    \cs_new_eq:NN \calc \fp_eval:n
+\ExplSyntaxOff
+\newcommand*{\roundToDPs}[2][]{\num[%
+  round-mode=places,% Round output to specified number of places
+  round-precision=3,% Round-precision is 3
+  output-decimal-marker={.},% Use . as decimal marker
+  #1% Other options
+  ]{\calc{#2}}}

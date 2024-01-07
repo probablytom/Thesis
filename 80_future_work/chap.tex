@@ -2,31 +2,26 @@
 
 The focus of this thesis is to develop a state-of-the-art aspect-oriented
 framework, to produce a suitable experimental environment to demonstrate its
-effectiveness, and to use that environment to investigate whether aspect
-orientation can be used to augment models with behavioural variance. \inline{is
-suitable for simulation purposes? It's about showing that we \emph{can} use
-aspect orientation appropriately in simulation environments, and that aspect
-orientation can also lead us to realistic and nuanced simulations, too. Go back
-through the pdsf and lit review chapters to make this argument properly.}. We
-have found that aspect orientation can be used to create realistic and nuanced
-simulations, have successfully produced a well-constrained environment to
-simulate for testing purposes, and have produced a novel aspect orientation
-framework which demonstrates novel and powerful weaving concepts; lots of
-opportunities for research outwith this thesis' scope present themselves.
+effectiveness, and to use that environment to investigate whether
+\aspectorientation{} is a suitable tool for the augmentation of simulation \&
+modelling codebases. \Cref{chap:experiment_setup} and
+\cref{chap:experimental_results} showed that \aspectorientation{} can be used to
+create a realistic and nuanced model using \pdsf{} to model RPGLite. Having
+successfully achieved the aims of the project, these contributions enable
+opportunities which are outwith this thesis' scope.
 
-This chapter describes some possibilities for the presented research to be
-extended in the future.
+This chapter describes some of those opportunities. It illustrates both the
+possibilities to extend the research presented in this thesis, and the other
+research projects adjacent to this one which are enabled by this thesis'
+contributions.
 
-\inline{Add a RQ at the end of each research opportunity; this can and should be
-a contribution of the thesis, and the RQs would help to sell it as such.}
-
-\section{Aspect-Oriented Metaprogramming in real-world Software Engineering}
+\section{Aspect-Oriented Metaprogramming in Real-World Software Engineering}
 \label{future_work_aspect_oriented_metaprogramming}
 
-The combination of metaprogramming and aspect-orientation introduces new
-possibilities in aspect-orientation. In traditional aspect-oriented work,
-aspects treat their targets as black boxes; this leads to limitations
-which aspect-oriented metaprogramming can address.
+The combination of metaprogramming and \aspectorientation introduces new
+possibilities in \aop{}. In traditional \aspectorientation frameworks, aspects
+treat their targets as black boxes. This leads to limitations which
+\aspectoriented{} metaprogramming such as \pdsf{}'s fuzzers can address.
 
 Traditional aspects cannot intersperse their behavioural modifications with the
 work being done by their target, as they apply their logic before or after the
@@ -38,9 +33,41 @@ it. Aspect-oriented metaprogramming enables this as the target can have logging
 logic woven within business logic, which remains decoupled within the codebase.
 To achieve this end goal without ``within''-style aspect application would
 require a refactoring of business logic to create join points which traditional
-aspects could apply against; this breaks the ``obliviousness'' property of the
-aspect orientated philosophy discussed in
-\cref{review_aop_motivations_and_philosophy}.
+aspects could apply against; this somewhat weakens the ``obliviousness'' property of the
+\aspectoriented{} philosophy discussed in
+\cref{review_aop_motivations_and_philosophy} in that target code must be modified
+to apply advice. If the code must be modified anyway, that modification could
+introduce new logic rather than refactoring what already exists so that an
+aspect can do the same. 
+
+To demonstrate the improved pragmatism of \aop{} in real-world software
+engineering, existing codebases should be augmented using aspects. This work
+could take many forms. An industrial partner could adopt \aop{} in an existing
+project with consultation from a research team, who discuss the industrial
+team's experiences after some period of \aspectoriented development is
+completed. Alternatively, pull-requests in open-source projects could be
+reimplemented by a research team using \aspectorientation{}, and the two
+implementations could be compared by the project's maintainers, who could be
+interviewed by the research team to discern whether \aop{} could be of practical
+use to them. The team may see \aop{} as a means improve the codebase's
+modularity and maintainability, or to deploy hotfixes in their code and features
+hidden behind feature flags which can be disabled during runtime by making use
+of dynamic aspect weaving. The research team may make use of
+\aspectoriented{}
+metaprogramming such as \pdsf{}'s fuzzers to better support the team's
+application of \aop{} to an existing industrial codebase. Some promising related
+work has been undertaken by \citet{przybylek2018empirical}, who compared student
+comprehension of \aspectoriented{} programs but did not evaluate the paradigm's
+appeal to industrial teams or its effectiveness as perceived by engineers in
+industry.  
+
+In either of the research projects suggested, the academic team seek to answer a
+research question such as:
+
+\begin{researchquestion}
+Can \aop{} be used in existing industrial codebases to improve modularity and
+maintainability of the project as perceived by that project's team of maintainers?
+\end{researchquestion}
 
 
 % ==== These were originally written as separate points, but they shouldn't be.
@@ -98,20 +125,24 @@ aspect orientated philosophy discussed in
 
 
 
-\section{Augmentation of pre-existing models}\label{future_work_nudge_model_state}
+\section{Augmentation of Pre-Existing Models}
+\label{future_work_nudge_model_state}
+\label{future_work_using_aspects_to_correct_simulated_state}
 
-Models which predict the future state of some system may be accurate in general,
+Models which predict the future state of some system may be accurate in the
+general case,
 but cannot account for unforseeable events such as financial collapses,
 pandemics, or unpredictable weather events. Pre-existing models cannot account
-for these one-off shifts in system state due to their random nature. For
+for these one-off shifts in system state due to the random nature of these events. For
 example, models of world health over time could not account for the Covid19
 pandemic, and models of local or global economies could not incorporate
 real-world data from the recession resulting from the pandemic. The 2008
 financial crisis also impacted local and global economies, but could not be
-predicted before the event. The World3 model is an example of one which has
+predicted before the event. An example of a model predicting both health and
+economic outcomes is the World3 model, which has
 provided accurate high-level predictions of the state of various global systems
-over many decades\inline{Find citations for World3 model}, but predictions for
-recent years fail to account for these unforseeable events.
+over many decades~\cite{branderhorst2020update}, but predictions for
+recent years fail to account for these unforseeable events~\cite{nebelrecalibration}.
 
 If the modification is represented as a special case within the model, a
 research software engineer must introduce their corrective code alongside the
@@ -124,20 +155,28 @@ aspect as such.
 Research investigating the use of aspects to correct for one-off events could
 aim to show that an aspect can ``nudge'' a system's state in-line with
 real-world data when exceptional circumstances affect a modelled system but
-cannot be elegantly represented within the model's logic. A research question
-for this future work is therefore:
+cannot be elegantly represented within the model's logic. 
+If this technique proves successful, it may also lead to other novel ways of
+simulating systems. For example, future unforeseeable events could be
+compensated for by predicting them at different points in a simulated system's
+future and observing how their impact changes the simulation over time. This is
+discussed further in \cref{future_work_hypothesising_system_states}.
+
+While there is potential for lots of related research in the engineering of
+models, a first study should be conducted to demonstrate that the concept is
+sound and that it is useful in practice. A research question
+this early study could answer is:
 
 \begin{researchquestion}
 Can aspect orientation be used to introduce special cases to real-world systems
-to correct a model's predictions in when a system under research is altered by a
-freak event?
+to correct a model's predictions in when a system under research is altered by
+unforeseeable ``freak events''?
 \end{researchquestion}
 
-lorum \revnote{``Freak event'' might be too informal here but I'm not sure what
-to replace it with.} ipsum
 
 
-\section{Aspect Orientation's utility for Research Software Engineers}
+
+\section{Aspect Orientation's Utility for Research Software Engineers}
 \label{future_work_aop_for_rses}
 
 A corollary of the research opportunities for aspect orientation's use in
@@ -146,39 +185,32 @@ software engineering discussed in
 opportunity for research software engineers to benefit from the adoption of
 aspect oriented programming. However, while aspect orientation's use in
 industrial software engineering has drawn
-criticism~\cite{steimann06paradoxical,przybylek2010wrong,Constantinides04aopconsidered}\footnote{A
-review of aspect orientation's critique is presented in
-\cref{subsec:aop-criticisms}.} its use within research codebases is a special
-case where it may be more suitable. Related suggestions for the use of aspect
-orientation in research codebases were proposed by \citeauthor{gulyas1999use}
-(as discussed in \cref{review_gulyas_use_of_aop_in_research_codebases}).
-However, the benefits proposed in earlier work concerned the design of the
-software itself. Aside from aspect-orientation's utility in software design in a
-research context, there are potential benefits for the \emph{practice} of
-developing these codebases which may be of professional interest to research
-software engineers.
-
-
-
-% ===== MARK:
-%             I'm copyediting this currently and pausing here for dinner. What's
-%             below in this file likely requires some reworking!
-% ===== MARK
-
+criticism~\cite{steimann06paradoxical,przybylek2010wrong,Constantinides04aopconsidered}
+its use within research codebases is a special case where it may be more
+suitable. The results presented in \cref{chap:experimental_results} show that
+\aop{} \emph{can} be successfully employed in research codebases to represent
+changes to models. Related suggestions for the use of aspect orientation in
+research codebases were proposed by \citeauthor{gulyas1999use} (as discussed in
+\cref{review_gulyas_use_of_aop_in_research_codebases}). However, the benefits
+proposed in earlier work concerned the design of the software itself. Aside from
+aspect-orientation's utility in software design in a research context, there are
+potential benefits for the \emph{practice} of developing these codebases which
+may be of professional interest to research software engineers (``RSEs'').
 
 
 The resource constraints and stringent requirements for accuracy in research
 codebases present challenges which aspect-orientation could assist with.
 Compensating for a special case in a pre-existing model would require
-maintenance of the codebase, which takes time and could inadvertently alter its
-behaviour. Time is a scarce resource in research environments, and undesired
-changes to a model's behaviour can invalidate research results. An alternative
-to adjusting the models directly is to construct aspects which represent large
-and unpredictable events in real-world systems such as pandemics, economic
-crises, war and famine. These can be modelled on real-world data for accuracy,
-which can produce realistic simulations as this thesis demonstrates. This use of
-aspect orientation in simulation and modelling can be investigated by creating a
-proof-of-concept of the approach as applied to pre-existing
+maintenance of the codebase, which takes time. Care must be taken not to
+inadvertently alter its behaviour. Time is a scarce resource in research
+environments, and undesired changes to a model's behaviour can invalidate
+research results. An alternative to adjusting the models directly is to
+construct aspects which represent large and unpredictable events in real-world
+systems such as pandemics, economic crises, war and famine. These can be
+modelled on real-world data for accuracy, which can produce realistic
+simulations as \cref{chap:experimental_results} demonstrates. The use of aspect
+orientation in simulation and modelling can be further investigated by creating
+a proof-of-concept of the approach as applied to pre-existing
 models.\footnote{This approach is similar to \pdsf{}'s initial proof-of-concept
 study~\cite{wallis2018caise} as discussed in \cref{chap:prior_work}.} Studies
 can also be conducted to investigate whether an aspectually-augmented model is
@@ -186,26 +218,41 @@ quicker to construct and easier to maintain in future than a codebase with
 ``patches'' written into its original logic.
 
 Researchers investigating this technique's application to existing models could
-also investigate the difficulties of augmenting a model created with no
-intention of weaving advice in the future. The construction of advice requires
-appropriate join points to be specified, and codebases which are structured in a
-way which doesn't yield convenient join points might be more complex to augment
-aspectually. These cases raise another use-case of \pdsf{}'s ``within''-style
-weaving through runtime metaprogramming: where other aspect orientation
-frameworks force aspects to treat the targets they are invoked on as
-black-boxes, \pdsf can make modifications within them. \pdsf{}'s new kinds of
-aspects may therefore be more useful than those in other frameworks for
-researchers responsible for maintaining codebases written with no consideration
-for join-point specification, and would therefore be more universally
-applicable; this possibility requires future investigation.
+also investigate the difficulties of augmenting a model originally implemented
+without any intention of weaving advice in the future. The construction of
+advice requires appropriate join points to be specified, and codebases which are
+structured in a way which doesn't yield convenient join points might be more
+complex to augment aspectually. These cases raise another use-case of \pdsf{}'s
+``within''-style weaving through runtime metaprogramming: where other aspect
+orientation frameworks force aspects to treat the targets they are invoked on as
+black boxes, \pdsf can make modifications within them. \pdsf{}'s fuzzers may
+make \aop{} more useful than the aspects offered by other frameworks for
+maintainers of research codebases. This possibility requires future
+investigation.
 
 If the research described successfully shows that aspectually-augmented
-simulations are easier and quicker for an RSE to maintain and deliver than
-direct maintenance of the model's codebase, then augmentation of existing models
-to improve their accuracy can follow in the community. \revnote{If I've got
-time, I'd love to push my codebase augmenting a World3 model to achieve just
-this with predictive implications for the 2008 financial crisis and the covid
-pandemic.}
+simulations are easier and quicker for a research software engineer to maintain
+and deliver than direct maintenance of the model's codebase, then augmentation
+of existing models to improve their accuracy can follow in the community.
+ \revnote{If I've got time, I'd love to push my codebase augmenting a World3
+model to achieve just this with predictive implications for the 2008 financial
+crisis and the covid pandemic.}% 
+Researchers investigating this may address research questions such as:
+
+\begin{researchquestion}
+    \begin{enumerate}
+\item Can existing models developed \emph{without} aspectual augmentation in
+mind be made more accurate through \aspectoriented{} ``patches''?
+\item Can research software engineers use \aop{} to more easily maintain
+existing codebases without making invasive changes to experimental source code
+in the process?
+    \end{enumerate}
+\end{researchquestion}
+
+This is differentiated from the contributions in \cref{chap:experiment_setup,chap:experimental_results}
+by its application to pre-existing
+codebases. It is also related to the proposed benefits to research software
+engineers discussed in \cref{future_work_nudge_model_state}.
     
 % ==== also wrote the below in another section and realised it's acutally about
 % this point. I'd already finished this subsec, but leaving below in case I want
@@ -293,81 +340,89 @@ Unpredictable events can cause discrepancies between simulated system state at a
 given time and the real-world system it models, as discussed in
 \cref{future_work_using_aspects_to_correct_simulated_state}. While this
 technique presents promising research opportunities, researchers face other kind
-of model uncertainty which aspect orientation could also counter.
-
-In some scenarios, it is difficult or impossible to make predictions about a
-system's future states because its dynamics are actively being researched.
-Standard scientific practice is to create a model --- mathematical,
-computational, or otherwise --- to create synthetic datasets which indicate
-accuracy if their predictions align with what is empirically observed.
-\inline{Cite popper, any point including studies that do this too? It's fairly
-table stakes as a concept\ldots{}} Some aspects of the system under study may be
-well-understood.
+of model uncertainty which aspect orientation could also counter. In some
+scenarios it is difficult or impossible to make predictions about a system's
+future states, because its dynamics are actively being researched. Standard
+scientific practice is to create a model to create synthetic datasets which
+indicate accuracy if their predictions align with what is empirically observed~\cite{popper1972theoryevolution}.
+Some aspects of the system under study may be well-understood.
 
 Rather than creating models of an existing system which encode its hypothesised
 behaviour, a naive model can be created which operates as the scientific
 consensus understands it. Hypothesised behaviour takes the form of aspects
-altering behaviour in any manner the hypothesis requires. Within-style aspects
-allow arbitrary modifications, to simulated behaviour, increasing the
-flexibility of the technique. Data produced by each model can be compared to
+altering the model in any manner the hypothesis requires. Within-style aspects
+enable arbitrary modification to simulated behaviour, which increases \aop{}'s
+potential in this use-case. Data produced by each model can be compared to
 empirically sourced data, and their similarity quantified, as demonstrated in
 \cref{chap:exp1_simulation_optimisation} and
-\cref{chap:exp2_old_aspects_new_systems}. Our null hypothesis is that the naive
-model's similarity to empirically sourced data is greater than that of the
-aspectually augmented model; our experiment's hypothesis is that the behavioural
-change applied as aspects is more representative of the system under study than
-that of the community consensus.
+\cref{chap:exp2_old_aspects_new_systems}. An experiment's null hypothesis would
+be that the naive model's similarity to empirically sourced data is greater than
+that of the aspectually augmented model; the experiment's hypothesis would be
+that the behavioural change applied as aspects is more representative of the
+system under study than that of the community consensus (encoded in the naive model).
 
 This technique has a satisfying\revnote{Maybe too informal, but I don't know,
 maybe live a little\ldots{}?} property: the hypothesis in a given experiment is
-clearly described by its aspectual representation, and if an experiment is
-successful --- meaning its hypothesised behaviour accurately represents the
-real-world system --- then the model adopted in future research as that of the
-community consensus can be the aspectually-augmented one produced by the
-original study. In this way, the scientific process is directly represented in
-the structure of the codebase, and the community's progression to increasingly
+completely encoded by its aspectual representation, and if an experiment is
+successful then the augmented model can be adopted in future research. In this
+way, experimental design and scientific process are directly represented by the
+structure of the codebase, and the community's progression to increasingly
 accurate models of a system is represented by the progressive adoption of
-``patches'' to an original theory.
+aspects as ``patches'' to an original theory.
 
 Hypotheses can also be created compositionally in this model. Researchers might
 develop a series of potential system properties or behaviours, but are unable to
 investigate all reasonable combinations in a timely manner. However, sets of
-aspects representing each can be composed to produce, for $N$ hypothesised
-behaviours, $2^N$ potential behaviours which can be compared to empirical
-datasets to identify which combination of possible behaviours most closely
-resembles that of the real-world system under study. The technique is similar to
-modern pharmacutical development, where a series of algorithmically identified
-compounds can be produced and tested to identify which are most suitable to
-treat a medical issue\inline{find a citation for modern algorithmic / robotic
-drug development}, but can be applied to any models where aspectual augmentation
-is appropriate.
+aspects representing each can be composed to produce $2^N$ models of potentially
+realistic behaviours from $N$ hypothesised behaviours by applying each possible
+combination. The results produced by each can be compared to an empirical
+dataset to identify which combination of behaviours most closely resembles that
+of the real-world system under study.
 
-\revnote{This subsec is already quite long, and including this point makes it
-significantly longer. Maybe that's not a prob; maybe this should be a separate
-point / subsubsec; maybe it can live in a footnote; maybe it should be omitted
-completely.}This technique for developing experimental model codebases has
-another desirable property: it unifies seemingly incompatible philosophies of
-the scientific process. \citeauthor{kuhn2012structure}~\cite{kuhn2012structure}
-explains the scientific process as inherently social: it starts with a paradigm
-which is accepted as broadly true, and accumulates an increasing number of
-exceptions until the paradigm itself is deemed unfit, and a new basis for a
-field's research is adopted.
+Finally: hypothesised properties of a system might interact, meaning their
+discovery could involve the fitting of multiple models of possible behaviours to
+discover the properties of a real-world system. The use of aspects to encode ---
+and discover the presence of --- hypothesised behaviour is discussed in
+\cref{future_work_discovering_emergent_properties} as the RPGLite dataset
+presents convenient opportunities for doing so. The optimisation of multiple
+aspectual models of behaviour is discussed in
+\cref{future_work_many_aspectual_models_to_optimise}.
+
+
+
+
+\section{\AspectOriented Models to Support the Investigation of Scientific Progress}
+
+The technique discussed in \cref{future_work_hypothesising_system_states} for
+developing experimental model codebases has another desirable property: it
+simultaneously reflects different philosophies of the scientific process in its
+encoding of hypotheses and the research community's acceptance of a perspective
+in their fields. These philosophies are those of \citeauthor{kuhn2012structure}
+and \citeauthor{popper1972theoryevolution}. \citet{kuhn2012structure} explains
+the scientific process as inherently social: it starts with a paradigm which is
+accepted as broadly true, and accumulates an increasing number of exceptions
+until the paradigm itself is deemed unfit, and a new basis for a field's
+research is adopted.
 \citeauthor{popper1972theoryevolution}~\cite{popper1972theoryevolution} explains
 the scientific process as an approximation towards truth, with incremental
 progress made with each result achieved by a research community. The proposed
 technique for developing experimental model codebases demonstrates features of
-both. Consider the original model a paradigm initially selected by community
-consensus, and the application of aspects Popper's incremental movements toward
-truth (as successful experiments are conducted) or Kuhn's exceptions to the
-agreed model (as experiments identify weaknesses in the original model). In this
-case, each successive new model adopted by a community is adopted in a
-Popplarian manner: improvements are objectively measured, incremental, and would
-trend towards truth as a model's behaviour fits empirical observations
-increasingly closely. However: over a sufficient period of time, the incremental
-patching of an original model would produce an accepted community model which
-contains a relatively large amount of discovery and complexity encoded in
-aspects, as compared to the original model they are applied to. One would expect
-the research community to rewrite the base model to simplify future aspect
+both.\revnote{I think this bit on \aop{} and philosophy of science might need
+revisiting\ldots{}}
+
+To illustrate this, consider the original model a paradigm initially selected by
+community consensus. The successful application of aspects would be equivalent
+to Popper's incremental movements toward truth as successful experiments are
+conducted; Kuhn's exceptions to the agreed model can be identified as
+experiments which demonstrate weaknesses in the original model. In this case,
+each successive new model adopted by a community is adopted in a Popplarian
+manner: improvements are objectively measured, incremental, and would trend
+towards truth as a model's behaviour fits empirical observations increasingly
+closely. However: over a sufficient period of time, the incremental patching of
+an original model would produce an accepted community model which contains a
+relatively large amount of discovery and complexity encoded in aspects, as
+compared to the original model they are applied to. One would expect the
+research community to rewrite the base model to simplify future aspect
 application and to more elegantly encode recent research findings; effectively
 discarding the original paradigm in favour of a new one. This process is Kuhn's
 ``paradigm shift'', where paradigms are dropped once a generation of researchers
@@ -386,19 +441,8 @@ of models via aspects is effectively demonstrated in
 a basis of a community's scientific process and relation to philosophy of
 science warrants further investigation.
 
-Finally: hypothesised properties of a system might interact, meaning their
-discovery could involve the fitting of multiple models of possible behaviours to
-discover the properties of a real-world system. The use of aspects to encode ---
-and
-discover the presence of --- hypothesised behaviour is discussed in
-\cref{future_work_discovering_emergent_properties} as the RPGLite dataset
-presents convenient opportunities for doing so. The optimisation of multiple
-aspectual models of behaviour is discussed in \cref{future_work_many_aspectual_models_to_optimise}.
 
-
-
-\section{Standards for Aspect Orientation in Research
-Codebases}
+\section{Standards for Aspect Orientation in Research Codebases}
 \label{future_work_standard_aosm_techniques}
 % The above makes the case that aspects might be shared between different
 % research groups' experiments, and also makes the case that models with
@@ -416,38 +460,34 @@ Codebases}
 % models across groups?
 
 
-The possibility of a research community sharing models containing aspectual
-augmentation and possibly developing additional aspects to augment a model
-further involves a considerable amount of model logic written within as advice.
-The community developing these aspects have the responsibilities of maintaining
-a codebase, but the added complexity that research software engineering
-introduces. These codebases may be used for many years, and may be iterated in
-in a series of future experiments. The legibility of these codebases and their
-long-term maintenance are areas of criticism in the software engineering
-community~\cite{steimann06paradoxical,przybylek2010wrong,Constantinides04aopconsidered}.
+The possibility of a research community sharing their research as
+\aspectoriented{} changes to model involves model logic written as
+advice. The community developing these aspects have the responsibilities of
+maintaining a codebase as well as the added complexity that research software
+engineering introduces. These codebases may be used for many years, and may be
+iterated on in a series of future experiments. The legibility of these codebases
+and their long-term maintenance are areas of criticism in the software
+engineering
+community~\cite{Constantinides04aopconsidered,steimann06paradoxical,przybylek2010wrong}.
 The research community must therefore mitigate these weaknesses of the
 aspect-oriented paradigm when adopting the techniques discussed in this chapter
 for simulation and modelling.
 
 To address the concern of the visibility of advice being woven, researchers may
-already take advantage of\revnote{I've made this an enumerated list; is it
-better as a paragraph?}:
-
-\begin{enumerate}
-    \item Improvements to tooling produced by the aspect orientation research
-    community, including IDE integration~\cite{clement2003eclipseAJDT} and
-    runtime inspection~\cite{mehner2002towards}, should make clear to engineers
-    what advice is being woven in a codebase and assist with debugging
-    aspect-oriented programs respectively.
-    \item Aspect-orientation frameworks specifically designed to clarify to an
-    engineer the aspects being woven should allow for less friction on the part
-    of a maintainer who inherits a codebase and must reason about its behaviour.
-    This is particularly important if the maintainer aims to weave more aspects
-    into the codebase, and so must understand its existing behaviour before
-    augmenting it further. Adopting weaving patterns such as import hook weaving
-    --- described in \cref{chap:pdsf_rewrite} --- should make a program clearer
-    to a developer regardless of the tooling they have access to.
-\end{enumerate}
+already take advantage of improvements to tooling produced by the aspect
+orientation research community, including IDE
+integration~\cite{clement2003eclipseAJDT} and runtime
+inspection~\cite{mehner2002towards}, should make clear to engineers what advice
+is being woven in a codebase and assist with debugging aspect-oriented programs
+respectively. In addition, \aspectorientation{} frameworks specifically designed
+to clarify to an engineer the aspects being woven should allow for less friction
+on the part of a maintainer who inherits a codebase from another developer and
+must reason about its behaviour. This is particularly important if the
+maintainer aims to weave more aspects into the codebase, and so must understand
+its existing behaviour before augmenting it further. Adopting weaving patterns
+such as import hook weaving --- described in \cref{chap:pdsf_rewrite} --- should
+make a program clearer to a developer regardless of the tooling they have access
+to.
 
 The impact of framework design on a codebase's maintenance should assist a
 developer even in the absence of tooling, but the success of import hook weaving
@@ -461,9 +501,9 @@ maintainability?
 \end{researchquestion}
 
 
-\section{Standard Aspect-Oriented Model
-Features}
+\section{Standard Aspect-Oriented Model Features}
 \label{standard_aosm_model_features}
+\label{future_work_revive_fuzzimoss}
 % The above makes the case for creating standards for model features, motivated
 % by the possibility that aspects can be shared between research groups or the
 % application of different aspects applied. A step toward creating that standard
@@ -475,22 +515,24 @@ codebases must be able to collaborate at least as easily as they currently do in
 a culture without aspect orientation. One way aspect orientation might improve
 researchers' ease of collaboration is with standardised libraries for aspect
 construction. Similar libraries were developed when developing a case study for
-\pdsf{}'s viability~\cite{wallis2018caise,fuzzimoss_repo}, but development was
-left incomplete as discussed in \cref{subsec:prior_work_fm}.
+\pdsf{}'s viability~\cite{wallis2018caise,fuzzimoss_repo}, but additional
+opportunities to complete and expand the tool remain as discussed in
+\cref{subsec:prior_work_fm}.
 
-The original library with this aim, Fuzzi-Moss, was originally designed to
-provide standardised aspects to represent behavioural variance in
-\sociotechnical systems. The aspects developed in Fuzzi-Moss have no notion of
-being fitted to real-world data. Instead, they are simple models of behavioural
-variances such as distraction, which are parameterised to allow users of the
-library to use these simple models in whatever manner is appropriate for their
-use-case. A broader collection of these behavioural variations could simplify
-the use of aspect-oriented behavioural variation in the research community writ
-large, by removing researchers' burden to develop these themselves. Early
-construction of a library with Fuzzi-Moss' goals would also support researchers
-in sharing models or extending others', as they would be familiar with a common
-set of tools. The development of such a library and the production of case
-studies demonstrating its effectiveness would answer the research question:
+The original library with this aim, Fuzzi-Moss~\cite{fuzzimoss_repo}, was
+originally designed to provide standardised aspects to represent behavioural
+variance in \sociotechnical systems~\cite{wallis2018caise}. The aspects
+developed in Fuzzi-Moss were not developed with a notion of being fitted to
+real-world data. Instead, they are simple models of behavioural variances such
+as distraction, which are parameterised to allow users of the library to use
+these simple models in whatever manner is appropriate for their use-case. A
+broader collection of these behavioural variations could simplify the use of
+aspect-oriented behavioural variation in the research community writ large, by
+removing researchers' burden to develop these themselves. Early construction of
+a library with Fuzzi-Moss' goals would also support researchers in sharing
+models or extending others', as they would be familiar with a common set of
+tools. The development of such a library and the production of case studies
+demonstrating its effectiveness would answer the research question:
 
 \begin{researchquestion}
     Can researchers using aspect-oriented behavioural variance share a common
@@ -508,8 +550,8 @@ utility functions provided by the proposed library. This would also reduce the
 work required of researchers looking to use the techniques demonstrated in this
 thesis. The library could also support the development of a Fuzzi-Moss-like set
 of \sociotechnical behavioural variances. However, such a library does not
-currently exist. A summary the contribution to the research community which the
-proposed library would make is:
+currently exist. A summary of the contribution to the research community which
+the proposed library would make is:
 
 \begin{researchquestion}
     The development of a library of metaprogramming operations which simplify
@@ -517,60 +559,68 @@ proposed library would make is:
     demonstrated in case studies.
 \end{researchquestion}
 
-The proposed library need not be a separate codebase to the aspect orientation
-framework it is designed alongside. \pdsf{} could contain this collection of
-metaprogramming operations; however, there is no obvious\revnote{``obvious'' is
-a little too informal, not sure what to replace it with here.} requirement for
-the library to be contained within \pdsf{}, and separating the proposed library
-from the framework it is built to interact with removes any dependancy on a
-particular aspect orientation framework; future researchers could develop
-alternative frameworks with within-style aspects which the proposed library
-could also be compatible with. We therefore suggest that the development of this
-library is a separate project from the development of \pdsf{}
-itself.\revnote{This might be a little rambly --- consider omitting, rewording,
-or factoring into a footnote.}
+The proposed library need not be a separate codebase to the \aspectorientation{}
+framework it is designed alongside. Instead, it could be developed with
+interoperability in mind to permit reuse across different implementations of
+\aop{}. This would enable researchers who develop their models as aspects to
+share their work with others who use other frameworks. Precedent for
+interoperability between frameworks has already been set by AspectJ, for which
+the accompanying DSL has been adopted by SpringBoot's implementation of
+\aop{}~\cite{introducing_spring_aop_chapter_integration_with_aspectj}. To
+achieve this, some standardisation around the design of \aspectorientation{}
+frameworks would be required, so that aspects can be developed against a common
+foundation.
 
 
 
-\section{Testing Frameworks to detect Model Incorrectness}
+
+
+\section{Testing Frameworks to Detect Model Incorrectness}
 \label{sciunits_for_unrealistic_states}
 
 Many of the uses of aspect orientation in simulation \& modelling research
-discussed in this chapter affect the construction and maintenance of a codebase,
-aspect orientation also has potential in the instrumentation of an
-experiment, as discussed in \cref{ao_and_modelling}.\footnote{In particular,  
-see relevant notes on \citetitle{gulyas1999use}~\cite{gulyas1999use}.}
-Experimental instrumentation was demonstrated for data collection in this
-thesis' experiments, as discussed in \cref{chap:exp1_simulation_optimisation}
-and \cref{chap:exp2_old_aspects_new_systems}.\inline{We can get more precise
-than chapter references; find the sections / subsections.} Instrumentation also
-has potential in other aspects of research software engineering; one possibility
-to be investigated is the use of aspects to alert researchers to impossible
-states visited by a model during runtime.
+discussed in this chapter affect the construction and maintenance of a codebase.
+However, aspect orientation also has potential in the instrumentation of an
+experiment. This was theorised by \citet{gulyas1999use} and put into practice in
+this thesis to instrument the naive model of RPGLite to observe its state (see
+\cref{subsec:aspects_instrumenting_model} for a description of the relevant
+aspects). Instrumentation has potential to be used in aspects of research
+software engineering for purposes other than the observation of system state:
+for example, aspects may be useful to alert researchers to impossible states
+visited by a simulation by instrumenting them to observe a simulation's state
+and assert that it is within expected bounds.
 
 Many models construct a version of a real-world system which cannot achieve
 certain states. For example, a model of collisions might never be expected to
-see an increase in the total energy present across all modelled entities;
+see an increase in the total energy present within the model;
 simulations of \sociotechnical systems might expect bounds on the hours worked
 by a simulated workforce, or the amount of output the workforce creates;
-researchers might study a system to observe a n emergent property which is
+researchers might study a system to observe an emergent property which is
 bounded by laws around its growth (for example, a linear increase in some
 property over time as opposed to exponential growth). It is important that any
 model of a real-world system accurately reflects the system's physical limits
 and underlying mechanics. Models may fail to reflect these mechanics for many
-reasons, including\revnote{Are there any other reasons as to why models might be
-incorrect (and instrumentation could identify this by boundary checking)?}:
+reasons, including:
 
 \begin{itemize}
     \item The model may be developed with bugs which are not detected, i.e. it is
-    conceptually incorrect;
-    \item The model may be verified as correct but later maintenance introduces
-    undetected errors, i.e. it contains bugs;
-    \item The model may be correctly written, but given unexpected inputs.
+    conceptually incorrect.
+    \item The model may be verified and trusted, but later maintenance introduces
+    undetected errors, i.e. it contains bugs.
+    \item The model may be conceptually correct, but given unexpected inputs.
+    \item The model may be conceptually correct, but a bug may exist in a
+    dependency, on certain hardware, or in some other detail specific to the
+    environment it runs in as opposed to its implementation.
+    \item The model may be conceptually correct when initially implemented, but
+    fail to meet researchers' expectations at a later date due to a shifting
+    perspective within the research community. This may not be apparent when
+    reading the model's source code, but may be an emergent property arising
+    from interactions within the system. Non-deterministic interactions leading
+    to emergent properties would be difficult to verify through static analysis.
 \end{itemize}
 
 Software engineering practices such as unit testing are common practice and may
-catch these bugs through identifying incorrect behaviour in components.
+catch these bugs through identifying incorrect behaviour in model components.
 Thorough test suites may also include integration tests which observe the
 behaviour of many model components working together. However, there are
 limitations of both testing techniques:
@@ -580,63 +630,66 @@ limitations of both testing techniques:
     in a model, which arise only in a small number of cases;
     \item Traditional test suites also may fail to identify emergent state
     errors, where individual components operate correctly but their repeated
-    integration results in an incorrect emergent property of the system
+    integration results in an incorrect emergent property of the system;
     \footnote{Emergent properties are often the state under study, as in \pdsf's original
-    case study~\cite{wallis2018caise}};
-    \item Test suites usually fix values such as random seeds or input data,
-    which may hide non-deterministic state errors or may not exhibit the
-    properties of real-world data (and so exhibit different behaviour under test
-    than when an experiment is conducted).
+    case study~\cite{wallis2018caise}.}
+    \item Test suites often fix values such as random seeds or input data to
+    remove non-deterministic behaviour. This may hide errors arising from
+    non-determinism in a modelled system or may not exhibit the properties of
+    real-world data, thus exhibiting different behaviour under test than when an
+    experiment is conducted, making it difficult to verify in conditions which
+    differ from those of an experimental run.
 \end{itemize}
 
-We propose the use of aspects to instrument models to assert a system state
-within expected bounds, both as components of a test suite and as assurance that
-a model was correct at any time it is used as part of an experiment. All of
-these limitations can be alleviated by a test suite which is able assert the
-correctness of model state at different points in a program's execution. Models
-which non-deterministically reach erroneous states are primarily an issue during
-the execution of a model; aspectual state assertions need not alter a model's
-program flow, so are appropriate for use during its experimental use should any
-unexpected state arise. These states may also be deterministically caused by
-experimental input data which is not reflected by the inputs in a test suite;
-weaving these aspects during experimental use also addresses this limitation.
-Emergent properties of a system may also be tracked over time, and aspects may
-measure emergent properties to ensure they are within appropriate bounds at all
-times in an experiment and have correct properties of their own (for example,
-these aspects could ensure correct growth curves for the property in question).
+\Cref{chap:experiment_setup,chap:experimental_results} showed that aspects can
+be used to instrument models to assert a system state within expected bounds,
+both as components of a test suite and as assurance that a model was
+conceptually correct at any time it is used as part of an experiment. All of
+these limitations can be alleviated by a test suite which is able to assert the
+correctness of model state at different points in a program's execution. Aspects
+can be used to instrument a model and observe its behaviour while a simulation
+executes as part of an experimental run, ensuring that the results of the
+experiment were not impacted by any incorrectness tested for. These states may
+also be deterministically caused by experimental input data which is not
+reflected by the inputs used by a test suite. Testing for erroneous state during
+an experimental run ensures that incorrect states were not reached through
+unexpected inputs, meaning they could not affect results and so alleviating this
+issue. Emergent properties of a system may also be tracked over time, and
+aspects may measure emergent properties while a simulation executes to ensure
+they are valid at all times. For example, these aspects could ensure expected
+growth curves for the property in question and check that values are within
+physically possible bounds.
 
-Aspects can also be used as a regression test to detect the recurrence of bugs
+Aspects can also be used as regression tests to detect the recurrence of bugs
 after they have been identified and fixed. If a simulated system enters an
 incorrect state during development, and the underlying bug is fixed, an aspect
 observing the system's erroneous property can be constructed which alerts
 developers if the bug is re-introduced.
 
 Aspects instrumenting a model throughout its use in an experiment would also
-serve to guarantee peer reviewers of a study that the model was correct
-regarding the properties observed by the aspects. A suite of aspects which
-observe bounds on and characteristics of system properties is, functionally
-speaking, a declarative set of known-good behaviours of a model. Peer reviewers
-who sought to check that a model was correct should be able to extend this list
-of properties and observe any assertions during reproduction of a study's
-findings.
+serve to guarantee peer reviewers of a study that the model was correct with
+regards the properties instrumented by aspects. Functionally speaking, a suite
+of aspects which observe bounds on and characteristics of system properties is a
+declarative set of known-good behaviours of a model. Peer reviewers who sought
+to check that a model was correct should be able to extend this list of
+properties and observe any assertions when reproducing a study's findings.
 
 Within-style aspects are particularly appropriate for this task, as the
-measurement desired of a program might exist inside an existing function or
+measurement desired of a program might exist \emph{inside} an existing function or
 block of code. It is conceivable that observing system state before and after a
 function executes would not be sufficiently granular to assert correct system
-state in some cases. Aspectual instrumentation of research codebases is
-therefore particularly useful in light of new weaving techniques in \pdsf,
-traditional aspect orientation frameworks would be sufficient in instrumenting
-at least some models for observation.
+state in some cases, particularly if the model's codebase does not include
+suitable join-points to weave onto. Aspectual instrumentation of research codebases is
+therefore feasible for many more models using \pdsf{}'s within-style fuzzing.
 
 To demonstrate the efficacy of this approach, a library of tools to observe
 boundaries on system states could be developed, similarly to the library of
 tools suggested in \cref{standard_aosm_model_features}. Case studies augmenting
-research codebases using either this observational tooling or ordinary aspects
-can then be constructed. These should include new codebases, to demonstrate the
-technique's utility during development, but should also include the
-instrumentation of old models and the detection of any irregularities in
-existing, published work. Such a project would answer the research question:
+research codebases could then be constructed. These should include new
+codebases, to demonstrate the technique's utility during development, but should
+also include the instrumentation of old models and the detection of any
+irregularities in existing, published work. Such a project would answer the
+research question:
 
 \begin{researchquestion}
     Can aspect orientation be used to instrument a model and assert correctness
@@ -670,8 +723,7 @@ Experiments in \cref{chap:exp1_simulation_optimisation} and
 real-world data. However, they only fitted parameters of learning models, and
 only some parameters were fitted. This was partly due to the
 computational cost involved in fitting these parameters and time constraints on
-this research.\revnote{Is this point worthwhile? I cited it in IIRC an
-experimental chapter, but I'm unsure it's worth including. For future Tom to revisit.}
+this research.
 
 Optimisation is an independent research field with a broad range
 of techniques outwith the scope of this thesis to explore; however, a study of
@@ -693,7 +745,7 @@ augmented simulations and models would answer the research question:
 \section{Future Work pertaining to RPGLite}\label{sec:future_work_rpglite}
 RPGLite's dataset was analysed for the purposes it was collected for in this
 thesis: to aid in the realistic simulation of a well-controlled \sociotechnical
-system. However, some pieces of analysis have not been completed; this section
+system. However, some pieces of analysis have not been completed. This section
 discusses future work enabled by the dataset of real-world play which this
 thesis contributes.
 
@@ -704,21 +756,22 @@ some are incomplete (as some games were ongoing when the snapshot of the game's
 database was taken), and others are finished. A third category of games are ones
 where a player opted to abandon a game they were participating in. This feature
 of RPGLite was developed to allow players who were playing inactive opponents to
-free a game slot. It also allowed players who felt they had no hope of winning,
-or were bored with a particular game to forfeit.
+free a game slot. It also allowed players who felt they had no hope of winning ---
+or were bored with a particular game --- to forfeit and start a new one.
 
-As many datapoints are included in the published dataset, it is possible to
-observe how active players were (by measuring the frequency with which they
-would open RPGLite), and engagement with the app might be quantified by players'
-exploration of (or frequent use of) leaderboards and customisation features.
-Correlations might exist between players' activity, engagement, or experience
-with their propensity to abandon a game in different states. For example, one
+As many data points are included in the published dataset, it is possible to
+observe how active players were (for example, by measuring the frequency with
+which they would open RPGLite), and engagement with the app might be quantified
+by players' exploration or frequent use of leaderboards and customisation
+features. Correlations might exist between players' activity, engagement, or
+experience with their propensity to abandon a game in different states. One
 hypothesis could be that particularly active players frequently forfeited games
 against inactive players out of boredom, or that players who were unlikely to
 win a game (or were inexperienced players of RPGLite paired against competent
 players) might be more likely to forfeit. These results might be of interest to
-the broader game design community. Research investigating reasons for
-abandonment would answer the research question:
+the broader game design community in industry and research. Research
+investigating reasons for abandonment, for example, could answer the research
+question:
 
 \begin{researchquestion}
     Can players who are likely to forfeit a game be identified through patterns
@@ -729,20 +782,6 @@ abandonment would answer the research question:
 
 
 
-
-
-
-% ======= mark: above written, below yet to write.
-% ======= 230813
-
-
-
-
-
-
-
-
-    
 \subsection{Patterns of Play within Cliques of Players}
 \label{future_work_rpglite_playerbase_clique_discovery}
 
@@ -753,10 +792,12 @@ through a game history. However, two factors might have impacted how players
 chose their opponents:
 
 \begin{enumerate}
-    \item Recruiting methods means people might have known each other
+    \item The recruiting methods used mean that people might have known each
+    other before playing RPGLite and so might be biased toward playing each
+    other rather than other members of the community,
     \item Players who find others they are well-matched against might repeatedly
     re-match rather than continuing to discover players they might have less
-    satisfying games with
+    satisfying games with.
 \end{enumerate}
 
 These factors would imply the formation of cliques of players: small groups who
@@ -765,7 +806,7 @@ the game's broader community. If so, this could have implications for uses of
 the PRGLite play dataset. For example, in the experiments discussed in
 \cref{chap:exp1_simulation_optimisation} and
 \cref{chap:exp2_old_aspects_new_systems} no structure is imposed on the matching
-of simulated players, so that players would be uniformly exposed to the game's
+of simulated players, meaning they are are uniformly exposed to their simulated
 community. As these experiments simulate learning from the outcomes of games,
 exposure to the entire community would expose players to learnings from all
 games played; cliques of players have a limited set of games to learn from, and
@@ -785,85 +826,36 @@ RPGLite play may look to address research questions such as:
     those patterns?
 \end{researchquestion}
 
-
-\subsection{Aspect Oriented Discovery of Dataset Properties}
-\label{future_work_discovering_emergent_properties}
-
-Relatedly, the dataset presents opportunities for research in aspectually
-augmented simulation \& modelling related to the future work described in
-\cref{future_work_hypothesising_system_states}.\revnote{Consider refactoring
-this into a subsection of that sec.} In
-\cref{future_work_hypothesising_system_states}, the use of aspect orientation to
-encode hypothesised behaviour was discussed. However, in some scenarios, the
-expected behaviour may be unknown: it is currently unknown whether cliques were
-formed by RPGLite players; the behavioural impact of player interaction with
-ancillary game features such as leaderboards or profile customisation is
-unknown; players' early aptitude for RPGLite may cause them to lose interest
-relatively quickly due to a lack of challenge or spur them to climb leaderboards
-or continue to win games; players more likely to challenge others with more
-experience might learn and be more likely to continue playing RPGLite, or might
-quickly lose interest due to repeated loss.
-
-These behaviours can be hypothesised, but many might have an impact on each
-other: players might find experienced peers through the leaderboard, so their
-progression in or engagement with the game could be due to their propensity to
-explore (by using the leaderboard) or their exposure to more advanced play
-(through games with experienced peers). This can be investigated through aspects
-fitted to real-world data, used to discover parameters for multiple hypothesised
-concerns in the player data by fitting them simultaneously.\footnote{Research into
-relevant techniques is proposed in
-\cref{future_work_many_aspectual_models_to_optimise}.} The relative importance
-of each concern could be discovered by inferring parameters controlling the
-strength of each concern which were fitted to real-world data. This would allow
-the existance and relative impact of real-world behaviours to be discovered. 
-
-This proposal is an extension of the research discussed in
-\cref{future_work_hypothesising_system_states}, but the RPGLite dataset is a
-suitable testing ground for the technique which already exists. Larger-scale
-data collection described later in this chapter (see
-\label{future_work_rpglite_large_scale_data_collection}) could provide
-opportunities to test this more rigorously, as the discovery of nuanced emergent
-properties of RPGLite play might require a considerably larger dataset than this
-thesis had the scope to contribute.
-
-Research into this technique would contribute answers to the research question:
-
-\begin{researchquestion}
-    Can potentially interacting emergent properties in a real-world system by
-    identified through the fitting of aspectual models representing hypothesised
-    properties to empirical datasets which may exhibit them?
-\end{researchquestion}
-
     
 
-\subsection{Larger-scale Data
+\subsection{Large-Scale Data
 Collection}
 \label{future_work_rpglite_large_scale_data_collection}
 
-RPGLite's playerbase was recruited informally. Only two seasons of gameplay were
-run, and the game was not heavily advertised to prospective players,
-particularly once it was clear that sufficient data would be collected for the
-research that required it. As a result, there is scope for a larger and
-longer-term data collection effort to be made. A re-release of the application
-in major mobile app stores with a concerted effort to release new seasons of the
-game and maintain player interest for an extended period of time --- perhaps
-with additional features, such as in-game chat, favourites lists of previous
-opponents, or match replay and analysis (with suggestions for improved play
-backed by the formal methods inherant in RPGLite's design) --- would enable a
-richer analysis, and broader utility to the games research community.
+There is scope for a larger and longer-term RPGLite data collection effort to be
+made than this thesis had scope for. RPGLite's player base was recruited
+informally, only two seasons of the game were run, and it was not heavily
+advertised to prospective players once it was clear that sufficient data would
+be collected for the research that required it. A re-release of the application
+in mobile app stores with a concerted effort to release new seasons of the game
+and maintain player interest for an extended period of time would enable a
+richer analysis, and broader utility to the games research community. New
+RPGLite data collection efforts could also take the opportunity to expand the
+game's implementation with additional features, such as in-game chat, favourites
+lists of previous opponents, or match replay and analysis with suggestions for
+improved play backed by the formal methods inherent in RPGLite's design
 
 RPGLite's dataset contains information about players' interactions with the
 application itself. As the game made available some features typical of modern
 games such as leaderboards, matchmaking, achievements, and graphical
 customisation, player data containing interaction data on features which are
-used commercially could be used to shed light on
-the more effective aspects of modern game design for engagement purposes. 
-There are many opportunities available for the game
-design research community to investigate.\footnote{Unfortunately, they remain
-outwith the scope of this thesis, which focuses on simulation technologies more
-than it does game design.} Publications in the field from
-co-creators of RPGLite reflect further on the design and future improvements of
-the game~\cite{GameOn2020,kavanagh2020,kavanagh2021thesis,kavanagh2019balancing,kavanagh2021gameplay}.
+used commercially could be used to shed light on the more effective aspects of
+modern game design for engagement purposes. There are many opportunities
+available for the game design research community to investigate. Unfortunately,
+they remain outwith the scope of this thesis, which focuses on simulation
+technologies more than it does game design. However, Some already-published work
+reflects further on the design and possible future improvements of the
+game~\cite{kavanagh2019balancing,RPGLiteLessonsLearned,kavanagh2020,kavanagh2021thesis,kavanagh2021gameplay}.
 
 A large-scale user study of RPGLite could also be used in pursuit of other
 research questions suggested in this chapter. Players could be classified by
@@ -871,7 +863,7 @@ their likelihood of abandoning games using the patterns identified in
 \cref{future_work_rpglite_abandonment_reasons} to verify the patterns
 empirically. A larger dataset might be useful in testing the discovery of system
 behaviours using hypothesised behaviours encoded in aspects. This could be used
-for both the aspectual encoding of an experimental setup, as discussed in
+for the aspectual encoding of an experimental setup, as discussed in
 \cref{future_work_hypothesising_system_states}, the discovery of features of
 player behaviour suggested in
 \cref{future_work_discovering_emergent_properties}, the discovery of dataset
@@ -884,6 +876,69 @@ multiple aspects to models as described in
 questions are discussed in their respective sections of this chapter.
 
 
+
+\section{\AspectOriented{} Discovery of System Properties}
+\label{future_work_discovering_emergent_properties}
+
+The RPGLite gameplay dataset presents opportunities for research in aspectually
+augmented simulation \& modelling which is related to the future work described
+in \cref{future_work_hypothesising_system_states}, which discussed the use of
+aspect orientation to encode hypothesised behaviour. Researchers may be able to
+use aspects to discover unknown properties of a real-world system. This would be
+achieved by writing aspects which alter a simulation to discern some
+pattern in it, or in the behaviours which produced a dataset that simulation
+uses. Rather than writing aspects to encode a scientific hypothesis, they could
+also be used as an investigative tool.
+
+The existence of some biases which could affect RPGLite player behaviour is
+unknown. However, these may be discernable by encoding the behaviours as aspects
+and observing whether player behaviour is made realistic when they are woven.
+Examples of possible biases include: whether cliques were formed by RPGLite
+players; the behavioural impact of player interaction with ancillary game
+features such as leaderboards or profile customisation; whether players' early
+aptitude for RPGLite may cause them to lose interest relatively quickly due to a
+lack of challenge or spur them to climb leaderboards or continue to win games;
+whether players more likely to challenge others with more experience learn
+RPGLite quickly and be more likely to continue playing, or quickly lose interest
+due to repeated loss. These may be identified by writing aspects which encode
+them and observing whether simulated play produces realistic data.
+
+While these behaviours can be hypothesised, many might have an impact on each
+other. Players might find experienced peers through the leaderboard, so their
+progression in or engagement with the game could be due to their propensity to
+explore (by using the leaderboard) or their exposure to more advanced play
+(through games with experienced peers). This can be investigated through aspects
+fitted to real-world data, with parameters describing the strength of their
+effect.\footnote{Research into relevant techniques is proposed in
+\cref{future_work_many_aspectual_models_to_optimise}.} The \emph{relative}
+importance of each concern could be discovered by determining accurate values
+for the parameters controlling the strength of every one, similarly to the
+experimental design used in \cref{chap:experimental_results}. This would discern
+the existence and relative impact of real-world behaviours.
+
+This proposal is an extension of the research discussed in
+\cref{future_work_hypothesising_system_states}, but the RPGLite dataset is a
+suitable testing ground for the technique which already exists. Larger-scale
+data collection as described in
+\cref{future_work_rpglite_large_scale_data_collection} could provide
+opportunities to test this more rigorously, as the discovery of emergent
+properties of RPGLite play might require a larger dataset than this thesis had
+the scope to contribute. Future work demonstrating this technique could address
+the research question:
+
+\begin{researchquestion}
+    Can potentially interacting emergent properties in a real-world system be
+    identified through the fitting of aspectual models representing hypothesised
+    properties to empirical datasets which may exhibit them?
+\end{researchquestion}
+
+
+\revnote{
+    Add a section on \pdsf{} improvements: primitives to make it easier to write
+    fuzzers, such as standard AST modifications and easy, high-level
+    specification of where those modifications should go. Doesn't belong here,
+    move it near a section on tooling above.
+}
 
 \section{Discussion}\label{sec:future_work_conclusion}
 
@@ -902,59 +957,46 @@ questions are discussed in their respective sections of this chapter.
 % future simulation and modelling research can be explored in a variety of
 % fields.
 
-The\revnote{Possibly too grandiose? I don't think so really, but I
-wouldn't want to present it as being more than it is, and worry I oversell here.
-Maybe some references to literature discussing the expected scope of PhD theses
-(which exists! I have it in KeepIt, Tim sent me some early in the PhD) and an
-explanation that it's not outside the realm of a normal thesis to make
-contributions with theoretical implications --- see REST
-thesis or computational trust --- it does warrant a beefy future work chapter
-and an exploration of the research this enables (because it \emph{does} enable
-lots of future research) is a contribution in its own right. Which isn't
-necessarily grandiose, but can be oversold as grandiose. Maybe comparisons to
-REST don't help that case, actually...} research presented in earlier chapters motivates a research effort spanning
-multiple fields, and has implications for experimental design as well as
-software engineering and simulation \& modelling techniques. Earlier
-contributions add to the corpus of knowledge in their fields, but also carry
-implications for our understanding of and research practice in those fields.
-This chapter contributes an investigation into these implications by exploring
-the possibilities these techniques make possible, and by explaining their
-potential impact.
+The contributions presented in earlier chapters motivate more research efforts
+spanning multiple fields, and has implications for experimental design as well
+as software engineering and simulation \& modelling techniques. This chapter
+contributes an investigation into this future work by identifying specific
+opportunities yielded by earlier contributions and proposing research questions to
+precisely communicate the future work enabled by those contributions.
 
-In \citetitle{kuhn2012structure}~\cite{kuhn2012structure},
-\citeauthor{kuhn2012structure} notes:
+It is important to examine new research results. Contributions can impact
+existing results, and the theories they are founded upon.
+\citet{kuhn2012structure} notes (emphasis added):
 
 \begin{displayquote}
-   [\ldots{}] new inventions of theory [are not] the only scientific events that have
-   revolutionary impact upon the specialists in whose domain they occur. The
-   commitments that govern normal science specify not only what sorts of
+   \textelp{}new inventions of theory [are not] the only scientific events that
+   have revolutionary impact upon the specialists in whose domain they occur.
+   The commitments that govern normal science specify not only what sorts of
    entities the universe does contain, but also, by implication, those that it
-   does not. It follows, though the point will require extended discussion, that
-   a discovery like that of oxygen or X-rays does not simply add one more item
-   to the population of the scientist's world. Ultimately it has that effect,
-   but not until the professional community has re-evaluated traditional
-   experimental procedures, altered its conception of entities with which it has
-   long been familiar, and, in the process, shifted the network of theory
-   through which it deals with the world. Scientific fact and theory are not
-   categorically separable, except perhaps within a single tradition of
-   normal-scientific practice. That is why the unexpected discovery is not
-   simply factual in its import and why the scientist's world is qualitatively
-   transformed as well as quantitatively enriched by fundamental novelties of
-   either fact or theory. 
+   does not. It follows \textelp{} that a discovery like that of oxygen or
+   X-rays does not simply add one more item to the population of the scientist's
+   world. Ultimately it has that effect, but not until the professional
+   community has re-evaluated traditional experimental procedures, altered its
+   conception of entities with which it has long been familiar, and, in the
+   process, shifted the network of theory through which it deals with the world.
+   \emph{Scientific fact and theory are not categorically separable, except perhaps
+   within a single tradition of normal-scientific practice. That is why the
+   unexpected discovery is not simply factual in its import and why the
+   scientist's world is qualitatively transformed as well as quantitatively
+   enriched by fundamental novelties of either fact or theory.}
 \end{displayquote}
 
-The ideas presented in this thesis --- in particular aspectually augmented
-simulations \& models and aspect-oriented runtime metaprogramming --- are not
-new ``theories'' in the relevant fields which contribute any profound or
-revolutionary new paradigms. However, they do present a new approach in
-simulation and modelling, and do so through new aspect orientation techniques.
-There are therefore contributions in both fields in which the ``scientific fact
-and theory'' Kuhn refers to are affected: in both fields new research
-opportunities and experimental practices are made feasible, with implications
-for both the research facts in the fields (for example, the contribution of the
-concept of aspect-oriented runtime metaprogramming, for example) and the theory
-of the fields (for example, the use of new aspect orientation technologies in
-experimental design).
+The ideas presented in this thesis --- in particular the aspectual augmentation
+of simulations \& models --- are not new ``theories'' in the sense that they
+contribute any profound or revolutionary new paradigms. However, they do
+contribute a new approach to simulation \& modelling, and do so through new
+aspect orientation techniques. There are therefore contributions in both fields
+in which the ``scientific fact and theory'' Kuhn refers to are affected: in both
+fields new research opportunities and experimental practices are made feasible.
+These contributions concern both research \emph{facts} such aspect-oriented
+runtime metaprogramming, and \emph{theories} forming the foundation of those
+facts such as the use of new aspect orientation technologies in experimental
+design.
 
 New capabilities of aspect orientation frameworks are suggested, built, and
 demonstrated in experimental case studies through \pdsf{}. Their design and the
@@ -962,24 +1004,21 @@ extension of the tooling around these concepts present opportunities for future
 work as discussed in \cref{future_work_standard_aosm_techniques} and in
 \cref{standard_aosm_model_features}, but the implications of their use in
 software engineering requires further study, as discussed in
-\cref{future_work_aspect_oriented_metaprogramming}, as well as in research
-software engineering specifically, as discussed in
-\cref{future_work_nudge_model_state}, \cref{future_work_aop_for_rses},
-\cref{sciunits_for_unrealistic_states} and
-\cref{future_work_many_aspectual_models_to_optimise}; further, the possibilities
-investigated in this research have implications for research in the practice of
-research itself, as discussed in \cref{future_work_hypothesising_system_states},
-\cref{sciunits_for_unrealistic_states},
-\cref{future_work_many_aspectual_models_to_optimise} and
-\cref{future_work_discovering_emergent_properties}. For this reason, the work
-presented in earlier chapters motivates further research in many areas. This
-thesis contributes not only the exploration of the ideas presented in earlier
-chapters, but a discussion of their implication for Kuhn's ``scientific fact[s]
-and theor[ies]'' in their relevant fields.\revnote{Maybe go into more detail on
-what was mentioned in specific cross-referenced sections here? A long list of
-sections this chapter contains without any extra explanation isn't very
-satisfying, even if it's useful within this framing of exploring what Kuhn meant
-and how it relates to this thesis.}
+\cref{future_work_aspect_oriented_metaprogramming}. There are specific software
+engineering implications for research software engineering, as discussed in
+\cref{future_work_nudge_model_state,future_work_aop_for_rses,sciunits_for_unrealistic_states,future_work_many_aspectual_models_to_optimise},
+Further, the methodologies demonstrated here yield metascientific research
+opportunities, as discussed in
+\cref{future_work_hypothesising_system_states,sciunits_for_unrealistic_states,future_work_many_aspectual_models_to_optimise,future_work_discovering_emergent_properties}.
+This thesis contributes not only the ideas presented in earlier chapters, but a
+discussion of their implication for Kuhn's ``scientific fact[s] and theor[ies]''
+in this chapter for the relevant fields.
+\revnote{
+    Maybe go into more detail on what was mentioned in specific cross-referenced
+    sections here? A long list of sections this chapter contains without any
+    extra explanation isn't very satisfying, even if it's useful within this
+    framing of exploring what Kuhn meant and how it relates to this thesis.
+}
 
 
 The dataset produced by RPGLite also offers opportunities for further study.
@@ -989,8 +1028,6 @@ dataset this thesis helped to contribute also offers opportunities in the
 mining of player behaviour and the dataset's use in future aspectually
 augmented modelling research, particularly if a large-scale data collection
 study is undertaken. These possibilities were discussed in
-\cref{sec:future_work_rpglite}, in particular in
-\cref{future_work_rpglite_abandonment_reasons},
-\cref{future_work_rpglite_playerbase_clique_discovery}, and \cref{future_work_rpglite_large_scale_data_collection}.
+\cref{sec:future_work_rpglite}.
 
 

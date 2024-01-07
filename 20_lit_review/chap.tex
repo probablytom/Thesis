@@ -1280,7 +1280,7 @@ The algorithms presented by \citeauthor{ExecutableBPMNMitsyuk} simulate
 processes described by BPMN models, but don't include any provisions for
 representing variance. However, the technique could be combined with
 \aspectorientation{} techniques for BPMN as discussed in
-\cref{ao_and_bpm_review}~\cite{charfi2010AO4BPMN,Cappelli_AOBPM} to represent
+\cref{subsec:ao_and_bpm_review}~\cite{charfi2010AO4BPMN,Cappelli_AOBPM} to represent
 alternate behaviour applied contingently. Demonstrating the viability of this
 approach is an avenue of research beyond the scope of this thesis. However, the
 motivation of the work mirrors that of other research projects reviewed in this
@@ -1461,7 +1461,7 @@ simulated behavioural variation.
 A tool which dynamically weaves definitions of behavioural variations for
 contingent application and which is capable of expressing changes within a join
 point rather than before or after it prompts a demonstration of the benefits
-that tool achieves. Contingent application of behavioural variation, and the
+achieved by that tool. Contingent application of behavioural variation, and the
 ability to define changes to processes specifically, would fulfil the
 opportunity in marrying \aspectorientation{} and modelling behavioural
 variation, but the benefit offered by such a tool is unclear. The introduction
@@ -1476,28 +1476,28 @@ research should demonstrate that the resulting aspectual modules are re-usable
 when modelling other systems: if so, aspects would represent modifications to
 models which cut across different model codebases.
 
-This is investigated in the research presented in the following chapters. This
-literature review motivates the following research questions, which those
-chapters address:
+As a result, this literature review motivates the following research questions,
+which are addressed in later chapters:
 
 \begin{researchquestion}
 \begin{description}
-  \item[RQ1] \rqone{}
-  \item[RQ2] \rqtwo{}
-  \item[RQ3] \rqthree{}
-  \item[RQ4] \rqfour{}
+  \item[RQ1] \rqtwo{}
+  \item[RQ2] \rqthree{}
+  \item[RQ3] \rqfour{}
 \end{description}
 \end{researchquestion}
 
 To address these, new tooling is produced in \cref{chap:pdsf_rewrite} which
-offers new types of aspects which weave their advice within their targets,
-rather than before or after them; a system is presented in \cref{chap:rpglite}
-around which a model can be constructed to investigate \aspectoriented{}
-simulation \& modelling. That model --- and the aspects applied to it --- is
-described in \cref{chap:experiment_setup}; this chapter addresses the first
-research question while laying the foundation for experiments which address the
-latter three. Those experiments are discussed in
-\cref{chap:experimental_results}. Before discussing these responses to the
-literature, related work which predates the contributions of later chapters is
-explained. \Cref{chap:prior_work} Distinguishes prior research from that
-contributed in this thesis.
+offers new types of aspects. These aspects weave their advice \emph{within}
+their targets, rather than before or after them. A system is presented in
+\cref{chap:rpglite} which is a suitable subject to construct models of in the
+pursuit of investigating \aspectoriented{} simulation \& modelling. That model
+--- and the aspects applied to it --- is described in
+\cref{chap:experiment_setup}. As the experiments which investigate the research
+questions described earlier use the same model, aspects, and methodology, these
+common foundations are explained together in \cref{chap:experiment_setup}. The
+specific designs of those experiments and their results are then discussed in
+individual sections within \cref{chap:experimental_results}. Before discussing
+these responses to the literature, related work which predates the contributions
+of later chapters is explained. \Cref{chap:prior_work} distinguishes
+contributions in this thesis from some related work which precedes it.

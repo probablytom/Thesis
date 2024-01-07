@@ -1,18 +1,29 @@
-\chapter{Complete Result Table answering RQ3}
+\chapter{Complete Result Table answering RQ2}
 \label{appendix_complete_results_table_exp2}
 
 
 
-\begin{figure}[h]
-  \centering
-  
-  \begin{tabular}{@{}l c c c c c c@{}}
+\begin{longtable}{@{}lcccccc@{}}
+    \caption{Untruncated data from the experiment in \cref{sec:rq3}, generated using the \aspectoriented model of learning and applied to season 1.}%
+    \label{complete_exp2_result_table}\\
     \toprule
       \emph{Username} & \emph{p-value <} & \emph{\tau{} >} &
 \begin{tabular}{@{}c@{}}\emph{Confidence} \\ \emph{curve value}\end{tabular} &
 \begin{tabular}{@{}c@{}}\emph{Confidence} \\ \emph{RGR modifier}\end{tabular}  &
 \emph{Prob. bored} &
       \emph{\# folds}\\\midrule
+      \endfirsthead
+    \toprule
+      \emph{Username} & \emph{p-value <} & \emph{\tau{} >} &
+\begin{tabular}{@{}c@{}}\emph{Confidence} \\ \emph{curve value}\end{tabular} &
+\begin{tabular}{@{}c@{}}\emph{Confidence} \\ \emph{RGR modifier}\end{tabular}  &
+\emph{Prob. bored} &
+      \emph{\# folds}\\\midrule
+      \endhead
+      \midrule\multicolumn{7}{r}{\footnotesize\tablename~\thetable:
+\emph{Continued on next page}} \\\endfoot\bottomrule\endlastfoot
+
+
 apropos0 & 0.01 & 0.4 & 0.2 & 3 & 0.0625 & 3 \\
 apropos0 & 0.01 & 0.4 & 10 & 0.1 & \emph{disabled} & 3 \\
 basta & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} \\
@@ -67,9 +78,5 @@ Paddy & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N
 sstein & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} \\
 tanini & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} \\
 timri & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} & \emph{N/A} \\
-\bottomrule
-    \end{tabular}
-    \caption{Untruncated data from the experiment in \cref{sec:rq3}, generated using the \aspectoriented model of learning and applied to season 1.}
-    \label{complete_exp2_result_table}
+    \end{longtable}
   
-\end{figure}
