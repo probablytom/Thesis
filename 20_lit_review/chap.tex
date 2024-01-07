@@ -4,18 +4,26 @@
 \citet{masuhara2003modeling}.}
 
 This thesis presents an \aspectoriented{} approach to simulation \& modelling
-and to experiment design, with tooling to support these endeavours and an
-empirical assessment of the paradigm's application in the domain of simulation
-\& modelling. In particular, the presented research makes use of aspects to
-augment models. The research presented in later chapters is motivated in this
-chapter through a review of the related literature.
+and to experiment design, with tooling to support this. An empirical assessment
+of the paradigm's application in the domain of simulation \& modelling is also
+contributed in later chapters. This chapter motivates those contributions,
+through a review of related literature.
 
-Research related to this work comes from a variety of fields which do not
-overlap significantly, meaning that this review must cover segments of several
-partly related fields. The presented material is eclectic in nature as a result.
-
-\inline{FINISH THIS AFTER EDITING / REARRANGING THE LIT REVIEW}
-The review begins with an overview of \aop{}'s design philosophy
+The chapter starts by discussing \aop{} in
+\cref{aspect_oriented_programming_litreview}, providing an overview of \aop{}'s
+history, design philosophy, and some \aspectorientation{} frameworks of note.
+Criticisms of and alternatives to \aop{} are also discussed. Existing
+applications of the paradigm to simulation \& modelling are also particularly
+relevant to the research in later chapters, and this is described in
+\cref{sec:ao_and_modelling}. Also relevant to the contributions made in later
+chapters is the representation of variations to processes. This is because
+aspects are used to represent individual units of change to a model, which may
+introduce changes to behaviours and the processes which simulated actors follow.
+A review of literature representing changes to processes is given in
+\cref{sec:dynamism_in_sm}. The chapter concludes with a brief discussion in
+\cref{sec:lit_discussion}, where the research questions which later chapters
+address are motivated.
+ 
 
 
 
@@ -222,11 +230,12 @@ this thesis focuses on the latter type of weaver. These weavers are referred to
 as ``dynamic''.
 
 \citet{dynamicAOchitchyan} present a review of \aspectorientation{} frameworks
-with dynamic weavers. They compare AspectWerkz, JBoss, Prose, and Nanning
-Aspects through the lens of the authors' prior work on dynamic reconfiguration
-of software systems. By comparing different implementations of dynamic weaving,
-\citeauthor{dynamicAOchitchyan} contribute a categorisation of the tools'
-approaches: \revnote{Need citations for these technologies}
+with dynamic weavers. They compare AspectWerkz~\cite{boner2004aspectwerkz},
+JBoss~\cite{fleury2003jboss}, Prose~\cite{popovici2002PROSE}, and Nanning
+Aspects~\cite{nanning_aspects_repo} through the lens of the authors' prior work
+on dynamic reconfiguration of software systems. By comparing different
+implementations of dynamic weaving, \citeauthor{dynamicAOchitchyan} contribute a
+categorisation of the tools' approaches:
 
 \begin{enumerate}
 \item ``Total hook'' weaving, where aspect hooks are woven at all possible
@@ -278,20 +287,15 @@ aspects~\cite{golbeck2010late}. The popularity of the framework has led it to
 see some industry adoption~\cite{aspectj_in_industrial_projects}, although its
 use in real-world settings has been found to introduce a trade-off between the
 legibility of a codebase and the ease with which that codebase can be
-updated~\cite{przybylek2018empirical}.
-\revnote{
-I feel like AspectJ should probably have a larger section here, but honestly,
-it's hard to know what to say about it\ldots{} hopefully this is sufficient.
-Only revisit if there's time.
-}
+updated~\cite{przybylek2018empirical}. AspectJ's design has influenced other
+\aspectorientation{} frameworks: for example, the SpringBoot Java framework
+provides Spring AOP, an \aop{} implementation which is compatible with the
+domain-specific language AspectJ uses to describe
+aspects~\cite{introducing_spring_aop_chapter_integration_with_aspectj}.
+\revnote{ I feel like AspectJ should probably have a larger section here, but
+honestly, it's hard to know what to say about it\ldots{} hopefully this is
+sufficient. Only revisit if there's time. }
 
-\revnote{
-  Ideally there'd be a section for Spring AOP here too as another
-  industry-focused \aop{} offering, but I don't think it's too important as I'm
-  not aware of it bringing any advancements of interest for the research. Maybe
-  make reference to that here, given it's kind of related to AspectJ (in that
-  they have the same audience?)\ldots{} or revisit if there's time I suppose.
-}
 
 
 \subsection{PROSE}
@@ -363,18 +367,17 @@ AspectJ. The implementation discussed is a Java implementation, rather than the
 implementation on multiple platforms highlights the work's main contribution in
 the design of the Bind primitive, rather than the framework itself.
 
-It is noted that it is ``very common in aspect-oriented programming research
-literature to provide language extensions to support new properties of
-aspect-like constructs''.\revnote{Who notes this?}
-\citeauthor{rajan2006nu_towardsao_invocation} look to provide similar extensions
-to virtual machines, noting that their mechanism is a suitable candidate to
-introduce \aspectorientation{} directly in a language's virtual machine. They
-position the project as a general model of aspect-oriented programming which can
-flexibly represent a variety of existing approaches. Bind fulfils this aim by
-providing a single mechanism which can be used to achieve many weaving
-techniques; however, case studies demonstrating that Bind can be used to make
-\aspectorientation{} more practically effective for software developers does not
-appear to have been published.
+\citeauthor{rajan2006nu_towardsao_invocation} note that it is ``very common in
+aspect-oriented programming research literature to provide language extensions
+to support new properties of aspect-like constructs''. They look to provide
+similar extensions to virtual machines, noting that their mechanism is a
+suitable candidate to introduce \aspectorientation{} directly in a language's
+virtual machine. They position the project as a general model of aspect-oriented
+programming which can flexibly represent a variety of existing approaches. Bind
+fulfils this aim by providing a single mechanism which can be used to achieve
+many weaving techniques; however, case studies demonstrating that Bind can be
+used to make \aspectorientation{} more practically effective for software
+developers does not appear to have been published.
 
 
 \subsection{Dynamic Weaving in Embedded Systems}
@@ -417,7 +420,7 @@ Support for this observation can be found in criticisms of \aop{} from
 \cref{subsec:aop-criticisms}. Examples of alternative uses include
 \citeauthor{popovici2002PROSE}'s proposal of using \aspectorientation{} for
 software prototyping, the proposal presented by \citet{gulyas1999use} that
-simulation \& modelling is a more appropriate field, or \citet{Cieslak_2007}'s
+simulation \& modelling is a more appropriate field, or \citet{Cieslak_2011}'s
 use of \aspectorientation{} in modelling plant growth using L-systems. These
 proposed uses of \aspectorientation{} involve a different resource economy than
 that imposed by embedded systems. A discussion of \aspectorientation{}'s use in
@@ -477,7 +480,7 @@ present a comparison between \aspectorientation{} and object-orientation, where
 and the impact on software engineering is reasoned about from a skeptical
 perspective. They compare the paradigms' specific claims that they both support
 improved modularity against classic papers on the subjects.\footnote{In
-  particular, they compare against literature by \citet{parnas_1972}.}.
+  particular, they compare against literature by \citet{Parnas_1972}.}.
 \citeauthor{steimann06paradoxical} presents a philosophical examination of
 \aspectorientation{} and assesses the paradigm against its purported merits,
 discussing whether we should accept the claims made by the aspect-oriented
@@ -589,7 +592,7 @@ networks~\cite{bigraph_network_model} and ubiquitous
 computing~\cite{bigraph_lions_impalas}. A key property of bigraphs are their
 ``ports'', which denote possible points of composition a given model can have
 with others. Bigraphs' compositional property is reminiscent of the use of
-aspect-orientation for composition~\cite{gulyas1999use,Cieslak_2007}. While the
+aspect-orientation for composition~\cite{gulyas1999use,Cieslak_2011}. While the
 existence of a port means bigraphs cannot be composed obliviously, they are a
 powerful tool for formal modelling and are used in a similar manner.
 
@@ -681,24 +684,63 @@ not want to implement logging alongside the rest of their method implementation
 for clarity or length reasons. Multiple dispatch therefore offers comparable but
 different functionality to a software engineer.
 
+\begin{figure}
+  \begin{lstlisting}
+# Decorators take functions as arguments and
+# return a function to replace the one they are passed.
+def print_invocation(f):
+    # Construct the function to return, which will print
+    # when it invokes `f` and when `f` returns.
+    def wrapper(*args, **kwargs):
+        print(f"Executing {f}")
+        print(f"\tArgs: {args}")
+        print(f"\tKeyword args: {kwargs}")
+        return_val = f(*args, **kwargs)
+        print(f"Returning from {f}")
+        print(f"\tReturn value: {return_val}")
+        return return_val
+    # Return a new function wrapping `f`
+    return wrapper 
+  
+# When the decorator is applied, the function it is applied to is
+# passed as its argument. The decorator's return value replaces the
+# function which would otherwise be defined here.
+@print_invocation
+def add(a, b):
+    return a + b
+    
+add(5, 6)
+# Prints:
+"""
+Executing <function add at 0x104978f40>
+        Args: (5, 6)
+        Keyword args: {}
+Returning from <function add at 0x104978f40>
+        Return value: 11
+"""
+  \end{lstlisting}
+  \caption{A code snippet showing the definition and use of a decorator in
+  Python. Decorators follow a design pattern which provides similar
+  functionality to aspects, but do not conform to \aop{}'s philosophy of obliviousness.}
+  \label{fig:decorator_code_snippet}
+\end{figure}
+
 Engineering patterns such as decorators provide similar functionality to
 aspects~\cite{friesel2017annotations}, in that cross-cutting concerns can be
 separated into their own module, but they differ in their approach to
 obliviousness: decorators annotate areas of a codebase they are applied to, and
-therefore do not offer obliviousness as aspects do. Decorators allow for
-additional functionality to be written as a separate module and applied as a
-wrapper around a function definition.\revnote{A diagram or Python example might
-  help here, as per Tim's suggestion below. Add one if there's time.} A function with a wrapped
-definition is replaced by a function returned by the decorator, which takes the
-original definition as an argument~\citep{gof_design_patterns}. Additional logic
-can therefore be simply applied before or after a function. While this achieves
-a similar effect to \aspectorientation{} --- as logic is added before and/or after
-the original logic of a function --- its design principles are different as
-annotating the function's definition directly marks it as altered, and so the
-original definition cannot be oblivious to the change.
-
-\revnote{Would some illustrative examples of these different approaches help?}
-\reviewresponse{Yes, I'm sure they'd help! Diagrams to add here if there's time.}
+therefore do not offer obliviousness as aspects do. An example of a decorator
+and its application to a simple function is given in
+\cref{fig:decorator_code_snippet}. Decorators allow for additional functionality
+to be written as a separate module and applied as a wrapper around a function
+definition. A function with a wrapped definition is replaced by a function
+returned by the decorator, which takes the original definition as an
+argument~\citep{gof_design_patterns}. Additional logic can therefore be simply
+applied before or after a function. While this achieves a similar effect to
+\aspectorientation{} --- as logic is added before and/or after the original
+logic of a function --- its design principles are different as annotating the
+function's definition directly marks it as altered, and so the original
+definition cannot be oblivious to the change.
 
 
 
@@ -725,7 +767,7 @@ from the core logic of a simulation or model.
 
 The approach is demonstrated via their Multi-Agent Modelling Language (MAML). MAML
 was designed to enable aspect-oriented simulation of agent-based models and was
-implemented using the SWARM simulation system~\citep{hiebeler1994swarm}, a
+implemented using the SWARM simulation system~\cite{hiebeler1994swarm}, a
 domain-agnostic framework for agent-based simulation. While SWARM takes the form
 of a collection of C libraries, MAML is implemented as a domain-specific
 modelling language, allowing it to support aspect-oriented programming as a
@@ -799,11 +841,10 @@ design, followed by aspect oriented variations of some design elements,
 including concurrent process management and in Japrosim's graphical animation
 features. A similar survey of areas in which Japrosim's source might benefit
 from the application of \aspectorientation{} is presented by
-\citeauthor{chibani2014practical} in an earlier
-work~\cite{chibani2014practical}. In both cases, the main contribution noted is
-the design itself. Evaluating the main improvements between the presented
-aspect-oriented design and the existing object-oriented one is left to future
-work.
+\citeauthor{chibani2014practical} in earlier work~\cite{chibani2014practical}.
+In both cases, the main contribution noted is the design itself. Evaluating the
+main improvements between the presented aspect-oriented design and the existing
+object-oriented one is left to future work.
 
 \citet{chibani2019using}'s later work presented an implementation of their
 proposal and provided a quantitative evaluation of that implementation. The
@@ -913,9 +954,9 @@ engineering improvements they observe.
 supercomputing \& disaster prevention simulations meet their performance
 requirements and demonstrate a modelling technique which adapts existing models
 for use in new environments without directly modifying pre-existing source code.
-This result is notable with regards the contributions presented in this thesis, which
-similarly aim to augment a pre-existing model without directly modifying its
-source code --- though this thesis' targets model reuse and design
+This result is notable with regards the contributions presented in this thesis,
+which similarly aim to augment a pre-existing model without directly modifying
+its source code --- though this thesis' targets model reuse and design
 simplification rather than for avoiding the regulatory overhead and financial
 cost of maintaining models which run on supercomputers.
 
@@ -1319,7 +1360,8 @@ contributed~\cite{machado2012formal}.
 \revnote{Review \citet{Mitsyuk_2016} and other work with Shugurov if there's time\ldots{}}
 
 
-\section{Discussion}\label{sec:lit_discussion}
+\section{Discussion}
+\label{sec:lit_discussion}
 
 
 This thesis draws on the idea that, in response to
@@ -1458,26 +1500,26 @@ simulated behavioural variation.
 \label{subsec:rqs}
 \label{rqs}
 
-A tool which dynamically weaves definitions of behavioural variations for
-contingent application and which is capable of expressing changes within a join
-point rather than before or after it prompts a demonstration of the benefits
-achieved by that tool. Contingent application of behavioural variation, and the
-ability to define changes to processes specifically, would fulfil the
-opportunity in marrying \aspectorientation{} and modelling behavioural
-variation, but the benefit offered by such a tool is unclear. The introduction
-of oblivious modification to a model may break its representation of its
-real-world analogue, making such a model difficult to reason about. Added to
-this is the complexity of the tool's capacity to rewrite any join point's
-definition. Though \aop{} literature often lacks case studies demonstrating the
-benefits of the approach, it is particularly important to investigate whether
-such a tool could produce realistic models, and whether the expected benefits of
-aspect orientation as applied to the model hold in practice. Further, the
-research should demonstrate that the resulting aspectual modules are re-usable
-when modelling other systems: if so, aspects would represent modifications to
-models which cut across different model codebases.
+A tool which dynamically weaves definitions of change to a model and which is
+capable of expressing changes \emph{within} a join point rather than before or
+after it prompts a demonstration of the benefits achieved by that tool.
+Application of behavioural variation, and the ability to define changes to
+processes specifically, would fulfil the opportunity to be found in marrying
+\aspectorientation{} and simulation \& modelling. However, the introduction of a
+modification to a model may break its representation of its real-world analogue,
+making such a model difficult to reason about. Additionally, the proposed tool
+is made more complex to reason about due to its capacity to rewrite any join
+point's definition. Though \aop{} literature often lacks case studies
+demonstrating the benefits of the paradigm, it is particularly important to
+investigate whether such a tool could produce \emph{realistic} models, and
+whether the expected benefits of \aspectorientation{} as applied to the model
+hold in practice. Further, the research should demonstrate that units of model
+change written as aspects are re-usable when modelling other systems. If so,
+aspects would represent units of modifications to models which cut across
+different model codebases.
 
-As a result, this literature review motivates the following research questions,
-which are addressed in later chapters:
+For these reasons, this literature review motivates the following research
+questions, which are addressed in later chapters:
 
 \begin{researchquestion}
 \begin{description}

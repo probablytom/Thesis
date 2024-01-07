@@ -1,5 +1,9 @@
 \RequirePackage{luatex85}
-\documentclass[12pt]{good_template}
+\ifdefined\finalversion
+    \documentclass[12pt,final]{good_template}
+\else
+    \documentclass[12pt]{good_template}
+\fi
 
 
 \include{preamble}
@@ -13,29 +17,31 @@
 
 
 \begin{document}
+
+% Preamble
+\pagestyle{empty}
+
+\begin{titlepage}
 \maketitle
+\end{titlepage}
+
 \include{abstract}
+\include{acknowledgements}
 \tableofcontents
 \listoftodos
 
+\pagestyle{plain}
+
+% Chapters
 \include{10_intro/chap}
 \include{20_lit_review/chap}
 \include{30_prior_work/chap}
-
 \include{40_pydysofu_rewrite/chap}
-
-% needs rewriting, also needs restructuring for final thesis plan
-% 2021-09-16: this has been underway but needs finishing and fleshing out.
 \include{50_rpglite/chap}
-
 \include{60_optimisation_with_aspects/chap}
-
 \include{70_generality_of_aspects/chap}
-
 \include{80_future_work/chap}
-
 \include{90_closing_discussion/chap}
-
 
 % Appendices
 \appendix

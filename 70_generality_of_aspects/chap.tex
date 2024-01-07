@@ -436,8 +436,8 @@ running simulations were:
   of the values $c \in \{\frac{1}{50}, \frac{1}{10},
     \frac{1}{5}, 1, 5, 10, 50\}$.
     \item The coefficient applied to scale the relative growth rate of the
-      confidence model's birch curve, which could have any of the values \laurie{to avoid weird formatting (e.g. `coeff' gets formatted as `coef f'!) in maths mode, you'll want to put the words in a `textrm' command} $rgr
-    ~ coeff. \in \{0.1, 0.3, 1, 3\}$
+      confidence model's birch curve, which could have any of the values
+      $\textrm{\emph{rgr~coeff.}} \in \{0.1, 0.3, 1, 3\}$
     \item The probability that a simulated player would become ``bored'' and
     replaced in the player pool for the simulation, as described in
     \cref{subsec:controlling_state_space_exploration}. The probability that a
@@ -571,18 +571,8 @@ to represent new behaviours within -- and add new parameters to -- an existing m
 
 \subsection{Experimental Design}
 
-% The experiment in \cref{sec:rq2} is designed to demonstrate that tooling for
-% \aspectorientation{} provided a \emph{viable} mechanism to alter a model; its
-% successor in \cref{sec:rq3} is design to investigate whether \aop{} is
-% \emph{useful} as a mechanism to alter models. The former focuses on tooling, the
-% latter on simulation \& modelling. 
-
-\laurie{i assumed this definition would have appeared at least earlier
-in the chapter, if not earlier in the thesis?}
-\Aop{} is used to produce modules \laurie{is `produce modules' the easiest way to think of AOP? i'd have said it takes in a program and produces another program.}. Aspects describe a cross-cutting concern,
-which can be applied to specific join-points; its use in multiple parts of a
-program lend it a modular nature. Advice representing change to a model may only
-be applied to a single join-point, as is the case for the aspects described in
+Advice representing change to a model may only be applied to a single
+join-point, as is the case for the aspects described in
 \cref{sec:optimisation_with_aspects_aspectsdeveloped}, but that advice could be
 applied to future models. Seen though this lens, the behaviour encoded in a
 model may not be cross-cutting \emph{within} a model, but cuts \emph{across}

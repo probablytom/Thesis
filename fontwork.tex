@@ -1,11 +1,19 @@
 \usepackage{enumitem}
 \usepackage[no-math]{fontspec}
-\setmainfont{Valkyrie A}
-\setsansfont{Concourse 4}
-\setmonofont{Triplicate A Code}
+
 \newfontfamily{\advocate}{Advocate55WideMed}
-\newfontfamily{\concourse}{Concourse 4}
 \newfontfamily{\concourseindex}{Concourse Index}
+\ifdefined\printonpaper
+    \setsansfont{Concourse 3}
+    \setmainfont{Valkyrie B}
+    \setmonofont{Triplicate B Code}
+    \newfontfamily{\concourse}{Concourse 3}
+\else
+    \setsansfont{Concourse 4}
+    \setmainfont{Valkyrie A}
+    \setmonofont{Triplicate A Code}
+    \newfontfamily{\concourse}{Concourse 4}
+\fi
 
 \usepackage{sectsty}
 \allsectionsfont{\concourse}
