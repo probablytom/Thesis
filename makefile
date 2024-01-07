@@ -52,6 +52,38 @@ normal:
 quickly:
 	lualatex $(LTX)
 
+for_submission:
+	make clean
+	$(eval LTX:=\\def\\finalversion{tosubmit}\\include{thesis.tex})
+	sudo mmdc -i 70_generality_of_aspects/diagrams/exp3_learning_model.mmd -o 70_generality_of_aspects/diagrams/exp3_learning_model.png --width 1400 --height 1400
+	sudo mmdc -i 70_generality_of_aspects/diagrams/exp2_prior_distribution_model.mmd -o 70_generality_of_aspects/diagrams/exp2_prior_distribution_model.png --width 1400 --height 1400
+	sudo mmdc -i 60_optimisation_with_aspects/diagrams/aspect_applied_model.mmd -o 60_optimisation_with_aspects/diagrams/aspect_applied_model.png
+	sudo mmdc -i 60_optimisation_with_aspects/diagrams/aspect_applied_model.mmd -o 60_optimisation_with_aspects/diagrams/aspect_applied_model.svg
+	sudo mmdc -i 60_optimisation_with_aspects/diagrams/naive_model.mmd -o 60_optimisation_with_aspects/diagrams/naive_model.png
+	sudo mmdc -i 60_optimisation_with_aspects/diagrams/naive_model.mmd -o 60_optimisation_with_aspects/diagrams/naive_model.svg
+	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.png
+	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.svg
+	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.svg
+	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.png
+	sudo mmdc -i 30_prior_work/diagrams/asp_woven_attr.mmd -o 30_prior_work/diagrams/asp_woven_attr.svg
+	sudo mmdc -i 30_prior_work/diagrams/asp_woven_attr.mmd -o 30_prior_work/diagrams/asp_woven_attr.png
+	lualatex $(LTX)
+	biber thesis.bcf
+	lualatex $(LTX)
+	lualatex $(LTX)
+	cp thesis.pdf thesis.screen.pdf
+	make clean
+	$(eval LTX:=\\def\\finalversion{tosubmit}\\def\\printonpaper{printablecopy}\\include{thesis.tex})
+	lualatex $(LTX)
+	biber thesis.bcf
+	lualatex $(LTX)
+	lualatex $(LTX)
+	cp thesis.pdf thesis.printable.pdf
+
+final:
+	make for_submission
+	
+
 clean:
 	-rm *.aux *.bbl *.blg *.log *.gz *.toc */*.aux *.idx *.out *.xml
 	-rm -r auto
