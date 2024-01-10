@@ -1,6 +1,7 @@
 % Broad   ---  Narrow  --- Broad
 % Context ---  Content --- Conclusion
 
+\vspace{-2\baselineskip}
 \chapter*{Abstract}
 % \begin{abstract}
 
@@ -126,65 +127,44 @@
 
     \Aop{} is a software engineering paradigm used to modularise parts of a
     program which are difficult to separate using other means. It does this
-    using aspects, which are changes to a program applied to specific parts of
-    that program \laurie{this definition is a little tautological and doesn't get across the famous ``cross-cutting concerns'' aspect. an alternative might be something like ``It does using aspects, which can be thought of as slices that can be removed or inserted into a program's source code at will.''? well, that's not great either, but maybe gives you an idea!}. While \aop{} has received some academic interest, it has seen
-    lukewarm adoption from industry and its benefits in real-world engineering
-    contexts are not well demonstrated. \Aop{} is therefore a well-studied
-    paradigm which lacks a \emph{raison d'\^etre}.
-    
-    One possible use for \aop{} is in producing and maintaining codebases for
-    research purposes. Modern research is conducted with the aid of software
-    models in many fields. These models may represent different possible
-    real-world scenarios, require maintenance over time in light of a changing
-    scientific consensus, or be updated to represent a new hypothesis when
-    reused in future research projects. In all cases, research software
-    engineers must describe a change to some foundational model. These changes
-    may be described as aspects. Augmenting models using aspects would allow
-    researchers to concisely describe variations of a model, compare different
-    hypothesised systems, or maintain their model over time without rewriting a
-    delicate, peer-reviewed codebase. However, \aop{}'s use in research software
-    engineering has not been studied to date.
+    using aspects: combinations of program modifications and places they should
+    be applied. While it has received some academic interest, \aspectorientation
+    has seen lukewarm adoption from industry and its practical benefits are not
+    well demonstrated. The paradigm lacks a use-case for which aspects are
+    uniquely well-suited.
+
+    One such use-case may be in producing and maintaining codebases for research
+    purposes. In many fields, research is conducted with the aid of software
+    models. Changes to these models are delicate: they may invalidate results,
+    add complexity to a codebase, or absorb researchers' time. These changes
+    \emph{could} be represented as aspects. Doing so may avoid these issues, but
+    the paradigm is yet to be applied to codebases for scientific models. We
+    propose that aspects are well-suited to describe changes to models and that
+    \aspectoriented{} modelling would ease model maintenance.
 
 
 
-% The content (“Here we”) first describes the novel method or approach that you used to fill the gap/question.
-% Then you present the meat—your executive summary of the results.
+% The content (“Here we”) first describes the novel method or approach that you
+% used to fill the gap/question. Then you present the meat—your executive
+% summary of the results.
 
 % Methods --- what was done?
 
-    This thesis presents an investigation into the suitability of using \aop{}
-    to augment models for research purposes. A new \aspectorientation{}
-    framework is implemented, \pdsf{}, which is designed to address the
-    requirements of research software engineering. It applies advice \laurie{first use of `advice'} using a new
-    technique, and introduces new types of advice to better augment pre-existing
-    model codebases. The thesis presents a model of people playing a game as a
-    case study, which is altered using \pdsf{} to simulate players learning to
-    play. To measure whether the model is made more accurate with this addition,
-    the game --- RPGLite --- is implemented as a mobile game and distributed to
-    real-world players to collect datasets describing their gameplay. Simulated
-    players are compared against real-world players to identify whether they are
-    accurately represented by the model. By measuring whether the model
-    represents gameplay realistically, the thesis illustrates an experiment
-    showing that \aop{} can be used to make a model more accurately simulate
-    some target system. It proceeds with a second experiment which successfully
-    uses advice to add new parameters and behaviours to that model, successfully
-    simulating behaviours of individual players using a formalism of learning. A
-    third experiment investigates whether aspects can be reused across multiple
-    models, and shows that while aspects can be reused successfully, some
-    aspectual augmentations are more easily reused than others. 
-    
-    The thesis contributes an \aspectorientation{} framework suitable for use in
-    developing scientific models, as well as a reference system for experiments
-    and published the dataset it produced. Aspects are demonstrated to suitably
-    encode units of change to a model, introduce significant changes to those
-    models, and represent the same changes across different models. We therefore
-    conclude that \aop{} applies well to the needs of research software
-    engineers. As this invites new research possibilities in many fields, the
-    thesis also enumerates the future work these contributions enable for
-    researchers whose work concerns \aop{}, simulation \& modelling, and
-    research software engineering, and the methodological implications for
-    researchers in many fields who encode their hypotheses as software models. 
-    
+    This thesis investigates the viability of \aspectoriented modelling. An
+    \aop{} framework is implemented which circumvents criticisms of the
+    paradigm, and contributes new kinds of aspects which are useful for
+    describing changes to models. With this tool, a case study of
+    \aspectoriented modelling is constructed using a model of a real-world
+    mobile game and its players' activity. This forms the foundation of three
+    experiments. They conclude that aspects can be used to successfully augment
+    models, can add new behaviours and parameters to models, and can be reused
+    across different models in some cases. As these contributions invite new
+    research opportunities in many fields, the thesis also enumerates the
+    possibilities enabled for others researching \aop{}, simulation \&
+    modelling, and research software engineering, as well as the methodological
+    implications for researchers whose hypotheses are encoded within software
+    models.
+
 % Results (contributions etc --- this is important, don't compromise length or
 %          quality.)
     
