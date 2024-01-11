@@ -230,15 +230,13 @@ entropy~\cite{shannon_mathematical_theory_of_communication}, which can be
 calculated as the logarithm of the size of its state
 space~\cite{hartley_transmission_of_information}: $log_2(47,040,000) \approx
 25.5bits$. By comparison, mapping valid positions in chess takes
-$\approx{}136bits$~\cite{information_content_chess}.
-
-As its  small size compares favourably to other well-studied games,
-RPGLite's design allows it to be analysed formally. It also draws on
-common game design elements and is sufficiently ``interesting'' to generate data
-from a real-world community of players, demonstrated through data collected from
-9,693 completed games~\cite{rpglite_dataset}.
-This yields some useful properties for the purposes of aspect-oriented
-simulation:
+$\approx{}136bits$~\cite{information_content_chess}. This property allows
+RPGLite to be analysed formally, as the game's state space is small enough to
+explore computationally. It also draws on common game design elements and is
+sufficiently ``interesting'' to generate data from a real-world community of
+players, demonstrated through data collected from 9,693 completed
+games~\cite{rpglite_dataset}. This yields some useful properties for the
+purposes of aspect-oriented simulation:
 
 \begin{enumerate}
   \item Simulated moves can be selected at random, but can also be made

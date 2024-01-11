@@ -1,6 +1,71 @@
 \chapter{Introduction}
 
+\revnote{This introductory bit should be half its current length\ldots{}}
+This thesis is about two distinct areas of study and what happens when they are
+married together. First, it is concerned with \aop{}: a software engineering
+paradigm which has received some academic interest, but comparatively little
+industry use or practical demonstration of its benefits. It applies some extra
+program logic (called ``advice'') to places where that program logic is required
+(called ``join-points''); the combination of each is an ``aspect''. Integral to
+the paradigm's design is its property of obliviousness: the implementation of a
+join-point does not indicate whether an aspect applies to it, which simplifies
+those parts of the codebase. \Aspectorientation has been well researched, but a
+specific context for which it is better suited than its competitors is yet to be
+found. Its tooling and theory are well established, but it isn't the ``tool of
+choice'' for any particular problem. Critics cite obliviousness as a potential
+reason for this: reasoning about a program is difficult if it could be altered
+by any other part of the program. However, a use-case where \aop{} \emph{is}
+well-suited would allow the existing theory and tooling to be put to use.
+
+Second, it is concerned with how researchers write programs to support their
+work. Many fields rely on software models when conducting some investigation or
+study. This software is subject to unique requirements: the need to publish
+reproducible results extremely strict; the representation of hypothetical
+systems or behaviours which, by definition, have not been represented before;
+and the knowledge that future studies (potentially conducted by other research
+teams) may look to extend that software in ways which are hard to predict, as
+they encode novel ideas for research.\revnote{
+   Maybe get rid of this list / rework to something snappier? Don't love it…
+}
+The design and maintenance of
+these codebases is unique as a result of these requirements.
+
+Later chapters motivate and demonstrate that \aop{} is well-suited to be used as
+a tool for maintaining software models. We suggest that aspects can represent
+units of change to an existing model. This allows research software engineers to
+develop their experimental models as descriptions of the differences between one
+version of a system and their hypothesised one, by encoding those differences as
+aspects. As later chapters discuss, the properties which make the paradigm
+difficult to apply in industrial codebases can be a strength in the context of
+research software engineering: as a model is oblivious to the application of
+aspects, removing those aspects is trivial. One can imagine that different
+models could be constructed by composing a ``base'' model with different sets of
+aspects. Failed experiments would not incur technical debt, or necessitate the
+careful removal of code related to that experiment.
+
+\Aspectoriented{} modelling may be the application for which \aop{} is uniquely
+well-suited, because obliviousness is a unique property of the paradigm.
+However, aspects have not been used to date to represent units of change to
+scientific models, and so the viability of the technique is unknown. This thesis
+demonstrates that \aspectoriented{} modelling is feasible by showing that
+aspects can be used to represent change to a modelled system, that they can be
+used to change that system significantly by adding new parameters and modelled
+behaviours, and that aspects as units of change can be successfully applied to
+different systems, where appropriate.
+
+This introductory chapter proposes the problem to be solved in research software
+engineering more thoroughly in \cref{intro_problem_to_solve}, and proposes an
+\aspectoriented{} solution in \cref{intro_proposed_solution}. The latter section
+also describes \aop{} in more detail, and narrows the scope of the types of
+models within the scope of this thesis. \Cref{intro_contributions} notes the
+research questions and key contributions found in later chapters, and the
+structure of the rest of the thesis is described in
+\cref{intro_thesis_structure}.
+
+
+
 \section{The Problem to Solve}
+\label{intro_problem_to_solve}
 
 Consider a research software engineer, responsible for the development and
 maintenance of a well-adopted model of some \sociotechnical system such as a
@@ -54,6 +119,7 @@ composing a model with whichever behaviours they require.
 
 
 \section{A Proposed Solution}
+\label{intro_proposed_solution}
 We identify \aop{} as a tool which is well-suited to the
 needs of research software engineers who build models as described earlier. This
 section gives a high-level introduction to aspect-oriented programming concepts.
@@ -382,6 +448,7 @@ research questions. These are summarised as:
 
 
 \section{Thesis Structure}
+\label{intro_thesis_structure}
 
 The rest of the thesis is structured as follows.
 
