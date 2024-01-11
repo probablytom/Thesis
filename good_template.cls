@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{thesis_gla}[]
+\ProvidesClass{good_template}[]
 
 % \LoadClass{tufte-book}
 
@@ -33,6 +33,15 @@
 % \college{Science and Engineering}
 
 % Base this off of the book class
+% \DeclareOption{\PassOptionsToClass{\final}{book}}
+% \DeclareOption{\PassOptionsToClass{\oneside}{book}}
+% \DeclareOption{\PassOptionsToClass{\openany}{book}}
+% \DeclareOption*{}
+% \PassOptionsToClass{\final}{book}
+% \PassOptionsToClass{\oneside}{book}
+% \PassOptionsToClass{\openany}{book}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{book}}
+\ProcessOptions\relax
 \LoadClass{book}[pdftex]
 % \setmainfont{Canela}
 
@@ -287,7 +296,7 @@
   showtabs=true,
   numberstyle=\scriptsize
 }
-\lstset{style=custompython}
+\lstset{style=footnotesize_python}
 
 
 %-----------------------

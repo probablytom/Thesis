@@ -1,4 +1,4 @@
-MAKEFLAGS += --silent
+# MAKEFLAGS += --silent
 
 LTX:=\\include{thesis.tex}
 ifdef nofonts
@@ -29,6 +29,7 @@ thesis:
 	lualatex $(LTX)
 	biber thesis.bcf
 	lualatex $(LTX)
+	echo "FINAL"
 	lualatex $(LTX)
 
 normal:

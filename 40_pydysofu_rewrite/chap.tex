@@ -296,7 +296,7 @@ The process of weaving with this implementation of \pdsf is:
 \end{enumerate}
 
 \begin{figure}
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 def prelude_advice(target, *args, **kwargs):
     print(f"Invoking {target.__name__}.")
 
@@ -401,7 +401,7 @@ type of advice not present in earlier versions of \pdsf{} is
 exceptions raised by a target.
 
 \begin{figure}
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 @classmethod
 def add_around(cls, rule, advice, urgency=0):
     rule_tuple = (re.compile(rule), advice, urgency)
@@ -462,7 +462,7 @@ aspect hooks into them.
 
 \begin{figure}
     \centering
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 with AspectHooks():
     import mymodule
     \end{lstlisting}
@@ -476,7 +476,7 @@ with AspectHooks():
 
 \begin{figure}
     \centering
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 import sys
 import copy
 
@@ -612,7 +612,7 @@ recursively.
 
 \begin{figure}
     \centering
-    \begin{lstlisting}[style=small_python]
+    \begin{lstlisting}[style=footnotesize_python]
 from inspect import isfunction, ismethod, isclass
 from functools import filter
 
@@ -857,7 +857,7 @@ which multiplies two numbers is given the value of \lstinline{2} for its first
 argument to create a partial function which doubles its remaining argument.
 
 \begin{figure}
-\begin{lstlisting}
+\begin{lstlisting}[style=footnotesize_python]
 def multiply(a, b):
     return a*b
 
@@ -909,7 +909,7 @@ using the \lstinline{nest_around_call} function on lines
 \texttt{50}--\texttt{51}.
 
 \begin{figure}
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 def final_around(self, target, *args, **kwargs):
     return target(*args, **kwargs)
     \end{lstlisting}
@@ -1003,7 +1003,7 @@ An example of an aspect woven into a join-point is shown in
 \cref{fig:registering_an_aspect_against_aspecthooks}.
 
 \begin{figure}
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 def prelude_log_invocation(target, *args, **kwargs):
     '''
     Prelude advice to print invocations of a target.
@@ -1073,7 +1073,7 @@ The around advice defined on lines \texttt{13}--\texttt{21},
 and encore advice can be represented as around advice.
 
 \begin{figure}
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 import ast
 
 def fuzzer_invocation_logger(ast_steps, target, *args, **kwargs):
@@ -1111,6 +1111,7 @@ example.
 As a technique for weaving aspect hooks, this new method provides multiple
 benefits.
 
+\Needspace{3\baselineskip}
 \begin{description}
     \item[Local Aspect Weaving.] Application of aspect hooks is straightforward
         from the perspective of a modeller using \pdsf{}, whose code clearly
@@ -1195,7 +1196,7 @@ feature is enabled by toggling a flag set on the \lstinline{AspectHooks} class,
 as shown in \cref{fig:enabling_deep_apply}.
 
 \begin{figure}[h]
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 from pdsf import AspectHooks
 AspectHooks.deep_apply = True
     \end{lstlisting}
@@ -1216,7 +1217,7 @@ default behaviour is insufficient. Deep weaving is provided to support these use
 cases.
 
 \begin{figure}
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 from_mod = getattr(item, "__module__", None) == mod.__name__
 if from_mod or AspectHooks.deep_apply:
     if isfunction(item) or ismethod(item):
@@ -1255,7 +1256,7 @@ aspects will never be \emph{unwoven}, so repeated searches for advice which
 applies to a given target are unnecessary. 
 
 \begin{figure}[h]
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 from pdsf import AspectHooks
 AspectHooks.treat_rules_as_dynamic = True
     \end{lstlisting}
@@ -1310,7 +1311,7 @@ target invocation. This feature is disabled by default, but can be enabled using
 the code snippet shown in \cref{fig:enabling_priority_sorting_of_aspects}.
 
 \begin{figure}[h]
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 from pdsf import AspectHooks
 AspectHooks.manage_ordering = True
     \end{lstlisting}
@@ -1349,7 +1350,7 @@ the \lstinline{AspectHooks} class can be set, as shown in
 \cref{fig:enabling_fuzzer_caching}.
 
 \begin{figure}[h]
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 from pdsf import AspectHooks
 AspectHooks.cache_fuzz_results = True
     \end{lstlisting}

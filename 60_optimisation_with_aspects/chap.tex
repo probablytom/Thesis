@@ -16,6 +16,7 @@ and their correlation is measured. If the datasets correlate, then players are
 successfully simulated. This approach is used to answer the research
 questions proposed in \cref{chap:lit_review}: 
 
+\Needspace{6\baselineskip}
 \begin{researchquestion}
   \begin{description}
    \item[RQ1] \rqtwo{}
@@ -92,6 +93,7 @@ characters by modelling players learning which characters are most likely to win
 games and selecting character pairs according to what they learned, called the
 ``learning model''.
 
+\Needspace{3\baselineskip}
 \begin{description}
 \item[Prior Distribution Model] The prior distribution model selects character
 pairs with a distribution calculated from players' gameplay data.\footnote{The
@@ -139,6 +141,7 @@ research questions to be answered.
 \subsection{Brief Explanations of Experiments}
 \label{experiments_introduced_briefly}
 
+\Needspace{3\baselineskip}
 \begin{description}
   \item[Experiment \#1: Improving a Model] The first experiment answers the
 research question: \emph{\rqtwo{}} \Aop{} can only be used to augment models if
@@ -738,7 +741,7 @@ so folk can see the other aspects too.}
 
 \begin{figure}[h]
   \centering
-  \lstinputlisting[style=custompython]{60_optimisation_with_aspects/snippets/select_best_move_aspect.py}
+  \lstinputlisting[style=footnotesize_python]{60_optimisation_with_aspects/snippets/select_best_move_aspect.py}
   \caption{An example of the implementation of an aspect for developing
   experiments around the naive model. This aspect ensures that the optimal move
   is selected by replacing the return value of \lstinline{get_moves_from_table}
@@ -811,7 +814,7 @@ attempted but abandoned.
 
 \begin{figure}[h]
   \centering
-  \lstinputlisting[style=custompython]{60_optimisation_with_aspects/snippets/update_confidence_curve_aspect_edited.py}
+  \lstinputlisting[style=footnotesize_python]{60_optimisation_with_aspects/snippets/update_confidence_curve_aspect_edited.py}
   \caption{An example of the implementation of an aspect tracking model state.
   This aspect updates the value of a player's confidence model and is woven as
   prelude to the naive model's \lstinline{choose_character_pair} function.}
@@ -839,7 +842,7 @@ implementation of which is given in
 
 \begin{figure}[hp]
   \centering
-  \begin{lstlisting}[style=custompython]
+  \begin{lstlisting}[style=footnotesize_python]
 def prelude_before_learning_by_prior_distribution(target, actor, gamedoc, env, *args, **kwargs):
   # Before we fuzz, we need to make sure the prior distribution is set up in the game's environment.
   # Calculate and inject it if it's not already there.
@@ -861,7 +864,7 @@ def prelude_before_learning_by_prior_distribution(target, actor, gamedoc, env, *
 \end{figure}
 
 \begin{figure}[hp]
-  \begin{lstlisting}
+  \begin{lstlisting}[style=footnotesize_python]
 def find_distribution_of_charpairs_from_players_collective_games(players, gameset):
     distribution = dict()
     for player in players:
@@ -1012,7 +1015,7 @@ distribution when selecting character pairs at the beginning of a game.
 
 \begin{figure}
   \centering
-  \begin{lstlisting}
+  \begin{lstlisting}[style=footnotesize_python]
 def fuzz_learning_by_prior_distribution(steps, target, actor, env, *args, **kwargs):
     get_choices_from_prior_dist_injected_code = '''
 players = _context['players']
@@ -1062,7 +1065,7 @@ the lines in the function definition map to values in the \lstinline{steps}
 argument of the fuzzer.
 
 \begin{figure}
-  \begin{lstlisting}
+  \begin{lstlisting}[style=footnotesize_python]
 def choose_chars(_actor, _context, _env):
     if _actor not in _context: # First "step", or steps[0]
         _context[_actor] = dict()
@@ -1185,7 +1188,7 @@ when optimising the model.
 
 \begin{figure}[tp]
     \centering
-    \lstinputlisting{60_optimisation_with_aspects/snippets/ModelParameters.py}
+    \lstinputlisting[style=footnotesize_python]{60_optimisation_with_aspects/snippets/ModelParameters.py}
     \caption{A class defining the parameters of the model of learning RPGLite which vary when optimising for a given player. For layout \& space reasons, some methods of minor significance are removed.}
     \label{fig:model_parameters_class}
 \end{figure}
@@ -1198,6 +1201,7 @@ of the experimental methodology in \cref{methodology_explained}, or are central
 to the results given in \cref{sec:rq3} and \cref{sec:rq4}. Variables used in
 these ways are:
 
+\Needspace{3\baselineskip}
 \begin{description}[style=multiline,leftmargin=4cm]
   \item[starting confidence] The initial value of the model's confidence curve.
   \item[assumed confidence plateau] A corresponding high value for the model's
@@ -1254,7 +1258,7 @@ in \cref{methodology_explained}.
 
 \begin{figure}[bp]
   \begin{center}
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 class ModelParameters:
 
     # <snipped additional attributes and methods for space>
@@ -1309,7 +1313,7 @@ which uses these properties to determine optimal parameters is described in
 
 \begin{figure}[tp]
   \begin{center}
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 from dataclasses import dataclass
 @dataclass
 class Result:

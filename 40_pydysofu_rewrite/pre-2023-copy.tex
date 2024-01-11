@@ -198,7 +198,7 @@ We are interested in manipulating \lstinline{builtins.__import__} only when
 imports are made which should have aspect hooks woven. We enable this new import
 behaviour with a syntax of the form:
 
-\begin{lstlisting}
+\begin{lstlisting}[style=footnotesize_python]
 with AspectHooks():
     import mymodule
 \end{lstlisting}
@@ -228,7 +228,7 @@ in its \lstinline{__enter__()} method. This is reversed by replacing
 hooks is satisfyingly uncomplicated, as can be seen in \cref{fig:aspecthooksmagicmethodswith}.
 
 \begin{figure}[t]
-\begin{lstlisting}
+\begin{lstlisting}[style=footnotesize_python]
 class AspectHooks:
     def __enter__(self, *args, **kwargs):
         self.old_import = __import__

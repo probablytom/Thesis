@@ -1,9 +1,17 @@
 \RequirePackage{luatex85}
 \ifdefined\finalversion
-    \documentclass[12pt,final]{good_template}
+    \ifdefined\printonpaper
+        \documentclass[11pt,final,physicalcopy]{good_template}
+    \else
+        \documentclass[11pt,final,openany]{good_template}
+    \fi % printonpaper
 \else
-    \documentclass[12pt]{good_template}
-\fi
+    \ifdefined\printonpaper
+        \documentclass[11pt,physicalcopy]{good_template}
+    \else
+        \documentclass[11pt,openany]{good_template}
+    \fi % printonpaper
+\fi % finalversion
 
 
 \include{preamble}
@@ -25,8 +33,9 @@
 \maketitle
 \end{titlepage}
 
-\include{abstract}
+\include{originality}
 \include{acknowledgements}
+\include{abstract}
 \tableofcontents
 \listoftodos
 

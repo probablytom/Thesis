@@ -176,7 +176,7 @@ replaced at the appropriate time.
 
 \begin{figure}
     \centering
-    \lstinputlisting{30_prior_work/snippets/fuzz_clazz.py}
+    \lstinputlisting[style=footnotesize_python]{30_prior_work/snippets/fuzz_clazz.py}
     \caption{The implementation of \lstinline{fuzz_clazz}, a function which
     replaces \lstinline{__getattribute__} on Python 2 objects to return
     callable attributes wrapped within an aspect hook implementation.}
@@ -206,7 +206,7 @@ demonstrating the implementation of this process is shown in
 
 \begin{figure}
     \centering
-    \lstinputlisting{30_prior_work/snippets/FuzzingAspect.py}
+    \lstinputlisting[style=footnotesize_python]{30_prior_work/snippets/FuzzingAspect.py}
     \caption{A code snippet from the original \pdsf implementation, implementing
     \lstinline{Fuzzing} aspects and applying fuzzing to a function definition.}
     \label{fig:v1_pdsf_fuzzing_impl_codesnippet}
@@ -246,7 +246,7 @@ still be cautious about assumptions of program state.}
 
 \begin{figure}
     \centering
-    \lstinputlisting{30_prior_work/snippets/WorkflowTransformer.py}
+    \lstinputlisting[style=footnotesize_python]{30_prior_work/snippets/WorkflowTransformer.py}
     \caption{A code snippet from the original \pdsf implementation, implementing
     the \lstinline{WorkflowTransformer} which visits AST nodes and applies
     fuzzing to them.}
@@ -335,7 +335,7 @@ software engineering methodology, which is discussed further in
 \cref{sec:caise_paper}.
 
 \begin{figure}
-    \begin{lstlisting}
+    \begin{lstlisting}[style=footnotesize_python]
 def missed_target(random, pmf=default_distracted_pmf(2)):
     """
     Creates a fuzzer that causes a workflow containing a while loop to be prematurely terminated before the condition
