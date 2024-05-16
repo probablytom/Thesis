@@ -19,26 +19,28 @@ on. Python2 lost official support shortly after the work described in
 weaving aspects in Python3 was therefore needed; this rewrite provided an
 opportunity to address other design concerns with \pdsf{}.
 
-This chapter briefly outlines the new implementation of \pdsf{}, discusses
-improvements made to design and performance, and explains some contributions
-made to the design of aspect orientation frameworks which addresses some core
-issues raised with the paradigm. \Cref{sec:pdsf3requirements} describes in more
-detail why a new version of \pdsf{} was produced. \Cref{sec:pdsf3python3}
-describes possible approaches to the design of the new library. The
-implementation of the weaver for the new version of \pdsf{} is explained in
-detail in \cref{sec:import_hooks}, and some optimisations introduced to the tool
-are explained in \cref{pdsf3_optimisations}. The chapter concludes by
-summarising the new tool and the contributions it makes by introducing a new
-design for weaving --- ``import hook weaving'' --- in \cref{pdsf3_discussion}.
+This chapter briefly outlines the new implementation of
+\pdsf{}~\cite{pdsf_source_in_analysis_repo}, discusses improvements made to
+design and performance, and explains some contributions made to the design of
+\aspectorientation{} frameworks which addresses some core issues raised with the
+paradigm. \Cref{sec:pdsf3requirements} describes in more detail why a new
+version of \pdsf{} was produced. \Cref{sec:pdsf3python3} describes possible
+approaches to the design of the new library. The implementation of the weaver
+for the new version of \pdsf{} is explained in detail in
+\cref{sec:import_hooks}, and some optimisations introduced to the tool are
+explained in \cref{pdsf3_optimisations}. The chapter concludes by summarising
+the new tool and the contributions it makes by introducing a new design for
+weaving --- ``import hook weaving'' --- in \cref{pdsf3_discussion}.
 
 
 \section{Requirements for Change}\label{sec:pdsf3requirements}
 
-After developing a original study using \pdsf{}'s original implementation~\cite{wallis2018caise}, it
-became clear that an iteration on its design was required. \pdsf{} grew out of
-an undergraduate project, and accrued technical debt as a result of being
-written under time constraints with little experience. On revisiting its design
-and reflecting on other aspect orientation frameworks reviewed in  
+After developing a original study using \pdsf{}'s original
+implementation~\cite{wallis2018caise}, it became clear that an iteration on its
+design was required. \pdsf{} grew out of an undergraduate project, and accrued
+technical debt as a result of being written under time constraints with little
+experience. On revisiting its design and reflecting on other aspect orientation
+frameworks reviewed in  
 \cref{aspect_oriented_programming_litreview} and the use previously found for
 \pdsf{}~\cite{wallis2018caise,wallis2018genetic} it was clear that there were
 improvements which could be made to the tool:
@@ -238,13 +240,15 @@ use of magic methods in a manner which also makes clear to a modeller exactly
 where aspect hooks are being applied: making use of Python's \lstinline{with}
 keyword, which uses the \lstinline{__enter__} and \lstinline{__exit__} magic
 methods to define a block of code where an arbitrary resource such as a file,
-mutex, or network connection is safely managed. This behaviour is exapted by
-\pdsf{} to manage the behaviour of the import keyword, creating a block of code
-where aspect hooks can be injected into modules as they are imported. As these
-are a core component of \pdsf{}'s weaving implementation, a deeper explanation of
-Python's \lstinline{with} keyword follows in \cref{pdsf3implementingimporthooks}
-following a technical discussion of the new weaving process which gives context
-to its design and implementation.
+mutex, or network connection is safely managed. This behaviour is
+exapted\footnote{\citet{exaptation_origin} coined the term ``exaptation'' to
+refer to a trait of a species which evolved in response to one need, but were
+later co-opted to satisfy another.} by \pdsf{} to manage the behaviour of the
+import keyword, creating a block of code where aspect hooks can be injected into
+modules as they are imported. As these are a core component of \pdsf{}'s weaving
+implementation, a deeper explanation of Python's \lstinline{with} keyword
+follows in \cref{pdsf3implementingimporthooks} following a technical discussion
+of the new weaving process which gives context to its design and implementation.
 
 
 
@@ -254,14 +258,15 @@ to its design and implementation.
 
 \subsection{High-Level Description of Weaving Process}\label{subsec:pdsf3_weaving_process}
 
-Weaving in \pdsf{}'s updated implementation takes place via monkey-patching of
-aspect hooks, described in detail in \cref{pdsf3implementingimporthooks}. Aspect hooks
-replace executable targets within a module at the moment the module is imported.
-When the target is invoked, the wrapping aspect hook is executed in lieu of the
-original target object. The wrapping aspect contains the target function within
-its closure, allowing it to execute the original target; however, it was also
-created by the \lstinline{AspectHooks} class, and so has reference to aspects
-registered against it. 
+Weaving in \pdsf{}'s updated implementation~\cite{pdsf_source_in_analysis_repo}
+takes place via monkey-patching of aspect hooks, described in detail in
+\cref{pdsf3implementingimporthooks}. Aspect hooks replace executable targets
+within a module at the moment the module is imported. When the target is
+invoked, the wrapping aspect hook is executed in lieu of the original target
+object. The wrapping aspect contains the target function within its closure,
+allowing it to execute the original target; however, it was also created by the
+\lstinline{AspectHooks} class, and so has reference to aspects registered
+against it. 
 
 The process of weaving with this implementation of \pdsf is:
 
@@ -393,12 +398,10 @@ using the metaphor of a play, drawing on early \theatreag{} work as described in
 \lstinline{around} advice runs before, after, and before \& after the target
 respectively. Also following the naming scheme used by earlier versions of
 \pdsf{} are \lstinline{fuzzer} aspects, which operate within their targets. The
-term ``within'' is introduced to conform with the positional naming convention
-used by other tools ()``before'', ``after'', and
-``around''). A
-type of advice not present in earlier versions of \pdsf{} is
-\lstinline{error_handler} advice, which catches and attempts to handle
-exceptions raised by a target.
+term ``within'' is introduced to conform to the positional naming convention
+used by other tools (``before'', ``after'', and ``around''). A type of advice
+not present in earlier versions of \pdsf{} is \lstinline{error_handler} advice,
+which catches and attempts to handle exceptions raised by a target.
 
 \begin{figure}
     \begin{lstlisting}[style=footnotesize_python]
@@ -434,20 +437,6 @@ aspects are given in \cref{examples_of_using_pdsf}.
 
 \subsection{Controlling Import Behaviour using Python's \lstinline{with} Blocks}
 \label{pdsf3implementingimporthooks}
-
-% \inline{
-%     MARK
-%     MARK
-%     MARK
-%     MARK
-%     MARK
-%     MARK
-%     MARK
-%     MARK
-%     MARK
-%     MARK
-%     Here when going through Tim's comments 2312-23
-% }
 
 To inject aspect hooks into modules when importing them, \pdsf{} must modify
 \lstinline{builtins.__import__} \emph{only} when modules containing prospective

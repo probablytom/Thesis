@@ -3,6 +3,8 @@
 
 \vspace{-2\baselineskip}
 \chapter*{\begin{center}\Large{Abstract}\end{center}}
+{
+\fontsize{10}{12}\selectfont
 % \begin{abstract}
 
 % The context must get across the gap that the paper will fill.
@@ -127,20 +129,20 @@
 
     \Aop{} is a software engineering paradigm used to modularise parts of a
     program which are difficult to separate using other means. It does this
-    using aspects: combinations of program modifications and places they should
-    be applied. While it has received some academic interest, \aspectorientation
-    has seen lukewarm adoption from industry and its practical benefits are not
-    well demonstrated. The paradigm lacks a use-case for which aspects are
-    uniquely well-suited.
+    using aspects: combinations of program modifications and places to apply
+    them. While it has received some academic interest, \aspectorientation has
+    seen lukewarm adoption from industry and its practical benefits are not well
+    demonstrated. The paradigm lacks a use-case for which aspects are
+    particularly well-suited.
 
     One such use-case may be in producing and maintaining codebases for research
-    purposes. In many fields, research is conducted with the aid of software
-    models. Changes to these models are delicate: they may invalidate results,
-    add complexity to a codebase, or absorb researchers' time. These changes
-    \emph{could} be represented as aspects. Doing so may avoid these issues, but
-    the paradigm is yet to be applied to codebases for scientific models. We
-    propose that aspects are well-suited to describe changes to models and that
-    \aspectoriented{} modelling would ease model maintenance.
+    purposes. In many fields, research is conducted with the aid of software models.
+    Changes to these models are delicate: they may invalidate results, add
+    complexity to a codebase, or absorb researchers' time. These changes
+    \emph{could} be represented as aspects, but the paradigm is yet to be applied to
+    codebases for scientific models. We propose that aspects are particularly
+    well-suited to describe these changes and that \aspectoriented{} modelling may
+    ease model maintenance.
 
 
 
@@ -150,20 +152,28 @@
 
 % Methods --- what was done?
 
-    This thesis investigates the viability of \aspectoriented modelling. An
-    \aop{} framework is implemented which circumvents criticisms of the
-    paradigm, and contributes new kinds of aspects which are useful for
-    describing changes to models. With this tool, a case study of
+%  Changes to these models are delicate: they may invalidate results,
+% add complexity to a codebase, or absorb researchers' time. These changes
+% \emph{could} be represented as aspects. Doing so may avoid these issues, but
+% the paradigm is yet to be applied to codebases for scientific models. We
+% propose that aspects are well-suited to describe changes to models and that
+% \aspectoriented{} modelling would ease model maintenance.
+
+
+    This thesis investigates the viability of \aspectoriented modelling for
+    simulation purposes. An \aop{} framework is implemented which addresses
+    criticisms of the paradigm, and contributes new kinds of aspects which are
+    useful for describing changes to models. With this tool, a case study of
     \aspectoriented modelling is constructed using a model of a real-world
     mobile game and its players' activity. This forms the foundation of three
-    experiments. They conclude that aspects can be used to successfully augment
-    models, can add new behaviours and parameters to models, and can be reused
-    across different models in some cases. As these contributions invite new
-    research opportunities in many fields, the thesis also enumerates the
-    possibilities enabled for others researching \aop{}, simulation \&
-    modelling, and research software engineering, as well as the methodological
-    implications for researchers whose hypotheses are encoded within software
-    models.
+    experiments. They demonstrate that aspects can be used to successfully
+    augment models, can add new behaviours and parameters to models, and can be
+    reused across different models in some cases. As these contributions invite
+    new research in many fields, the thesis also enumerates the
+    possibilities enabled for others researching \aspectorientation{},
+    simulation \& modelling, and research software engineering, as well as the
+    methodological implications for researchers whose hypotheses are encoded
+    within software models.
 
 % Results (contributions etc --- this is important, don't compromise length or
 %          quality.)
@@ -186,3 +196,4 @@
 
 
 % \end{abstract}
+}

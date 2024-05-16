@@ -138,3 +138,4 @@
 {"rule":"SENTENCE_WHITESPACE","sentence":"^\\QResearchers investigating this may address research questions such as:\\E$"}
 {"rule":"APOS_SPACE_CONTRACTION","sentence":"^\\QEmergent properties are often the state under study, as in 's original case study \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}
 {"rule":"APOS_SPACE_CONTRACTION","sentence":"^\\QAspectual instrumentation of research codebases is therefore feasible for many more models using 's within-style fuzzing.\\E$"}
+{"rule":"EN_A_VS_AN","sentence":"^\\QAn framework is implemented which circumvents criticisms of the paradigm, and contributes new kinds of aspects which are useful for describing changes to models.\\E$"}

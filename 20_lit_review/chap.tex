@@ -108,12 +108,12 @@ imposed by the previously tangled cross-cutting concerns.
 throughout business logic, motivating the \aspectoriented{} approach for the
 first time. The authors present an implementation of \aop{} in Lisp, and compare
 implementations by way of SLOC count in an emitted C program to a comparable,
-non-AOP implementation, with two examples (its use in image processing and
-document processing). They find the idea --- which they note is "young" and note
-many areas where research might help it to grow --- can successfully separate
-systemic implementation concerns such as memory management in a way that reduces
-program bloat and simplifies implementation. It is noted that measuring the
-benefits of their approach quantitatively is challenging.
+non-\aspectoriented{} implementation, with two examples (its use in image
+processing and document processing). They find the idea --- which they note is
+``young'' and describe many areas where research might help it to grow --- can
+successfully separate systemic implementation concerns such as memory management
+in a way that reduces program bloat and simplifies implementation. It is noted
+that measuring the benefits of their approach quantitatively is challenging.
 
 Tooling followed the theoretical work presented by \citet{kiczales1997aspect}
 with a demonstration and subsequent technical description of AspectJ, a Java
@@ -601,14 +601,6 @@ powerful tool for formal modelling and are used in a similar manner.
 
 \subsubsection{Metaprogramming}\label{metaprogramming_as_an_aop_alternative}
 
-\revnote{Wouldn't the paragraph below fit better in the section on program mutation?}
-\reviewresponse{I'm not sure exactly what section this is, but have reworded the
-  below to fit better within this section (BCA is a relative of AOP) and added a
-cref to where I \emph{think} it might be added. Unsure though. To discuss and
-fix the cref. I haven't added notes on BCA anywhere else. Or, was it intended to
-refer to the metaprogramming notes in the next para? If so, I've since collected
-these into a subsubsec.}
-
 Metaprogramming is identified as a precursor to \aspectorientation{} by the
 original paper on the paradigm~\cite{kiczales1997aspect}. Research into the use
 of metaprogramming to simplify the composition of software modules was
@@ -889,9 +881,10 @@ quantitative evaluation, but this is flawed as previously described.
 \subsubsection{Aspect-Orientated Implementations of Simulations \& Models}
 
 Research projects applying \aspectorientation{} to the implementation of
-simulation frameworks~\cite{chibani} fails to provide a case study which evaluates
-their technique with real-world examples. However, case studies do exist which
-evaluate \aspectorientation{}'s suitability in maintaining model source code.
+simulation frameworks~\cite{chibani2019using} fail to provide a case study which
+evaluates their technique with real-world examples. However, case studies do
+exist which evaluate \aspectorientation{}'s suitability in maintaining model
+source code.
 
 \citeauthor{ionescu2009aspect} identify an increased demand for computational power in
 simulation execution on supercomputers~\cite{ionescu2009aspect}. Existing
@@ -1092,12 +1085,8 @@ in contrast to other applications of \aspectorientation{} in business process
 modelling --- specifically AO4BPMN --- where aspect definitions written in
 XML concern not only the advice to be applied but also their relevant join
 points, as in general programming \aspectorientation{} implementations such as
-AspectJ. In this way, AOPML exhibits the spirit of business process\revnote{Can
-you say something more precise than spirit here, e.g. objectives, intentions at
-least?}\reviewresponse{Yes, but I kind of like this phrasing! I want to get at
-the community / idioms as well as the technical intent. Leaving this here to
-reconsider if there's time later on.}
-modeling more stringently than does \citeauthor{Charfi2006AspectOrientedWL}'s
+AspectJ. In this way, AOPML exhibits the design philosophy of business process
+modelling more stringently than does \citeauthor{Charfi2006AspectOrientedWL}'s
 notation for aspect-oriented workflow modelling.
 
 The difference between \citeauthor{charfi2010AO4BPMN}'s approach in designing
@@ -1136,7 +1125,7 @@ by Charfi~\cite{charfi2007ao4bpel}, in that it develops a mature formalism for
 and model of \aspectorientation{} as applied to business process modelling.
 However, \citeauthor{jalali2012aspect} note that their case study is limited in
 scale. No tooling or evaluation of the practical benefit of their approach is
-provided.\revnote{add something early on giving an example of how it might be a problem?}
+provided.%\revnote{add something early on giving an example of how it might be a problem?}
 
 
 \section{Process Variance in Simulation \& Data Generation}
@@ -1163,14 +1152,21 @@ processes are hard to obtain because \textquote{higher management [can be]
 worried about the risks} of publishing such
 datasets~\cite{bpi_ten_years_of_datasets}. Another factor contributing to the
 difficulty of collecting empirical datasets is that it is often infeasible to do
-so, either because there is a need to study the process before implementing it
-(making synthetic datasets the only option available to researchers), because
-the process is not yet fully understood (making simulation of many variants of
-that process useful in aiding understanding), or because the dataset itself is
-of interest to researchers rather than the real-world system that produced it
-(such as in the case of evaluating process mining
-techniques~\cite{van2004process,agrawal1998mining}).\revnote{Citations for all
-difficulties in collecting empirical datasets would be nice\ldots{}} The
+so, either because there is a need to study the process before it can be put
+into practice, making synthetic datasets the only option available to
+researchers. The process may also not yet be fully understood, in which case
+simulation of many variants of that process can be useful in aiding
+understanding. Data may also be difficult to collect because the subject of
+study is a rare deviation from the codified process: for example, a security
+violation, which is a deviation to a process which is hoped to exist rarely if
+ever in the real-world system that would exhibit it~\cite{stocker2013secsy}. The
+systems under study may also exist within industries which are typically
+unwilling to publish datasets describing sensitive internal
+processes~\cite{bpi_ten_years_of_datasets} or are unable to harvest that data in
+a complete, well-formatted manner~\cite{ingvaldsen2007preprocessing}. In other
+cases, the dataset itself is of interest to researchers rather than the
+real-world system that produced it: an example is the generation of datasets to
+evaluate process mining techniques~\cite{van2004process,agrawal1998mining}. The
 generation of datasets with specific properties is its own field of research;
 the literature of interest specifically concerns techniques for the modification
 of a model or simulation to generate those datasets.
@@ -1364,6 +1360,12 @@ contributed~\cite{machado2012formal}.
 \section{Discussion}
 \label{sec:lit_discussion}
 
+\citet{steimann06paradoxical} suggested that \aop \emph{``doesn't know what it
+aims to be good for''}. This thesis draws on the idea that, as
+\citet{gulyas1999use} suggest, the paradigm applies well in a simulation \&
+modelling context. This discussion concludes the literature review by
+summarising the observations made and motivating the work presented in future
+chapters.
 
 This thesis draws on the idea that, in response to
   \citeauthor{steimann06paradoxical} asking what \aspectorientation{} is good for,
@@ -1371,17 +1373,6 @@ This thesis draws on the idea that, in response to
   modelling''. This discussion concludes the literature review by summarising
   the observations made and motivating the work presented in future chapters.
 
-\revnote{Worth observing that \citet{ionescu2009aspect} actually
-  produce a case studdy of using AOP and their code quality evaluation uses SLOC
-(unreliable), but they do find that they can augment models successfully (in
-their context, successfully is without significant loss of performance). Backs
-up claim in \citet{gulyas1999use} that AOP is useful for simulation \& modelling
-and claim in \citet{steimann06paradoxical} that AOP ``doesn't know what it aims
-to be good for'' (paraphrased, it's quoted in the ciriticisms section and used
-elsewhere too). There's loads of AOP lit but we need to explore using it in new
-ways, and actually buildinng models \& running simulations using it can be
-motivated by existing literature. I don't believe I make reference to
-\citet{ionescu2009aspect} in this section at present.}
 
 % Points to make here:
 % \begin{itemize}
@@ -1496,6 +1487,27 @@ Incidentally, these techniques for modelling behavioural variation also lack
 support for the alteration of a process definition, or changes ``inside'' a
 process definition, as discussed earlier, which also makes them unsuitable for
 simulated behavioural variation.
+
+% \revnote{Worth observing that \citet{ionescu2009aspect} actually
+%   produce a case studdy of using AOP and their code quality evaluation uses SLOC
+% (unreliable), but they do find that they can augment models successfully (in
+% their context, successfully is without significant loss of performance). Backs
+% up claim in \citet{gulyas1999use} that AOP is useful for simulation \& modelling
+% and claim in \citet{steimann06paradoxical} that AOP ``doesn't know what it aims
+% to be good for'' (paraphrased, it's quoted in the ciriticisms section and used
+% elsewhere too). There's loads of AOP lit but we need to explore using it in new
+% ways, and actually buildinng models \& running simulations using it can be
+% motivated by existing literature. I don't believe I make reference to
+% \citet{ionescu2009aspect} in this section at present.}
+
+Finally, it should be noted that \citet{ionescu2009aspect} produce a case study
+of using \aop{} to model a system. While their evaluation makes use of
+unreliable metrics, their research alters models without significant loss of
+performance. The modification made to their model does not change the dynamics
+of the model itself, but ports an existing model to a different platform. Their
+success supports the suggestion made by \citet{gulyas1999use} that \aop{} may be
+useful in the development of simulations \& models. 
+
 
 \subsection{Research Questions}
 \label{subsec:rqs}

@@ -16,6 +16,9 @@
   style=alphabetic,
   natbib=true %% draft probably wants changing...
 ]{biblatex}
+\DefineBibliographyStrings{english}{%
+  bibliography = {References}, % set bibliography title to "References"
+}
 \addbibresource{refs.bib}
 \addbibresource{annotated.bib}
 
@@ -38,6 +41,10 @@
 \usepackage{needspace}
 \usepackage{tikz}
 \usepackage{array}
+\usepackage[nottoc]{tocbibind}
+
+% Show bibliography in TOC
+\settocbibname{References}
 
 % Inline listings text size correction from https://tex.stackexchange.com/a/575053
 \makeatletter

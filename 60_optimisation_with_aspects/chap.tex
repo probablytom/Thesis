@@ -3,7 +3,8 @@
 \label{chap:experiment_setup}
 
 
-This chapter describes the design and implementation of experiments which
+This chapter describes the design and
+implementation~\cite{rpglite_analysis_and_experiments_repo} of experiments which
 investigate using advice to augment behaviour in a model. The experiments
 simulate RPGLite gameplay. Using these simulations, the experiments investigate
 the utility of \aop{} in a simulation \& modelling context. Advice which uses
@@ -13,8 +14,8 @@ attempt to reflect realistic interactions with the game. The behaviour modified
 by the advice is players' selection of character pairs. Character pairs selected
 by simulated players are compared against those from a player's gameplay data
 and their correlation is measured. If the datasets correlate, then players are
-successfully simulated. This approach is used to answer the research
-questions proposed in \cref{chap:lit_review}: 
+successfully simulated. This approach is used to answer the research questions
+proposed in \cref{chap:lit_review}: 
 
 \Needspace{6\baselineskip}
 \begin{researchquestion}
@@ -158,8 +159,8 @@ advice, three datasets of completed games are used for each player simulated.
 The first is that player's gameplay data collected from their interactions with
 the mobile game in RPGLite's first season, the second is produced by the naive
 model, and the third is produced by the naive model with the prior distribution
-model woven. The distribution of character pairs chosen by each model is
-compared with the player's distribution of character pairs chosen using a
+model woven. The distribution of chosen character pairs from each model is
+compared with the player's distribution of chosen character pairs using a
 correlation metric explained in \cref{measuring_charpair_similarity}. The random
 distribution of chosen pairs produced by the naive model is expected to
 correlate poorly with the player's distribution of choices, as the player is
@@ -169,8 +170,7 @@ distribution as the player exhibited when interacting with the mobile game, so
 the dataset produced with the prior distribution model woven into RPGLite should
 correlate closely to the empirically sourced dataset. If this behaviour is seen,
 then the aspects woven into the model induced a change in simulated players'
-behaviours and so successfully augmented the model \laurie{devil's advocate:
-this may not be `successful' or `augment': it could be an unsuccessful change (in the sense of ``change that we didn't want'')}.
+behaviours and so successfully augmented the model.
 
 A more thorough description of this experiment is given in \cref{sec:rq2} as the
 reader has been presented with the details of the experiment's foundation at
@@ -688,7 +688,12 @@ observe its state are described in \cref{subsec:aspects_instrumenting_model}.
 Aspects implementing behaviour change including the learning model are described
 in \cref{subsec:aspects_modelling_learning}. A diagram of a game of RPGLite's
 naive model annotated with aspects and their join points is presented in
-\cref{fig:all_aspects_applied}.
+\cref{fig:all_aspects_applied}. As the source code for the model is made
+available separately~\cite{rpglite_analysis_and_experiments_repo} and can be
+lengthy, code snippets are provided selectively as examples of aspect
+implementations where it is helpful to do so. Complete implementations for all
+aspects can be found in the model's source
+code~\cite{rpglite_analysis_and_experiments_repo}.
 
 \begin{figure}[h]
   \centering
