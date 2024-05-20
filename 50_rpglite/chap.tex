@@ -102,7 +102,7 @@ details depending on their special abilities --- are defined as a
 different \emph{``seasons''} of the RPGLite mobile game, which are discussed in
 \cref{rpglite_configurations}.
 
-\begin{figure}
+\begin{table}
   \centering
 \begin{tabular}{@{}lp{0.65\columnwidth}@{}}
   \toprule{}
@@ -135,7 +135,7 @@ different \emph{``seasons''} of the RPGLite mobile game, which are discussed in
 \end{tabular}
 \caption{RPGLite characters and their unique special abilities.}
 \label{fig:chars_and_their_abilities}
-\end{figure}
+\end{table}
 
 To act on their turn, each player selects an
 ``alive'' character (one with health greater than 0) to attach a chosen
@@ -591,7 +591,7 @@ characters in season 1 are given in \cref{fig:s1_config}, in
 \cref{fig:s2_config} for season 2, and the differences between the two
 configurations are summarised in \cref{fig:changes_between_seasons}.
 
-\begin{figure}[h]
+\begin{table}[h]
   \begin{minipage}{.50\columnwidth}
     \centering
     \begin{tabular}{@{}l r r r@{}}
@@ -631,7 +631,7 @@ configurations are summarised in \cref{fig:changes_between_seasons}.
     \label{fig:s2_config}
   \end{minipage}
 \label{fig:table_of_char_params_between_seasons}
-\end{figure}
+\end{table}
 
 In the second configuration, most character pairs have their hit accuracy
 reduced by 0.05 percentage points. Only the knight's damage is reduced, from 4
@@ -648,7 +648,7 @@ to changed configuration is analysed using formal methods by
 }
 
 
-\begin{figure}[h]
+\begin{table}[h]
   \centering
   \begin{tabular}{@{}l l r r@{}@{}}
     \toprule
@@ -671,7 +671,7 @@ to changed configuration is analysed using formal methods by
   \end{tabular}
   \caption{Altered values of different parameters when moving from season 1 to season 2.}
   \label{fig:changes_between_seasons}
-\end{figure}
+\end{table}
 
 
 \subsection{Data Collected}
@@ -707,7 +707,7 @@ described by each data point (rather than the history of a specific game) is
 denoted by a ``kind'' field within each data point. 63 such kinds are included in
 the dataset. Some examples are described in \cref{fig:page_hit_datapoint_examples}.
 
-\begin{figure}
+\begin{table}
   \centering
 \begin{tabular}{@{}lp{0.45\textwidth}r@{}}
 \toprule{}
@@ -739,7 +739,7 @@ a game & 114 \\
 \end{tabular}
 \caption{Some types of data included in the 1,069,595 ``page hit'' data points, which mostly describe interactions with the RPGLite app.}
 \label{fig:page_hit_datapoint_examples}
-\end{figure}
+\end{table}
 
 The abridged list of different page hit data points described in
 \cref{fig:page_hit_datapoint_examples} contains some kinds of particular
@@ -770,7 +770,7 @@ similar attributes describing the entire history of the RPGLite game played;
 attributes of particular interest are highlighted in
 \cref{fig:gamedoc_attributes}. 
 
-\begin{figure}
+\begin{table}
   \centering
   \begin{tabular}{@{}lp{0.73\textwidth}@{}}
     \toprule{}
@@ -799,7 +799,7 @@ attributes of particular interest are highlighted in
   \end{tabular}
   \caption{Examples of attributes common to records of RPGLite games as published in the RPGLite gameplay dataset~\cite{rpglite_dataset}.}
   \label{fig:gamedoc_attributes}
-\end{figure}
+\end{table}
 
 Moves stored in game objects are encoded in a string format similar to chess
 move notation. A move notated as \lstinline{p1Gp2A_65} reads as, \emph{``Player

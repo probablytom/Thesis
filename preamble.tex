@@ -13,7 +13,8 @@
 \usepackage[
   backend=biber,
   bibencoding=utf8,
-  style=alphabetic,
+  style=numeric,
+  sorting=nyt,
   natbib=true %% draft probably wants changing...
 ]{biblatex}
 \DefineBibliographyStrings{english}{%
@@ -42,6 +43,7 @@
 \usepackage{tikz}
 \usepackage{array}
 \usepackage[nottoc]{tocbibind}
+\usepackage{xurl}
 
 % Show bibliography in TOC
 \settocbibname{References}
@@ -51,6 +53,9 @@
 \lst@AddToHook{TextStyle}{\let\lst@basicstyle\ttfamily}
 \makeatother
 
+% Make Listings directly cref-able
+\crefname{lstlisting}{Listing}{Listings} % cleverref capitalize option doesn't appear to affect these definitions. 
+\Crefname{lstlisting}{Listing}{Listings}
 
 % Some quote styling changes, modified from https://tex.stackexchange.com/a/468294
 \usepackage[%
@@ -100,6 +105,15 @@ skipbelow=0cm,
   {\color{red}{#1}}
   \ifdefined\todosintable
     \addcontentsline{tdo}{todo}{\emph{[C\thechapter{}] todo: }#1}{}
+  \fi
+}}
+
+\@ifclasswith{good_template}{final}
+{\newcommand{\correctionnote}[1]{}}
+{\newcommand{\correctionnote}[1]{
+  {\color{blue}{#1}}
+  \ifdefined\todosintable
+    \addcontentsline{tdo}{todo}{\emph{[C\thechapter{}] \textbf{\emph{CORRECTION NOTE}}: }#1}{}
   \fi
 }}
 

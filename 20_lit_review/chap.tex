@@ -130,9 +130,17 @@ points describing specific types whose functionality is to be altered in some
 way. Their paper describes only ``dynamic'' cross-cutting, but presents tooling
 support, architectural detail of its implementation, and the representation \&
 definition of pointcuts in AspectJ. AspectJ is compared to other tools for
-\aspectorientation{} and related decomposition-focused paradigms, and the authors
-are explicit about their approach being distinct from metaprogramming in, for
-example, Smalltalk or Clojure.
+\aspectorientation{} and related decomposition-focused paradigms, and the
+authors are explicit about their approach being distinct from
+metaprogramming\footnote{Metaprogramming is the practice of writing programs
+which write or re-write other programs (or themselves) by treating code as data
+and performing transformations on it. An example of metaprogramming is the
+mutation of programs for testing purposes, termed ``mutation testing''. Another
+is the ``macro system'' feature of such as Racket or Common Lisp, which allows
+developers to write a procedure which takes a part of a program as input and
+returns another program fragment which replaces the original one.} in, for
+example, Smalltalk or Clojure.\correctionnote{This definition of macro systems
+is verbose and difficult to parse. Consider reworking before submitting.}
 
 \citet{filman2000aspect} isolate properties of \aspectorientation{} which they
 assert are definitive of the paradigm. Specifically, they claim that \aop{}
@@ -1537,11 +1545,34 @@ questions, which are addressed in later chapters:
 \Needspace{3\baselineskip}
 \begin{researchquestion}
 \begin{description}
-  \item[RQ1] \rqtwo{}
-  \item[RQ2] \rqthree{}
-  \item[RQ3] \rqfour{}
+  \item[RQ1] \rqone{}
+  \item[RQ2] \rqtwo{}
+  \item[RQ3] \rqthree{}
 \end{description}
 \end{researchquestion}
+
+It is important to clarify some terms used in these research questions. The
+``accuracy'' of a model is its similarity to its subject in the dimensions by
+which the subject is being modelled. For example, consider a model of the rates
+of infection of a virus developed to study the proportion of a population which
+is likely to be infected with that virus at a given point in time. If the
+model's predictions of rate of infection are reflected in those measured in the
+real world, it would be said to accurately model rates of infection for that
+virus. While in this case the model might not account for other concerns ---
+such as the geographical spread of the virus --- it nonetheless models its
+intended subject accurately and is therefore an accurate model of infection
+rates. This concept is distinct from a model's faithful representation of its
+subject. A faithful representation is used here to mean that what is represented
+accurately reflects what is \emph{intended} to be represented. For example,
+consider a scenario where researchers develop a mathematical model of infection
+rates which correctly reflects their theory of the spread of a virus, but their
+theory does not reflect how that virus spreads in the real world. In this case,
+their model faithfully represents the theory as intended but does not accurately
+model infection rates. The model would not faithfully represent their theory if
+a mistake was made in developing the model, such that it does not represent what
+it was intended to. Faithful models may not accurately represent a system under
+study, and accurate models may not faithfully represent what they are intended
+to represent.
 
 To address these, new tooling is produced in \cref{chap:pdsf_rewrite} which
 offers new types of aspects. These aspects weave their advice \emph{within}

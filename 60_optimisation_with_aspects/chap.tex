@@ -20,9 +20,9 @@ proposed in \cref{chap:lit_review}:
 \Needspace{6\baselineskip}
 \begin{researchquestion}
   \begin{description}
-   \item[RQ1] \rqtwo{}
-   \item[RQ2] \rqthree{}
-   \item[RQ3] \rqfour{}
+   \item[RQ1] \rqone{}
+   \item[RQ2] \rqtwo{}
+   \item[RQ3] \rqthree{}
   \end{description}
 \end{researchquestion}
 
@@ -145,7 +145,7 @@ research questions to be answered.
 \Needspace{3\baselineskip}
 \begin{description}
   \item[Experiment \#1: Improving a Model] The first experiment answers the
-research question: \emph{\rqtwo{}} \Aop{} can only be used to augment models if
+research question: \emph{\rqone{}} \Aop{} can only be used to augment models if
 modifications to a model can be encoded in aspects, woven into a model, and
 become provably more accurate as a result. Similar research was conducted in
 prior work~\cite{wallis2018caise}, but this study represented changes to a model
@@ -181,7 +181,7 @@ investigates whether advice can alter a model and introduce changes to existing
 behaviours. Another experiment follows to investigate whether advice can
 introduce \emph{new} behaviours to a model and new parameters which alter
 modelled behaviour. This aims to answer the research question:
-\emph{\rqthree{}}
+\emph{\rqtwo{}}
 
 The learning model is woven into the naive model of RPGLite play to add new
 behaviours and parameters to the model. For each player, parameters are found
@@ -223,7 +223,7 @@ that point.
 first two experiments, the utility of aspects as units of behaviour change are
 established. The results in \cref{sec:rq2} and \cref{sec:rq3} are positive. One
 more research question remains to be addressed. The final research question is:
-\emph{\rqfour{}}
+\emph{\rqthree{}}
 
 To establish this, season 2 of RPGLite is used to represent a system
 which is subtly changed. RPGLite's seasons are defined by game configurations,
@@ -626,9 +626,9 @@ fixed at $1$ for the confidence model, as confidence should never exceed
 $100\%$.} $a$ is its relative growth rate (RGR)\footnote{The RGR is a common
 parameter of sigmoid curves and defines the rate at which the sigmoid increases
 near its inflection point}, and $y$ is the value of the curve at a given point
-in time. The birch curve can represent other curves through its shape parameter:
+in time. The Birch curve can represent other curves through its shape parameter:
 at $c=0$ the curve is exponential, and at $c=1$ the curve is
-logistic~\cite{birch1999new}. As the birch curve models the properties of
+logistic~\cite{birch1999new}. As the Birch curve models the properties of
 different players' confidence through its shape parameter it is a suitable
 candidate for the model of confidence required by the model of learning
 described in \cref{learning_model_details}. Its implementation in the aspects
@@ -802,7 +802,7 @@ health, the game ends as expected.
 \label{confidence_model_aspect_impl_writeup}
 
 As described in \cref{subsec:confidence_model}, confidence is modelled as a
-Birch curve. This aspect updates a player's level of confidence using the birch
+Birch curve. This aspect updates a player's level of confidence using the Birch
 curve when a game ends. It is woven as a prelude to the naive model's
 \lstinline{choose_character_pair} function, so that confidence is updated for
 each player before it is used for character pair selection.
@@ -1220,7 +1220,7 @@ these ways are:
   curve should reach the parameter \\\lstinline{assumed_confidence_plateau}. This
   allows for control over the growth rate of the curve while linking the rate of
   growth to the number of games played by the real-world player being simulated;
-  \item[C] The curve parameter of the confidence model's underlying birch curve;
+  \item[C] The curve parameter of the confidence model's underlying Birch curve;
   \item[prob bored] The probability that a player with confidence above
   \lstinline{assumed_confidence_plateau} becomes ``bored'' and stops playing
   RPGLite. These players are removed from the simulated playerbase and replaced

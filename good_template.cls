@@ -253,13 +253,13 @@
 % === Some useful packages
 \usepackage[obeyFinal,textsize=tiny]{todonotes}
 \usepackage{indentfirst}
-\usepackage{cleveref}
+\usepackage[capitalize]{cleveref}
 
 % ==== For synatax highlighting.
 \usepackage[final]{listings}
 \lstdefinestyle{custompython}{
   backgroundcolor=\color{backcolour},
-  basicstyle=\ttfamily,
+  basicstyle=\ttfamily\linespread{0.75},
   breaklines=true,
   captionpos=b,
   commentstyle=\color{commentgrey},
@@ -272,7 +272,7 @@
 }
 \lstdefinestyle{footnotesize_python}{
   backgroundcolor=\color{backcolour},
-  basicstyle=\ttfamily\footnotesize,
+  basicstyle=\ttfamily\linespread{0.75}\footnotesize,
   breaklines=true,
   captionpos=b,
   commentstyle=\color{commentgrey},
@@ -285,7 +285,7 @@
 }
 \lstdefinestyle{small_python}{
   backgroundcolor=\color{backcolour},
-  basicstyle=\ttfamily\small,
+  basicstyle=\ttfamily\linespread{0.75}\small,
   breaklines=true,
   captionpos=b,
   commentstyle=\color{commentgrey},

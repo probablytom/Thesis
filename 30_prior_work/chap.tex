@@ -12,7 +12,7 @@ project before the presented research was undertaken. Motivations for the tool's
 original development are described in \cref{sec:pdsf_motivations}, which are
 followed by its design and implementation in \cref{sec:prior_work_pdsf}, and
 that of related tooling for experiments and simulations in
-\cref{sec:prior_work_machinery}. The chapter concludes with a description of the
+\cref{sec:prior_work_machinery}. The chapter concludes with a descriptien of the
 research undertaken using these tools in \cref{sec:caise_paper}, as some results
 in the representation of behavioural variance using aspect orientation were
 contributed using these tools which predate the research presented in later
@@ -78,6 +78,10 @@ modelled as described and subsequently studied.
 
 \section{Original \pdsf Implementation}\label{sec:prior_work_pdsf}
 
+\correctionnote{Phil suggests giving different names to the \pdsf{}
+implementations in chapters 3 and 4. I haven't done this yet. He marked his .pdf
+with a suggestion for this on this section header.}
+
 To disambiguate the improvements made to the original \pdsf implementation
 in the tooling contributions of this thesis --- and to explain the fundamental
 concepts involved in both implementations' approaches to aspect orientation and
@@ -139,7 +143,7 @@ diagrammed in \cref{fig:early_pdsf_replaced_getattr_diagram}.
 
 \begin{figure}
 \includegraphics[width=0.9\columnwidth]{30_prior_work/diagrams/replacement_getattr.png}
-\caption{High-level representation of the process implemented by the replacement
+\caption{UML Activity Diagram of the process implemented by the replacement
 \lstinline{__getattribute__} method as implemented by the original \pdsf{}
 library.}
 \label{fig:early_pdsf_replaced_getattr_diagram}
@@ -256,8 +260,10 @@ still be cautious about assumptions of program state.}
 
 \subsection{Limitations}\label{subsec:prior_work_pdsf_limitations}
 
-The original implementation of \pdsf demonstrated the feasibility
-of runtime metaprogramming as applied to simulation \& modelling.
+The original implementation of \pdsf demonstrated the feasibility of runtime
+metaprogramming using \aop{} using a model of software development as a case
+study. This introduced a novel type of join-point which could apply advice
+within a join-point, rather than treating that join-point as a black box.
 However, its design presents limitations.
 
 There is an overhead involved in running the wrapped
@@ -399,10 +405,10 @@ Fuzzi-Moss contained utilities and fuzzers such as:
     distraction
 \end{itemize}
 
-Plans were also made for fuzzers representing an actor ``becoming
-muddled''\footnote{A behavioural variation caused by confusion.} and making
-mistakes in decision-making, but neither have been completed at time of writing.
-A discussion around the revival of this project in the context of the \pdsf
+Stubs also exist in the \pdsf{} codebase for fuzzers which represent a model of
+confusion and its effects on behaviour, but this remains unimplemented at time
+of writing and specific details of this model have not been defined. A
+discussion around the revival of this project in the context of the \pdsf
 rewrite presented in \cref{chap:pdsf_rewrite} is given in
 \cref{future_work_revive_fuzzimoss}. 
 
@@ -413,9 +419,11 @@ rewrite presented in \cref{chap:pdsf_rewrite} is given in
 sociotechnical models \& simulations can act~\cite{theatre_ag_repo}. In the
 project's overview, it describes itself as\ldots{}:
 
+\correctionnote{This blockquote isn't formatted correctly at all! Investigate why!!!}
+
 \begin{blockquote}
     \theatreag{} is a workflow oriented agent based simulation environment.
-    \theatreag{} is designed to enable experimenters to specify readable workflows
+\theatreag{} is designed to enable experimenters to specify readable workflows
 directly as collections of related methods organised into Plain Old Python
 Classes that are executed by the agents in the simulation. All other simulation
 machinery (critically task duration and clock synchronization) is handled
