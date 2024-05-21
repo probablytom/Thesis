@@ -1,0 +1,23 @@
+flowchart TD
+
+    importTarget(Import Python module)
+    replaceCallables(Replace callable objects\nfrom module with\nwrappers containing hooks)
+    subgraph importTargetProcedure [Import module with aspect hooks applied]
+      direction LR
+      importTarget-->replaceCallables
+    end
+
+    registerAspect("Weave aspect into module\nby calling registration method\n(passing advice and pointcut)")
+    optimise(Cache pointcut\nfor efficiency)
+    returnCallback(Return callback for\nlater deregistration\nof aspect)
+    subgraph registerAspectProcedure [Weave aspect into module using registration method]
+      direction LR
+      registerAspect-->optimise-->returnCallback
+    end
+
+    invokeTarget(Program later invokes\ncallable object from module\ntriggering aspect hooks)
+
+    start((Start))
+    endProc((End))
+    start-->importTargetProcedure-->registerAspectProcedure-->invokeTarget-->endProc
+
