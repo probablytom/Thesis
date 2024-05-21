@@ -1,138 +1,171 @@
-\chapter{Rewriting \pdsf{}}
+\chapter{\pdsfthree{}: A Tool for \AspectOriented Modelling}
 \label{chap:pdsf_rewrite}
+
+\correctionnote{
+    Is this title OK now? Worried it's too long and not sure how it renders.
+    Revisit! Maybe there's a better one! Phil's original concern was that it
+    makes this chapter look like there are no contributions, just a bit of
+    engineering.
+}
 
 \inline{Ensure we use a consistent tense throughout}
 
 \inline{Spell-check this chapter}
 
 The work undertaken in this thesis required an improved implementation of old
-tooling. When previously used, \pdsf{} was a proof of concept which could
-feasibly produce scientific models \& simulations but was implemented in a
-manner which was not optimised for speed, making it a burden for large
-simulations. It also lacked granularity in the application of its aspect hooks:
-hooks were applied to entire classes. Most importantly, it was not compatible
-with Python3. \pdsf{} was originally written to manipulate Python2 objects,
-which changed their structure to replace their underlying dictionaries with
-special classes with read-write protections on attributes which \pdsf{} relied
-on. Python2 lost official support shortly after the work described in
-\cref{chap:prior_work} was undertaken. A new version of \pdsf{} with support for
-weaving aspects in Python3 was therefore needed; this rewrite provided an
-opportunity to address other design concerns with \pdsf{}.
+tooling. \pydysofu{} was a proof of concept which could feasibly produce
+scientific models \& simulations but was implemented in a manner which was not
+optimised for speed, making it a burden for large simulations. It also lacked
+granularity in the application of its aspect hooks: hooks were applied to entire
+classes. Most importantly, it was not compatible with Python3. \pydysofu{}
+manipulates Python2 objects, but Python3's objects have a changed structure
+which replaces their underlying dictionaries with special classes. These enforce
+read-write protections on attributes which \pydysofu{} relied on. Python2 lost
+official support shortly after the work described in \cref{chap:prior_work} was
+undertaken, and was not a suitable platform to build tooling on.
 
-This chapter briefly outlines the new implementation of
-\pdsf{}~\cite{pdsf_source_in_analysis_repo}, discusses improvements made to
-design and performance, and explains some contributions made to the design of
-\aspectorientation{} frameworks which addresses some core issues raised with the
-paradigm. \Cref{sec:pdsf3requirements} describes in more detail why a new
-version of \pdsf{} was produced. \Cref{sec:pdsf3python3} describes possible
-approaches to the design of the new library. The implementation of the weaver
-for the new version of \pdsf{} is explained in detail in
-\cref{sec:import_hooks}, and some optimisations introduced to the tool are
-explained in \cref{pdsf3_optimisations}. The chapter concludes by summarising
-the new tool and the contributions it makes by introducing a new design for
-weaving --- ``import hook weaving'' --- in \cref{pdsf3_discussion}.
+A new version of \pydysofu{} with support for weaving aspects in Python3 was
+therefore needed; its revised implementation is named \pdsfthree{}.
+\Cref{sec:pdsf3requirements} motivates in detail the development of \pdsfthree
+by identifying opportunities to improve \pydysofu{}'s design.
+
+This rewrite also provided an opportunity to address limitations of \aop{} and
+to develop improvements missing in \pydysofu{}, thus producing a more mature
+tool appropriate for use in research software engineering. In particular,
+\pdsfthree{} implements a new design for the weaving of aspect hooks into
+prospective join-points --- ``import hook weaving'' --- which improves the
+legibility of an \aspectoriented codebase by making the application of advice
+more clearly visible to a reader of that codebase. This design addresses
+criticism of \aspectorientation which observes that obliviousness can make
+programs difficult to read, reason about, and
+maintain~\cite{Constantinides04aopconsidered,steimann06paradoxical,przybylek2010wrong,przybylek2018empirical}\footnote{These
+criticisms are discussed in \cref{subsec:aop-criticisms}.}.
+
+Import hook weaving makes advice application more legible than other \aop{}
+frameworks by restricting the ability of one area of a codebase to affect other
+areas, and takes advantage of conventional Python programs' layout to place uses
+of \aop{} at the top of a file. Using these design improvements, a developer can
+more easily reason about any usage of \aop{} than in other frameworks and is
+given ``hints'' that they should be aware of \aspectorientation{} proactively.
+\Cref{sec:pdsf3python3} describes approaches which were considered in the
+implementation of \pdsfthree{}. The implementation of import hook weaving is
+discussed in \cref{sec:import_hooks}. Other features of \pdsfthree which were
+developed to improve \pydysofu{}'s maturity as a tool are given in
+\cref{pdsf3_optimisations}.
+
+
+
+\correctionnote{
+    Check that the intro to this chapter still makes sense. It's been heavily
+    reworked to explain the contributions of the chapter more clearly. Is it
+    clear? Does it articulate how PDSF3 improves on PyDySoFu? etcetcetc
+}
+
+
+
+
 
 
 \section{Requirements for Change}\label{sec:pdsf3requirements}
 
-After developing a original study using \pdsf{}'s original
-implementation~\cite{wallis2018caise}, it became clear that an iteration on its
-design was required. \pdsf{} grew out of an undergraduate project, and accrued
+After developing a study using \pydysofu{}~\cite{wallis2018caise}, it became clear that an iteration on its
+design was required. \pydysofu{} grew out of an undergraduate project, and accrued
 technical debt as a result of being written under time constraints with little
 experience. On revisiting its design and reflecting on other aspect orientation
 frameworks reviewed in  
 \cref{aspect_oriented_programming_litreview} and the use previously found for
-\pdsf{}~\cite{wallis2018caise,wallis2018genetic} it was clear that there were
+\pydysofu{}~\cite{wallis2018caise,wallis2018genetic} it was clear that there were
 improvements which could be made to the tool:
 
 \begin{itemize}
-    \item Before this body of work was undertaken, \pdsf made use of techniques
+    \item \pydysofu made use of techniques
       for applying aspect hooks which did not translate to the changes Python 3
       made to its object model. In particular, Python 3 changed its underlying
       object model, using a wrapper class imposing constraints on writing to
       some attributes of callable objects. This impacted the implementation of
       fuzzers, and no viable way to reimplement fuzzers using the old technique
       could be found.
-    \item \pdsf{}'s original implementation made no accommodations for
+    \item \pydysofu{} made no accommodations for
       efficiency. It could be seen as the ``total weaving'' described by
       \citet{dynamicAOchitchyan} as aspect hooks were implemented within the
       \lstinline{__getattribute__} method of a class, with the effect that even
       properties of the class which were not intended to be used as join-points
-      were processed through \pdsf{}'s aspect hooks. This incurred an overhead
+      were processed through \pydysofu{}'s aspect hooks. This incurred an overhead
       to their performance. In Python, the \lstinline{__getattribute__} method
       retrieves \emph{all} attributes of an object, including special built-in
       attributes and non-callable ones. Aspect hooks were therefore invoked in
       almost any scenario where a program made use of an instance of any class
       which had aspect hooks applied. As \lstinline{__getattribute__} is used by
       Python when retrieving any attribute of an object, it was not possible to
-      limit the impact of \pdsf{}'s aspect hooks to only affect potential
+      limit the impact of \pydysofu{}'s aspect hooks to only affect potential
       join-points.
-    \item The original \pdsf implementation made no accommodations for scenarios
+    \item \pydysofu made no accommodations for scenarios
       where fuzzing of source code was applied in a ``static'' manner. That is
       to say, where a deterministic modification to source was woven as advice,
       instead of dynamically modifying source code, the same modification would
       still be made every time the target attribute was executed, unless caching
       of results was specifically managed by the aspect applying the change. No
       optimisations were made pertaining to this, but compilation and abstract
-      syntax tree editing have the potential to be \pdsf{}'s most expensive
+      syntax tree editing have the potential to be \pydysofu{}'s most expensive
       operations.
     \item Unlike other aspect orientation frameworks such as
       AspectJ~\cite{aspectj_intro}, pointcuts could not be specified. Instead,
       individual join-points were be supplied as a Python object. This deviated
-      from \aop{} conventions but only limited a user of \pdsf{}: specifying a
-      set of join-points was not supported by the library. Users of \pdsf{} did
+      from \aop{} conventions but only limited a user of \pydysofu{}: specifying a
+      set of join-points was not supported by the library. Users of \pydysofu{} did
       not benefit from this lack of functionality.
 \end{itemize}
 
-As several requirements were left unfulfilled by the original implementation of
-\pdsf{}, a new implementation satisfying them was deemed necessary.
+As several requirements were left unfulfilled by
+\pydysofu{}, a new implementation satisfying them was deemed necessary.
 
 
 \section{Python3-Compatible Weaving Techniques}\label{sec:pdsf3python3}
 
 Replacing \lstinline{__getattribute__} on the class of a targeted method was no
 longer viable in Python 3. A replacement method therefore had to be found. As
-discussed in \cref{subsec:prior_work_weaving}, replacing
-\lstinline{__getattribute__} in \pdsf{}'s original implementation allowed for
-hooks to be woven at runtime into possible targets of advice. These hooks would
-then discover and manage the execution of advice around each target. Because
-advice can be run before, after and around a target dynamically, an alternative
-technique must also intercept the calling of any target and manage advice
-immediately before execution. 
+discussed in \cref{subsec:prior_work_weaving}, \pydysofu{}'s technique of
+replacing \lstinline{__getattribute__} allowed for hooks to be woven at runtime
+into possible targets of advice. These hooks would then discover and manage the
+execution of advice around each target. Because advice can be run before, after
+and around a target dynamically, an alternative technique must also intercept
+the calling of any target and manage advice immediately before execution. 
 
 This section describes a search to discover alternative techniques to
-dynamically weave and manage aspects. We refer to code woven around a target
-which manages applied advice as \emph{``aspect hooks''}.
+dynamically weave and manage aspects which are suitable for \pdsfthree{}'s
+implementation. We refer to code woven around a target which manages applied
+advice as \emph{``aspect hooks''}.
 
 The techniques of interest are specifically those which can be used to implement
 \aop{} without introducing domain-specific languages (as in the case of AspectJ,
 surveyed in \cref{AspectJLanguageAndTools,aspectj_intro}) or a special language
 runtime (as in the case of PROSE~\cite{popovici2002PROSE} or
-Nu\cite{rajan2006nu_towardsao_invocation}). \pdsf{} is instead implemented in
-Python, requires no additional dependencies, and is used by writing native
+Nu\cite{rajan2006nu_towardsao_invocation}). \pdsfthree{} is instead implemented
+in Python, requires no additional dependencies, and is used by writing native
 Python code. This design is chosen for two reasons. Firstly and most
-significantly, \pdsf{} would be easier to maintain in the future if it does not
-require a change to the Python runtime or the development and maintenance of a
-domain-specific language. This is because the Python runtime is routinely
-updated and changes would need to be rebased against new Python versions, and a
-domain-specific language is likely to be more complicated to implement than a
-Python package. This is because such a package is simple to implement by virtue
-of Python's flexible
-design~\cite{advanced_python_monkey_patching,forbiddenfruit_repo}, which is
-described further in
-\cref{subsec:pdsf3badweaving,subsec:pdsf3importhookdiscussion}. Secondly, it is
-expected that the ability to use \pdsf{} without learning new languages or
+significantly, \pdsfthree would be easier to maintain in the future if it avoids
+requiring a change to the Python runtime or the development and maintenance of a
+domain-specific language. Changes to the language's runtime are avoided because
+the Python runtime is routinely updated and changes would need to be rebased
+against new Python versions. A domain-specific language is avoided because an
+implementation of a new language is likely to be more complicated to implement
+than a Python package: such a package is simple to implement by virtue of
+Python's flexible
+design~\cite{advanced_python_monkey_patching,forbiddenfruit_repo}
+(described further in
+\cref{subsec:pdsf3badweaving,subsec:pdsf3importhookdiscussion}). Secondly, it is
+expected that the ability to use \pdsfthree{} without learning new languages or
 adopting unofficial (and therefore potentially less reliable) language runtimes
 may be appealing to potential users of \aop{}. This expectation could be
 verified by a survey of researchers who are curious about \aspectoriented{}
-modelling to investigate whether these design properties make \pdsf{} more
+modelling to investigate whether these design properties make \pdsfthree{} more
 appealing than other \aop{} frameworks. This is left as future work, as there
 was insufficient time remaining in this project to conduct such a survey.
 
 
 \subsection{Abandoned Techniques}\label{subsec:pdsf3badweaving}
 
-The original incarnation of \pdsf{} relied on ``monkey-patching'': the practice
+\pydysofu{} relied on ``monkey-patching'': the practice
 of making on-the-fly changes to objects by ``patching''
 them during program execution~\cite{advanced_python_monkey_patching}. This is
 often achieved by taking advantage of language properties such as flexible
@@ -143,7 +176,7 @@ Python and JavaScript. Monkey-patching makes use of these structures by
 replacing values such as the function object mapped to by the original
 function's name in the dictionary, effectively changing its behaviour. An
 example of monkey-patching in Python is given in \cref{fig:snippet-with-python-monkeypatching} This is
-the method by which \pdsf{} originally replaced \lstinline{_getattribute__} on a
+the method by which \pydysofu{} replaced \lstinline{_getattribute__} on a
 class object.
 
 \begin{figure}
@@ -157,13 +190,14 @@ class object.
 
 Rather than relying on monkey-patching a new version of
 \lstinline{__getattribute__} containing aspect hooks, the rewritten method could
-be patched to the object itself at a deeper level than used in the original
-\pdsf{} implementation. This would make use of Python's \lstinline{ctypes} API
-to patch the underlying object. Similar work has been done in the python
-community in a project called ForbiddenFruit~\cite{forbiddenfruit_repo}.
-ForbiddenFruit uses the \lstinline{ctypes} API to interact with the Python
-runtime and alter the in-memory representation of the attributes of class
-objects, ``cursing'' those objects in ForbiddenFruit's jargon.
+be patched to the object itself at a deeper level than was available through
+\pydysofu{}'s underlying mechanism. This would make use of Python's
+\lstinline{ctypes} API to patch the underlying object. Similar work has been
+done in the python community in a project called
+ForbiddenFruit~\cite{forbiddenfruit_repo}. ForbiddenFruit uses the
+\lstinline{ctypes} API to interact with the Python runtime and alter the
+in-memory representation of the attributes of class objects, ``cursing'' those
+objects in ForbiddenFruit's jargon.
 
 This modification is highly dependent on the specific details of the modified
 attribute. While many attributes are supported by ForbiddenFruit, cursing
@@ -177,43 +211,44 @@ cursing \lstinline{__getattribute__}, but these also could not be made to work.
 There are also efficiency concerns with this technique depending on its use:
 weaving advice around a function would mean monkey-patching the built-in class
 of functions, which would incur an overhead from running aspect hooks on every
-invocation of every function as \pdsf{}'s original incarnation did.
+invocation of every function as \pydysofu{} did.
 
 Another approach for dynamic weaving which was attempted involved making use of
-existing Python functionality for interrupting method calls. As \pdsf{}'s
-original implementation wrapped method calls dynamically, what was required was
-to add program logic to the beginning and end of the execution of a method.
-Python has features providing this functionality which were designed for the
-implementation of debuggers, profilers, and similar development tools.
-The built-in function \lstinline{settrace} allows a developer to specify a function
-which is invoked on certain events in Python's runtime. The intended use case
-for \lstinline{settrace} is to track function invocations and exceptions being
-raised --- however, the existence of a function invocation event suggested that \pdsf{}
-could dynamically apply aspects by using this functionality.
+existing Python functionality for interrupting method calls. As \pydysofu{}
+wrapped method calls dynamically, what was required was to add program logic to
+the beginning and end of the execution of a method. Python has features
+providing this functionality which were designed for the implementation of
+debuggers, profilers, and similar development tools. The built-in function
+\lstinline{settrace} allows a developer to specify a function which is invoked
+on certain events in Python's runtime. The intended use case for
+\lstinline{settrace} is to track function invocations and exceptions being
+raised --- however, the existence of a function invocation event suggested that
+\pdsfthree{} could dynamically apply aspects by using this functionality.
 
 Making use of \lstinline{settrace} also has issues. Most significantly,
 \lstinline{settrace} catches myriad events in the Python interpreter which
-\pdsf{} is unconcerned with, which incurs significant overhead. In addition,
-only one callback can be set using \lstinline{settrace}, meaning that any a
-programmer would have to choose between using a debugger and using \pdsf{}. This
-was deemed untenable: debuggers are an important development tool and a weaving
-approach which prevents their use was not realistically useful. However, future
-Python versions may change their design of \lstinline{settrace} in a way which
-makes this weaving approach feasible. If future versions of the language allow
-for multiple trace handlers, this could provide a promising alternative approach
-to the implementation of future dynamic aspect orientation frameworks.
+\pdsfthree{} is unconcerned with, which incurs significant overhead. In
+addition, only one callback can be set using \lstinline{settrace}, meaning that
+any programmer would have to choose between using a debugger and using
+\pdsfthree{}. This was deemed untenable: debuggers are an important development
+tool and a weaving approach which prevents their use was not realistically
+useful. However, future Python versions may change their design of
+\lstinline{settrace} in a way which makes this weaving approach feasible. If
+future versions of the language allow for multiple trace handlers, this could
+provide a promising alternative approach to the implementation of future dynamic
+aspect orientation frameworks.
 
 
 \subsection{Import Hooks}\label{subsec:pdsf3importhookdiscussion}
 
 A final available technique is to continue to monkey-patch hooks to discover and
 weave aspects, via an alternative method which does not make use of
-\lstinline{__getattribute__}. This approach would change the use of \pdsf{} to
-make a compromise between performance and obliviousness of aspect application:
-when importing a module targeted for aspect weaving, potential target methods
-are monkey-patched with a wrapper method with a reference to the original ---
-necessary to run the targeted method --- and hooks to detect and run dynamically
-supplied advice.
+\lstinline{__getattribute__}. This approach would change the use of \pdsfthree{}
+to make a compromise between performance and obliviousness of aspect
+application: when importing a module targeted for aspect weaving, potential
+target methods are monkey-patched with a wrapper method with a reference to the
+original --- necessary to run the targeted method --- and hooks to detect and
+run dynamically supplied advice.
 
 Many behaviours of objects in Python are defined through their ``magic
 methods'' (as mentioned in \cref{first_reference_to_magic_methods}). Magic method
@@ -240,11 +275,11 @@ functionality for importing modules is managed by
 \lstinline{builtins.__import__}, which receives module names as strings and
 handles package resolution; by monkey-patching the import system, modules can be
 modified during the process of importing. As this technique allows for control
-over where aspect hooks are applied, \pdsf can target only function and method
-objects to apply aspect hooks to, avoiding the overhead its previous iteration
+over where aspect hooks are applied, \pdsfthree can target only function and method
+objects to apply aspect hooks to, avoiding the overhead \pydysofu
 introduced when applying hooks to all attribute lookups including non-callables,
-such as variables or \lstinline{Class} objects. \footnote{New versions of
-\pdsf{} could hypothetically be extended to apply advice to attributes instead
+such as variables or \lstinline{Class} objects. \footnote{A successor to
+\pdsfthree{} could hypothetically be extended to apply advice to attributes instead
 of functions or methods, as was possible with the previous version's weaving
 technique using \lstinline{__getattribute__}. However, it is unclear how this
 could be implemented as the new weaving technique relies on target
@@ -254,9 +289,9 @@ values are resolved was deemed too great to justify the investment given this
 functionality was not required for the work at hand. Python's
 \lstinline{@property} decorator turns methods of classes into properties of
 those classes; as this would allow properties to be represented internally as
-methods, and so as possible join-points with \pdsf{}'s new implementation, an
+methods, and so as possible join-points with \pdsfthree{}, an
 investigation into this decorator could yield a viable approach. This is
-suggested as potential future work on the \pdsf{} library.}
+suggested as potential future work on the \pdsfthree{}.}
 
 Monkey-patching \lstinline{builtins.__import__} is as simple as replacing the
 \lstinline{__import__} function object with a new one, which changes the
@@ -270,7 +305,7 @@ an unnecessary overhead would be introduced when invoking any module and another
 overhead would be incurred executing the aspect hooks on any callable imported
 by any module. For this reason it is important to have a mechanism to enable and
 disable the weaving of aspect hooks for a given \lstinline{import} statement,
-requiring a mechanism to enable and disable \pdsf{}'s modified import logic.
+requiring a mechanism to enable and disable \pdsfthree{}'s modified import logic.
 
 Monkey-patching \lstinline{builtins.__import__} can be achieved through another
 use of magic methods in a manner which also makes clear to a modeller exactly
@@ -280,16 +315,16 @@ methods to define a block of code where an arbitrary resource such as a file,
 mutex, or network connection is safely managed. This behaviour is
 exapted\footnote{\citet{exaptation_origin} coined the term ``exaptation'' to
 refer to a trait of a species which evolved in response to one need, but were
-later co-opted to satisfy another.} by \pdsf{} to manage the behaviour of the
+later co-opted to satisfy another.} by \pdsfthree{} to manage the behaviour of the
 import keyword, creating a block of code where aspect hooks can be injected into
-modules as they are imported. As these are a core component of \pdsf{}'s weaving
+modules as they are imported. As these are a core component of \pdsfthree{}'s weaving
 implementation, a deeper explanation of Python's \lstinline{with} keyword
 follows in \cref{pdsf3implementingimporthooks} following a technical discussion
 of the new weaving process which gives context to its design and implementation.
 
 
 
-\section{\pdsf{}'s Import Hook Weaving}\label{sec:import_hooks}
+\section{\pdsfthree{}'s Import Hook Weaving}\label{sec:import_hooks}
 
 \Cref{sec:pdsf3python3} surveyed mechanisms to implement dynamic aspect hook
 weaving which did not rely on a domain-specific language or changes to language
@@ -305,7 +340,7 @@ section.
 
 \subsection{High-Level Description of Weaving Process}\label{subsec:pdsf3_weaving_process}
 
-Weaving in \pdsf{}'s updated implementation~\cite{pdsf_source_in_analysis_repo}
+Weaving in \pdsfthree{}~\cite{pdsf_source_in_analysis_repo}
 takes place via monkey-patching of aspect hooks, described in detail in
 \cref{pdsf3implementingimporthooks}. Aspect hooks replace executable targets
 within a module at the moment the module is imported. When the target is
@@ -315,7 +350,7 @@ allowing it to execute the original target; however, it was also created by the
 \lstinline{AspectHooks} class, and so has reference to aspects registered
 against it. 
 
-The high-level process of using \aop{} with \pdsf{}'s import hook weaving is as
+The high-level process of using \aop{} with \pdsfthree{}'s import hook weaving is as
 follows (visualised in \cref{fig:high-level-import-hook-weaving-steps}):
 
 \begin{enumerate}\label{urgency_mentioned_in_passing}
@@ -345,7 +380,7 @@ follows (visualised in \cref{fig:high-level-import-hook-weaving-steps}):
         aspects.
     \end{itemize}
     \item  An invocation of a function or method within that module triggers
-    \pdsf{}'s aspect hooks, which dynamically discover aspects registered
+    \pdsfthree{}'s aspect hooks, which dynamically discover aspects registered
     against themselves using aspects' pointcuts. These pointcuts are described
     by the regular expressions they were registered with. Any aspects which are
     discovered are executed appropriately, as described later in
@@ -356,7 +391,7 @@ follows (visualised in \cref{fig:high-level-import-hook-weaving-steps}):
   \centering
   \includegraphics[width=0.7\columnwidth]{40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.png}
   \caption{Flowchart showing the high-level process of using \aop{} through
-  \pdsf{}'s import hook weaving, as described in
+  \pdsfthree{}'s import hook weaving, as described in
   \cref{subsec:pdsf3_weaving_process}. This involves weaving aspect hooks into a
   module, applying advice to point-cuts, and invoking a join-point within the
   specified point-cut to trigger the advice.}
@@ -409,13 +444,13 @@ AspectHooks.add_prelude("*some_func*", prelude_advice)
     should have the appropriate function signature for the type of advice being
     woven, as described in \cref{fig:types_of_advice}. Each method also accepts an
     optional \lstinline{urgency} integer parameter, enabling optional additional
-    features of \pdsf{}. This optimisation is explained after implementation
+    features of \pdsfthree{}. This optimisation is explained after implementation
     details are discussed; more details are given in
     \cref{aspect_priority_support}.}
     \label{aspect_registration_methods}
 \end{table}
 
-\pdsf{} advice is implemented as callable objects (usually functions). Different
+\pdsfthree{} advice is implemented as callable objects (usually functions). Different
 types of advice have different function signatures; the arguments expected by
 each type of advice are given in \cref{fig:types_of_advice}. In the arguments for
 each type of advice listed in the table: \lstinline{target} is the target an
@@ -436,10 +471,10 @@ aspect invokes it.
     \centering
     \begin{tabular}{@{}lll@{}}
         \toprule
-        \begin{tabular}{@{}l@{}}\emph{\pdsf{}}\\\emph{Type of Advice}\end{tabular} &
+        \begin{tabular}{@{}l@{}}\emph{\pdsfthree{}}\\\emph{Type of Advice}\end{tabular} &
         \begin{tabular}{@{}l@{}}\emph{Common Name}\\\emph{In Literature}\end{tabular} &
         \begin{tabular}{@{}l@{}}\emph{Arguments Accepted 
-        by}\\\emph{Aspect Implemented in \pdsf{}}\end{tabular} \\
+        by}\\\emph{Aspect Implemented in \pdsfthree{}}\end{tabular} \\
         \midrule
         \lstinline[]$prelude$ & ``before''-style & \lstinline[]$target, *args, **kwargs$\\
         \rule{0pt}{2em}\lstinline[]$encore$ & ``after''-style & \lstinline[]$target, target_return_val, *args, **kwargs$\\
@@ -448,7 +483,7 @@ aspect invokes it.
         \rule{0pt}{2em}\lstinline[]$fuzzer$ & ``within''-style & \lstinline[]$ast_steps, target, *args, **kwargs$\\
         \bottomrule
     \end{tabular}
-    \caption{Different types of advice supported by \pdsf{} and the arguments
+    \caption{Different types of advice supported by \pdsfthree{} and the arguments
     they expect}
     \label{fig:types_of_advice}
 \end{table}
@@ -458,13 +493,13 @@ Most types of advice are named using the metaphor of a play, drawing on early
 \theatreag{} work as described in \cref{subsec:prior_work_theatre}:
 \lstinline{prelude}, \lstinline{encore}, and \lstinline{around} advice runs
 before, after, and before \& after the target respectively. Also following the
-naming scheme used by earlier versions of \pdsf{} are \lstinline{fuzzer}
+naming scheme used by \pydysofu{} are \lstinline{fuzzer}
 aspects, which operate within their targets. The common names of these types of
 aspects in other literature, also shown in \cref{fig:types_of_advice}, make
 clear how their invocation relates to the invocation of the target they are
 applied to. The term ``within'' is introduced to conform to the positional
 naming convention used by other tools (``before'', ``after'', and ``around''). A
-type of advice not present in earlier versions of \pdsf{} is
+type of advice not present in \pydysofu{} is
 \lstinline{error_handler} advice, which catches and attempts to handle
 exceptions raised by a target.
 
@@ -503,12 +538,12 @@ aspects are given in \cref{examples_of_using_pdsf}.
 \subsection{Controlling Import Behaviour using Python's \lstinline{with} Blocks}
 \label{pdsf3implementingimporthooks}
 
-To inject aspect hooks into modules when importing them, \pdsf{} must modify
+To inject aspect hooks into modules when importing them, \pdsfthree{} must modify
 \lstinline{builtins.__import__} \emph{only} when modules containing prospective
 imports. A developer might import many modules which do not require aspect hooks
 to be introduced: introducing hooks to all modules would incur some overhead
 from the hooks themselves when invoking any callable in any module. To enable
-this, \pdsf{} uses Python's \lstinline{with} keyword, as demonstrated in
+this, \pdsfthree{} uses Python's \lstinline{with} keyword, as demonstrated in
 \cref{fig:simple_aspect_hook_weaving_example}. The use of
 \lstinline{with AspectHooks()} in \cref{fig:simple_aspect_hook_weaving_example} monkey-patches
 all potential targets of advice in the \lstinline{mymodule} package to inject
@@ -521,7 +556,7 @@ with AspectHooks():
     import mymodule
     \end{lstlisting}
     \caption{Example of importing a module named \lstinline{mymodule} using
-    \pdsf{}'s import hook design. This code snippet weaves aspect hooks into all
+    \pdsfthree{}'s import hook design. This code snippet weaves aspect hooks into all
     functions and non-builtin class methods within the \lstinline{mymodule}
     module object, and this modified module is added only to the local namespace
     of the importing stack.}
@@ -563,7 +598,7 @@ class AspectHooks:
                 del sys.modules[i]
         self.imported = set()
     \end{lstlisting}
-    \caption{\pdsf{} implementation of the magic methods used by a Python
+    \caption{\pdsfthree{} implementation of the magic methods used by a Python
     \lstinline{with} block to alter import behaviour.}
     \label{fig:aspecthooksmagicmethodswith}
 \end{figure}
@@ -586,7 +621,7 @@ a method of the \lstinline{AspectHooks} instance. This is shown on lines
 \texttt{6}, \texttt{9} and \texttt{10} of
 \cref{fig:aspecthooksmagicmethodswith}. The original function is used to
 import modules on line \texttt{15}, but the module it returns is altered by
-\pdsf{} by injecting aspect hooks on line \texttt{21}. The mechanism for
+\pdsfthree{} by injecting aspect hooks on line \texttt{21}. The mechanism for
 applying these hooks is explained in \cref{injecting_aspect_hooks_when_importing}.
 The original implementation of \lstinline{builtins.__import__} is restored on
 line \texttt{25}, ensuring that import behaviour is only altered within the
@@ -600,7 +635,7 @@ Before discussing how aspect hooks are injected into a module object, an
 additional piece of functionality shown in
 \cref{fig:aspecthooksmagicmethodswith} must be explained.
 
-\pdsf{} ensures that modules imported with altered behaviour do not interfere
+\pdsfthree{} ensures that modules imported with altered behaviour do not interfere
 with other versions of those modules. This is necessary because Python's default
 import logic caches modules, and uses the cached objects when importing a second
 time~\cite{python_import_cache_definition}. This cache is stored in
@@ -612,9 +647,9 @@ to have altered behaviour, even though aspect hooks were injected in an
 unrelated part of a program. This is similar to the behaviour of other \aop{}
 approaches, such as AspectJ~\cite{AspectJLanguageAndTools}: aspects can be
 applied to a pointcut anywhere in a program. However, this makes code difficult
-to reason about~\cite{steimann06paradoxical,przybylek2010wrong}. \pdsf{}
+to reason about~\cite{steimann06paradoxical,przybylek2010wrong}. \pdsfthree{}
 improves on the legibility of \aspectoriented programs by \emph{only injecting
-hooks where \pdsf{} has been invoked}, affecting the program locally rather than
+hooks where \pdsfthree{} has been invoked}, affecting the program locally rather than
 globally. To achieve this, Python's cache of previously imported modules must be
 managed.
 
@@ -631,7 +666,7 @@ line \texttt{8}, a set of all modules imported while inside the block is
 initialised. This is used to identify which modules' states must be reset when
 leaving the block.
 
-Before leaving the block, \pdsf{} modifies Python's import logic to inject
+Before leaving the block, \pdsfthree{} modifies Python's import logic to inject
 aspect hooks. The \lstinline{if} statement on \texttt{13} of
 \cref{fig:aspecthooksmagicmethodswith} checks whether the module being imported
 already exists in the cache. If it does, it is removed from the cache, so that
@@ -641,7 +676,7 @@ rather than relying on the cache. The usual import function is invoked on line
 to the cache. The rest of this function injects aspect hooks into the module.
 
 When exiting the \lstinline{with} block, the cache should be returned to its
-expected state. Any modules which were altered by \pdsf{} exist in the cache of
+expected state. Any modules which were altered by \pdsfthree{} exist in the cache of
 imported modules, and should be replaced with their expected values: if they
 previously existed in the cache, the previous object without aspect hooks should
 replace the one currently residing in the cache. If it did not previously exist,
@@ -649,11 +684,11 @@ the object should be removed from the cache entirely, so that later import
 statements re-import the module and construct a new module object which lacks
 aspect hooks. This check is performed by the \lstinline{for} loop on line
 \texttt{26} of \cref{fig:aspecthooksmagicmethodswith}. Previously existing
-modules replace those constructed by \pdsf{} on line \texttt{28}, and new
+modules replace those constructed by \pdsfthree{} on line \texttt{28}, and new
 entries in the cache are deleted on line \texttt{30}.
 
 Following these steps, the state of Python's module cache is managed to avoid
-modules imported elsewhere without \pdsf{} from containing aspect hooks.
+modules imported elsewhere without \pdsfthree{} from containing aspect hooks.
 
 \subsection{Injecting Aspect Hooks Into Modules}
 \label{injecting_aspect_hooks_when_importing}
@@ -832,7 +867,7 @@ advice. It is used by the \lstinline{apply_hooks} function as shown in
 methods modules and classes they contain.
 
 This code snippet is large, but there are six areas of particular importance to
-the discussion of \pdsf{}'s new implementation. Lines \texttt{2}--\texttt{13}
+the discussion of \pdsfthree{}'s implementation. Lines \texttt{2}--\texttt{13}
 construct some foundations used by other parts of the implementation. Lines
 \texttt{17}--\texttt{41} implement ``within''-style aspects (fuzzers). Prelude
 advice is handled by line \texttt{44}. Lines
@@ -861,7 +896,7 @@ doesn't matter.}
 \subsubsection{Fuzzers}
 
 Lines \texttt{17}--\texttt{41} of \cref{fig:build_wrapper_impl} implement
-\pdsf{}'s novel ``within''-style aspects, or fuzzers. 
+\pdsfthree{}'s ``within''-style aspects, or fuzzers. 
 Lines \texttt{19}--\texttt{22} implement a static fuzzing optimisation, which is
 discussed later in \cref{static_weaving}. Their explanation is omitted here, and
 included in \cref{static_weaving} instead.
@@ -893,7 +928,8 @@ target, and their effects will occur when the target is invoked.
 
 \subsubsection{Prelude Advice}
 
-Prelude advice is \pdsf{}'s terminology for ``before''-style advice. This is
+Prelude advice is \pdsfthree{}'s terminology for ``before''-style advice,
+following the terminology established by \pydysofu and \theatreag{}. This is
 invoked before around advice or encore advice, and is implemented by line
 \texttt{44}. This line contains a list comprehension which iterates through
 every prelude advice retrieved on line \texttt{2} and invokes each one. As every
@@ -1030,13 +1066,13 @@ non-\lstinline{None} value.
 Line \texttt{63} resets the code object implementing the target using
 \lstinline{reset_code_to_previous}, ensuring that any fuzzers that were invoked
 had no side-effects lasting after the wrapper function returns. No further work
-is required of \pdsf{}, and so the wrapper function returns the return value of
+is required of \pdsfthree{}, and so the wrapper function returns the return value of
 the target (or its modified value if changed by any encore advice).
 
 
 \subsubsection{Error Handling Advice}
-The final type of advice supported by \pdsf{} is error-handling advice. If a
-target raises an exception, it is intercepted by \pdsf{}, which will continue to
+The final type of advice supported by \pdsfthree{} is error-handling advice. If a
+target raises an exception, it is intercepted by \pdsfthree{}, which will continue to
 raise the exception unless error handling advice is applied. 
 
 Line \texttt{66} of \cref{fig:build_wrapper_impl} intercepts a thrown
@@ -1051,7 +1087,7 @@ boolean expression in Python --- this is any value which is not
 \lstinline{None}, \lstinline{0}, or \lstinline{False}.
 
 
-\subsection{Using \pdsf{}}
+\subsection{Using \pdsfthree{}}
 \label{examples_of_using_pdsf}
 
 An example of an aspect woven into a join-point is shown in
@@ -1154,7 +1190,7 @@ similar to the example in \cref{fig:registering_an_aspect_against_aspecthooks}.
 On line \texttt{7}, a line of Python is stored as a string which prints the name of the
 target. This code is parsed into an AST on line \texttt{8}, and the parsed code
 is prepended to the target's body on line \texttt{9}. The first thing the target
-will do once recompiled by \pdsf{} is to execute the line of code shown on line
+will do once recompiled by \pdsfthree{} is to execute the line of code shown on line
 \texttt{7}, after which the target's implementation is defined as it was
 previously. This fuzzer is woven into the target in the same way as in
 \cref{fig:registering_an_aspect_against_aspecthooks} in the remainder of the
@@ -1166,12 +1202,18 @@ example.
 As a technique for weaving aspect hooks, this new method provides multiple
 benefits.
 
+\correctionnote{
+    This could be co-opted to be a discussion of import hook weaving's
+    contributions. Maybe another subsec comparing import hook weaving to
+    AspectJ? PROSE?
+}
+
 \Needspace{3\baselineskip}
 \begin{description}
     \item[Local Aspect Weaving.] Application of aspect hooks is straightforward
-        from the perspective of a modeller using \pdsf{}, whose code clearly
+        from the perspective of a modeller using \pdsfthree{}, whose code clearly
         applies aspect hooks and does so in a legible way for future
-        maintainers. This is guaranteed by \pdsf{}'s weaving of aspect hooks
+        maintainers. This is guaranteed by \pdsfthree{}'s weaving of aspect hooks
         only in the scope of the program where they are applied: hooks are woven
         into the module where it is imported using \lstinline{AspectHooks}, but
         not in other parts of the program. Import hooks' explicit application of
@@ -1194,37 +1236,38 @@ benefits.
         As well as allowing greater flexibility for the convenience of a
         developer, the performance of import hooks is improved in comparison to
         replacing the \lstinline{__getattribute__} method on a class. In
-        comparison to the previous implementation of \pdsf{}, which used the
+        comparison to \pydysofu{}, which used the
         latter technique, the new implementation's import hooks are weave-able
         at a more granular level. This is because import hooks introduce
         additional program logic to procedures such as functions and methods,
-        rather than all attributes of a class as did the previous version of
-        \pdsf{}. Less overhead is expected as a result.\revnote{I should really
+        rather than all attributes of a class as did
+        \pydysofu{}'s old mechanism. Less overhead is expected as a result.\revnote{I should really
         have numbers for this.}
 
-    \item[Requires No Special Accommodations.] As with its original
-        implementation, \pdsf{}'s import hooks are implemented entirely in
-        Python and require no special support. Other aspect orientation
-        frameworks often require special languages for describing aspects, such
-        as AspectJ~\cite{AspectJLanguageAndTools}, or runtime plugins, such as
-        PROSE~\cite{popovici2002PROSE}. \pdsf{}'s import hooks are written
-        entirely in native Python, and can be used in existing software projects
-        without requiring any special accommodations. Minimising the difficulty
-        of adopting \pdsf{} is a desirable property of its design: if it can be
-        used without modifying existing codebases, researchers' pre-existing
-        models \& simulations can adopt \pdsf{} with minimal engineering effort.
+    \item[Requires No Special Accommodations.] As with \pydysofu{},
+        \pdsfthree{}'s import hooks are implemented entirely in Python and
+        require no special support from language runtime modifications. Other
+        aspect orientation frameworks often require special languages for
+        describing aspects, such as AspectJ~\cite{AspectJLanguageAndTools}, or
+        runtime plugins, such as PROSE~\cite{popovici2002PROSE}. \pdsfthree{}'s
+        import hooks are written entirely in native Python, and can be used in
+        existing software projects without requiring any special accommodations.
+        Minimising the difficulty of adopting \pdsfthree{} is a desirable property of
+        its design: if it can be used without modifying existing codebases,
+        researchers' pre-existing models \& simulations can adopt \pdsfthree{} with
+        minimal engineering effort.
 \end{description}
 
-There are also caveats to this approach. As aspect hooks are woven in the new
-implementation of \pdsf{} via Python's import functionality, any procedure which
-is not imported from a module cannot have aspect hooks attached.
-\revnote{Consider adding local namespace weaving to pdsf3: should be easy to
-implement as a cheeky little monkey-patch\ldots{}} However, as aspect
-orientation is primarily concerned with a separation-of-concerns approach to
-software architecture, targets are expected to be scattered across many modules,
-so this does not appear to be a significant limitation. The notion that targets
-reside in other modules than those where weaving takes place holds in other
-\aspectoriented{} simulation \& modelling codebases: for example, those from
+There are also caveats to this approach. As aspect hooks are woven in
+\pdsfthree{} via Python's import functionality, any procedure which is not
+imported from a module cannot have aspect hooks attached. \revnote{Consider
+adding local namespace weaving to pdsf3: should be easy to implement as a cheeky
+little monkey-patch\ldots{}} However, as aspect orientation is primarily
+concerned with a separation-of-concerns approach to software architecture,
+targets are expected to be scattered across many modules, so this does not
+appear to be a significant limitation. The notion that targets reside in other
+modules than those where weaving takes place holds in other \aspectoriented{}
+simulation \& modelling codebases: for example, those from
 \citet{wallis2018caise} as described in \cref{chap:prior_work}.
 
 
@@ -1232,7 +1275,7 @@ reside in other modules than those where weaving takes place holds in other
 \section{Optimisations}
 \label{pdsf3_optimisations}
 
-Additional features were implemented in the improved version of \pdsf to make it
+Additional features were implemented in \pdsfthree to make it
 more useful for research software engineering, and to optimise performance where
 necessary. The optimisations introduced are deep hook weaving, non-dynamic
 weaving, and aspect priority support. They are explained individually in the
@@ -1240,7 +1283,7 @@ following subsections.
 
 \subsection{Deep Hook Weaving}\label{deep_hook_weaving}
 
-Ordinarily \pdsf weaves aspect hooks into an imported module, but not modules
+Ordinarily \pdsfthree weaves aspect hooks into an imported module, but not modules
 imported by that module. This is to avoid overheads incurred by patching
 commonly-used libraries with aspect hooks in scenarios where they are not
 intended to be join-points. However, this behaviour may be desirable at times.
@@ -1267,7 +1310,7 @@ also possible that a developer may look to instrument the entirety of a call
 stack without attaching a debugger to a process, for example to examine call
 stacks, to perform security checks, for fuzz testing, or for custom logging
 within third-party and built-in modules. These use-cases require aspect hooks to
-be woven more deeply than to only one module. In these examples, \pdsf{}'s
+be woven more deeply than to only one module. In these examples, \pdsfthree{}'s
 default behaviour is insufficient. Deep weaving is provided to support these use
 cases.
 
@@ -1280,7 +1323,7 @@ if from_mod or AspectHooks.deep_apply:
     elif isclass(item):
         apply_hooks(item)
     \end{lstlisting}
-    \caption{The implementation of \pdsf{}'s ``deep weaving'' option, which
+    \caption{The implementation of \pdsfthree{}'s ``deep weaving'' option, which
     allows aspect hooks to be injected into recursive imports or only into the
     first module being imported, reducing overhead if a specific join-point of
     advice is targeted by a developer. Edited slightly for readability.}
@@ -1302,11 +1345,11 @@ the first module object imported.
 \subsection{Static Weaving}
 \label{static_weaving}
 
-\pdsf{}'s runtime weaving of aspects them to be applied dynamically. However,
+\pdsfthree{}'s runtime weaving of aspects them to be applied dynamically. However,
 programs may be written with the intention of applying aspects once --- for
 example, as program modifications to be introduced without direct manipulation
 of a codebase. Once defined, a set of applied aspects would remain unchanging in
-this scenario, so dynamic weaving of \pdsf introduces unnecessary overhead:
+this scenario, so dynamic weaving of \pdsfthree introduces unnecessary overhead:
 aspects will never be \emph{unwoven}, so repeated searches for advice which
 applies to a given target are unnecessary. 
 
@@ -1320,7 +1363,7 @@ AspectHooks.treat_rules_as_dynamic = True
 \end{figure}
 
 To avoid this overhead in scenarios where it is not required, an optimisation
-can be introduced where aspects are woven statically. \pdsf can cache the
+can be introduced where aspects are woven statically. \pdsfthree can cache the
 aspects applied when any callable wrapped by an aspect hook is invoked for the
 first time. On its first execution in this mode, the aspect hook stores the set
 of aspects it matched to the invoked target, and future invocations retrieve the
@@ -1339,7 +1382,7 @@ significant, I actually added them because the regex matches slowed my own code
 down to a crawl. Our experiments make use of static weaving for this reason.
 }
 
-For performance reasons, the default behaviour of \pdsf is to use static
+For performance reasons, the default behaviour of \pdsfthree is to use static
 weaving. Dynamic weaving is enabled by toggling the
 \lstinline{treat_rules_as_dynamic} flag on the \lstinline{AspectHook} class, as
 similarly to enabling or disabling deep hook weaving (see
@@ -1450,7 +1493,7 @@ if fuzzers is not None and fuzzers != []:
     \label{fig:implementation_fuzzer_cache_pdsf}
 \end{figure}
 
-Caching fuzzer output allows \pdsf{} to compile the output of any applied fuzzer
+Caching fuzzer output allows \pdsfthree{} to compile the output of any applied fuzzer
 on their first invocation. Its implementation is shown in
 \cref{fig:implementation_fuzzer_cache_pdsf}. On line \texttt{2}, a unique key
 for the advice applied to an invoked target is constructed. This key changes if
@@ -1463,28 +1506,23 @@ continues as normal, and the output of running any applied fuzzers is added to
 the cache on line \texttt{19} to be used when the target is next invoked.
 
 
-\section{Discussion}
+\section{Summary}
 \label{pdsf3_discussion}
 
-\revnote{
-    Tim prefers ``summary'' to ``discussion''. I prefer ``discussion'' but I'm
-    tempted to trust his better judgement here. Consider it.
-}
-The new implementation of \pdsf{} improves over both existing \aop{}
-frameworks
-and its own previous incarnation. It introduces a new technique of weaving
-aspect hooks when importing modules, improving its design over a typical
-\aspectorientation{} framework by making use of Python's \lstinline{with}
-keyword when weaving hooks. This improves the legibility of \aspectoriented{}
-programs through more explicit application of aspect hooks. In addition, many
-optimisations are introduced which earlier \pdsf{} implementations did not
-offer: aspect hooks can be injected only into a module being imported, or
-recursively into every module imported in the process of importing the first
-one; aspects can be woven dynamically or statically, reducing overheads when
-developers do not require dynamic behaviour; and the order of application of
-aspects can be made explicit by developers when this functionality is required.
+\pdsfthree{} improves over both existing \aop{} frameworks and its own previous
+incarnation, \pydysofu{}. It introduces a new technique of weaving aspect hooks
+when importing modules, improving its design over a typical \aspectorientation{}
+framework by making use of Python's \lstinline{with} keyword when weaving hooks.
+This improves the legibility of \aspectoriented{} programs through more explicit
+application of aspect hooks. In addition, many optimisations are introduced
+\pydysofu did not offer: aspect hooks can be injected only into a module being
+imported, or recursively into every module imported in the process of importing
+the first one; aspects can be woven dynamically or statically, reducing
+overheads when developers do not require dynamic behaviour; and the order of
+application of aspects can be made explicit by developers when this
+functionality is required.
 
-\pdsf{}'s current incarnation also provides opportunities for improvements and
+\pdsfthree{} also provides opportunities for improvements and
 for future work. Our intended use case for aspect orientation for simulation \&
 modelling is in scientific codebases specifically: direct integration with the
 scientific package ecosystem (which is vibrant in Python's community) should be
@@ -1497,9 +1535,9 @@ model (described in \cref{chap:experiment_setup} and evaluated in
 of formalising hypotheses as unit tests. As both projects are written in Python
 and have similar use-cases, there is seemingly some potential for integration
 between these projects and collaboration with the SciUnit team. A discussion on
-potential use cases of \pdsf together with existing research software
+potential use cases of \pdsfthree together with existing research software
 engineering technologies is provided in \cref{sciunits_for_unrealistic_states}.
 
-\Cref{chap:experiment_setup} and \cref{chap:experimental_results} use the new
-incarnation of \pdsf{} to design experiments which investigate \aspectoriented{}
-simulations \& models, and evaluate their results.
+\Cref{chap:experiment_setup} and \cref{chap:experimental_results} use \pdsfthree
+to design experiments which investigate \aspectoriented{} simulations \& models,
+and evaluate their results.

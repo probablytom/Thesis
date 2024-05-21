@@ -916,7 +916,7 @@ This allows the calculation of the distribution to be separated from the change
 to players' character pair selection. Separating these into two different
 aspects allows them to use different join points: this aspect is a prelude and
 operates before character pairs are chosen, whereas the change made to character
-selection is performed using a ``within''-style fuzzer from \pdsf{}. The
+selection is performed using a ``within''-style fuzzer from \pdsfthree{}. The
 \lstinline{if} statement at the beginning of the aspect, as shown in
 \cref{fig:prelude_before_learning_by_prior_distribution}, avoids calculating the
 distribution more than once.
@@ -1048,7 +1048,7 @@ chars_chosen = [char_class_map[char] for char in choice(possible_choices)]
     return [steps[0]] + to_inject.body + [steps[2]]
   \end{lstlisting}
   \caption{The implementation of the prior distribution model's change to player
-  behaviour, implemented as a \pdsf{} fuzzer which inserts character pair
+  behaviour, implemented as a \pdsfthree{} fuzzer which inserts character pair
   selection logic into the \lstinline{choose_chars} function of the naive model
   to select character pairs using the distribution taken from RPGLite gameplay
   data in an earlier aspect.}
@@ -1057,12 +1057,12 @@ chars_chosen = [char_class_map[char] for char in choice(possible_choices)]
 
 
 The aspect implementing the prior distribution's behaviour change is shown in
-\cref{fig:prior_distribution_implementation}. It is implemented using \pdsf{}'s
+\cref{fig:prior_distribution_implementation}. It is implemented using \pdsfthree{}'s
 fuzzers (or ``within''-style aspects) to insert additional logic within
 character pair selection rather than prepending or appending logic to it. Logic
 is added by modifying the target program's abstract syntax tree (\emph{``AST''}),
 a native representation of Python code. The steps of the fuzzer's target ---
-provided by \pdsf{} as the fuzzer's first argument --- are nodes of the AST
+provided by \pdsfthree{} as the fuzzer's first argument --- are nodes of the AST
 representing the function definition of the target. The target in this case is
 \lstinline{choose_chars}. An implementation of this function is given in
 \cref{fig:choose_chars_implementation_annotated_with_steps}, edited to show how
@@ -1108,7 +1108,7 @@ character-implementing classes. However, those classes were selected using the
 distribution produced from RPGLite gameplay data. The AST nodes produced by
 parsing this code are used to replace the second step in
 \lstinline{choose_chars}. The rest of the function logic remains the same. The
-changed AST nodes are returned by the fuzzer and compiled by \pdsf{}, ensuring
+changed AST nodes are returned by the fuzzer and compiled by \pdsfthree{}, ensuring
 that the modified function definition is executed and so changing player
 behaviour.
 

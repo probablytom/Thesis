@@ -6,7 +6,7 @@ effectiveness, and to use that environment to investigate whether
 \aspectorientation{} is a suitable tool for the augmentation of simulation \&
 modelling codebases. \Cref{chap:experiment_setup} and
 \cref{chap:experimental_results} showed that \aspectorientation{} can be used to
-create a realistic and nuanced model using \pdsf{} to model RPGLite. Having
+create a realistic and nuanced model using \pdsfthree{} to model RPGLite. Having
 successfully achieved the aims of the project, these contributions enable
 opportunities which are outwith this thesis' scope.
 
@@ -21,7 +21,7 @@ contributions.
 The combination of metaprogramming and \aspectorientation introduces new
 possibilities in \aop{}. In traditional \aspectorientation frameworks, aspects
 treat their targets as black boxes. This leads to limitations which
-\aspectoriented{} metaprogramming such as \pdsf{}'s fuzzers can address.
+\aspectoriented{} metaprogramming such as \pdsfthree{}'s fuzzers can address.
 
 Traditional aspects cannot intersperse their behavioural modifications with the
 work being done by their target, as they apply their logic before or after the
@@ -54,7 +54,7 @@ modularity and maintainability, or to deploy hotfixes in their code and features
 hidden behind feature flags which can be disabled during runtime by making use
 of dynamic aspect weaving. The research team may make use of
 \aspectoriented{}
-metaprogramming such as \pdsf{}'s fuzzers to better support the team's
+metaprogramming such as \pdsfthree{}'s fuzzers to better support the team's
 application of \aop{} to an existing industrial codebase. Some promising related
 work has been undertaken by \citet{przybylek2018empirical}, who compared student
 comprehension of \aspectoriented{} programs but did not evaluate the paradigm's
@@ -211,7 +211,7 @@ modelled on real-world data for accuracy, which can produce realistic
 simulations as \cref{chap:experimental_results} demonstrates. The use of aspect
 orientation in simulation and modelling can be further investigated by creating
 a proof-of-concept of the approach as applied to pre-existing
-models.\footnote{This approach is similar to \pdsf{}'s initial proof-of-concept
+models.\footnote{This approach is similar to \pydysofu{}'s initial proof-of-concept
 study~\cite{wallis2018caise} as discussed in \cref{chap:prior_work}.} Studies
 can also be conducted to investigate whether an aspectually-augmented model is
 quicker to construct and easier to maintain in future than a codebase with
@@ -222,10 +222,10 @@ also investigate the difficulties of augmenting a model originally implemented
 without any intention of weaving advice in the future. The construction of
 advice requires appropriate join points to be specified, and codebases which are
 structured in a way which doesn't yield convenient join points might be more
-complex to augment aspectually. These cases raise another use-case of \pdsf{}'s
+complex to augment aspectually. These cases raise another use-case of \pdsfthree{}'s
 ``within''-style weaving through runtime metaprogramming: where other aspect
 orientation frameworks force aspects to treat the targets they are invoked on as
-black boxes, \pdsf can make modifications within them. \pdsf{}'s fuzzers may
+black boxes, \pdsfthree can make modifications within them. \pdsfthree{}'s fuzzers may
 make \aop{} more useful than the aspects offered by other frameworks for
 maintainers of research codebases. This possibility requires future
 investigation.
@@ -514,7 +514,7 @@ codebases must be able to collaborate at least as easily as they currently do in
 a culture without aspect orientation. One way aspect orientation might improve
 researchers' ease of collaboration is with standardised libraries for aspect
 construction. Similar libraries were developed when developing a case study for
-\pdsf{}'s viability~\cite{wallis2018caise,fuzzimoss_repo}, but additional
+\pdsfthree{}'s viability~\cite{wallis2018caise,fuzzimoss_repo}, but additional
 opportunities to complete and expand the tool remain as discussed in
 \cref{subsec:prior_work_fm}.
 
@@ -630,7 +630,7 @@ limitations of both testing techniques:
     \item Traditional test suites also may fail to identify emergent state
     errors, where individual components operate correctly but their repeated
     integration results in an incorrect emergent property of the system;
-    \footnote{Emergent properties are often the state under study, as in \pdsf's original
+    \footnote{Emergent properties are often the state under study, as in \pydysofu{}'s original
     case study~\cite{wallis2018caise}.}
     \item Test suites often fix values such as random seeds or input data to
     remove non-deterministic behaviour. This may hide errors arising from
@@ -679,7 +679,7 @@ block of code. It is conceivable that observing system state before and after a
 function executes would not be sufficiently granular to assert correct system
 state in some cases, particularly if the model's codebase does not include
 suitable join-points to weave onto. Aspectual instrumentation of research codebases is
-therefore feasible for many more models using \pdsf{}'s within-style fuzzing.
+therefore feasible for many more models using \pdsfthree{}'s within-style fuzzing.
 
 To demonstrate the efficacy of this approach, a library of tools to observe
 boundaries on system states could be developed, similarly to the library of
@@ -933,7 +933,7 @@ the research question:
 
 
 \revnote{
-    Add a section on \pdsf{} improvements: primitives to make it easier to write
+    Add a section on \pdsfthree{} improvements: primitives to make it easier to write
     fuzzers, such as standard AST modifications and easy, high-level
     specification of where those modifications should go. Doesn't belong here,
     move it near a section on tooling above.
@@ -998,7 +998,7 @@ facts such as the use of new aspect orientation technologies in experimental
 design.
 
 New capabilities of aspect orientation frameworks are suggested, built, and
-demonstrated in experimental case studies through \pdsf{}. Their design and the
+demonstrated in experimental case studies through \pdsfthree{}. Their design and the
 extension of the tooling around these concepts present opportunities for future
 work as discussed in \cref{future_work_standard_aosm_techniques} and in
 \cref{standard_aosm_model_features}, but the implications of their use in

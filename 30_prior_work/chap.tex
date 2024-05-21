@@ -5,45 +5,48 @@
   present.
 }
 
-An implementation of the main tool developed and used in this thesis,
-``\pdsf{}'', predates the research presented in later chapters. As context for
-the contributions in this thesis, this chapter will describe the state of the
-project before the presented research was undertaken. Motivations for the tool's
-original development are described in \cref{sec:pdsf_motivations}, which are
-followed by its design and implementation in \cref{sec:prior_work_pdsf}, and
-that of related tooling for experiments and simulations in
-\cref{sec:prior_work_machinery}. The chapter concludes with a descriptien of the
-research undertaken using these tools in \cref{sec:caise_paper}, as some results
-in the representation of behavioural variance using aspect orientation were
-contributed using these tools which predate the research presented in later
-chapters and offer important background for the research undertaken in it.
+An implementation of the main tool developed and used in this thesis, predates
+the research presented in later chapters. The original tool, named \pydysofu{},
+is re-implemented with a new design as part of the work in later chapters. As
+context for the contributions in this thesis, this chapter will describe the
+state of \pydysofu{} before its successor, \pdsfthree, was developed.
+Motivations for the original development of \pydysofu are described in
+\cref{sec:pdsf_motivations}, which are followed by its design and implementation
+in \cref{sec:prior_work_pdsf}, and that of related tooling for experiments and
+simulations in \cref{sec:prior_work_machinery}. The chapter concludes with a
+descriptien of the research undertaken using these tools in
+\cref{sec:caise_paper}, as some results in the representation of behavioural
+variance using aspect orientation were contributed using these tools which
+predate the research presented in later chapters and offer important background
+for the research undertaken in it.
 
-\section{Motivation for Original Implementation}\label{sec:pdsf_motivations}
+\section{Motivation for Original Implementation}
+\label{sec:pdsf_motivations}
 
-The original incarnation of \pdsf{}~\cite{wallis2018caise} was developed with
+\pydysofu{}~\cite{wallis2018caise} was developed with
 different motivations than those outlined in \cref{chap:lit_review}. These
 motivations are clarified as context for its design and
 development.
 
-\pdsf{} was originally developed for the representation of behavioural variance
-in \sociotechnical systems, and was first produced as a proof-of-concept. It was
-developed with a focus on Python simulations by virtue of the language's widespread
-use and its flexibility in its modelling of data and process.
+\pydysofu{} was developed for the representation of behavioural variance in
+\sociotechnical systems, and was first produced as a proof-of-concept. It was
+developed with a focus on Python simulations by virtue of the language's
+widespread use and its flexibility in its modelling of data and process.
 
-The original version of the tool was to be applied to models of behaviour in
-\sociotechnical systems written in Python, where individual actions of an agent
-in a system were represented as functions. Actions which could be decomposed
-further into more granular actions could be defined as functions with sequential
-calls to the more fine-grained actions. Invocations of low-level
-behaviours would implement some change to an environment in the model which its
-modelled behaviour would be expected to incur. Invocations of high-level
-behaviours, containing the invocations of lower-level behaviours they compose in
-the model, would therefore apply the combined effect of the collected behaviours
-they represent. A benefit of this approach to modelling behaviour was that
-high-level behaviours could implement the ``flow'' of a behaviour. For example,
-a behaviour which would be modelled in a flowchart as having some loop could be
-modelled analogously in the method described through use of primitive control
-flow operators in Python, such as \lstinline{for} and \lstinline{while} loops.
+The tool was to be applied to models of behaviour in \sociotechnical systems
+written in Python, where individual actions of an agent in a system were
+represented as functions. Actions which could be decomposed further into more
+granular actions could be defined as functions with sequential calls to the more
+fine-grained actions. Invocations of low-level behaviours would implement some
+change to an environment in the model which its modelled behaviour would be
+expected to incur. Invocations of high-level behaviours, containing the
+invocations of lower-level behaviours they compose in the model, would therefore
+apply the combined effect of the collected behaviours they represent. A benefit
+of this approach to modelling behaviour was that high-level behaviours could
+implement the ``flow'' of a behaviour. For example, a behaviour which would be
+modelled in a flowchart as having some loop could be modelled analogously in the
+method described through use of primitive control flow operators in Python, such
+as \lstinline{for} and \lstinline{while} loops.
 
 Another benefit of this approach is that the behaviours modelled have a
 predictable structure which is amenable to metaprogramming. A low-level
@@ -70,43 +73,40 @@ Many real-world behaviours are contingent on environmental state. Real-world
 actors in \sociotechnical systems might become tired after lots of work, or
 proportionally to time of day within a simulation. Therefore, the
 metaprogramming as described should be performed during runtime, for which no
-suitable candidate was available. \pdsf{} was developed to fulfil this
+suitable candidate was available. \pydysofu{} was developed to fulfil this
 requirement, so that behavioural variance in \sociotechnical simulation could be
 modelled as described and subsequently studied.
 
 
 
-\section{Original \pdsf Implementation}\label{sec:prior_work_pdsf}
+\section{\pydysofu Implementation}\label{sec:prior_work_pdsf}
 
-\correctionnote{Phil suggests giving different names to the \pdsf{}
-implementations in chapters 3 and 4. I haven't done this yet. He marked his .pdf
-with a suggestion for this on this section header.}
-
-To disambiguate the improvements made to the original \pdsf implementation
-in the tooling contributions of this thesis --- and to explain the fundamental
-concepts involved in both implementations' approaches to aspect orientation and
-the application of behavioural variance --- the implementation of the original
-\pdsf tool, which predates the work presented in this thesis, is described here.
+The implementation of \pydysofu{} is described here. This is to disambiguate the
+improvements made to \pydysofu{}'s implementation in its successor ---
+\pdsfthree --- described throughout \cref{chap:pdsf_rewrite}. This also lays the
+foundation for discussion of \pdsfthree{}'s design, as it retains some design
+decisions with \pydysofu.
 
 
 
-\subsection{Weaving Mechanism}\label{subsec:prior_work_weaving} The original
-\pdsf implementation made use of a weaving mechanism which could be categorised
-as ``total weaving'' in the parlance of
+\subsection{Weaving Mechanism}
+\label{subsec:prior_work_weaving}
+
+\pydysofu made use of a weaving mechanism which could be categorised as ``total
+weaving'' in the parlance of
 \citeauthor{dynamicAOchitchyan}~\cite{dynamicAOchitchyan}: hooks to apply advice
 are woven into every possible join point. The library was implemented in Python,
-which offers a flexible object model \pdsf is able to take advantage of in order
-to weave its hooks. The weaving mechanism of \pdsf was eventually factored out
-into another library, Asp~\cite{asp_repo}. However, \pdsf{}'s original
-incarnation predates this refactoring --- it was rewritten during this PhD, and
-early case studies use the older version of the tool (see
-\cref{sec:caise_paper}). For this reason the weaving mechanism will be described
-within the context of \pdsf{}'s original design. \inline{I think
-\emph{sometimes} I do make reference to ASP-y designs though; revisit
-this\ldots{} maybe we actually need to describe ASP as its own library.}
+which offers a flexible object model \pydysofu is able to take advantage of in
+order to weave its hooks. The weaving mechanism of \pydysofu was eventually
+factored out into another library, Asp~\cite{asp_repo}. However, \pydysofu{}
+predates this refactoring --- it was rewritten early in this project, and case
+studies using \pydysofu use the older version of the tool (discussed in
+\cref{sec:caise_paper}). For this reason the weaving mechanism \emph{initially}
+used by \pydysofu will be described. \inline{I think \emph{sometimes} I do make
+reference to ASP-y designs though; revisit this\ldots{} maybe we actually need
+to describe ASP as its own library.}
 
-Python's object model has three key properties which the original implementation
-of \pdsf takes advantage of:
+Python's object model has three key properties which \pydysofu takes advantage of:
 
 \label{first_reference_to_magic_methods}
 
@@ -132,8 +132,8 @@ of \pdsf takes advantage of:
     methods can be overridden or specified by a programmer.
 \end{enumerate}
 
-\pdsf weaves aspect hooks into classes by taking advantage of these three
-properties of Python. At a high level, \pdsf operates by replacing the
+\pydysofu weaves aspect hooks into classes by taking advantage of these three
+properties of Python. At a high level, \pydysofu operates by replacing the
 \lstinline{__getattribute__} method of a class object with a custom one.
 \lstinline{__getattribute__} is the magic method responsible for retrieving an
 attribute from an object's underlying dictionary, by taking a string argument as
@@ -144,16 +144,15 @@ diagrammed in \cref{fig:early_pdsf_replaced_getattr_diagram}.
 \begin{figure}
 \includegraphics[width=0.9\columnwidth]{30_prior_work/diagrams/replacement_getattr.png}
 \caption{UML Activity Diagram of the process implemented by the replacement
-\lstinline{__getattribute__} method as implemented by the original \pdsf{}
-library.}
+\lstinline{__getattribute__} method as implemented by \pydysofu{}.}
 \label{fig:early_pdsf_replaced_getattr_diagram}
 \end{figure}
 
 The replacement \lstinline{__getattribute__} method injected by
-\pdsf{} also looks up attributes in the relevant object's underlying dictionary,
+\pydysofu{} also looks up attributes in the relevant object's underlying dictionary,
 but in addition to retrieving an object's attribute it searches for advice to be
 applied when performing these lookups, and applies any advice it finds. The
-replaced attribute lookup logic implements the aspect hook woven by \pdsf{}.
+replaced attribute lookup logic implements the aspect hook woven by \pydysofu{}.
 
 Hooks are applied to a class by way of an invocation to a function,
 \lstinline{fuzz_clazz}, which takes a class as a parameter and weaves aspect
@@ -190,14 +189,14 @@ replaced at the appropriate time.
 
 \subsection{Applying Process Mutations}\label{subsec:prior_work_mutations}
 
-The development of \pdsf{} was intended to support simulation \& modelling
+The development of \pydysofu{} was intended to support simulation \& modelling
 research by providing a way of applying program modifications at runtime. It
 sought to support models where a (potentially
 non-deterministic) change to the behaviour was required, and enable
 it to apply that change dynamically during execution in an \aspectoriented fashion.
 \Aspectorientation{} libraries typically support advice woven before, around, or
 after a join point; modifying the join point itself essentially allows changes
-inside its definition, introducing a fourth type of weaving. \pdsf achieves this
+inside its definition, introducing a fourth type of weaving. \pydysofu achieves this
 through a special type of ``before''-style aspect termed a ``fuzzer''.
 
 Fuzzers implement transformations on abstract syntax trees. They are implemented
@@ -211,13 +210,14 @@ demonstrating the implementation of this process is shown in
 \begin{figure}
     \centering
     \lstinputlisting[style=footnotesize_python]{30_prior_work/snippets/FuzzingAspect.py}
-    \caption{A code snippet from the original \pdsf implementation, implementing
-    \lstinline{Fuzzing} aspects and applying fuzzing to a function definition.}
+    \caption{A code snippet from \pydysofu's codebase~\cite{pdsf_repo},
+    implementing \lstinline{Fuzzing} aspects and applying fuzzing to a function
+    definition.}
     \label{fig:v1_pdsf_fuzzing_impl_codesnippet}
 \end{figure}
 
 As can be seen in \cref{fig:v1_pdsf_fuzzing_impl_codesnippet}, fuzzing aspects
-are implemented by way of ``prelude'' advice (\pdsf{} nomenclature for advice
+are implemented by way of ``prelude'' advice (\pydysofu{} nomenclature for advice
 run \emph{before} a target invocation, inspired by early work on \theatreag{},
 which is discussed in \cref{subsec:prior_work_theatre}). Using prelude advice,
 the \lstinline{apply_fuzzing} method is called before a target is invoked. This
@@ -251,7 +251,7 @@ still be cautious about assumptions of program state.}
 \begin{figure}
     \centering
     \lstinputlisting[style=footnotesize_python]{30_prior_work/snippets/WorkflowTransformer.py}
-    \caption{A code snippet from the original \pdsf implementation, implementing
+    \caption{A code snippet from the \pydysofu codebase~\cite{pdsf_repo}, implementing
     the \lstinline{WorkflowTransformer} which visits AST nodes and applies
     fuzzing to them.}
     \label{fig:workflowtransformer_implementation}
@@ -260,11 +260,11 @@ still be cautious about assumptions of program state.}
 
 \subsection{Limitations}\label{subsec:prior_work_pdsf_limitations}
 
-The original implementation of \pdsf demonstrated the feasibility of runtime
-metaprogramming using \aop{} using a model of software development as a case
-study. This introduced a novel type of join-point which could apply advice
-within a join-point, rather than treating that join-point as a black box.
-However, its design presents limitations.
+\pydysofu demonstrated the feasibility of runtime metaprogramming via \aop{}
+using a model of software development as a case study. This introduced a novel
+type of join-point which could apply advice within a join-point, rather than
+treating that join-point as a black box. However, its design presents
+limitations.
 
 There is an overhead involved in running the wrapped
 \lstinline{__getattribute__} function for every invocation of a fuzzed class,
@@ -281,7 +281,7 @@ attribute is looked up on the target's class. If the join point defining the
 target may apply to many classes, each class must incur the same penalty, even
 if none of their attributes are targets of advice in practice. The original
 library was developed to demonstrate the feasibility of the idea underlying
-\pdsf{} (runtime metaprogramming), but the weaving mechanism implemented left
+\pydysofu{} (runtime metaprogramming), but the weaving mechanism implemented left
 room for improvement. A robust implementation with attention paid to reducing
 this overhead is introduced in \cref{chap:pdsf_rewrite}.
 
@@ -304,12 +304,12 @@ Other aspect orientation frameworks offer support for other types of advice.
 Handi-wrap and AspectJ both support features related to the processing of
 exceptions thrown by a program~\cite{Baker_2002,aspectj_intro} and these
 features have inspired work into improved exception handling in object-oriented
-systems~\cite{millham2011aopandoopsecurity}. However, this version of \pdsf
+systems~\cite{millham2011aopandoopsecurity}. However, \pydysofu
 offers no direct support for exception handling. Opportunities to support the
 feature were therefore available for future revisions of the library to
 capitalise on; such a revision is also presented in \cref{chap:pdsf_rewrite}.
 
-A final limitation is that the weaving technique this early of \pdsf used is
+A final limitation is that the weaving technique used by \pydysofu is
 incompatible with Python3, as replacing \lstinline{__getattribute__} is not
 possible in Python's newer version. It was determined that a tool which was of
 practical use to the simulation and modelling community should be produced which
@@ -328,14 +328,14 @@ behavioural modifications for use in sociotechnical simulation \& modelling;
 \theatreag{} was a project offering a model of time against which actors within
 sociotechnical simulations \& models could act. While these projects ultimately
 were not used in producing the contributions of this thesis, they are outlined
-here as relevant to the original \pdsf project as they were originally
-developed as a suite of simulation \& modelling tools to be employed together.
+here as relevant to \pydysofu as they were originally developed as a suite of
+simulation \& modelling tools to be employed together.
 
 \subsection{Fuzzi-Moss}\label{subsec:prior_work_fm}
 
 Fuzzi-Moss\footnote{A backronym for ``Fuzzing Models of sociotechnical
 simulations''} was a library of standard behavioural variations written as
-fuzzers to be applied by \pdsf{}~\cite{fuzzimoss_repo}. It was primarily created
+fuzzers to be applied by \pydysofu{}~\cite{fuzzimoss_repo}. It was primarily created
 for use in a model of the impact of inconsistency in teams' executions of
 software engineering methodology, which is discussed further in
 \cref{sec:caise_paper}.
@@ -405,11 +405,11 @@ Fuzzi-Moss contained utilities and fuzzers such as:
     distraction
 \end{itemize}
 
-Stubs also exist in the \pdsf{} codebase for fuzzers which represent a model of
+Stubs also exist in the \pydysofu{} codebase for fuzzers which represent a model of
 confusion and its effects on behaviour, but this remains unimplemented at time
 of writing and specific details of this model have not been defined. A
-discussion around the revival of this project in the context of the \pdsf
-rewrite presented in \cref{chap:pdsf_rewrite} is given in
+discussion around the revival of this project in the context of the development
+of \pdsfthree presented in \cref{chap:pdsf_rewrite} is given in
 \cref{future_work_revive_fuzzimoss}. 
 
 
@@ -430,15 +430,16 @@ machinery (critically task duration and clock synchronization) is handled
 internally by the simulation environment.
 \end{blockquote}
 
-The central metaphor underlying \theatreag{}'s model of timing is theatrical: actors
-in a simulation or model are members of a ``cast'' (a collection of actors) who
-enact a ``workflow'' (simulation steps) in a ``scene'' (domain model within
-which the actors interact). Central to the library is its clock: tasks are given
-durations, and a clock which synchronises all agents' position in time ticks to
-complete different tasks. The theatrical model \theatreag{} introduces is the context
-for \pdsf{}'s nomenclature for its types of advice: ``prelude'' advice happens
-before a task and ``encore'' advice is invoked afterward as a prelude and
-encore would be in a literal theatre.
+The central metaphor underlying \theatreag{}'s model of timing is theatrical:
+actors in a simulation or model are members of a ``cast'' (a collection of
+actors) who enact a ``workflow'' (simulation steps) in a ``scene'' (domain model
+within which the actors interact). Central to the library is its clock: tasks
+are given durations, and a clock which synchronises all agents' position in time
+ticks to complete different tasks. The theatrical model \theatreag{} introduces
+is the context for \pydysofu{}'s nomenclature for its types of
+advice\footnote{This nomenclature is also retained by \pdsfthree{}.}:
+``prelude'' advice happens before a task and ``encore'' advice is invoked
+afterward as a prelude and encore would be in a literal theatre.
 
 \theatreag{} has been used as the environment in models of TCP/IP, algorithmic
 trading, the spread of disease~\cite{aranTheatreThesis}, and the impact of
@@ -446,9 +447,9 @@ behavioural variation in software engineering methodologies as described in
 \cref{sec:caise_paper}.
 
 
-\section{Example Studies using \pdsf for Behavioural Simulation}\label{sec:caise_paper}
+\section{Example Studies using \pydysofu for Behavioural Simulation}\label{sec:caise_paper}
 
-The viability of encoding behavioural variations as aspects using \pdsf has been
+The viability of encoding behavioural variations as aspects using \pydysofu has been
 demonstrated in earlier studies~\cite{wallis2018caise,aranTheatreThesis}.
 \revnote{Maybe I should include something on Aran's master's dissertation too,
 rather than just citing it?} The study modelled software engineers working to
@@ -461,20 +462,20 @@ when software engineers were working suboptimally, there was a difference in the
 rate of bugs introduced to a program developed under each methodology.
 
 The study began with a ``naive'' model of software engineers following each
-paradigm, developed in Python using \pdsf{}, \theatreag{}, and Fuzzi-Moss. Engineers
-would produce ``chunks'' of code, which could contain bugs. In quality
+paradigm, developed in Python using \pydysofu{}, \theatreag{}, and Fuzzi-Moss.
+Engineers would produce ``chunks'' of code, which could contain bugs. In quality
 assurance, engineers were modelled as attempting to identify bugs in different
 areas of the codebase, fixing them if they were discovered. Developers could
 commit chunks of code toward features identified through requirement
 engineering, which were eventually completed, but could potentially contain
 undiscovered bugs within chunks of code.
 
-This model was then augmented aspectually using \pdsf{}. Distraction was
+This model was then augmented aspectually using \pydysofu{}. Distraction was
 represented through the truncation of functions representing workflow steps.
 Developers were modelled with different levels of distraction, affecting a
 probability mass function (PMF) which would activate when a developer was
 modelled as being distracted in a given moment. If the PMF activated, the
-workflow step invoked at that moment was truncated using \pdsf{}. The model showed
+workflow step invoked at that moment was truncated using \pydysofu{}. The model showed
 that developers following the TDD methodology could successfully complete a
 larger number of features on average than those following waterfall, concurring
 with the prevailing consensus on the two methodologies. \revnote{Add a citation
@@ -497,9 +498,9 @@ some features of a model could be separated from its core codebase.
 
 \section{Discussion}\label{sec:prior_work_discussion}
 
-The existing case study employing \pdsf demonstrated that realistic model
+The existing case study employing \pydysofu demonstrated that realistic model
 features could be separated from their core codebase, and gave credence to
-\pdsf{}'s use as a tool for aspectually augmenting models with behavioural
+\pydysofu{}'s use as a tool for aspectually augmenting models with behavioural
 variance. It also left many research questions unanswered and tooling
 flaws unsatisfied, however:\revnote{Does this want to be a list? Consider
 reworking to a paragraph.}
@@ -516,8 +517,8 @@ reworking to a paragraph.}
     variations applied to individual developers might have poorly modelled
     individual behaviour, but produced accurate emergent properties of the
     system individual developers acted within.
-    \item As discussed in \cref{subsec:prior_work_pdsf_limitations}, \pdsf's
-    implementation at the time was a proof-of-concept which, while successfully
+    \item As discussed in \cref{subsec:prior_work_pdsf_limitations}, \pydysofu
+    was designed to be a proof-of-concept which, while successfully
     demonstrating the potential of aspect-oriented runtime metaprogramming, was
     also inefficient, feature-incomplete, and lacked compatibility with modern
     software engineering tooling.
@@ -539,5 +540,5 @@ runtime metaprogramming, and the evidence supporting its use to encode
 behavioural variations in sociotechnical systems. Improvements to the tooling
 follow in \cref{chap:pdsf_rewrite}; later chapters propose --- and discuss the
 implementation of --- real-world systems which are suitable for modelling using
-\pdsf{} in \cref{chap:rpglite}, and a study of those systems using aspectually
+\pydysofu{} in \cref{chap:rpglite}, and a study of those systems using aspectually
 augmented models in \cref{chap:exp1_simulation_optimisation} and \cref{chap:exp2_old_aspects_new_systems}.

@@ -33,7 +33,7 @@ contributions of earlier work as outlined in \cref{chap:prior_work}.
     but critics note that it makes the intended behaviour of a program difficult
     to ascertain, and should therefore be used in
     moderation~\cite{leavens2007multiple} or not at
-    all~\cite{przybylek2010wrong,Constantinides04aopconsidered}. \pdsf{} applies
+    all~\cite{przybylek2010wrong,Constantinides04aopconsidered}. \pdsfthree{} applies
     aspect hooks to modules as they are imported, meaning that modules which
     \emph{can} be altered by aspects are identified not only when weaving is
     applied, but when any module is used. As this design preserves
@@ -42,7 +42,7 @@ contributions of earlier work as outlined in \cref{chap:prior_work}.
     must import it with hooks applied.
 
     Advice may still be woven anywhere within the module calling the function,
-    but the entire module does not need to be searched for a call to \pdsf{}'s
+    but the entire module does not need to be searched for a call to \pdsfthree{}'s
     weaver: developers can simply find the module's import to check whether it
     can be influenced by aspects. This reduces the possible parts of the
     codebase one must check to identify whether arbitrary changes could be made
@@ -65,7 +65,7 @@ contributions of earlier work as outlined in \cref{chap:prior_work}.
     requires some technique to overcome a lack of useful join points in a
     pre-existing model. In addition, \aop{} has been subject to criticism that
     obliviousness limits program legibility, an important quality of software
-    developed for research purposes. To address this, a redesign of \pdsf{} was
+    developed for research purposes. To address this, a redesign of \pydysofu{} was
     developed which provided compatibility with modern versions of Python and
     improved on the design of its hook weaver to address criticisms of \aop{}'s
     legibility by adding aspect hooks at import time, thus preserving
@@ -79,17 +79,17 @@ contributions of earlier work as outlined in \cref{chap:prior_work}.
     \aop{} produce tooling, but do not confirm that
     tooling's hypothetical contribution empirically, and few case studies exist
     which demonstrate the benefits of \aop{} empirically.
-    It is therefore particularly important that \pdsf{} is demonstrated to
+    It is therefore particularly important that \pdsfthree{} is demonstrated to
     successfully represent changes to a model as advice.
 
-    \pdsf{} was used to apply advice which augmented a naive model of RPGLite
+    \pdsfthree{} was used to apply advice which augmented a naive model of RPGLite
     play; character selection was altered to reflect the characters selected by
     real-world individuals, as observed in the RPGLite gameplay
     dataset~\cite{rpglite_dataset}. This advice successfully produced synthetic
     gameplay datasets which correlated with the individuals being modelled by
     the advice. Advice is therefore demonstrated to be a viable mechanism for
     the encoding of changes to a model, producing the expected datasets when
-    applied. \pdsf{} is also shown to be used successfully in a simulation \&
+    applied. \pdsfthree{} is also shown to be used successfully in a simulation \&
     modelling setting.
 
 
@@ -148,14 +148,14 @@ of work helps to improve anything building on it.
     advice is unaware that a weaver might change it --- complicates reasoning
     about a program, because it's unclear from reading its source code that
     additional logic may be included when it is run, where that logic is to be
-    woven, and what it is to do. \pdsf{}'s ability to weave changes
+    woven, and what it is to do. \pdsfthree{}'s ability to weave changes
     \emph{within} its join-point as opposed to before or after it introduces new
     ways for a program to exhibit unexpected logic. The only way to identify
-    whether a program been affected by \pdsf{} is to identify how it is used, by
-    observing where it is imported and whether \pdsf{} is utilised there. Other
+    whether a program been affected by \pdsfthree{} is to identify how it is used, by
+    observing where it is imported and whether \pdsfthree{} is utilised there. Other
     aspect-orientation frameworks provide tooling to facilitate easier
     inspection of aspect-oriented programs; at present, this is not provided for
-    \pdsf{}.
+    \pdsfthree{}.
 
   \item[Only one instance of aspect-oriented modelling is investigated]
     The experiments described in \cref{chap:experiment_setup} and
@@ -209,19 +209,22 @@ enabled or disabled without adding complexity to the model itself.
 
 Verification that the technique is viable --- and a demonstration of it ---
 required the development of new tooling and the application of that tooling to
-investigate the benefits augmenting a model using aspects. \pdsf{} was rewritten
-to support Python 3 and to weave aspect hooks at import time, allowing for
-dynamic and flexible weaving of advice. A system suitable for simulation ---
-RPGLite --- was designed, implemented as a mobile game, and released to collect
-data to support modelling efforts. A model of RPGLite was constructed, and a
-formalism of learning and confidence was defined, implemented, and used as the
-foundation of experiments investigating \aspectoriented{} modelling. Three
-experiments were designed and conducted to investigate whether \aop{} could
-be used to change models, to compose a model with more complex behaviours, and
-to build single units of model change which are applicable across multiple
-models. Positive results from these experiments indicate that the technique may
-apply to other fields and use cases, and the breadth of these opportunities was
-explored in its own chapter.
+investigate the benefits augmenting a model using aspects. \pydysofu{} was
+rewritten to support Python 3 and to weave aspect hooks at import time, allowing
+for dynamic and flexible weaving of advice. The result was a more mature
+\aspectoriented modelling tool, \pdsfthree{}, which introduced new techniques
+for weaving aspect hooks --- ``import hook weaving --- which addresses
+criticisms of \aop{} as a paradigm. A system suitable for simulation --- RPGLite
+--- was designed, implemented as a mobile game, and released to collect data to
+support modelling efforts. A model of RPGLite was constructed, and a formalism
+of learning and confidence was defined, implemented, and used as the foundation
+of experiments investigating \aspectoriented{} modelling. Three experiments were
+designed and conducted to investigate whether \aop{} could be used to change
+models, to compose a model with more complex behaviours, and to build single
+units of model change which are applicable across multiple models. Positive
+results from these experiments indicate that the technique may apply to other
+fields and use cases, and the breadth of these opportunities was explored in its
+own chapter.
 
 % Curiously, aspect-oriented programming as implemented by \pdsf can be used to
 % augment codebases which were not designed to support the weaving of aspects. No
