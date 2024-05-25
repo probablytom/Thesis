@@ -438,8 +438,6 @@ parameters searched for using the technique described in
 \cref{identifying-significant-results-explanation}. The parameters modified when
 running simulations were:
 
-\correctionnote{Add a note here about how parameters were selected.}
-
 \begin{itemize}
   \item The confidence model's Birch curve shape parameter, which could have any
   of the values $c \in \{\frac{1}{50}, \frac{1}{10},
@@ -453,6 +451,21 @@ running simulations were:
     player would become bored could have any of the values $prob.~bored \in
     \{disabled, \frac{1}{64}, \frac{1}{16}, \frac{1}{4}, 1\}$
 \end{itemize}
+
+These parameters were selected arbitrarily. The practice of identifying
+appropriate parameters is termed ``parameter recovery'' in the cognitive
+modelling community, and is its own field of
+research~\cite{heathcote2015introduction}. Unfortunately, remaining time on this
+project did not support a rigorous parameter recovery study for these
+parameters; to approximate the process of a parameter recovery study, Birch
+curves were drawn using different parameters to determine how extreme the effect
+of different parameter values was. Appropriate values were selected by visually
+inspecting those diagrams. A future study could include a parameter recovery
+study to select sets of parameters which more closely align with the behaviours
+of real-world players. An alternative approach which future studies could adopt
+would be the use of a search algorithm which treats the space of possible
+parameters as continuous instead of discrete, such as simulated
+annealing~\cite{kirkpatrick1983optimization}.
 
 \Cref{learning_model_results_table_comparison_to_real_world_datasets_correlating_players}
 contains the results of the search for parameter sets which would accurately

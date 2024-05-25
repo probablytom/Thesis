@@ -12,47 +12,89 @@
 
 \inline{Spell-check this chapter}
 
+\section{Introduction}
+
+\subsection{Chapter Outline}
+
 The work undertaken in this thesis required an improved implementation of old
 tooling. \pydysofu{} was a proof of concept which could feasibly produce
 scientific models \& simulations but was implemented in a manner which was not
 optimised for speed, making it a burden for large simulations. It also lacked
 granularity in the application of its aspect hooks: hooks were applied to entire
-classes. Most importantly, it was not compatible with Python3. \pydysofu{}
-manipulates Python2 objects, but Python3's objects have a changed structure
-which replaces their underlying dictionaries with special classes. These enforce
-read-write protections on attributes which \pydysofu{} relied on. Python2 lost
-official support shortly after the work described in \cref{chap:prior_work} was
+classes, which forced overhead to be introduced to all attribute lookups, even
+when those attributes were never intended to be used as join-points. Most
+importantly, it was not compatible with Python3. \pydysofu{} manipulates Python2
+objects, but Python3's objects have a changed structure which replaces their
+underlying dictionaries with special classes. These enforce read-write
+protections on attributes which \pydysofu{} relied on. Python2 lost official
+support shortly after the work described in \cref{chap:prior_work} was
 undertaken, and was not a suitable platform to build tooling on.
 
 A new version of \pydysofu{} with support for weaving aspects in Python3 was
 therefore needed; its revised implementation is named \pdsfthree{}.
 \Cref{sec:pdsf3requirements} motivates in detail the development of \pdsfthree
 by identifying opportunities to improve \pydysofu{}'s design.
-
-This rewrite also provided an opportunity to address limitations of \aop{} and
-to develop improvements missing in \pydysofu{}, thus producing a more mature
-tool appropriate for use in research software engineering. In particular,
-\pdsfthree{} implements a new design for the weaving of aspect hooks into
-prospective join-points --- ``import hook weaving'' --- which improves the
-legibility of an \aspectoriented codebase by making the application of advice
-more clearly visible to a reader of that codebase. This design addresses
-criticism of \aspectorientation which observes that obliviousness can make
-programs difficult to read, reason about, and
-maintain~\cite{Constantinides04aopconsidered,steimann06paradoxical,przybylek2010wrong,przybylek2018empirical}\footnote{These
-criticisms are discussed in \cref{subsec:aop-criticisms}.}.
-
-Import hook weaving makes advice application more legible than other \aop{}
-frameworks by restricting the ability of one area of a codebase to affect other
-areas, and takes advantage of conventional Python programs' layout to place uses
-of \aop{} at the top of a file. Using these design improvements, a developer can
-more easily reason about any usage of \aop{} than in other frameworks and is
-given ``hints'' that they should be aware of \aspectorientation{} proactively.
 \Cref{sec:pdsf3python3} describes approaches which were considered in the
 implementation of \pdsfthree{}. The implementation of import hook weaving is
 discussed in \cref{sec:import_hooks}. Other features of \pdsfthree which were
 developed to improve \pydysofu{}'s maturity as a tool are given in
 \cref{pdsf3_optimisations}.
 
+
+\subsection{Contributions}
+
+Implementing \pdsfthree provided an opportunity to address limitations of \aop{}
+and of \pydysofu{}, thus producing a more mature tool which is appropriate for
+use in research software engineering practice. In particular, \pdsfthree{}
+implements a new design for the weaving of aspect hooks into prospective
+join-points --- ``import hook weaving'' --- which improves the legibility of an
+\aspectoriented codebase by making the application of advice more clearly
+visible to a reader of that codebase. This design addresses criticism of
+\aspectorientation which observes that obliviousness can make programs difficult
+to read, reason about, and
+maintain~\cite{Constantinides04aopconsidered,steimann06paradoxical,przybylek2010wrong,przybylek2018empirical}\footnote{These
+criticisms are discussed in \cref{subsec:aop-criticisms}.}.
+
+Import hook weaving is the most significant contribution of \pdsfthree{}. It
+makes advice application more legible than other \aop{} frameworks by
+restricting the ability of one area of a codebase to affect other areas, and
+takes advantage of conventional Python programs' layout to place uses of \aop{}
+at the top of a file. Using these design improvements, a developer can reason
+about any usage of \aop{} through ``hints'' that they should be aware of \aop{}
+in the codebase. As these hints are embedded in the source of a program using
+\pdsfthree{}, they are provided to software engineers without need for special
+tooling or static analysis.
+
+\pdsfthree also contributes a new type of optimisation to \aop{} frameworks,
+termed ``cached fuzzing''. This is an improvement to \pydysofu{}'s unique type
+of join-point, ``fuzzers'' where advice is able to change the definition of the
+target it is applied to. A limitation of \pydysofu is that fuzzers are applied
+to their targets on every invocation of the corresponding join-point. While this allows
+for dynamic fuzzer behaviour, it also forces a user of the feature to repeatedly
+re-compile the target. If the result of this recompilation is the same every
+time, unnecessary overhead is incurred. To alleviate this,
+\pdsfthree{} offers an optimisation which caches the result of a fuzzing aspect
+on its first invocation, and re-uses its cached value to avoid unnecessary
+re-compilation. This is discussed in more detail in \cref{subsec:cached_fuzzing}. 
+
+Improvements over \pydysofu{}'s original design are also addressed. For example,
+\pdsfthree only weaves aspect hooks into callable values stored within modules
+such as methods and functions, avoiding the overhead introduced by \pydysofu{}'s
+aspect hooks when resolving non-callable attributes. \pdsfthree also offers
+granular application of aspects by making use of Python's import functionality
+--- if only specific functions within a module are intended to be used as
+join-points, importing only those functions from the module using \pdsfthree{}'s
+import hook weaving applies hooks only to those functions. This further reduces
+overhead from unused join-points.
+
+Features of other \aop{} frameworks were also missing from \pydysofu{}, which
+have been added to \pdsfthree{}, such as join-points which handle raised
+\lstinline{Exception}s and the ability to specify the ordering of advice
+invocation. This improves the tool's maturity and brings it closer to feature
+parity with other \aop{} frameworks. Exception handling aspects are discussed in
+\cref{error_handling_advice}; ordering advice invocation is discussed in
+\cref{aspect_priority_support}. Other optimisations are discussed throughout
+\cref{pdsf3_optimisations}.
 
 
 \correctionnote{
@@ -1071,6 +1113,7 @@ the target (or its modified value if changed by any encore advice).
 
 
 \subsubsection{Error Handling Advice}
+\label{error_handling_advice}
 The final type of advice supported by \pdsfthree{} is error-handling advice. If a
 target raises an exception, it is intercepted by \pdsfthree{}, which will continue to
 raise the exception unless error handling advice is applied. 
@@ -1201,6 +1244,9 @@ example.
 
 As a technique for weaving aspect hooks, this new method provides multiple
 benefits.
+
+\correctionnote{\emph{CONTRIBUTIONS OF IMPORT HOOK WEAVING MUST BE GIVEN, AND
+COMPARISONS TO OTHER AOP FRAMEWORKS MUST BE MADE}}
 
 \correctionnote{
     This could be co-opted to be a discussion of import hook weaving's
@@ -1433,6 +1479,7 @@ before low-urgency aspects. Aspects with no urgency applied default to
 
 
 \subsection{Cached Fuzzing}
+\label{subsec:cached_fuzzing}
 
 Invoking fuzzers requires parsing Python ASTs and compiling Python code objects,
 which introduces overhead in their implementation. However, some use-cases for
@@ -1545,8 +1592,25 @@ and evaluate their results.
 \subsection{Contributions}
 \label{pdsf3_contributions_summarised}
 
-\correctionnote{Add discussion of pdsf3 contributions here.}
+\pdsfthree contributes import hook weaving to \aop{} framework design. This
+novel type of weaver introduces aspect hooks to join-points without making
+changes to a language runtime or weaving aspect hooks directly into a program
+before or after compilation. 
 
+Import hooks address common criticisms of the \aspectoriented{} paradigm by
+improving the legibility of an \aop{} program. This is achieved by limiting the
+scope of a program which aspect hooks are woven into. This has the effect of
+reducing the number of points in a program that \emph{could} weave aspect hooks
+into a join-point, so developers who need to understand a program only need to
+follow a function's call stack to observe whether that function could have
+aspects applied to it. This is because \pdsfthree{}'s aspect hooks are woven in
+predictable parts of a program that are easily reviewed: import statements,
+which are written at the top of a Python program by convention.
+\correctionnote{
+  Maybe say more about the impact of import hook weaving here --- I need to
+  justify its novelty and discuss its contributions in more detail anyway, so
+  revisit after that's written. 
+}
 
 
 % - import hook weaving
@@ -1565,4 +1629,25 @@ and evaluate their results.
 %     - python3 support
 %   - I'm sure there's loads of other things to write here too
 %   - Remember that there _must_ be a comparison here against other AOP frameworks.
+
+
+\pdsfthree also contributes new optimisations to \aop{} framework design: cached
+fuzzers. These concern fuzzing aspects, introduced by \pydysofu, which make
+changes to their target when invoked. \pydysofu was previously the only \aop{}
+framework which offered these join-points, but its implementation of fuzzing
+aspects caused targets to be recompiled on every invocation, regardless of
+whether the fuzzer's output was the same on every invocation. To avoid this
+overhead, \pdsfthree offers a new type of optimisation which caches the output
+of fuzzing advice on its first invocation and re-uses its output on future
+invocations. This is a novel optimisation for \aop{} frameworks, as no other
+framework implementing fuzzing aspects offers it to date.
+
+Finally, \pdsfthree{} improves on \pydysofu{}'s design to make the framework more
+appropriate for use in research software engineering practice. This is achieved
+through the introduction of new join-points such as exception handlers and the
+ability to specify the ordering of aspect application. \pdsfthree also changes
+the underlying mechanisms used to weave aspect hooks to make the framework
+compatible with versions of Python which are still maintained.
+
+
 
