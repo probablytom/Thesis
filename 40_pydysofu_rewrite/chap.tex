@@ -389,7 +389,7 @@ follows (visualised in \cref{fig:high-level-import-hook-weaving-steps}):
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.7\columnwidth]{40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.png}
+  \includegraphics[width=0.7\columnwidth]{40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.pdf}
   \caption{Flowchart showing the high-level process of using \aop{} through
   \pdsfthree{}'s import hook weaving, as described in
   \cref{subsec:pdsf3_weaving_process}. This involves weaving aspect hooks into a
@@ -1541,3 +1541,28 @@ engineering technologies is provided in \cref{sciunits_for_unrealistic_states}.
 \Cref{chap:experiment_setup} and \cref{chap:experimental_results} use \pdsfthree
 to design experiments which investigate \aspectoriented{} simulations \& models,
 and evaluate their results.
+
+\subsection{Contributions}
+\label{pdsf3_contributions_summarised}
+
+\correctionnote{Add discussion of pdsf3 contributions here.}
+
+
+
+% - import hook weaving
+%   - legibility improved because…:
+%     - use of AOP is made obvious in codebase by…
+%     - signposting to users by taking advantage of Python's convention to import
+%   at top of file
+%   - import hooks only exist where a package is imported — other uses of a
+%   package are not affected
+%   - this makes it easy to determine whether a given use of a package is affected
+%   by AOP: look through the call stack in the worst case, top of current file in
+%   best case.
+%   - pydysofu is also improved on by addressing its shortcomings:
+%     - improvements targeting efficiency
+%     - implementation of missing features i.e. error handling aspects
+%     - python3 support
+%   - I'm sure there's loads of other things to write here too
+%   - Remember that there _must_ be a comparison here against other AOP frameworks.
+

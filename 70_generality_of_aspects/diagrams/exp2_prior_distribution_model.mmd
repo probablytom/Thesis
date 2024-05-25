@@ -11,6 +11,20 @@ flowchart LR
     ensureBestMove>Select best move\nfor players]
     cannotWin>Handle non-winnable state]
     
+    %% CSS classes for aspects
+    %%class hyperbolicDecay aspect
+    %%class updateConfidenceModel aspect
+    class setupPriorDistribution aspect
+    class fuzzLearningByPriorDistribution aspect
+    %%class chooseBasedOnConfidence aspect
+    class recordChoices aspect
+    class trackGameOutcome aspect
+    class recordWinningPair aspect
+    class ensureBestMove aspect
+    class cannotWin aspect
+    
+    class setupPriorDistribution priorDistributionModel
+    class fuzzLearningByPriorDistribution priorDistributionModel
     
     %% Gameplay steps
     pickChars(Each player selects characters)
@@ -19,6 +33,10 @@ flowchart LR
     swapActive(Active player switches to\nother player)
     gameEndedCheck{{Is active player exhausted?}}
     gameEnd((Game ends\nActive player lost\nNon-active player won))
+
+    %% Activity Diagram start/end
+    procStart((Start))
+    procEnd((End))
 
     %% Aspects to apply
     %%hyperbolicDecay -.->pickChars
@@ -35,6 +53,8 @@ flowchart LR
 
     %% Gameplay graph
     subgraph gameplay [RPGLite Game]
+        procStart-->pickChars
+        gameEnd-->procEnd
         pickChars --> assignFirst --> takeTurn --> swapActive --> gameEndedCheck -- Yes --> gameEnd
         gameEndedCheck -- no --> takeTurn
     end

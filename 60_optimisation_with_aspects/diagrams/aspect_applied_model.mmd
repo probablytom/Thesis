@@ -1,7 +1,7 @@
 flowchart LR
     %% Aspects to apply
     updateConfidenceModel>Update Confidence Model]
-    recordPrior>Record player's empirical\ndistribution of character preferences]
+    recordPrior>Set up prior distribution\nof character preferences]
     chooseBasedOnPrior>Select characters\nby prior distribution]
     chooseBasedOnConfidence>Select characters\nby confidence sigmoid]
     recordChoices>Record character choices]
@@ -10,9 +10,24 @@ flowchart LR
     ensureBestMove>Select best move\nfor players]
     cannotWin>Handle non-winnable state]
     
+    %% CSS classes for aspects
+    class updateConfidenceModel aspect
+    class recordPrior aspect
+    class chooseBasedOnPrior aspect
+    class chooseBasedOnConfidence aspect
+    class recordChoices aspect
+    class trackGameOutcome aspect
+    class recordWinningPair aspect
+    class ensureBestMove aspect
+    class cannotWin aspect
+
+    class recordPrior priorDistributionModel
+    class chooseBasedOnPrior priorDistributionModel
+    class updateConfidenceModel learningModel
+    class chooseBasedOnConfidence learningModel
     
     %% Gameplay steps
-    pickChars(Each player selects characters)
+    pickChars((Each player\nselects characters))
     assignFirst(Randomly assign active player\nfor game start)
     takeTurn(Active player takes turn randomly)
     swapActive(Active player switches to\nother player)

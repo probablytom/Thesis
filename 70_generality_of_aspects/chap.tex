@@ -195,12 +195,16 @@ no correlation could be produced as a result of weaving aspects, then the null
 hypothesis would have been demonstrated instead, answering the research question
 negatively.
 
-\begin{table}[h]
+\begin{figure}[h]
   \centering
-  \includegraphics[width=\columnwidth]{70_generality_of_aspects/diagrams/exp2_prior_distribution_model.png}
-  \caption{Advice woven into the naive model to adopt the distribution used to select character pairs from real-world data.}
+  \includegraphics[width=\columnwidth]{70_generality_of_aspects/diagrams/exp2_prior_distribution_model.pdf}
+  \caption{A UML activity diagram showing aspects woven into the naive model to adopt the distribution used to
+  select character pairs from real-world data. Aspects are given dashed borders
+  and applied with a dotted line in the same manner as found in
+  AOPML~\cite{Cappelli_AOBPM}. Aspects uniquely used by this
+  model are coloured green.}
   \label{fig:exp1_prior_distribution_model}
-\end{table}
+\end{figure}
 
 \Cref{fig:exp1_prior_distribution_model} illustrates the advice woven into the
 naive model to alter player behaviour to select character pairs with the same
@@ -319,7 +323,7 @@ and low p-values, meeting the criteria for statistical significance as described
 in \cref{identifying-significant-results-explanation} in every case.
 
 
-\subsection{Answering the Second Research Question}
+\subsection{Answering the First Research Question}
 
 The data shown in
 \cref{naive_model_results_table_comparison_to_real_world_datasets} demonstrates
@@ -394,12 +398,17 @@ used is that of the models of confidence and learning described in
 \cref{chap:experiment_setup}. A diagram of the woven advice is given in
 \cref{fig:learning_model_software_diagram}.
 
-\begin{table}[h]
+\begin{figure}[h]
   \centering
-  \includegraphics[width=\columnwidth]{70_generality_of_aspects/diagrams/exp3_learning_model.png}
-  \caption{Advice woven into the naive model to amend simulated players' behaviour to include learning over time, and to track the relevant parameters for the related model of confidence.}
+  \includegraphics[width=\columnwidth]{70_generality_of_aspects/diagrams/exp3_learning_model.pdf}
+  \caption{A UML activity diagram showing aspects woven into the naive model to amend simulated players'
+  behaviour to include learning over time, and to track the relevant parameters
+  for the related model of confidence. Aspects are given dashed borders and
+  applied with a dotted line in the same manner as found in
+  AOPML~\cite{Cappelli_AOBPM}. Aspects uniquely used by this model
+  coloured red.}
   \label{fig:learning_model_software_diagram}
-\end{table}
+\end{figure}
 
 The null hypothesis associated with the research question this experiment
 addresses is, \emph{advice cannot be used to accurately introduce behaviours or
@@ -428,6 +437,8 @@ model of learning. Results were generated using k-fold validation and model
 parameters searched for using the technique described in
 \cref{identifying-significant-results-explanation}. The parameters modified when
 running simulations were:
+
+\correctionnote{Add a note here about how parameters were selected.}
 
 \begin{itemize}
   \item The confidence model's Birch curve shape parameter, which could have any
@@ -823,7 +834,7 @@ the context of simulation \& modelling.
 
 
 
-\section{Discussion}
+\section{Summary}
 \label{experiment_results_final_discussion}
 
 The experiments in this chapter contribute an investigation into the

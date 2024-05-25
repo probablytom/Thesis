@@ -11,6 +11,20 @@ flowchart LR
     ensureBestMove>Select best move\nfor players]
     cannotWin>Handle non-winnable state]
     
+    %% CSS classes for aspects
+    %%class hyperbolicDecay aspect
+    class updateConfidenceModel aspect
+    %%class setupPriorDistribution aspect
+    %%class fuzzLearningByPriorDistribution aspect
+    class chooseBasedOnConfidence aspect
+    class recordChoices aspect
+    class trackGameOutcome aspect
+    class recordWinningPair aspect
+    class ensureBestMove aspect
+    class cannotWin aspect
+    
+    class updateConfidenceModel learningModel
+    class chooseBasedOnConfidence learningModel
     
     %% Gameplay steps
     pickChars(Each player selects characters)

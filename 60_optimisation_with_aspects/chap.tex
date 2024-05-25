@@ -2,6 +2,29 @@
 \label{chap:exp1_simulation_optimisation}
 \label{chap:experiment_setup}
 
+This chapter is the first of two chapters describing a set of three experiments
+which investigate the use of \aop{} in a simulation \& modelling context. These
+experiments share a technical foundation which alone constitutes a significant
+contribution. Therefore, contributions related to these experiments are split
+into two chapters: the first focused on research software engineering, and the
+second discussing the experiments that engineering enabled and the results
+produced by those experiments. Details of both these experiments and of the
+structure of this chapter are given in
+\cref{intro-to-first-experimental-chapter}.
+
+This chapter presents contributions in the form of research software
+engineering. It explains the design and implementation of a model of RPGLite
+play. This is followed by the design and implementation of aspects which
+instrument that model for experimental observation, correct simulated play in
+some edge cases, and implement a model of learning which is used to direct
+simulated players' selection of character pairs. The second,
+\cref{chap:experimental_results}, describes individual experiments which make
+use of the \aspectoriented models designed and implemented in this chapter.
+Together, these two chapters detail all contributions produced by the work
+performed to conduct the experiments.
+
+\section{Introduction}
+\label{intro-to-first-experimental-chapter}
 
 This chapter describes the design and
 implementation~\cite{rpglite_analysis_and_experiments_repo} of experiments which
@@ -39,6 +62,14 @@ experiments would be extremely long, and their shared foundation means that they
 are most naturally explained together. For this reason, the design and
 implementation of \emph{all} experiments is explained in this chapter, and their
 results follow in \cref{chap:experimental_results}.
+
+\subsection{Contributions}
+
+\correctionnote{Explain the contributions of the chapter here\ldots{}}
+
+
+
+\subsection{Chapter Outline}
 
 The common aspects of design and implementation in this chapter are explored as
 follows. To give context as to how different pieces of the experiments'
@@ -81,6 +112,7 @@ and the experiments which use them are given here, and more detailed
 descriptions are given in the following chapter.
 
 \subsection{Changes to Behaviour}
+\label{early_behaviour_change_descriptions}
 
 Simulated players' behaviour is changed using aspects when they select
 characters. The rationale for altering character selection in particular is
@@ -281,11 +313,11 @@ gameplay.
 
 \begin{figure}[tp]
   \centering
-  \includegraphics[width=\columnwidth]{60_optimisation_with_aspects/diagrams/naive_model.png}
+  \includegraphics[width=\columnwidth]{60_optimisation_with_aspects/diagrams/naive_model.pdf}
   \caption{A diagram of the ``naive model'' of RPGLite play used in experiments.}
   \label{fig:naive_model}
-
-  \includegraphics[width=\columnwidth]{60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.png}
+  \medskip
+  \includegraphics[width=\columnwidth]{60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.pdf}
   \caption{A diagram illustrating how the naive model is used to generate datasets used in experiments.}
   \label{fig:naive_model_with_experimental_apparatus}
 \end{figure}
@@ -625,7 +657,7 @@ Where $c$ is its curve parameter, $K$ is its upper asymptote,\footnote{This is
 fixed at $1$ for the confidence model, as confidence should never exceed
 $100\%$.} $a$ is its relative growth rate (RGR)\footnote{The RGR is a common
 parameter of sigmoid curves and defines the rate at which the sigmoid increases
-near its inflection point}, and $y$ is the value of the curve at a given point
+near its inflection point.}, and $y$ is the value of the curve at a given point
 in time. The Birch curve can represent other curves through its shape parameter:
 at $c=0$ the curve is exponential, and at $c=1$ the curve is
 logistic~\cite{birch1999new}. As the Birch curve models the properties of
@@ -674,7 +706,7 @@ altering the naive model is given in
 
 
 To generate datasets for experiments the naive model is augmented by weaving
-aspects. These aspects fulfil different functions and can be categorised as
+aspects. These aspects fulfil different requirements and can be categorised as
 either: aspects which instrument the model to simplify experimental observation
 and prepare the model for use in experiments; aspects which instrument the model
 to observe its state, assisting the implementation of aspects which change
@@ -697,8 +729,15 @@ code~\cite{rpglite_analysis_and_experiments_repo}.
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\columnwidth]{60_optimisation_with_aspects/diagrams/aspect_applied_model.png}
-  \caption{A flowchart describing a simulated game of RPGLite, and all aspects woven into the game to implement the various models of learning. Some aspects should not be woven together in the same experimental run, as they implement different models of learning.}
+  \includegraphics[width=\columnwidth]{60_optimisation_with_aspects/diagrams/aspect_applied_model.pdf}
+  \caption{A UML activity diagram describing a simulated game of RPGLite, and
+  all aspects woven into the game to implement the various models of learning.
+  Aspects are given dashed borders and applied with a dotted line in the same
+  manner as found in AOPML~\cite{Cappelli_AOBPM}. Green nodes are used
+  exclusively in the model which selects character pairs using a prior-known
+  distribution (described in \cref{early_behaviour_change_descriptions}). Red
+  nodes are used exclusively in the model which selects character pairs using a
+  model of learning (described in \cref{learning_model_definition}).}
   \label{fig:all_aspects_applied}
 \end{figure}
 
@@ -1494,6 +1533,12 @@ size. The \lstinline{boredom_period} parameter determines the number of games
 between these checks, and the mechanism can be disabled entirely using the
 \lstinline{boredom_enabled} parameter.
 
+
+
+
+\section{Contributions}
+
+\correctionnote{Explain the contributions of the chapter here\ldots{}}
 
 
 

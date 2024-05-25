@@ -1,0 +1,15 @@
+.aspect {
+    stroke-dasharray: 5 5;
+}
+
+.priorDistributionModel {
+    filter: hue-rotate(240deg);
+}
+
+.learningModel {
+    filter: hue-rotate(120deg);
+}
+
+* {
+    font-family: "Concourse 4", monospace;
+}
