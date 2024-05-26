@@ -1,0 +1,11 @@
+fuzzers $\gets$ get fuzzers for target
+if fuzzers is not empty:
+    if target in fuzzer cache:
+        target $\gets$ cache$\langle$target$\rangle$
+    else:
+        steps $\gets$ ast of target
+        foreach fuzzer in fuzzers:
+            steps $\gets$ fuzzer(steps)
+        if caching enabled:
+            cache$\langle$target$\rangle$ $\gets$ compile steps
+        target $\gets$ compile steps

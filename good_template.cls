@@ -98,14 +98,14 @@
     }
 
     \geometry{
-        	paper=a4paper, % Paper size, change to letterpaper for US letter size
-        	top=2.4cm, % Top margin
-        	bottom=5.75cm, % Bottom margin
-        	left=4.5cm, % Left margin
-        	right=4.5cm, % Right margin
-        	headheight=2pt, % Header height
-        	footskip=1.4cm, % Space from the bottom margin to the baseline of the footer
-        	headsep=1.5\baselineskip, % Space from the top margin to the baseline of the header
+            paper=a4paper, % Paper size, change to letterpaper for US letter size
+            top=2.4cm, % Top margin
+            bottom=5.75cm, % Bottom margin
+            left=4.5cm, % Left margin
+            right=4.5cm, % Right margin
+            headheight=2pt, % Header height
+            footskip=1.4cm, % Space from the bottom margin to the baseline of the footer
+            headsep=1.5\baselineskip, % Space from the top margin to the baseline of the header
     }
 \else % below is the code for non-Ben-And-Tom-Typography-Nerdery
     %----------------------------------------
@@ -127,15 +127,15 @@
             colorlinks = false,
         }
         \geometry{
-        	paper=a4paper, % Paper size, change to letterpaper for US letter size
-        	top=1.8cm, % Top margin
-        	bottom=1.8cm, % Bottom margin
-        	left=1.5cm, % Left margin
-        	right=1.5cm, % Right margin
-        	bindingoffset=2.5cm, % gutter, the margin for the book binding to go into
-        	headheight=2pt, % Header height
-        	footskip=1.4cm, % Space from the bottom margin to the baseline of the footer
-        	headsep=1.5\baselineskip, % Space from the top margin to the baseline of the header
+            paper=a4paper, % Paper size, change to letterpaper for US letter size
+            top=1.8cm, % Top margin
+            bottom=1.8cm, % Bottom margin
+            left=1.5cm, % Left margin
+            right=1.5cm, % Right margin
+            bindingoffset=2.5cm, % gutter, the margin for the book binding to go into
+            headheight=2pt, % Header height
+            footskip=1.4cm, % Space from the bottom margin to the baseline of the footer
+            headsep=1.5\baselineskip, % Space from the top margin to the baseline of the header
             }
     \else  % default options 
         \hypersetup{
@@ -143,14 +143,14 @@
             allcolors = linkColor %set uniform color (def. above) for all links
         }
         \geometry{
-        	paper=a4paper, % Paper size, change to letterpaper for US letter size
-        	top=1.8cm, % Top margin
-        	bottom=2.75cm, % Bottom margin
-        	left=2.75cm, % Left margin
-        	right=2.75cm, % Right margin
-        	headheight=2pt, % Header height
-        	footskip=1.4cm, % Space from the bottom margin to the baseline of the footer
-        	headsep=1.5\baselineskip, % Space from the top margin to the baseline of the header
+            paper=a4paper, % Paper size, change to letterpaper for US letter size
+            top=1.8cm, % Top margin
+            bottom=2.75cm, % Bottom margin
+            left=2.75cm, % Left margin
+            right=2.75cm, % Right margin
+            headheight=2pt, % Header height
+            footskip=1.4cm, % Space from the bottom margin to the baseline of the footer
+            headsep=1.5\baselineskip, % Space from the top margin to the baseline of the header
         }
     \fi
 \fi
@@ -259,7 +259,7 @@
 \usepackage[final]{listings}
 \lstdefinestyle{custompython}{
   backgroundcolor=\color{backcolour},
-  basicstyle=\ttfamily\linespread{0.75},
+  basicstyle=\ttfamily,
   breaklines=true,
   captionpos=b,
   commentstyle=\color{commentgrey},
@@ -272,7 +272,7 @@
 }
 \lstdefinestyle{footnotesize_python}{
   backgroundcolor=\color{backcolour},
-  basicstyle=\ttfamily\linespread{0.75}\footnotesize,
+  basicstyle=\ttfamily\footnotesize,
   breaklines=true,
   captionpos=b,
   commentstyle=\color{commentgrey},
@@ -283,9 +283,9 @@
   showtabs=true,
   numberstyle=\scriptsize
 }
-\lstdefinestyle{small_python}{
+\lstdefinestyle{scriptsize_python}{
   backgroundcolor=\color{backcolour},
-  basicstyle=\ttfamily\linespread{0.75}\small,
+  basicstyle=\ttfamily\scriptsize,
   breaklines=true,
   captionpos=b,
   commentstyle=\color{commentgrey},
@@ -293,6 +293,44 @@
   keywordstyle=\lst@ifdisplaystyle\color{blue}\fi,
   stringstyle=\lst@ifdisplaystyle\color{RawSienna}\fi,
   language=python,
+  showtabs=true,
+  numberstyle=\tiny
+}
+\lstdefinestyle{small_python}{
+  backgroundcolor=\color{backcolour},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  captionpos=b,
+  commentstyle=\color{commentgrey},
+  escapeinside={\%*}{*)},
+  keywordstyle=\lst@ifdisplaystyle\color{blue}\fi,
+  stringstyle=\lst@ifdisplaystyle\color{RawSienna}\fi,
+  language=python,
+  showtabs=true,
+  numberstyle=\scriptsize
+}
+\lstdefinestyle{footnotesize_pseudocode}{
+  basicstyle=\ttfamily\footnotesize,
+  emphstyle=\bfseries,
+  emph={,return, function, is, in, if, else, foreach, while, begin, end, def, del, call, partial, named, catch, as, raise, not,},
+  backgroundcolor=\color{backcolour},
+  breaklines=true,
+  captionpos=b,
+  mathescape=true,
+  showtabs=true,
+  language={},
+  moredelim=[is][\itshape\color{commentgrey}]{<--}{--!>}, % Hacky comment impl
+}
+\lstdefinestyle{footnotesize_xml}{
+  backgroundcolor=\color{backcolour},
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  captionpos=b,
+  commentstyle=\color{commentgrey},
+  escapeinside={\%*}{*)},
+  keywordstyle=\lst@ifdisplaystyle\color{blue}\fi,
+  stringstyle=\lst@ifdisplaystyle\color{RawSienna}\fi,
+  language=xml,
   showtabs=true,
   numberstyle=\scriptsize
 }

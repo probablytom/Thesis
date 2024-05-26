@@ -1,0 +1,12 @@
+<--Wrap target in final_around so function signatures match around advice--!>
+target $\gets$ partial(final_around, target)
+
+<--Give every around advice the next one in the list as its first argument--!>
+<--The first around advice takes the final_around-wrapped target instead--!>
+foreach around in reversed(arounds):
+    target $\gets$ partial(advice, target)
+
+<--Call the "target", invoking the first around advice, which calls the--!>
+<--second, which calls the third...until finally calling final_around,--!>
+<--which calls target.--!>
+return_value $\gets$ target()

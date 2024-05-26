@@ -431,7 +431,7 @@ follows (visualised in \cref{fig:high-level-import-hook-weaving-steps}):
 
 \begin{figure}
   \centering
-  \includegraphics[width=0.7\columnwidth]{40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.pdf}
+  \includegraphics[width=0.8\columnwidth]{40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.pdf}
   \caption{Flowchart showing the high-level process of using \aop{} through
   \pdsfthree{}'s import hook weaving, as described in
   \cref{subsec:pdsf3_weaving_process}. This involves weaving aspect hooks into a
@@ -580,14 +580,15 @@ aspects are given in \cref{examples_of_using_pdsf}.
 \subsection{Controlling Import Behaviour using Python's \lstinline{with} Blocks}
 \label{pdsf3implementingimporthooks}
 
-To inject aspect hooks into modules when importing them, \pdsfthree{} must modify
-\lstinline{builtins.__import__} \emph{only} when modules containing prospective
-imports. A developer might import many modules which do not require aspect hooks
-to be introduced: introducing hooks to all modules would incur some overhead
-from the hooks themselves when invoking any callable in any module. To enable
-this, \pdsfthree{} uses Python's \lstinline{with} keyword, as demonstrated in
-\cref{fig:simple_aspect_hook_weaving_example}. The use of
-\lstinline{with AspectHooks()} in \cref{fig:simple_aspect_hook_weaving_example} monkey-patches
+To inject aspect hooks into modules when importing them, \pdsfthree{} must
+modify \lstinline{builtins.__import__} \emph{only} when modules containing
+potential join-points are imported. A developer might import many modules
+which do not require aspect hooks to be introduced: introducing hooks to all
+modules would incur some overhead from the hooks themselves when invoking any
+callable in any module. To enable this, \pdsfthree{} uses Python's
+\lstinline{with} keyword, as demonstrated in
+\cref{fig:simple_aspect_hook_weaving_example}. The use of \lstinline{with AspectHooks()}
+in \cref{fig:simple_aspect_hook_weaving_example} monkey-patches
 all potential targets of advice in the \lstinline{mymodule} package to inject
 aspect hooks into them.
 
@@ -645,6 +646,7 @@ class AspectHooks:
     \label{fig:aspecthooksmagicmethodswith}
 \end{figure}
 
+\correctionnote{Consider adding a pseudocode example here for explaining how with blocks get used in practice.}
 
 The behaviour of Python's \lstinline{with} keyword can be explained through the magic
 methods which enable it: when entering a \lstinline{with} block, the
@@ -677,23 +679,24 @@ Before discussing how aspect hooks are injected into a module object, an
 additional piece of functionality shown in
 \cref{fig:aspecthooksmagicmethodswith} must be explained.
 
-\pdsfthree{} ensures that modules imported with altered behaviour do not interfere
-with other versions of those modules. This is necessary because Python's default
-import logic caches modules, and uses the cached objects when importing a second
-time~\cite{python_import_cache_definition}. This cache is stored in
-\lstinline{sys.modules}. If hooks are applied to a module within this cache,
-\emph{every} part of a program which imports that module will include hooks, as
-every time the module is imported the same object is returned. This would lead
-to previous imports of a module which is imported using \lstinline{AspectHooks}
-to have altered behaviour, even though aspect hooks were injected in an
-unrelated part of a program. This is similar to the behaviour of other \aop{}
-approaches, such as AspectJ~\cite{AspectJLanguageAndTools}: aspects can be
-applied to a pointcut anywhere in a program. However, this makes code difficult
-to reason about~\cite{steimann06paradoxical,przybylek2010wrong}. \pdsfthree{}
-improves on the legibility of \aspectoriented programs by \emph{only injecting
-hooks where \pdsfthree{} has been invoked}, affecting the program locally rather than
-globally. To achieve this, Python's cache of previously imported modules must be
-managed.
+\pdsfthree{} ensures that modules only have aspect hooks where the module is
+imported with \lstinline{AspectHooks}, rather than every time the module is
+imported. Additional work is necessary for this behaviour, because Python's
+default import logic caches modules and uses the cached module objects when
+importing a second time~\cite{python_import_cache_definition}. This cache is
+stored in \lstinline{sys.modules}. If hooks are applied to a module within this
+cache, \emph{every} part of a program which imports that module will include
+hooks, as every time the module is imported the same object is returned. This
+would lead to previous imports of a module which is imported using
+\lstinline{AspectHooks} to have altered behaviour, even though aspect hooks were
+injected in an unrelated part of a program. This is similar to the behaviour of
+other \aop{} approaches, such as AspectJ~\cite{AspectJLanguageAndTools}: aspects
+can be applied to a pointcut anywhere in a program. However, this makes code
+difficult to reason about~\cite{steimann06paradoxical,przybylek2010wrong}.
+\pdsfthree{} improves on the legibility of \aspectoriented programs by
+\emph{only injecting hooks where \pdsfthree{} has been invoked}, affecting the
+program locally rather than globally. To achieve this, Python's cache of
+previously imported modules must be managed.
 
 Management of this cache is explained using the implementation shown in
 \cref{fig:aspecthooksmagicmethodswith}.
@@ -819,94 +822,28 @@ appropriate points.
 
 \begin{figure}
     \centering
-    \begin{lstlisting}[style=footnotesize_python]
-def build_wrapper(target):
-    old_target_code = copy.deepcopy(target.__code__)
-    class CouldNotFuzzException(Exception):
-        pass
-
-    @wraps(target)
-    def wrapper(*args, **kwargs):
-        pre, around, post, error_handlers, fuzzers = self.get_rules(target.__name__, AspectHooks.manage_ordering)
-        def reset_code_to_previous():
-            if not isinstance(target, FunctionType):
-                target.__func__.__code__ = old_target_code
-            else:
-                target.__code__ = old_target_code
-
-        try:
-            # Apply fuzzers
-            t = target
-            if fuzzers is not None and fuzzers != []:
-                cache_key = tuple([str(fuzzer) for fuzzer in fuzzers] + [str(target)])
-
-                if self.cache_fuzz_results and self._cached_fuzzer_applications.get(cache_key) is not None:
-                    compiled_fuzzed_target = self._cached_fuzzer_applications[cache_key]
-                else:
-                    code = dedent(inspect.getsource(t))
-                    target_ast = ast.parse(code)
-                    funcbody_steps = target_ast.body[0].body
-
-                    for fuzzer in fuzzers:
-                        non_inline_changed_steps = fuzzer(funcbody_steps, *args, **kwargs)
-                        if non_inline_changed_steps:
-                            funcbody_steps = non_inline_changed_steps
-
-                    target_ast.body[0].body = funcbody_steps
-                    compiled_fuzzed_target = compile(target_ast, "<ast>", "exec")
-                    if self.cache_fuzz_results:
-                        self._cached_fuzzer_applications[cache_key]=compiled_fuzzed_target
-
-                if not isinstance(t, FunctionType):
-                    t.__func__.__code__ =  compiled_fuzzed_target.co_consts[0]
-                else:
-                    t.__code__ = compiled_fuzzed_target.co_consts[0]
-
-            # Run prelude advice
-            [advice(t, *args, **kwargs) for advice in pre]
-
-            # Build a wrapper for the target using around advice
-            # NOTE. The signature of around functions is:
-            #     around(next_around_function, t, *args, **kwargs),
-            # ... and they MUST make the call next_around_function(t, *args, **kwargs)
-            def nest_around_call(nested_around, next_around):
-                return partial(next_around, nested_around)
-            nested_around = reduce(nest_around_call,
-                                   around[::-1],
-                                   self.final_around)
-
-            # Invoke the target with around advice
-            ret = nested_around(t, *args, **kwargs)
-            
-            # Run post advice and return the final return value
-            for advice in post:
-                post_return = advice(t, ret, *args, **kwargs)
-                ret = ret if post_return is None else post_return
-            reset_code_to_previous()
-            return ret
-
-        except Exception as exception:
-            reset_code_to_previous()
-            prevent_raising = False
-            for handler in error_handlers:
-                prevent_raising = prevent_raising or handler(t, exception, *args, **kwargs)
-            if not prevent_raising:
-                raise exception
-
-    return wrapper
-    \end{lstlisting}
+    \lstinputlisting[style=scriptsize_python,linewidth=1.05\columnwidth]{40_pydysofu_rewrite/snippets/build_wrapper_impl.py}
     \caption{The implementation of \lstinline{build_wrapper}, which takes a
     function or method as an argument and returns that object wrapped with logic
     implementing aspect hooks. Edited slightly for legibility.}
     \label{fig:build_wrapper_impl}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \lstinputlisting[style=footnotesize_pseudocode,mathescape]{40_pydysofu_rewrite/snippets/build_wrapper.pseudocode}
+    \caption{Pseudocode explaining how \lstinline{build_wrapper} works. The
+    implementation is given in \cref{fig:build_wrapper_impl}.}
+    \label{fig:build_wrapper_pseudocode}
+\end{figure}
+
+
 \Cref{fig:build_wrapper_impl} shows the implementation of the
 \lstinline{build_wrapper} function, which takes a function or method as an
 argument and returns that argument wrapped inside a function which invokes
-advice. It is used by the \lstinline{apply_hooks} function as shown in
-\cref{fig:apply_hooks_to_module} to inject aspect hooks into functions and
-methods modules and classes they contain.
+advice. The \lstinline{build_wrapper} function is used by the
+\lstinline{apply_hooks} function as shown in \cref{fig:apply_hooks_to_module} to
+inject aspect hooks into functions and methods modules and classes they contain.
 
 This code snippet is large, but there are six areas of particular importance to
 the discussion of \pdsfthree{}'s implementation. Lines \texttt{2}--\texttt{13}
@@ -938,10 +875,20 @@ doesn't matter.}
 \subsubsection{Fuzzers}
 
 Lines \texttt{17}--\texttt{41} of \cref{fig:build_wrapper_impl} implement
-\pdsfthree{}'s ``within''-style aspects, or fuzzers. 
+\pdsfthree{}'s ``within''-style aspects, or fuzzers. A pseudocode representation
+of the process is given in \cref{fig:fuzzer_impl_pseudocode}.
 Lines \texttt{19}--\texttt{22} implement a static fuzzing optimisation, which is
 discussed later in \cref{static_weaving}. Their explanation is omitted here, and
 included in \cref{static_weaving} instead.
+
+\begin{figure}
+    \centering
+    \lstinputlisting[style=footnotesize_pseudocode,mathescape]{40_pydysofu_rewrite/snippets/fuzzer.pseudocode}
+    \caption{A pseudocode representation of the process used to apply fuzzers to
+    the targets of advice. This is a simplification of the implementation given
+    in \cref{fig:build_wrapper_impl}.}
+    \label{fig:fuzzer_impl_pseudocode}
+\end{figure}
 
 The target being invoked is fuzzed on lines \texttt{24}--\texttt{36}. The
 original source code of the target is retrieved using Python's built-in
@@ -1064,32 +1011,62 @@ implementation is given in \cref{fig:final_around_impl}. Its
 signature contains only the target of the advice and its arguments. The
 \lstinline{final_around} function acts as a wrapper for the target: it invokes
 the target with the correct arguments and returns any value returned by the
-target. 
+target. Pseudocode illustrating the high-level steps executed in building and
+invoking around advice is given in \cref{fig:final_around_pseudocode}.
 
-Lines \texttt{52}--\texttt{54} of \cref{fig:build_wrapper_impl} construct a single function which uses the
-partial function logic explained above and the \lstinline{final_around} function
-to create a single function which invokes all around advice \emph{and} the
-target. This function is stored as \lstinline{nested_around}. Its construction
-is most easily explained recursively. If there is no advice to apply,
-\lstinline{nested_around} is equal to \lstinline{final_around}, and so is a
-wrapper around the target which invokes it and returns any value returned by the
-target. This will be referred to here as \pointno{0}. If one around advice is
-woven, \lstinline{final_around} is a partial function which is the same as that
-around advice but for which the first parameter is \lstinline{final_around}, or
-\pointno{0}. As a result, when it invokes its successor, the target is invoked
-instead (via its wrapper). This value of \lstinline{nested_around} is a function
-which executes both the around aspect and its target and is referred to as
-\pointno{1}. If a second around advice is woven, \lstinline{final_around} is a
-partial function constructed from \emph{this} around advice, but its successor
-parameter is \pointno{1}. This would execute the second around aspect with
-\pointno{1} as its successor, applying its own logic before and after the
-invocation of the other advice and the target at the correct points. This is
-referred to as \pointno{2}. If a third is woven, the same occurs, and its
-successor parameter is \pointno{2}. As with \pointno{2}, this advice is executed
-with the correct ordering. This continues for every $n^{th}$ advice
-applied, which is constructed as a partial function where its successor
-parameter is given the value $(n-1)^{th}$ version of
-\lstinline{nested_around}. By induction, this is correctly constructed for every $n$.
+\begin{figure}
+\centering
+\lstinputlisting[style=footnotesize_pseudocode]{40_pydysofu_rewrite/snippets/around.pseudocode}
+\caption{Pseudocode demonstrating how a wrapper is constructed which invokes both around advice and the target of aspect application.}
+\label{fig:final_around_pseudocode}
+\end{figure}
+
+Lines \texttt{52}--\texttt{54} of \cref{fig:build_wrapper_impl} construct a
+single function which uses the partial function logic explained above and the
+\lstinline{final_around} function to create a single function which invokes all
+around advice \emph{and} the target. This function is stored as
+\lstinline{nested_around}. Its construction is most easily explained
+recursively. If there is no advice to apply, \lstinline{nested_around} is equal
+to \lstinline{final_around}, and so is a wrapper around the target which invokes
+it and returns any value returned by the target. This will be referred to here
+as \pointno{0}. If one around advice is woven, \lstinline{final_around} is a
+partial function which is the same as that around advice but for which the first
+parameter is \lstinline{final_around}, or \pointno{0}. As a result, when it
+invokes its successor, the target is invoked instead (via its wrapper). This
+value of \lstinline{nested_around} is a function which executes both the around
+aspect and its target and is referred to as \pointno{1}. If a second around
+advice is woven, \lstinline{final_around} is a partial function constructed from
+\emph{this} around advice, but its successor parameter is \pointno{1}. This
+would execute the second around aspect with \pointno{1} as its successor,
+applying its own logic before and after the invocation of the other advice and
+the target at the correct points. This is referred to as \pointno{2}. If a third
+is woven, the same occurs, and its successor parameter is \pointno{2}. As with
+\pointno{2}, this advice is executed with the correct ordering. This continues
+for every $n^{th}$ advice applied, which is constructed as a partial function
+where its successor parameter is given the value $(n-1)^{th}$ version of
+\lstinline{nested_around}. By induction, this is correctly constructed for every
+$n$.
+The levels of nesting are shown in \cref{fig:levels_of_nesting_arounds}.
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{40_pydysofu_rewrite/diagrams/nesting_of_around_advice.pdf}
+\caption{An informal flowchart showing how around advice nests. Each box shows a
+level of nesting of partial functions, and represents the closure of the partial
+function constructed at that level of nesting. Nodes in the graph are functions
+implementing either the target of advice, \lstinline{final_around}, or a piece
+of advice woven against the target.}
+\label{fig:levels_of_nesting_arounds}
+\end{figure}
+% The nested calls this process produces are further illustrated by
+% \cref{fig:nested_around_advice_construction_illustration}, which shows how each
+% stage of this process nests calls to around advice.
+% \begin{figure}
+% \centering
+% \lstinputlisting[style=footnotesize_pseudocode]{40_pydysofu_rewrite/snippets/around_stages.pseudocode}
+% \caption{Pseudocode illustrating the value of the around advice constructed on
+% each iteration of the loop illustrated in \cref{fig:final_around_pseudocode}.}
+% \label{fig:nested_around_advice_construction_illustration}
+% \end{figure}
 
 Line \texttt{57} invokes \lstinline{nested_around}, which in turn invokes every
 around advice applied as well as the target. The return value of the target,
@@ -1386,6 +1363,41 @@ on line \texttt{2} in the figure. This check can effectively be disabled by
 ensuring the condition always evaluates to \lstinline{True}, meaning that all
 imported modules and classes would be woven into, even if they did not belong to
 the first module object imported.
+
+\pdsfthree requires an option for deep hook weaving because it weaves aspect hooks
+when modules containing possible join-points are imported rather than when
+pointcuts are specified. Similar functionality is offered by \aop frameworks
+such as AspectJ, which can specify where aspect hooks should be woven --- and
+whether they should be woven recursively --- through the configuration of its
+weaver~\cite{}. An example AspectJ configuration which weaves aspect hooks
+selectively and controls the recursive weaving of hooks shown in
+\cref{fig:aspectj_configuration_for_hook_nesting}.
+
+\correctionnote{
+    I now think this is untrue: aspectj can only weave hooks at load time to
+    whichever class is being loaded, not a delegate and not a parent. Delegates
+    appear to be imports kicked off by the current classloader. So, the example
+    config only weaves hooks into the packages at the starred level of nesting.
+    It's a little too late for me to confirm that currently. Revisit in the
+    morning.
+}
+
+\begin{figure}
+\begin{lstlisting}[style=footnotesize_xml]
+<aspectj>
+    <weaver>
+        <!-- Weave hooks within the foo.bar or com.example namespaces -->
+        <include within="foo.bar.*"/>
+        <include within="com.example.*"/>
+
+        <!-- Do not weave types within the "bar" namespace -->
+        <exclude within="bar.*"/>
+    </weaver>
+</aspectj>
+\end{lstlisting}
+\caption{An example aspectj configuration which weaves aspect hooks rec}
+\label{fig:aspectj_configuration_for_hook_nesting}
+\end{figure}
 
 
 \subsection{Static Weaving}

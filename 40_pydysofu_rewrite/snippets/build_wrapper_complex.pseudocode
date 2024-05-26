@@ -1,0 +1,58 @@
+function build_wrapper(target):
+    original_target_code $\gets$ get_code_for(target)
+    return wrapper(target, original_target)
+
+function wrapper(target, original_target):
+    preludes, arounds, encores, error_handlers, fuzzers $\gets$ get_aspects_for(target)
+
+    try:
+        `Fuzzing aspect implementation`
+        if fuzzers is not empty:
+            cache_key $\gets$ (all_fuzzers..., target)
+            if caching_enabled and cache$\langle$cache_key$\rangle$:
+                fuzzed_target $\gets$ cache$\langle$cache_key$\rangle$
+            else:
+                steps $\gets$ get_ast_steps_from_target()
+                foreach fuzzer in fuzzers:
+                    steps $\gets$ fuzzer(steps)
+                fuzzed_target $\gets$ compile(steps)
+                if caching_enabled:
+                    cache$\langle$cache_key$\rangle$ $\gets$ fuzzed_target
+            target $\gets$ fuzzed_target
+
+        »Prelude advice implementation
+        foreach prelude in preludes:
+            call prelude
+
+        »Around advice implementation
+        function nest_around_advice(target, advice):
+            »return advice function with first arg "filled in"
+            return partial advice(target) 
+        foreach around in arounds:
+            target $\gets$ nest_around_advice(target, around)
+        
+        »Invoke target, by invoking wrapper built above
+        return_value $\gets$ target()
+
+        »Encore advice implementation
+        foreach encore in encores:
+            new_return_value $\gets$ encore(target, return_value)
+            if new_return_value is not None:
+                return_value $\gets$ new_return_value 
+        
+        »Reset changes from fuzzer
+        target $\gets$ original_target
+
+        »Return
+        return return_value
+
+    »Exception handling advice implementation
+    catch Exception as error:
+        target $\gets$ original_target
+        prevent_raising $\gets$ False
+        for handler in error_handlers:
+            should_prevent $\gets$ handler(target, error)
+            if should_prevent:
+                prevent_raising $\gets$ True
+        if not prevent_raising:
+            raise error

@@ -31,6 +31,9 @@ thesis:
 	sudo mmdc -i 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.mmd -o 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.png -C mermaid_theme.css
 	sudo mmdc -i 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.mmd -o 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.pdf -C mermaid_theme.css --pdfFit
 	sudo mmdc -i 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.mmd -o 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.svg -C mermaid_theme.css
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.mmd -o 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.png -C mermaid_theme.css
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.mmd -o 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.pdf -C mermaid_theme.css --pdfFit
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.mmd -o 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.svg -C mermaid_theme.css
 	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.svg -C mermaid_theme.css
 	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.png -C mermaid_theme.css
 	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.pdf -C mermaid_theme.css --pdfFit
@@ -46,16 +49,24 @@ thesis:
 normal:
 	sudo mmdc -i 70_generality_of_aspects/diagrams/exp3_learning_model.mmd -o 70_generality_of_aspects/diagrams/exp3_learning_model.png --width 1400 --height 1400 -C mermaid_theme.css
 	sudo mmdc -i 70_generality_of_aspects/diagrams/exp3_learning_model.mmd -o 70_generality_of_aspects/diagrams/exp3_learning_model.pdf --width 1400 --height 1400 -C mermaid_theme.css --pdfFit
+	sudo mmdc -i 70_generality_of_aspects/diagrams/exp3_learning_model.mmd -o 70_generality_of_aspects/diagrams/exp3_learning_model.pdf --width 1400 --height 1400 -C mermaid_theme.css --pdfFit
 	sudo mmdc -i 70_generality_of_aspects/diagrams/exp2_prior_distribution_model.mmd -o 70_generality_of_aspects/diagrams/exp2_prior_distribution_model.png --width 1400 --height 1400 -C mermaid_theme.css
 	sudo mmdc -i 70_generality_of_aspects/diagrams/exp2_prior_distribution_model.mmd -o 70_generality_of_aspects/diagrams/exp2_prior_distribution_model.pdf --width 1400 --height 1400 -C mermaid_theme.css --pdfFit
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/aspect_applied_model.mmd -o 60_optimisation_with_aspects/diagrams/aspect_applied_model.png -C mermaid_theme.css
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/aspect_applied_model.mmd -o 60_optimisation_with_aspects/diagrams/aspect_applied_model.pdf -C mermaid_theme.css --pdfFit
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/aspect_applied_model.mmd -o 60_optimisation_with_aspects/diagrams/aspect_applied_model.svg -C mermaid_theme.css
-	sudo mmdc -i 60_optimisation_with_aspects/diagrams/naive_model.mmd -o 60_optimisation_with_aspects/diagrams/naive_model.svg -C mermaid_theme.css
+	sudo mmdc -i 60_optimisation_with_aspects/diagrams/naive_model.mmd -o 60_optimisation_with_aspects/diagrams/naive_model.png -C mermaid_theme.css
+	sudo mmdc -i 60_optimisation_with_aspects/diagrams/naive_model.mmd -o 60_optimisation_with_aspects/diagrams/naive_model.pdf -C mermaid_theme.css --pdfFit
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/naive_model.mmd -o 60_optimisation_with_aspects/diagrams/naive_model.svg -C mermaid_theme.css
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.png -C mermaid_theme.css
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.pdf -C mermaid_theme.css --pdfFit
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.svg -C mermaid_theme.css
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.mmd -o 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.png -C mermaid_theme.css
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.mmd -o 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.pdf -C mermaid_theme.css --pdfFit
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.mmd -o 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.svg -C mermaid_theme.css
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.mmd -o 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.png -C mermaid_theme.css
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.mmd -o 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.pdf -C mermaid_theme.css --pdfFit
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.mmd -o 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.svg -C mermaid_theme.css
 	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.svg -C mermaid_theme.css
 	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.png -C mermaid_theme.css
 	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.pdf -C mermaid_theme.css --pdfFit
@@ -75,6 +86,7 @@ for_submission:
 	$(eval LTX:=\\def\\finalversion{tosubmit}\\include{thesis.tex})
 	sudo mmdc -i 70_generality_of_aspects/diagrams/exp3_learning_model.mmd -o 70_generality_of_aspects/diagrams/exp3_learning_model.png --width 1400 --height 1400 -C mermaid_theme.css
 	sudo mmdc -i 70_generality_of_aspects/diagrams/exp3_learning_model.mmd -o 70_generality_of_aspects/diagrams/exp3_learning_model.pdf --width 1400 --height 1400 -C mermaid_theme.css --pdfFit
+	sudo mmdc -i 70_generality_of_aspects/diagrams/exp3_learning_model.mmd -o 70_generality_of_aspects/diagrams/exp3_learning_model.pdf --width 1400 --height 1400 -C mermaid_theme.css --pdfFit
 	sudo mmdc -i 70_generality_of_aspects/diagrams/exp2_prior_distribution_model.mmd -o 70_generality_of_aspects/diagrams/exp2_prior_distribution_model.png --width 1400 --height 1400 -C mermaid_theme.css
 	sudo mmdc -i 70_generality_of_aspects/diagrams/exp2_prior_distribution_model.mmd -o 70_generality_of_aspects/diagrams/exp2_prior_distribution_model.pdf --width 1400 --height 1400 -C mermaid_theme.css --pdfFit
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/aspect_applied_model.mmd -o 60_optimisation_with_aspects/diagrams/aspect_applied_model.png -C mermaid_theme.css
@@ -86,6 +98,12 @@ for_submission:
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.png -C mermaid_theme.css
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.pdf -C mermaid_theme.css --pdfFit
 	sudo mmdc -i 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.mmd -o 60_optimisation_with_aspects/diagrams/experiment_setup_for_datagen.svg -C mermaid_theme.css
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.mmd -o 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.png -C mermaid_theme.css
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.mmd -o 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.pdf -C mermaid_theme.css --pdfFit
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.mmd -o 40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.svg -C mermaid_theme.css
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.mmd -o 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.png -C mermaid_theme.css
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.mmd -o 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.pdf -C mermaid_theme.css --pdfFit
+	sudo mmdc -i 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.mmd -o 40_pydysofu_rewrite/diagrams/nesting_of_around_advice.svg -C mermaid_theme.css
 	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.svg -C mermaid_theme.css
 	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.png -C mermaid_theme.css
 	sudo mmdc -i 30_prior_work/diagrams/replacement_getattr.mmd -o 30_prior_work/diagrams/replacement_getattr.pdf -C mermaid_theme.css --pdfFit
