@@ -28,3 +28,6 @@
 *.bcf
 */*auto*
 *.xml
+*/diagrams/*.pdf
+*/diagrams/*.svg
+*/diagrams/*.png

@@ -1217,6 +1217,132 @@ previously. This fuzzer is woven into the target in the same way as in
 example.
 
 
+\subsection{Comparison to Other Weaving Mechanisms}
+
+Import hook weaving is a novel technique for weaving aspect hooks. This section
+compares \pdsfthree against other \aop frameworks to determine its novelty and
+contribution. As it is not feasible to compare \pdsfthree against \emph{all}
+alternative \aop frameworks, it will be compared against
+AspectJ~\cite{AspectJLanguageAndTools} and Spring
+AOP~\cite{springAOPDocumentation} as these are actively maintained \aop
+frameworks which see some industry adoption~\cite{przybylek2018empirical}. As
+such, we consider these frameworks representative of the \aop ecosystem at time
+of writing. Any claims of novelty made in relation to these frameworks hold in
+comparison against other frameworks too; AspectJ and Spring AOP are selected for
+illustrative purposes.
+
+\begin{figure}
+    \centering
+    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{main.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/main.py}
+    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{joinpointModule.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/joinpointModule.py}
+    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{aspects.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/aspects.py}
+    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{moduleA.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/moduleA.py}
+    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{moduleB.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/moduleB.py}
+    \caption{Example Python project with multiple modules, which demonstrate how
+    \pdsfthree isolates \aspectoriented behaviour to affect only modules which
+    import join-points with \lstinline{AspectHooks}. Here, \lstinline{moduleA}
+    weaves an aspect into \lstinline{joinpointModule}, but \lstinline{moduleB}
+    does not observe any \aspectoriented behaviour because it did not import
+    \lstinline{joinpointModule} with \lstinline{AspectHooks}.}
+    \label{fig:isolated_aspect_hook_weaving_illustration}
+\end{figure}
+
+% Compare for novelty
+\pdsfthree{}'s implementation of \aop weaves aspect hooks into modules which may
+contain join points. This allows join-points to be determined at runtime. Advice
+is implemented in the form of Python functions. Weaving is performed when
+modules are imported. Only a module which imports join-points with
+\lstinline{AspectHooks} will observe aspect hooks woven into those join-points;
+other modules within the same program which do not import with
+\lstinline{AspectHooks} will observe no \aspectoriented behaviour when invoking
+those join-points. \cref{fig:isolated_aspect_hook_weaving_illustration} contains
+a Python program made of several modules which illustrates this. Weaving is
+dynamically performed at runtime, and can happen whenever a package is imported.
+As Python supports re-importing packages, \pdsfthree can weave aspect hooks even
+when a package is already loaded. This allows \pdsfthree users to determine
+whether they require aspect hooks to be woven at any point in program execution.
+Also, \pdsfthree{}'s application of aspect hooks --- and weaving of aspects ---
+appears only in the parts of a program it effects. As \pdsfthree weaves aspect
+hooks when packages are imported and Python packages are conventionally imported
+at the top of a file, \pdsfthree users can easily clarify whether any
+\aspectoriented behaviour is expected in their program, and where that behaviour
+occurs.
+
+AspectJ offers multiple mechanisms for weaving aspect hooks: compile-time
+weaving is offered through rewriting binary \lstinline{.class}
+files~\cite{aspectj-bytecode-weaving-documentation} and runtime
+weaving\footnote{AspectJ refers to runtime weaving as ``load-time weaving'',
+because its implementation specifically weaves hooks when classes are loaded.}
+is offered through modified classloaders~\cite{aspectj_ltw_docs}. Neither
+mechanism supports weaving aspect hooks into already-loaded classes. The
+application of aspects is controlled via \lstinline{.xml} configuration files in
+both cases. Aspects woven into a class are observed by all users of that class.
+Aspects are written in Java, using a superset of the Java language\footnote{The
+superset of the Java language used to implement aspects is called AspectJ.}, so
+an extension to Java is required in order to use it. As AspectJ join-points are
+specified in configuration files, users of AspectJ must check any configuration
+files for their program to understand whether any part of their program will
+exhibit \aspectoriented behaviour. The negative impact on program legibility
+this causes is often cited as a limitation of
+\aop{}~\cite{Constantinides04aopconsidered,steimann06paradoxical,przybylek2010wrong,przybylek2018empirical}.
+
+Spring AOP is designed with AspectJ compatibility in
+mind~\cite{introducing_spring_aop_chapter_integration_with_aspectj}, and so
+supports the AspectJ superset of the Java language and AspectJ's
+\lstinline{.xml} configuration format. However, Spring AOP also offers its own
+aspect hook weaving technique: proxy objects which act as adapters between
+join-points and other parts of a program that invoke them. Proxy objects act as
+proxies of join-points. This allows fine-grained weaving of aspect hooks, as a
+program only needs to construct proxy objects for any join-points in use to
+support \aop{}. It also allows for flexible weaving of aspect hooks, as the
+construction of a proxy object can occur at any point in a program's execution.
+However, this weaving mechanism complicates code comprehension: any part of a
+program using a non-proxied reference to a join-point will see no
+\aspectoriented behaviour. For example, this occurs when the proxied object
+invokes methods on itself, as an object's \lstinline{this} reference is not
+proxied through Java's proxy API. Overcoming this limitation requires a
+join-point to implement additional logic to call its own methods through a proxy
+if it exists, which breaks \aop{}'s philosophy of
+obliviousness~\cite{filman2000aspect}. Spring AOP supports using AspectJ to
+weave aspect hooks and apply aspects instead of or in addition to its own aspect
+weaving, which may complicate program comprehension by adding additional
+complexity to determining whether any part of a program exhibits \aspectoriented
+behaviour. This is because both weaving techniques must be checked to form a complete
+understanding of program behaviour. 
+
+Import hook weaving offers improved code comprehension compared to other weaving
+mechanisms, because it offers simple semantics around \aspectoriented behaviour:
+modules which import other modules with \lstinline{AspectHooks} observe
+\aspectoriented behaviour, and any other modules do not. Confirming whether a
+program exhibits \aspectoriented behaviour for conventionally written Python
+programs is as simple as checking the top of a file for references to
+\lstinline{AspectHooks}. This compares favourably to other techniques, which
+rely on program configuration to identify join-points and complicate the
+invocation of \aspectoriented program behaviours with wrapper mechanisms such as
+proxy objects. Import hook weaving therefore improves on existing aspect hook
+weaving mechanisms by offering a novel solution to the problem of
+\aspectoriented programs' legibility.
+
+
+
+% \begin{multilisting}
+%     \sublstinputlisting[1]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/main.py}{main.py}
+%     \sublstinputlisting[1]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/moduleA.py}{moduleA.py}
+%     \sublstinputlisting[1]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/moduleB.py}{moduleB.py}
+%     \sublstinputlisting[1]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/joinpointModule.py}{joinpointModule.py}
+%     \sublstinputlisting[1]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/aspects.py}{aspects.py}
+% \begin{figure}
+%     \caption{Example Python project with multiple modules, which demonstrate how \pdsfthree isolates \aspectoriented behaviour to affect only modules which import join-points with \lstinline{AspectHooks}.}
+% \label{fig:isolated_aspect_hook_weaving_illustration}
+% \end{figure}
+% \end{multilisting}
+% \end{figure}
+
+
+% Summarise contribution briefly.
+
+
+
 \subsection{Strengths and Weaknesses of Import Hooks}\label{subsec:pdsf3importhooklimitations}
 
 As a technique for weaving aspect hooks, this new method provides multiple
@@ -1298,11 +1424,11 @@ simulation \& modelling codebases: for example, those from
 \section{Optimisations}
 \label{pdsf3_optimisations}
 
-Additional features were implemented in \pdsfthree to make it
-more useful for research software engineering, and to optimise performance where
-necessary. The optimisations introduced are deep hook weaving, non-dynamic
-weaving, and aspect priority support. They are explained individually in the
-following subsections.
+Additional features were implemented in \pdsfthree to make it more useful for
+research software engineering, and to optimise performance where necessary. The
+optimisations introduced are deep hook weaving, non-dynamic weaving, priority
+ordering of aspect application and cached fuzzing. They are explained
+individually in the following subsections.
 
 \subsection{Deep Hook Weaving}\label{deep_hook_weaving}
 
@@ -1364,23 +1490,25 @@ ensuring the condition always evaluates to \lstinline{True}, meaning that all
 imported modules and classes would be woven into, even if they did not belong to
 the first module object imported.
 
-\pdsfthree requires an option for deep hook weaving because it weaves aspect hooks
-when modules containing possible join-points are imported rather than when
+\pdsfthree requires an option for deep hook weaving because it weaves aspect
+hooks when modules containing possible join-points are imported rather than when
 pointcuts are specified. Similar functionality is offered by \aop frameworks
-such as AspectJ, which can specify where aspect hooks should be woven --- and
-whether they should be woven recursively --- through the configuration of its
-weaver~\cite{}. An example AspectJ configuration which weaves aspect hooks
-selectively and controls the recursive weaving of hooks shown in
-\cref{fig:aspectj_configuration_for_hook_nesting}.
-
-\correctionnote{
-    I now think this is untrue: aspectj can only weave hooks at load time to
-    whichever class is being loaded, not a delegate and not a parent. Delegates
-    appear to be imports kicked off by the current classloader. So, the example
-    config only weaves hooks into the packages at the starred level of nesting.
-    It's a little too late for me to confirm that currently. Revisit in the
-    morning.
-}
+such as AspectJ and PROSE, but concepts in other frameworks differ by virtue of
+their different weaving mechanisms. For example, AspectJ weaves aspect hooks
+into every Java class by default but can configure this to be more specific
+through the configuration of its weaver~\cite{}. An example AspectJ
+configuration which weaves aspect hooks selectively and controls the recursive
+weaving of hooks shown in \cref{fig:aspectj_configuration_for_hook_nesting}.
+AspectJ disallows the weaving of advice into delegated classloaders when weaving
+advice at runtime~\cite{aspectj_ltw_docs}, which prevents classes repeatedly
+weaving advice into others they import or load (which is the use case for
+AspectJ most analogous to Python modules importing other Python modules). PROSE
+weaves aspects as join-points are called using a just-in-time (JIT)
+compiler~\cite{dynamicAOPWithProse}. Callbacks are woven into join-points when
+aspects are applied, alleviating the need to weave aspect hooks into classes and
+so avoiding the need for deep hook weaving by design. Deep hook weaving is
+therefore a novel solution to the recursive weaving of modules, but is not a
+\emph{unique} solution to that problem.
 
 \begin{figure}
 \begin{lstlisting}[style=footnotesize_xml]
@@ -1446,14 +1574,14 @@ weaving. Dynamic weaving is enabled by toggling the
 similarly to enabling or disabling deep hook weaving (see
 \cref{deep_hook_weaving}). A code snippet demonstrating this is shown in
 \cref{fig:enabling_dynamic_weaving}.
-\revnote{
-    I haven't included the implementation of this, because I haven't included the
-    implementation of \lstinline{get_rules} at time of writing and frankly I'm not
-    sure I'm fussed by it. It's just an if statement at the beginning and the end of
-    the method. Maybe I can get away with skipping it --- if I do, maybe it'd be a
-    discussion point in the viva, which is fine by me\ldots{}!
-}
 
+Static weaving is similar to the ability to turn on or off dynamic behaviour in
+other \aop frameworks which offer dynamic aspect weaving. Static weaving
+therefore brings \pdsfthree closer to feature parity with other \aop frameworks.
+An example of an analogous feature in other frameworks is AspectJ's compile-time
+loading of aspects by injecting advice into join-points by rewriting the
+\lstinline{.class} files corresponding to each
+join-point~\cite{aspectj-bytecode-weaving-documentation}. 
 
 \subsection{Priority Ordering of Aspect Application}
 \label{aspect_priority_support}
@@ -1471,7 +1599,7 @@ the code snippet shown in \cref{fig:enabling_priority_sorting_of_aspects}.
 from pdsf import AspectHooks
 AspectHooks.manage_ordering = True
     \end{lstlisting}
-    \caption{Code snippet enabling priority ordering of aspect application}
+    \caption{Code snippet enabling priority ordering of aspect application in \pdsfthree{}.}
     \label{fig:enabling_priority_sorting_of_aspects}
 \end{figure}
 
@@ -1482,12 +1610,30 @@ aspect's ``priority'' with the same semantics as in a priority queue. Higher
 numbers represent more urgent application, so high-urgency aspects are applied
 before low-urgency aspects. Aspects with no urgency applied default to
 \lstinline{urgency=0}.
-\revnote{
-    I haven't included the implementation of this, because I haven't included the
-    implementation of \lstinline{get_rules} at time of writing although I think it's
-    a little more involved than static weaving. The examiners don't know that, I
-    suppose. Hoping I can get away with skipping this, too...
-}
+
+Other \aop frameworks also offer priority ordering of aspect application,
+although the feature is relatively novel in the
+community~\cite{jalali2012aspect}. For example, AspectJ allows aspects to be
+declared with a precedence ordering which explicitly notes which aspects should
+run in which order for a given
+join-point~\cite{aspectj-advice-precedence-documentation}. An example AspectJ
+configuration which specifies precedence of advice application is given in
+\cref{fig:aspectj-advice-precedence-config-example}.
+
+\begin{figure}
+\centering
+\begin{lstlisting}[style=footnotesize_xml]
+<aspectj>
+    <aspects>
+        <concrete-aspect name="com.thesis.ExampleAdviceClass"
+                         precedence="logInvocation, checkSecurityProperties, *"/>
+    </aspects>
+</aspectj>
+\end{lstlisting}
+\caption{An example AspectJ configuration which specifies precedence of advice
+application~\cite{aspectj-advice-precedence-documentation}.}
+\label{fig:aspectj-advice-precedence-config-example}
+\end{figure}
 
 
 \subsection{Cached Fuzzing}
@@ -1563,6 +1709,10 @@ retrieve a cached fuzzed target instead if the key constructed on line
 \texttt{2} exists in the cache of fuzzed targets. If it does not, fuzzing
 continues as normal, and the output of running any applied fuzzers is added to
 the cache on line \texttt{19} to be used when the target is next invoked.
+
+As fuzzers are a unique feature of \pydysofu and \pdsfthree{}, cached fuzzing
+does not exist in other \aop frameworks. It is an improvement over \pydysofu and
+thus a novel contribution in the design of \aop frameworks.
 
 
 \section{Summary}

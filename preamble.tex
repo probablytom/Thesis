@@ -152,3 +152,34 @@ skipbelow=0cm,
 }{
   \end{displayquote}
 }
+
+
+
+% Sublistings --- see https://tex.stackexchange.com/a/139633
+\newfloat{multilisting}{tbph}{lopbl}   
+\floatname{multilisting}{Figure} % Will this change crefs, captions?
+
+\DeclareCaptionSubType{multilisting}
+\captionsetup[submultilisting]
+{
+    font = {footnotesize,sc},
+    justification   = raggedright,
+    singlelinecheck = off,
+}
+
+% new macro for a bit more automation
+\newcommand\sublstinputlisting[3][2]
+% 1: multiplying factor of \textwidth;
+% 2: path to source file
+% 3: filename to print above source file.
+{
+    \begin{submultilisting}[b]{#1\textwidth}
+        \lstinputlisting[style=footnotesize_python,captionpos=t,title=#3]{#2}%
+    \end{submultilisting}%
+}
+
+\newcommand\lstinputnamedfile[2][2]{
+% 1: path to source file
+% 2: filename to print above source file.
+\lstinputlisting[style=footnotesize_python,captionpos=t,title=#2]{#1}
+}

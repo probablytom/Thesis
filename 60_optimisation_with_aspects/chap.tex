@@ -65,7 +65,21 @@ results follow in \cref{chap:experimental_results}.
 
 \subsection{Contributions}
 
-\correctionnote{Explain the contributions of the chapter here\ldots{}}
+This chapter contributes research software engineering in the form of the design
+of \aspectoriented models. These models include aspects which implement the
+observation of experiment state as suggested by \citep{gulyas1999use},
+corrections to modelled behaviour to account or edge cases unresolved in
+RPGLite's design, and changes to modelled behaviour including a model of
+learning.
+
+This chapter should be understood as the first of a pair of chapters
+investigating the applicability of \aop to models for
+research purposes. It describes the engineering and design required to support
+three experiments, which are discussed in \cref{chap:experimental_results}. The
+chapters are separated for the purposes of legibility and document structure;
+because of this, they effectively share contributions and should be understood
+as two halves of one research effort.
+
 
 
 
@@ -1535,9 +1549,38 @@ between these checks, and the mechanism can be disabled entirely using the
 
 \section{Contributions}
 
-\correctionnote{Explain the contributions of the chapter here\ldots{}}
+This chapter describes the construction of an \aspectoriented model of RPGLite
+play. This model's foundation is a ``naive'' model of random play, to which
+aspects are applied which:
 
+\begin{itemize}
+\item Instrument the model to make measurements necessary for the evaluation of
+experiments;
+\item Compensate for edge-cases present in RPGLite's design;
+\item Implement models of confidence and learning;
+\item Use those models of confidence and learning to alter modelled players' behaviour.
+\end{itemize}
 
+This chapter contributes the research software engineering required to design
+\aspectoriented models of confidence and learning and implement those models
+using \pdsfthree{}.  Having contributed these \aspectoriented models, this
+chapter supports the contributions of \cref{chap:experimental_reults}. The
+latter chapter presents the results of three experiments which address the
+research questions posed in \cref{subsec:rqs}:
+
+\begin{researchquestion}
+  \begin{description}
+\item[RQ1] \rqone{}
+\item[RQ2] \rqtwo{}
+\item[RQ3] \rqthree{}
+  \end{description}
+\end{researchquestion}
+
+This chapter should be understood as the first of two halves of a single
+research effort which investigates the application of \aop to models for
+research purposes. These two halves are separated for structure and legibility
+reasons. \cref{chap:experimental_results} describes the remaining contributions
+of this effort.
 
 % \section{Discussion}
 % \label{sec:optimisation_with_aspects_discussion}
