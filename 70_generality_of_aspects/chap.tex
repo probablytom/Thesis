@@ -105,12 +105,14 @@ correlation many times, which helps to identify individual biased results.
 \label{identifying-significant-results-explanation}
 
 \Cref{sec:rq2} and \cref{sec:rq3} describe experiments where parameters for the
-model of learning are optimised. As this optimisation occurs across many folds,
-it is possible that many parameters produce statistically significant datasets
-when compared against a given player. These parameters may also vary between
-folds, as comparison against different testing folds may show correlation with
-different datasets. A technique to identify model parameters which produce
-statistically significant results across many folds is therefore required.
+model of learning are optimised to produce gameplay datasets which significantly
+correlate to with real players' gameplay data. As this optimisation occurs
+across many folds, it is possible that many parameters produce statistically
+significant datasets when compared against a given player. These parameters may
+also vary between folds, as comparison against different testing folds may show
+correlation with different datasets. A technique to identify model parameters
+which produce statistically significant results across many folds is therefore
+required.
 
 Identifying optimal parameters requires searching across two dimensions of
 statistical significance reported in experiment results: Kendall's \tau{}
@@ -231,7 +233,8 @@ folds; the result of the first fold is given in this section's result tables,
 described below. Complete tables with data from all folds is given in
 \cref{appendix-data-for-all-exp1-folds} in the interest of transparency. Results
 are shown for players who completed at least $100$ games in season 1 of RPGLite,
-and the experiment is conducted against season 1 gameplay data.
+of which there were 21. The experiment is conducted against season 1 gameplay
+data.
 
 The results of the experiment are shown in
 \cref{naive_model_results_table_comparison_to_real_world_datasets} for datasets
@@ -349,14 +352,14 @@ real-world observations in some manner. The research question can therefore be
 answered affirmatively.
 
 A curiosity of this experiment is that the altered behaviour is not a
-cross-cutting concern as they are typically defined. Modularisation of these
-parts of a program is \aop{}'s original use-case~\cite{kiczales1997aspect}, but
-this experiment shows that the technique can be successfully used in other ways
-(as suggested by \citet{gulyas1999use} and \citet{steimann06paradoxical}). The
-success of advice as a mechanism to introduce change to a program, rather than
-being used as a mechanism to refactor or more elegantly design it, suggests that
-\aop{} could be well-suited to exaptation~\cite{exaptation_origin} as a tool to
-introduce new behaviours in a model.
+cross-cutting concern as they are typically defined. Modularisation of
+cross-cutting concerns is \aop{}'s original use-case~\cite{kiczales1997aspect},
+but this experiment shows that the technique can be successfully used in other
+ways (as suggested by \citet{gulyas1999use} and \citet{steimann06paradoxical}).
+The success of advice as a mechanism to introduce change to a program, rather
+than being used as a mechanism to refactor or more elegantly design it, suggests
+that \aop{} could be well-suited to exaptation~\cite{exaptation_origin} as a
+tool to introduce new behaviours in a model.
 
 
 
@@ -579,14 +582,17 @@ superficial reasons, such as artwork or a lack of interest, which would skew
 their distribution of character pair selections in a manner which the model of
 learning would be unable to account for as written.
 
-The accurate simulation of $\approx{}28.9\%$ of the sampled playerbase demonstrates two
+The accurate simulation of $frac{6}{21}$ players i.e. $\approx{}28.9\%$ of the sampled playerbase demonstrates two
 successes of this experiment. First, the fact that model did not accurately
 simulate \emph{all} players is a positive result: if it did, this would indicate
 that the experiment was incorrectly conducted in some manner, as biases
 unrelated to learning are to be expected in players' interactions with RPGLite,
 making a 100\% success rate indicative of an error in the simulation. Second,
 the research question is answered affirmatively: advice \emph{can} be employed
-to represent new behaviours within -- and add new parameters to -- an existing model. 
+to represent new behaviours within --- and add new parameters to --- an existing
+model. This is demonstrated by the \aspectoriented addition of learning
+behaviours --- and parameters controlling learning --- to the naive model of
+RPGLite play.
 
 
 
@@ -766,12 +772,17 @@ in \cref{learning_model_results_s2_old_parameters}. The results of applying the
 learning model to season 2, and annealing to discover optimal parameters, are
 found in \cref{learning_model_results_s2_annealed_parameters}.
 
-Results are shown for players who played at least 100 games in season 2, except
-for the model of learning run with parameters discovered in the season 1
-experiment. As the parameters were found for players who were active in season
-1, those players were re-used in season 2. Some players were active in season 1
-but played no games; their results are marked as \emph{No Season 2 Data} in the relevant
-results table, \cref{learning_model_results_s2_old_parameters}. As in
+For the two experiments which do not use season 1 data, 19 players were
+simulated who played at least 100 games in season 2. These are shown in
+\cref{prior_distribution_model_results_s2} and
+\cref{learning_model_results_s2_annealed_parameters}. \cref{learning_model_results_s2_old_parameters} shows the results
+of running the model of learning which simulates the 21 players who had played
+at least 100 games, using model parameters which earlier experiments determined
+yielded statistically significant correlation with those players' real-world
+data. As the parameters were found for players who were active in season 1,
+those players were re-used in season 2. Some players were active in season 1 but
+played no games; their results are marked as \emph{No Season 2 Data} in the
+relevant results table, \cref{learning_model_results_s2_old_parameters}. As in
 \cref{learning_model_results_table_comparison_to_real_world_datasets_correlating_players},
 results for players for whom no parameters could be found which produce accurate data in
 season 1 are marked \emph{N/A} when annealing toward new parameters using season
@@ -782,7 +793,14 @@ season 1 are marked \emph{N/A} when annealing toward new parameters using season
 
 \subsection{Answering the Third Research Question}
 
-The third research question can be answered affirmatively from the experimental
+The experiment described in this section addresses third research question,
+which asks:
+
+\begin{researchquestion}
+  \rqthree{}
+\end{researchquestion}
+
+This question can be answered affirmatively from the experimental
 results: \cref{prior_distribution_model_results_s2} shows a high degree of
 correlation when used to simulate season 2 gameplay, and its success is
 comparable to that of simulating season 1 gameplay as shown in

@@ -677,11 +677,31 @@ line \texttt{25}, ensuring that import behaviour is only altered within the
 
 Before discussing how aspect hooks are injected into a module object, an
 additional piece of functionality shown in
-\cref{fig:aspecthooksmagicmethodswith} must be explained.
+\cref{fig:aspecthooksmagicmethodswith} must be explained. \pdsfthree{} ensures
+that modules only have aspect hooks where the module is imported with
+\lstinline{AspectHooks}, rather than every time the module is imported. An
+example of this behaviour is illustrated in
+\cref{fig:isolated_aspect_hook_weaving_illustration_reproduced}.
 
-\pdsfthree{} ensures that modules only have aspect hooks where the module is
-imported with \lstinline{AspectHooks}, rather than every time the module is
-imported. Additional work is necessary for this behaviour, because Python's
+
+\begin{figure}
+    \centering
+    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{main.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/main.py}
+    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{joinpointModule.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/joinpointModule.py}
+    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{aspects.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/aspects.py}
+    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{moduleA.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/moduleA.py}
+    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{moduleB.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/moduleB.py}
+    \caption{Example Python project with multiple modules, which demonstrate how
+    \pdsfthree isolates \aspectoriented behaviour to affect only modules which
+    import join-points with \lstinline{AspectHooks}. Here, \lstinline{moduleA}
+    weaves an aspect into \lstinline{joinpointModule}, but \lstinline{moduleB}
+    does not observe any \aspectoriented behaviour because it did not import
+    \lstinline{joinpointModule} with \lstinline{AspectHooks}.}
+    \label{fig:isolated_aspect_hook_weaving_illustration_reproduced}
+\end{figure}
+
+
+Additional work is necessary for this behaviour, because Python's
 default import logic caches modules and uses the cached module objects when
 importing a second time~\cite{python_import_cache_definition}. This cache is
 stored in \lstinline{sys.modules}. If hooks are applied to a module within this
@@ -1231,22 +1251,6 @@ of writing. Any claims of novelty made in relation to these frameworks hold in
 comparison against other frameworks too; AspectJ and Spring AOP are selected for
 illustrative purposes.
 
-\begin{figure}
-    \centering
-    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{main.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/main.py}
-    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{joinpointModule.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/joinpointModule.py}
-    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{aspects.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/aspects.py}
-    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{moduleA.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/moduleA.py}
-    \lstinputlisting[style=footnotesize_python,captionpos=t,title={\raggedright{}\footnotesize{}\texttt{moduleB.py}}]{40_pydysofu_rewrite/snippets/isolated_hook_weaving/moduleB.py}
-    \caption{Example Python project with multiple modules, which demonstrate how
-    \pdsfthree isolates \aspectoriented behaviour to affect only modules which
-    import join-points with \lstinline{AspectHooks}. Here, \lstinline{moduleA}
-    weaves an aspect into \lstinline{joinpointModule}, but \lstinline{moduleB}
-    does not observe any \aspectoriented behaviour because it did not import
-    \lstinline{joinpointModule} with \lstinline{AspectHooks}.}
-    \label{fig:isolated_aspect_hook_weaving_illustration}
-\end{figure}
-
 % Compare for novelty
 \pdsfthree{}'s implementation of \aop weaves aspect hooks into modules which may
 contain join points. This allows join-points to be determined at runtime. Advice
@@ -1255,18 +1259,19 @@ modules are imported. Only a module which imports join-points with
 \lstinline{AspectHooks} will observe aspect hooks woven into those join-points;
 other modules within the same program which do not import with
 \lstinline{AspectHooks} will observe no \aspectoriented behaviour when invoking
-those join-points. \cref{fig:isolated_aspect_hook_weaving_illustration} contains
-a Python program made of several modules which illustrates this. Weaving is
-dynamically performed at runtime, and can happen whenever a package is imported.
-As Python supports re-importing packages, \pdsfthree can weave aspect hooks even
-when a package is already loaded. This allows \pdsfthree users to determine
-whether they require aspect hooks to be woven at any point in program execution.
-Also, \pdsfthree{}'s application of aspect hooks --- and weaving of aspects ---
-appears only in the parts of a program it effects. As \pdsfthree weaves aspect
-hooks when packages are imported and Python packages are conventionally imported
-at the top of a file, \pdsfthree users can easily clarify whether any
-\aspectoriented behaviour is expected in their program, and where that behaviour
-occurs.
+those join-points. This is described in detail in
+\cref{local_aspect_hook_effects}. In that section
+\cref{fig:isolated_aspect_hook_weaving_illustration} is shown, which contains a Python program
+made of several modules which illustrates this. Weaving is dynamically performed
+at runtime, and can happen whenever a package is imported. As Python supports
+re-importing packages, \pdsfthree can weave aspect hooks even when a package is
+already loaded. This allows \pdsfthree users to determine whether they require
+aspect hooks to be woven at any point in program execution. Also, \pdsfthree{}'s
+application of aspect hooks --- and weaving of aspects --- appears only in the
+parts of a program it effects. As \pdsfthree weaves aspect hooks when packages
+are imported and Python packages are conventionally imported at the top of a
+file, \pdsfthree users can easily clarify whether any \aspectoriented behaviour
+is expected in their program, and where that behaviour occurs.
 
 AspectJ offers multiple mechanisms for weaving aspect hooks: compile-time
 weaving is offered through rewriting binary \lstinline{.class}
@@ -1531,13 +1536,17 @@ therefore a novel solution to the recursive weaving of modules, but is not a
 \subsection{Static Weaving}
 \label{static_weaving}
 
-\pdsfthree{}'s runtime weaving of aspects them to be applied dynamically. However,
-programs may be written with the intention of applying aspects once --- for
-example, as program modifications to be introduced without direct manipulation
-of a codebase. Once defined, a set of applied aspects would remain unchanging in
-this scenario, so dynamic weaving of \pdsfthree introduces unnecessary overhead:
-aspects will never be \emph{unwoven}, so repeated searches for advice which
-applies to a given target are unnecessary. 
+\pdsfthree{}'s runtime weaving of aspects allows them to be applied dynamically.
+However, programs may be written which apply aspects at join-points which do not
+dynamically change. For example, an aspect may implement a program modification
+to affect one specific join-point, which is written as an aspect to support the
+simple inclusion or exclusion of the feature the aspect implements. In this
+scenario and others like it, the join-points used by aspects would never change.
+As a result, the dynamic weaving of \pdsfthree introduces unnecessary runtime
+overhead: aspects will never be \emph{unwoven}, but \pdsfthree{}'s dynamic
+behaviour continually searches for aspects applied to a join-point on every
+invocation to ensure any unwoven advice is not invoked. Repeated searches for
+advice are unnecessary if join-points do not change.
 
 \begin{figure}[h]
     \begin{lstlisting}[style=footnotesize_python]
