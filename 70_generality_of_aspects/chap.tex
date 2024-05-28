@@ -64,41 +64,166 @@ chapter's contributions are briefly reviewed in its conclusion,
 \section{Methodology concerning the Interpretation of Results}
 \label{methodology_explained}
 
-\subsection{K-Fold Validation}
-\label{k_fold_validation_explanation}
-
-\laurie{i think you'll need to define `folds' and so on, at least in the
-sense of giving readers an intuition. i've never heard of this stuff
-before, and only got a very vague idea of what this section is doing.}
+\subsection{Avoiding Overfitting}
 
 RPGLite exhibits randomness, and its random nature affects the datasets
 generated when running experiments; this may cause correlation to appear by
 chance, biasing results. As discussed in
 \cref{subsec:controlling_state_space_exploration}, efforts are made to mitigate
 the impact of random play such as periodically refreshing the player pool and
-ensuring many games are played. Efforts are also made when interpreting results
-to control for the influence of random chance.
+ensuring many games are played. However, other types of bias may affect
+experiments which use RPGLite simulations and comparisons to the real-world
+dataset of RPGLite play. For example, a set of parameters for the model of
+learning described in \cref{learning_model_details} might produce datasets which
+show a statistically significant correlation with datasets of a real-world
+player's behaviour. The process of selecting parameters which produce datasets
+achieving a goal such as correlation is known as ``fitting'' the parameters to
+the model. Fitting will be discussed specifically as the process of selecting
+parameters with the goal of producing datasets correlating to a real-world
+dataset throughout this section, as the goal of the experiments described in
+later sections is to achieve such a correlation. The real-world dataset compared
+against will be described in this section as the ``comparison dataset''.
 
-Simulations are run several times, and the datasets they generate are compared
-against subsets of RPGLite player data to measure correlation, minimising the
-impact of randomness when evaluating results. This is achieved using k-fold
-validation, and ``Leave-One-Out Cross-Validation'' (LOOCV) in particular. In
-k-fold validation, the dataset being compared against is divided into $k$
-equally sized partitions (``folds''), which can be combined in different ways to
-produce datasets for training an algorithm or finding optimal parameters for an
-algorithm (``training~folds'') and corresponding datasets for testing the
-results of each optimisation
-(``testing~folds'')~\cite{k-fold-validation-definition}. LOOCV creates $k$ pairs
-of training and testing folds, where testing folds are individual partitions,
-and their corresponding training folds are the union of all other partitions.
+Improperly fitting parameters of a model of a system can bias the results of
+experiments. This occurs when the comparison dataset exhibits randomness. When
+selecting parameters which produce datasets correlating with the comparison
+dataset, it is possible that high correlation is measured because the parameters
+produce data which reflects random properties of the correlation dataset as well
+as its underlying structure. Because these parameters reflect information
+specific to the comparison dataset and not the system it represents, comparisons
+between simulation-generated datasets and datasets produced from the modelled
+system which contain different random properties will show a lower correlation
+than against the comparison dataset. The parameters are thus fitted more closely
+to the comparison data than the modelled system. This is termed ``overfitting''.
+\correctionnote{Consider a diagram here... GC3.}
 
-All experiments in this chapter make use of LOOCV to minimise bias in results.
-RPGLite player data is partitioned, and sets of training and testing folds are
-produced from these partitions. Experiments generate multiple datasets,
-comparing the results against different testing folds, and optimising model
-parameters against different training folds where appropriate. In all
-experiments \(k = 5\) to avoid small training \& testing folds and to measure
-correlation many times, which helps to identify individual biased results.
+The experiments  presented in this chapter select parameter values for
+aspect-oriented models of RPGLite play in order to produce datasets which show a
+statistically significant correlation with a dataset from a real-world player.
+Additional steps must be taken to ensure that parameter values do not correlate
+as a result of overfitting. If care is not taken, there is a risk that any
+measured correlation reflects randomness within the empirical dataset rather
+than the behavioural properties of the player that produced them.
+
+Several processes exist which reduce the possibility of overfitting. Different
+processes are appropriate in different scenarios: for example,
+``regularisation'' can be used when fitting parameters of an arithmetic model;
+``pruning'' can be used when fitting parameters of a graph, decision tree, or
+neural network; ``cross-validation can be used when fitting against any set of
+data points which can be partitioned. In the case of these experiments,
+cross-validation is appropriate to use because gameplay data can be partitioned
+into different sets of games played by a player. Cross-validation is thus used
+to control for overfitting.
+
+
+\subsection{Cross-Validation}
+\label{k_fold_validation_explanation}
+
+Cross-validation makes use of the observation that the comparison dataset can be
+divided into equally sized partitions which can be used to build subsets of the
+comparison dataset. Subsets made by combining these partitions are referred to
+as ``folds''. Cross-validation involves the use of folds rather than the entire
+comparison dataset to find parameters for a model which maximise some function.
+In the case of the experiments discussed in this chapter, this function is the
+strength of the correlation between real-world gameplay data and synthetic
+gameplay data. To describe cross-validation in general, we will refer to the
+function being maximised as the ``fitness function''. The fitness function
+always validates the output of a program with a set of parameters by comparing
+that output against a fold.
+
+There are many cross-validation techniques; a survey of these follows. Before
+surveying cross-validation techniques, we must establish why using folds can be
+preferable to using the comparison dataset when fitting parameters.
+
+The use of folds when fitting parameters yields two opportunities when fitting
+parameters.
+First, partitions of the comparison dataset not present in the fold used to fit
+model parameters can be combined to create a second fold. We call the fold used
+to fit parameter values the ``training~fold'' and the second fold the
+``testing~fold''. The testing fold can be used to validate parameters selected
+by maximising the fitness function when comparing against the training fold. If
+fitness function evaluation against the testing fold with the selected
+parameters is significantly worse than the same evaluation against the training
+fold then the selected parameters fail validation, and are deemed to be
+overfitted.
+Second, different combinations of folds are expected to which reflect different
+random properties that the entire comparison dataset, because a portion of the
+comparison dataset --- which may contribute to those random properties --- would
+be missing. By constructing several pairs of training and testing folds, the
+fitness function can be evaluated multiple times by repeating the process of
+fitting and validating against each pair of folds. This offers further
+opportunities to establish whether overfitting has occurred, as different folds
+may contain different random properties.
+
+Cross-validation techniques differ in their approaches to constructing and using
+folds. A simple approach to cross-validation called ``K-Fold Validation''
+randomises the comparison dataset and splits it into $k$ equally sized
+partitions. These partitions are used to create $k$ pairs of training and
+testing folds where, in each pair, the testing fold is a single partition and
+the training fold is the union of the remaining partitions. These training-- and
+testing-- fold pairs are each used to search for model parameters, validating
+the results as explained in the previous paragraph. This produces $k$ results,
+which are aggregated in an appropriate manner for the study at hand to arrive at
+a single validated result which is unlikely to exhibit overfitting, as it has
+been validated against $k$ testing folds.
+
+More thorough validation can be conducted by producing training-- and testing--
+fold pairs in different ways. The specific version of K-Fold Validation
+described in the previous paragraph is known as ``Leave-One-Out Cross-
+Validation'' or ``LOOCV'' because only one partition is used to construct the
+testing fold for each pair of folds. An alternative method to produce pairs of
+folds is to select a number of partitions $p$ which will be combined to produce
+testing folds. This is known as ``Leave-P-Out Cross-Validation''. LOOCV is a
+special case of this where $p=1$. Building testing folds using $p$ partitions
+produces $\binom{k}{p}$ pairs of training-- and testing-- folds as opposed to
+the $k$ pairs produced by LOOCV, and so performs additional checks against
+overfitting at the cost of additional runtime overhead.
+
+Alternative techniques for producing training-- and testing-- folds do not make
+use of the same partitions each time parameters are searched for. Monte-Carlo
+Cross Validation takes a percentage $v$ of the comparison dataset and randomly
+selects $v\%$ of the comparison dataset to produce a testing fold; the remaining
+data is used as a training fold. Validation is performed as described earlier.
+This can be run indefinitely many times, selecting new training-- and testing--
+folds at random every time parameters are searched for again. As the number of
+parameter search iterations is not determined by the number of pairs of folds
+used, Monte-Carlo Cross Validation offers a flexible trade-off between runtime
+overhead and the strength of validation. However, the random nature of fold
+construction means that there is no guarantee that all data is used in both
+training and testing folds, and the chance of data points being selected for the
+same fold every iteration increases with fewer iterations. If those data points
+are outliers or exhibit unusual properties in comparison to the rest of the
+comparison dataset (e.g. if they are random noise), then different validation
+iterations risk training and testing against the same datasets.
+
+The experiments described in this chapter simulate several real-world players.
+However, while 360 players interacted with RPGLite, only 21 players played over
+100 games in the game's first season and only 19 players played over 100 games
+in its second season. These players are simulated in the following experiments,
+so the comparison dataset contains a lower bound of 100 games in each
+simulation. Some experiments in this chapter evaluate models of players learning
+to select character pairs, the number of character pairs which players are able
+to select also limits the size of useful folds. Players are able to select from
+28 possible character pairs. Therefore, folds must be large enough to reflect a
+similar number of character pair selections made by players. For example, a fold
+of 10 games is not large enough to determine how players rank character pairs
+relative to one another, as there would not be a sufficient number of data
+points to determine the rank of lower-preference pairs. Fold size can be
+increased by producing fewer partitions to build folds from. However, few pairs
+of folds yield few validation iterations. To balance the number of validation
+iterations against fold size and runtime overhead, LOOCV is selected to validate
+the correlation found when using different model parameters in these
+experiments. $k=5$ was selected to ensure that folds contained at least 20
+games, allowing simulated players to select most character pairs at least once.
+While the number of partitions could be reduced further to increase fold size,
+literature on cross-validation suggests $k=5$ as a lower bound to ensure a
+sufficient number of validation iterations~\cite{hastie2009elements}. $k$ was
+not increased beyond $5$ to maximise the size of training-- and testing-- folds.
+
+The next subsection describes the process of searching for model parameters when
+simulating different players, before correlation is measured using the $\tau$
+rank correlation metric described in \cref{measuring_charpair_similarity}.
+
 
 
 \subsection{Identifying Model Parameters yielding Optimally Significant Results}
@@ -361,6 +486,17 @@ than being used as a mechanism to refactor or more elegantly design it, suggests
 that \aop{} could be well-suited to exaptation~\cite{exaptation_origin} as a
 tool to introduce new behaviours in a model.
 
+As with the research questions answered in \cref{sec:rq3,sec:rq4}, an important
+limitation of the results presented in this section is that the research
+question is addressed in a narrow context. This experiment investigates the use
+of aspects to encode units of change to models, but only does so in the context
+of a single model of RPGLite. Further case-studies should be undertaken to
+reproduce these results using models of other systems to demonstrate that
+aspects can be successfully used as units of change when applied to a wider
+range of models. The results contributed by this experiment are necessarily
+limited by its scope.
+
+
 
 
 \section{RQ2: Adding Model Behaviours \& Parameters using \AspectOrientation}
@@ -376,11 +512,6 @@ improve a model, it does not answer the second research question:
 \begin{researchquestion}
 \rqtwo{}
 \end{researchquestion}
-
-\revnote{
-  I'm not satisfied with this motivation for this RQ and how it's isolated from
-  the first RQ. Revisit this.
-}
 
 The experiment discussed in \cref{sec:rq2} changes the distribution used to
 select characters, but does not parameterise its changes and adds no new
@@ -414,7 +545,7 @@ used is that of the models of confidence and learning described in
 \end{figure}
 
 The null hypothesis associated with the research question this experiment
-addresses is, \emph{advice cannot be used to accurately introduce behaviours or
+addresses is, \emph{advice cannot be used to faithfully introduce behaviours or
 parameters into a model in which they are not already present}. If this were
 true, the datasets produced by the \aspectoriented model shown in
 \cref{fig:learning_model_software_diagram} would exhibit no more correlation with
@@ -564,14 +695,14 @@ A complete table with all results is provided in
 \Cref{learning_model_results_table_comparison_to_real_world_datasets_correlating_players}
 shows that six players are accurately modelled by the \aspectoriented model of
 learning shown in \cref{fig:learning_model_software_diagram}. The answer to the
-research question is therefore affirmative: advice can be used to accurately
+research question is therefore affirmative: advice can be used to faithfully
 introduce new behaviours and parameters to a model which were not previously
 present.
 
 Not all players are accurately simulated using this model of learning. This
 result is to be expected. One reason for this is that different players learn in
 different ways; the model of learning developed in this thesis is not intended
-to represent some universal model of learning (if such a model can exist) but to
+to represent a universal model of learning (if such a model can exist) but to
 represent some players' behaviours, thereby demonstrating that complex
 behavioural models can be tractably modelled as advice. Another reason is that,
 as these models draw from historically observed data, learning may be sensitive
@@ -582,17 +713,26 @@ superficial reasons, such as artwork or a lack of interest, which would skew
 their distribution of character pair selections in a manner which the model of
 learning would be unable to account for as written.
 
-The accurate simulation of $frac{6}{21}$ players i.e. $\approx{}28.9\%$ of the sampled playerbase demonstrates two
-successes of this experiment. First, the fact that model did not accurately
-simulate \emph{all} players is a positive result: if it did, this would indicate
-that the experiment was incorrectly conducted in some manner, as biases
-unrelated to learning are to be expected in players' interactions with RPGLite,
-making a 100\% success rate indicative of an error in the simulation. Second,
-the research question is answered affirmatively: advice \emph{can} be employed
-to represent new behaviours within --- and add new parameters to --- an existing
-model. This is demonstrated by the \aspectoriented addition of learning
-behaviours --- and parameters controlling learning --- to the naive model of
-RPGLite play.
+The accurate simulation of $frac{6}{21}$ players i.e. $\approx{}28.9\%$ of the
+sampled playerbase demonstrates two successes of this experiment. First, the
+fact that model did not accurately simulate \emph{all} players is a positive
+result: if it did, this would indicate that the experiment was incorrectly
+conducted in some manner, as biases unrelated to learning are to be expected in
+players' interactions with RPGLite, making a 100\% success rate indicative of an
+error in the simulation. Second, the research question is answered
+affirmatively: advice \emph{can} be employed to represent new behaviours within
+--- and add new parameters to --- an existing model. This is demonstrated by the
+faithful addition of \aspectoriented learning behaviours --- and parameters
+controlling learning --- to the naive model of RPGLite play.
+
+As with the research questions answered in \cref{sec:rq2,sec:rq4}, this research
+question is answered in a narrow context. This experiment investigates the
+introduction of new behaviours and parameters to a model using \aop{} but does
+not confirm that this technique generalises to other models. Further
+case-studies should be undertaken to confirm that aspects can be successfully
+used to introduce new behaviours and model parameters to a wider range of
+models. The results contributed by this experiment are necessarily limited by
+its scope.
 
 
 
@@ -790,7 +930,6 @@ season 1 are marked \emph{N/A} when annealing toward new parameters using season
 
 
 
-
 \subsection{Answering the Third Research Question}
 
 The experiment described in this section addresses third research question,
@@ -810,8 +949,9 @@ players' choices therefore port to other models of RPGLite. As these aspects are
 written as fuzzers which weave changes within their targets, this result extends
 to the novel type of advice introduced in \pdsfthree{} as well as pre-existing types.
 
-While the research question can be affirmatively answered, the results generated
-using the learning model in \cref{learning_model_results_s2_old_parameters} and
+While the research question can be affirmatively answered in the case of this
+model of RPGLite, the results generated using the learning model in
+\cref{learning_model_results_s2_old_parameters} and
 \cref{learning_model_results_s2_annealed_parameters} show little correlation and
 so add nuance to these findings. Only one player, \emph{ellen}, was successfully
 simulated using the same parameters in seasons 1 and 2. The same player was also
@@ -863,6 +1003,13 @@ implement as aspects. These results add further evidence that aspects which
 augment models can be successfully reused, and so constitute portable modules in
 the context of simulation \& modelling.
 
+As with the research questions answered in \cref{sec:rq2,sec:rq3}, this research
+question is answered in a narrow context. This is an important limitation of the
+results achieved by the experiment described in this section, which investigates
+the reuse of aspects across two extremely similar models of RPGLite. Further
+case-studies should be undertaken to confirm that aspects can be successfully
+applied to multiple models in cases where the models change significantly. The
+results contributed by this experiment are necessarily limited by its scope.
 
 
 \section{Summary}
@@ -870,7 +1017,16 @@ the context of simulation \& modelling.
 
 The experiments in this chapter contribute an investigation into the
 viability of using \aop for simulation \& modelling and its practical utility
-in terms of model accuracy and its viability as a technique.
+in terms of model accuracy and its viability as a technique. Those experiments
+answer three research questions…:
+
+\begin{researchquestion}
+\begin{description}
+\item[\cref{sec:rq2}] addresses the question: \emph{\rqone{}}
+\item[\cref{sec:rq3}] addresses the question: \emph{\rqtwo{}}
+\item[\cref{sec:rq4}] addresses the question: \emph{\rqthree{}}
+\end{description}
+\end{researchquestion}
 
 The experiment in \cref{sec:rq2} explores whether \aspectoriented{} changes to
 models can be realistic. It finds that altering minor properties of a model to
@@ -926,3 +1082,9 @@ prior research~\cite{wallis2018caise} as discussed in \cref{chap:prior_work}.
 Applying these aspects across different case studies may yield positive results.
 This research should take care to avoid factors biasing behaviours such as
 habits or mistaken assumptions.
+
+Finally: all three research questions are answered with regards a single model,
+and so cannot answer the research questions addressed in this chapter in the
+general case. Further research should be undertaken to reproduce these results
+by conducting other case-studies to confirm the viability of \aspectoriented
+modelling. 

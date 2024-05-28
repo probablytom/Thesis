@@ -432,7 +432,7 @@ follows (visualised in \cref{fig:high-level-import-hook-weaving-steps}):
 \begin{figure}
   \centering
   \includegraphics[width=0.8\columnwidth]{40_pydysofu_rewrite/diagrams/aspect-hook-weaving-high-level.pdf}
-  \caption{Flowchart showing the high-level process of using \aop{} through
+  \caption{UML activity diagram showing the high-level process of using \aop{} through
   \pdsfthree{}'s import hook weaving, as described in
   \cref{subsec:pdsf3_weaving_process}. This involves weaving aspect hooks into a
   module, applying advice to point-cuts, and invoking a join-point within the
@@ -1344,23 +1344,14 @@ weaving mechanisms by offering a novel solution to the problem of
 % \end{figure}
 
 
-% Summarise contribution briefly.
-
 
 
 \subsection{Strengths and Weaknesses of Import Hooks}\label{subsec:pdsf3importhooklimitations}
 
-As a technique for weaving aspect hooks, this new method provides multiple
-benefits.
+Import hook weaving provides multiple benefits as a hook weaving technique. This
+subsection summarises the strengths and weaknesses of import hook weaving in
+isolation.
 
-\correctionnote{\emph{CONTRIBUTIONS OF IMPORT HOOK WEAVING MUST BE GIVEN, AND
-COMPARISONS TO OTHER AOP FRAMEWORKS MUST BE MADE}}
-
-\correctionnote{
-    This could be co-opted to be a discussion of import hook weaving's
-    contributions. Maybe another subsec comparing import hook weaving to
-    AspectJ? PROSE?
-}
 
 \Needspace{3\baselineskip}
 \begin{description}

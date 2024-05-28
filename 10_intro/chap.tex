@@ -7,17 +7,17 @@ paradigm which has received some academic interest, but comparatively little
 industry use or practical demonstration of its benefits. It applies some extra
 program logic (called ``advice'') to places where that program logic is required
 (called ``join-points''); the combination of each is an ``aspect''. Integral to
-the paradigm's design is its property of ``obliviousness'', where the
-implementation of a join-point does not indicate whether an aspect applies to
-it. Obliviousness simplifies parts of the codebase changed by aspects, as they
-can be written without including special \aop{} logic. \Aspectorientation has
-been well researched, but a specific context for which it is better suited than
-its competitors is yet to be found. Its tooling and theory are well established,
-but it isn't the ``tool of choice'' for any particular problem. Critics cite
-obliviousness as a potential reason for this: reasoning about a program is
-difficult if it could be altered by any other part of the program. However, a
-use-case where \aop{} \emph{is} well-suited would allow the existing theory and
-tooling to be put to use.
+the paradigm's design is that the implementation of a join-point does not
+indicate whether an aspect applies to it --- this property is termed
+``obliviousness''. Obliviousness simplifies parts of the codebase changed by
+aspects, as they can be written without including special \aop{} logic.
+\Aspectorientation has been well researched, but a specific context for which it
+is better suited than its competitors is yet to be found. Its tooling and theory
+are well established, but it isn't the ``tool of choice'' for any particular
+problem. Critics cite obliviousness as a potential reason for this: reasoning
+about a program is difficult if it could be altered by any other part of the
+program. However, a use-case where \aop{} \emph{is} well-suited would allow the
+existing theory and tooling to be put to use.
 
 Second, it is concerned with how researchers write programs to support their
 work. Many fields rely on software models --- programs which represent or

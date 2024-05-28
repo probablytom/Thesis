@@ -24,7 +24,7 @@ conclusions. These contributions were made in response to opportunities found in
 contributions of earlier work as outlined in \cref{chap:prior_work}.
 
 \Needspace{3\baselineskip}
-\begin{description}
+\begin{description}[style=unboxed]
 
   \item[A new aspect weaving technique aiming to improve aspect-oriented code's legibility]
     The principle of obliviousness which forms part of aspect-oriented
@@ -61,18 +61,19 @@ contributions of earlier work as outlined in \cref{chap:prior_work}.
 
   % RQ1
   \item[Development of a tool which is suitable for use in aspect-oriented
-    modelling] The application of advice to existing codebases
+    modelling \& simulation] The application of advice to existing codebases
     requires some technique to overcome a lack of useful join points in a
     pre-existing model. In addition, \aop{} has been subject to criticism that
     obliviousness limits program legibility, an important quality of software
-    developed for research purposes. To address this, a redesign of \pydysofu{} was
+    developed for research purposes. To address this, a redesign of \pdsf{} was
     developed which provided compatibility with modern versions of Python and
     improved on the design of its hook weaver to address criticisms of \aop{}'s
     legibility by adding aspect hooks at import time, thus preserving
     obliviousness while improving legibility.
 
-  \item[Demonstration that a model's behaviour can be augmented to accurately
-    reflect a system under study using advice] \revnote{This description list
+  \item[Demonstration of augmented behaviour using advice to
+  faithfully reflect a system under study]
+    \revnote{This description list
     item label is too big and doesn't fit; think the environment needs some
     styling, using the enumitem package.}The review of relevant literature
     in \cref{chap:lit_review} observes that many research projects in
@@ -188,8 +189,26 @@ of work helps to improve anything building on it.
   therefore, the approach seems viable, but future research should clarify the
   weaknesses of the learning model as applied to season 2 of RPGLite. 
 
+  \item[Results are limited by the scope of experiments] Experiments were
+  conducted on models of a single system, RPGLite. This necessarily limits the
+  contributions made by those experiments, and further studies should be
+  undertaken to ascertain whether the findings presented in
+  \cref{chap:experimental_results} generalise to models of other systems, too.
+  In particular, future studies should:
+  \begin{enumerate}
+    \item Demonstrate that aspects can be used to alter behaviours in models of
+    a variety of different systems, rather than the single RPGLite model studied
+    in \cref{sec:rq2};
+    \item Investigate the use of aspects to change modelled behaviours and
+    introduce model parameters across a wide range of models, establishing the
+    general applicability of the technique;
+    \item Investigate the reuse of aspects across models of systems that differ
+    significantly, rather than the small-scale differences present in different
+    RPGLite systems as studied in \cref{sec:rq4}. Ideally, this research would
+    be conducted by applying the same aspects to different codebases modelling
+    significantly different systems.
+  \end{enumerate}
 \end{description}
-
 
 
 

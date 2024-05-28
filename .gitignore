@@ -31,3 +31,8 @@
 */diagrams/*.pdf
 */diagrams/*.svg
 */diagrams/*.png
+*-submitted*
+*-diff*
+!diff.pdf
+*/*-submitted*
+*/*-diff*
