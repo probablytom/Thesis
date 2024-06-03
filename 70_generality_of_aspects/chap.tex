@@ -78,23 +78,25 @@ learning described in \cref{learning_model_details} might produce datasets which
 show a statistically significant correlation with datasets of a real-world
 player's behaviour. The process of selecting parameters which produce datasets
 achieving a goal such as correlation is known as ``fitting'' the parameters to
-the model. Fitting will be discussed specifically as the process of selecting
-parameters with the goal of producing datasets correlating to a real-world
-dataset throughout this section, as the goal of the experiments described in
-later sections is to achieve such a correlation. The real-world dataset compared
-against will be described in this section as the ``comparison dataset''.
+the model~\cite{robustifyingModelFitting}. Throughout this section, fitting will
+be discussed specifically as the process of selecting parameters with the goal
+of producing datasets correlating to a real-world dataset. The goal of the
+experiments described in later sections is to achieve such a correlation. The
+real-world dataset compared against will be described in this section as the
+``comparison dataset''.
 
-Improperly fitting parameters of a model of a system can bias the results of
-experiments. This occurs when the comparison dataset exhibits randomness. When
-selecting parameters which produce datasets correlating with the comparison
-dataset, it is possible that high correlation is measured because the parameters
-produce data which reflects random properties of the correlation dataset as well
-as its underlying structure. Because these parameters reflect information
-specific to the comparison dataset and not the system it represents, comparisons
-between simulation-generated datasets and datasets produced from the modelled
-system which contain different random properties will show a lower correlation
-than against the comparison dataset. The parameters are thus fitted more closely
-to the comparison data than the modelled system. This is termed ``overfitting''.
+Improperly fitting parameters of a model can bias the results of experiments.
+This occurs when the comparison dataset exhibits randomness. When selecting
+parameters which produce datasets correlating with the comparison dataset, it is
+possible that high correlation is measured because the parameters produce data
+which reflects random properties of the correlation dataset as well as its
+underlying structure. Because these parameters reflect information specific to
+the comparison dataset and not the system it represents, comparisons between
+simulation-generated datasets and datasets produced from the modelled system
+which contain different random properties will show a lower correlation than
+against the comparison dataset. The parameters are thus fitted more closely to
+the comparison data than the modelled system. This is termed
+``overfitting''~\cite{hawkins2004overfitting}.
 \correctionnote{Consider a diagram here... GC3.}
 
 The experiments  presented in this chapter select parameter values for
@@ -107,13 +109,16 @@ than the behavioural properties of the player that produced them.
 
 Several processes exist which reduce the possibility of overfitting. Different
 processes are appropriate in different scenarios: for example,
-``regularisation'' can be used when fitting parameters of an arithmetic model;
-``pruning'' can be used when fitting parameters of a graph, decision tree, or
-neural network; ``cross-validation can be used when fitting against any set of
-data points which can be partitioned. In the case of these experiments,
-cross-validation is appropriate to use because gameplay data can be partitioned
-into different sets of games played by a player. Cross-validation is thus used
-to control for overfitting.
+``regularisation'' can be used when fitting parameters of an arithmetic
+model\cite{overfitting_and_its_solutions}; ``pruning\footnote{Pruning is also
+referred to as ``network
+reduction''~\cite{overfitting_and_its_solutions}.}''~\cite{overfitting_and_its_solutions}
+can be used when fitting parameters of a graph, decision tree, or neural
+network; ``cross-validation'' can be used when fitting against any set of data
+points which can be partitioned~\cite{hastie2009elements}. In the case of these
+experiments, cross-validation is appropriate to use because gameplay data can be
+partitioned into different sets of games played by a player. Cross-validation is
+thus used in the following experiments to control for overfitting.
 
 
 \subsection{Cross-Validation}
@@ -121,15 +126,18 @@ to control for overfitting.
 
 Cross-validation makes use of the observation that the comparison dataset can be
 divided into equally sized partitions which can be used to build subsets of the
-comparison dataset. Subsets made by combining these partitions are referred to
-as ``folds''. Cross-validation involves the use of folds rather than the entire
-comparison dataset to find parameters for a model which maximise some function.
-In the case of the experiments discussed in this chapter, this function is the
-strength of the correlation between real-world gameplay data and synthetic
-gameplay data. To describe cross-validation in general, we will refer to the
-function being maximised as the ``fitness function''. The fitness function
-always validates the output of a program with a set of parameters by comparing
-that output against a fold.
+comparison dataset~\cite{hastie2009elements}. Subsets made by combining these
+partitions are referred to as ``folds''. Cross-validation involves the use of
+folds rather than the entire comparison dataset to find parameters for a model
+which maximise some function. In the case of the experiments discussed in this
+chapter, this function is the strength of the correlation between real-world
+gameplay data and synthetic gameplay data. To describe cross-validation in a
+more general case, we will refer to the function being maximised as the
+``fitness function''~\cite{kallel2001properties}. The fitness function
+determines to what extent the output of a program with a set of parameters meets
+some goal by comparing that output against a fold.
+
+\subsubsection{Splitting Datasets into Folds}
 
 There are many cross-validation techniques; a survey of these follows. Before
 surveying cross-validation techniques, we must establish why using folds can be
@@ -141,31 +149,34 @@ First, partitions of the comparison dataset not present in the fold used to fit
 model parameters can be combined to create a second fold. We call the fold used
 to fit parameter values the ``training~fold'' and the second fold the
 ``testing~fold''. The testing fold can be used to validate parameters selected
-by maximising the fitness function when comparing against the training fold. If
-fitness function evaluation against the testing fold with the selected
-parameters is significantly worse than the same evaluation against the training
-fold then the selected parameters fail validation, and are deemed to be
-overfitted.
+by maximising the fitness function when comparing against the training
+fold~\cite{hastie2009elements}. If fitness function evaluation against the
+testing fold with the selected parameters is significantly worse than the same
+evaluation against the training fold then the selected parameters fail
+validation, and are deemed to be overfitted.
 Second, different combinations of folds are expected to which reflect different
 random properties that the entire comparison dataset, because a portion of the
 comparison dataset --- which may contribute to those random properties --- would
 be missing. By constructing several pairs of training and testing folds, the
 fitness function can be evaluated multiple times by repeating the process of
-fitting and validating against each pair of folds. This offers further
-opportunities to establish whether overfitting has occurred, as different folds
-may contain different random properties.
+fitting and validating against each pair of folds~\cite{hastie2009elements}.
+This offers further opportunities to establish whether overfitting has occurred,
+as different folds may contain different random properties.
+
+\subsubsection{Cross-Validation Techniques}
 
 Cross-validation techniques differ in their approaches to constructing and using
 folds. A simple approach to cross-validation called ``K-Fold Validation''
 randomises the comparison dataset and splits it into $k$ equally sized
-partitions. These partitions are used to create $k$ pairs of training and
-testing folds where, in each pair, the testing fold is a single partition and
-the training fold is the union of the remaining partitions. These training-- and
-testing-- fold pairs are each used to search for model parameters, validating
-the results as explained in the previous paragraph. This produces $k$ results,
-which are aggregated in an appropriate manner for the study at hand to arrive at
-a single validated result which is unlikely to exhibit overfitting, as it has
-been validated against $k$ testing folds.
+partitions~\cite{stone1974crossvalidation}. These partitions are used to create
+$k$ pairs of training and testing folds where, in each pair, the testing fold is
+a single partition and the training fold is the union of the remaining
+partitions. These training-- and testing-- fold pairs are each used to search
+for model parameters, validating the results as explained in the previous
+paragraph. This produces $k$ results, which are aggregated in an appropriate
+manner for the study at hand to arrive at a single validated result which is
+unlikely to exhibit overfitting, as it has been validated against $k$ testing
+folds~\cite{stone1974crossvalidation}.
 
 More thorough validation can be conducted by producing training-- and testing--
 fold pairs in different ways. The specific version of K-Fold Validation
@@ -173,28 +184,32 @@ described in the previous paragraph is known as ``Leave-One-Out Cross-
 Validation'' or ``LOOCV'' because only one partition is used to construct the
 testing fold for each pair of folds. An alternative method to produce pairs of
 folds is to select a number of partitions $p$ which will be combined to produce
-testing folds. This is known as ``Leave-P-Out Cross-Validation''. LOOCV is a
-special case of this where $p=1$. Building testing folds using $p$ partitions
-produces $\binom{k}{p}$ pairs of training-- and testing-- folds as opposed to
-the $k$ pairs produced by LOOCV, and so performs additional checks against
-overfitting at the cost of additional runtime overhead.
+testing folds. This is known as ``Leave-P-Out
+Cross-Validation''~\cite{liu2019leave}. LOOCV is a special case of this where
+$p=1$. Building testing folds using $p$ partitions produces $\binom{k}{p}$ pairs
+of training-- and testing-- folds as opposed to the $k$ pairs produced by LOOCV,
+and so performs additional checks against overfitting at the cost of additional
+runtime overhead.
 
 Alternative techniques for producing training-- and testing-- folds do not make
 use of the same partitions each time parameters are searched for. Monte-Carlo
 Cross Validation takes a percentage $v$ of the comparison dataset and randomly
 selects $v\%$ of the comparison dataset to produce a testing fold; the remaining
-data is used as a training fold. Validation is performed as described earlier.
-This can be run indefinitely many times, selecting new training-- and testing--
-folds at random every time parameters are searched for again. As the number of
-parameter search iterations is not determined by the number of pairs of folds
-used, Monte-Carlo Cross Validation offers a flexible trade-off between runtime
-overhead and the strength of validation. However, the random nature of fold
-construction means that there is no guarantee that all data is used in both
-training and testing folds, and the chance of data points being selected for the
-same fold every iteration increases with fewer iterations. If those data points
-are outliers or exhibit unusual properties in comparison to the rest of the
-comparison dataset (e.g. if they are random noise), then different validation
-iterations risk training and testing against the same datasets.
+data is used as a training fold~\cite{xu2001MCCV}. Validation is performed as
+described earlier. This can be run indefinitely many times, selecting new
+training-- and testing-- folds at random every time parameters are searched for
+again. As the number of parameter search iterations is not determined by the
+number of pairs of folds used, Monte-Carlo Cross Validation offers a flexible
+trade-off between runtime overhead and the strength of validation. However, the
+random nature of fold construction means that there is no guarantee that all
+data is used in both training and testing folds, and the chance of data points
+being selected for the same fold every iteration increases with fewer
+iterations. If those data points are outliers or exhibit unusual properties in
+comparison to the rest of the comparison dataset (e.g. if they are random
+noise), then different validation iterations risk training and testing against
+the same datasets.
+
+\subsubsection{Selecting a Cross-Validation Technique}
 
 The experiments described in this chapter simulate several real-world players.
 However, while 360 players interacted with RPGLite, only 21 players played over
@@ -216,9 +231,10 @@ the correlation found when using different model parameters in these
 experiments. $k=5$ was selected to ensure that folds contained at least 20
 games, allowing simulated players to select most character pairs at least once.
 While the number of partitions could be reduced further to increase fold size,
-literature on cross-validation suggests $k=5$ as a lower bound to ensure a
-sufficient number of validation iterations~\cite{hastie2009elements}. $k$ was
-not increased beyond $5$ to maximise the size of training-- and testing-- folds.
+literature on cross-validation suggests $k=5$ as an effective lower bound to
+ensure a sufficient number of validation
+iterations~\cite{hastie2009elements,racz2021effect}. $k$ was not increased
+beyond $5$ to maximise the size of training-- and testing-- folds.
 
 The next subsection describes the process of searching for model parameters when
 simulating different players, before correlation is measured using the $\tau$

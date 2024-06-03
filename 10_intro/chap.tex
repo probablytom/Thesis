@@ -96,7 +96,8 @@ would repeat the process, producing another fork with their own implementation
 of this particular combination. As modifications are built on top of each other,
 the logic for each new behaviour must be interwoven with that of the original
 model in any scenario where those changes cannot be developed as independent
-modules for the original codebase.
+modules for the original codebase. These patterns in the evolution of software
+systems are called ``scattering'' and ``tangling''~\cite{kiczales1997aspect}.
 
 Such a codebase would be increasingly difficult to maintain. For example, the
 abstractions used to modularise it may have elegantly separated different
@@ -120,13 +121,14 @@ to select the changes they need for their study, effectively composing a model
 with whichever behaviours they require.
 
 
-
 \section{A Proposed Solution}
 \label{intro_proposed_solution}
 We identify \aop{} as a tool which is well-suited to the needs of research
-software engineers. This section starts with a definition of relevant terms and
-an explanation of the scope of the research: the type of system being modelled,
-``\sociotechnical{} systems'', are described in
+software engineers. \Aop is designed to reduce scattering and
+tangling~\cite{kiczales1997aspect}, the issues identified in
+\cref{intro_problem_to_solve}. This section starts with a definition of relevant
+terms and an explanation of the scope of the research: the type of system being
+modelled, ``\sociotechnical{} systems'', are described in
 \cref{intro_what_are_sociotechnical_systems}. This thesis concerns models and
 simulations of \sociotechnical systems. Specific definitions of ``model'' and
 ``simulation'' for the purposes of this thesis are given in
@@ -470,8 +472,7 @@ the technique is of practical benefit, rather than a theoretical curiosity.
 
 \correctionnote{I've commented out a subsection below which explained some
 possible benefits of \aspectoriented{} modelling, because I've written a new
-``motivations for \aspectoriented{} modelling'' section above. Consider what to
-do with these two…}
+``motivations for \aspectoriented{} modelling'' section above.}
 
 % \subsection{Possible Benefits of Aspect-Oriented Modelling}
 % Some specific benefits we anticipate from an aspect-oriented approach to
@@ -597,10 +598,11 @@ research questions. These are summarised as:
     many pieces of future work~\cite{marsh1994formalising},\correctionnote{Phil
     questions whether this is an appropriate citation for claiming this as a
     contribution --- I'm not sure how to change this. If there wasn't a citation
-    he'd want one...and I'm basing the claim off Steve's thesis specifically.
-    Considering leaving this as-is. Revisit before submitting corrections.} the avenues for
-    future research are broad enough that identifying and enumerating them is a
-    substantial piece of work and constitutes an additional contribution.
+    he'd want one~\ldots{} and I'm basing the claim off Steve's thesis
+    specifically. Considering leaving this as-is. Revisit before submitting
+    corrections.} the avenues for future research are broad enough that
+    identifying and enumerating them is a substantial piece of work and
+    constitutes an additional contribution.
 \end{description}
 
 

@@ -1,12 +1,5 @@
-\chapter{\pdsfthree{}: A Tool for \AspectOriented Modelling}
+\chapter{A Framework for \AspectOriented Modelling}
 \label{chap:pdsf_rewrite}
-
-\correctionnote{
-    Is this title OK now? Worried it's too long and not sure how it renders.
-    Revisit! Maybe there's a better one! Phil's original concern was that it
-    makes this chapter look like there are no contributions, just a bit of
-    engineering.
-}
 
 \inline{Ensure we use a consistent tense throughout}
 
@@ -180,7 +173,7 @@ advice as \emph{``aspect hooks''}.
 
 The techniques of interest are specifically those which can be used to implement
 \aop{} without introducing domain-specific languages (as in the case of AspectJ,
-surveyed in \cref{AspectJLanguageAndTools,aspectj_intro}) or a special language
+surveyed in \cite{AspectJLanguageAndTools,aspectj_intro}) or a special language
 runtime (as in the case of PROSE~\cite{popovici2002PROSE} or
 Nu\cite{rajan2006nu_towardsao_invocation}). \pdsfthree{} is instead implemented
 in Python, requires no additional dependencies, and is used by writing native
@@ -740,17 +733,19 @@ rather than relying on the cache. The usual import function is invoked on line
 \texttt{15}. This returns a new module object, and also adds this module object
 to the cache. The rest of this function injects aspect hooks into the module.
 
-When exiting the \lstinline{with} block, the cache should be returned to its
-expected state. Any modules which were altered by \pdsfthree{} exist in the cache of
-imported modules, and should be replaced with their expected values: if they
-previously existed in the cache, the previous object without aspect hooks should
-replace the one currently residing in the cache. If it did not previously exist,
-the object should be removed from the cache entirely, so that later import
-statements re-import the module and construct a new module object which lacks
-aspect hooks. This check is performed by the \lstinline{for} loop on line
-\texttt{26} of \cref{fig:aspecthooksmagicmethodswith}. Previously existing
-modules replace those constructed by \pdsfthree{} on line \texttt{28}, and new
-entries in the cache are deleted on line \texttt{30}.
+When exiting the \lstinline{with} block, any \pdsfthree{}-altered module objects
+should be removed so that later \lstinline{import} statements do not return
+modules containing aspect hooks. Any modules which were altered by \pdsfthree{}
+exist in the cache of imported modules, and should be replaced with their
+expected values: if they previously existed in the cache, the previous object
+without aspect hooks should replace the one currently residing in the cache. If
+it did not previously exist, the object should be removed from the cache
+entirely, so that later import statements re-import the module and construct a
+new module object which lacks aspect hooks. This check is performed by the
+\lstinline{for} loop on line \texttt{26} of
+\cref{fig:aspecthooksmagicmethodswith}. Previously existing modules replace
+those constructed by \pdsfthree{} on line \texttt{28}, and new entries in the
+cache are deleted on line \texttt{30}.
 
 Following these steps, the state of Python's module cache is managed to avoid
 modules imported elsewhere without \pdsfthree{} from containing aspect hooks.
@@ -1261,17 +1256,18 @@ other modules within the same program which do not import with
 \lstinline{AspectHooks} will observe no \aspectoriented behaviour when invoking
 those join-points. This is described in detail in
 \cref{local_aspect_hook_effects}. In that section
-\cref{fig:isolated_aspect_hook_weaving_illustration} is shown, which contains a Python program
-made of several modules which illustrates this. Weaving is dynamically performed
-at runtime, and can happen whenever a package is imported. As Python supports
-re-importing packages, \pdsfthree can weave aspect hooks even when a package is
-already loaded. This allows \pdsfthree users to determine whether they require
-aspect hooks to be woven at any point in program execution. Also, \pdsfthree{}'s
-application of aspect hooks --- and weaving of aspects --- appears only in the
-parts of a program it effects. As \pdsfthree weaves aspect hooks when packages
-are imported and Python packages are conventionally imported at the top of a
-file, \pdsfthree users can easily clarify whether any \aspectoriented behaviour
-is expected in their program, and where that behaviour occurs.
+\cref{fig:isolated_aspect_hook_weaving_illustration_reproduced} is shown, which
+contains a Python program made of several modules which illustrates this.
+Weaving is dynamically performed at runtime, and can happen whenever a package
+is imported. As Python supports re-importing packages, \pdsfthree can weave
+aspect hooks even when a package is already loaded. This allows \pdsfthree users
+to determine whether they require aspect hooks to be woven at any point in
+program execution. Also, \pdsfthree{}'s application of aspect hooks --- and
+weaving of aspects --- appears only in the parts of a program it effects. As
+\pdsfthree weaves aspect hooks when packages are imported and Python packages
+are conventionally imported at the top of a file, \pdsfthree users can easily
+clarify whether any \aspectoriented behaviour is expected in their program, and
+where that behaviour occurs.
 
 AspectJ offers multiple mechanisms for weaving aspect hooks: compile-time
 weaving is offered through rewriting binary \lstinline{.class}

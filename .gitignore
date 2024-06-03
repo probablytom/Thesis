@@ -34,5 +34,6 @@
 *-submitted*
 *-diff*
 !diff.pdf
+diff.tex
 */*-submitted*
 */*-diff*
